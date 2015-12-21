@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "files": [
+    "src/app/account/login/login.spec.ts",
+    "src/app/account/login/login.ts",
+    "src/app/alerts/alerts.spec.ts",
+    "src/app/alerts/alerts.ts",
+    "src/app/app.spec.ts",
+    "src/app/app.ts",
+    "src/app/assets/alertnotification.ts",
+    "src/app/assets/postObject.spec.ts",
+    "src/app/assets/postObject.ts",
+    "src/app/home/home.spec.ts",
+    "src/app/home/home.ts",
+    "src/app/navbar/navbar.spec.ts",
+    "src/app/navbar/navbar.ts",
+    "src/app/posts/posts.spec.ts",
+    "src/app/posts/posts.ts",
+    "src/bootstrap.ts",
+    "src/vendor.ts"
+  ],
+  "filesGlob": [
+    "src/**/*.ts"
+  ],
+  "compileOnSave": false
+}

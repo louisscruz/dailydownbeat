@@ -1,0 +1,11 @@
+<div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
+  <table>
+    <tbody>
+      <tr *ngFor="#post of posts; #i=index">
+        <th>{{i + 1}}.</th>
+        <td><a href="#" target="_blank">{{post.title}}</a></td>
+        <td><small>{{post.comments}} comments</small></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

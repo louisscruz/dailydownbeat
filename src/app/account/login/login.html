@@ -1,0 +1,22 @@
+<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+  <h1 [hidden]="radioModel !== 'Login'">Login</h1>
+  <h1 [hidden]="radioModel !== 'Signup'">Sign Up</h1>
+  <div class="btn-group" role="group">
+    <label type="button" class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Login">Login</label>
+    <label type="button" class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Signup">Sign Up</label>
+  </div>
+  <form (submit)="submit()">
+    <fieldset class="form-group">
+      <label for="emailAddress">Email Address</label>
+      <input type="email" class="form-control" placeholder="Email Address">
+    </fieldset>
+    <fieldset class="form-grouop">
+      <label for="password">Password</label>
+      <input type="text" class="form-control" placeholder="Password">
+    </fieldset>
+    <button type="submit" class="btn btn-block btn-primary">
+      <span [hidden]="radioModel !== 'Login'">Login</span>
+      <span [hidden]="radioModel !== 'Signup'">Sign Up</span>
+    </button>
+  </form>
+</div>
