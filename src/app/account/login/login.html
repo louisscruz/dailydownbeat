@@ -1,11 +1,15 @@
 <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-  <h1 [hidden]="radioModel !== 'Login'">Login</h1>
-  <h1 [hidden]="radioModel !== 'Signup'">Sign Up</h1>
+  <h1>{{radioModel}}</h1>
   <div class="btn-group" role="group">
     <label type="button" class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Login">Login</label>
-    <label type="button" class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Signup">Sign Up</label>
+    <label type="button" class="btn btn-primary" [(ngModel)]="radioModel" btnRadio="Sign Up">Sign Up</label>
   </div>
-  <form (submit)="submit()">
+  <form [ngFormModel]="loginForm" (submit)="submit(loginForm.value)">
+    <fieldset *ngIf="radioModel === 'Sign Up'" class="form-group" [class.has-success]="loginForm.find('username').valid && loginForm.find('username').touched" [class.has-danger]="!loginForm.find('username').valid && loginForm.find('username').touched">
+      <label for="username" class="form-control-label" for="username">Username</label>
+      <input #username="ngForm" [ngFormControl]="loginForm.controls['username']" type="text" id="username" class="form-control" [class.form-control-success]="loginForm.find('username').valid" [class.form-control-danger]="!loginForm.find('username').valid" placeholder="Username">
+      <div *ngIf="!username.control.valid" class="text-help">Username is required</div>
+    </fieldset>
     <fieldset class="form-group">
       <label for="emailAddress">Email Address</label>
       <input type="email" class="form-control" placeholder="Email Address">
@@ -14,9 +18,8 @@
       <label for="password">Password</label>
       <input type="text" class="form-control" placeholder="Password">
     </fieldset>
-    <button type="submit" class="btn btn-block btn-primary">
-      <span [hidden]="radioModel !== 'Login'">Login</span>
-      <span [hidden]="radioModel !== 'Signup'">Sign Up</span>
+    <button type="submit" class="btn btn-block btn-primary" [disabled]="!loginForm.valid">
+      <span>{{radioModel}}</span>
     </button>
   </form>
 </div>
