@@ -23,6 +23,7 @@
     "src/app/navbar/navbar.ts",
     "src/app/posts/posts.spec.ts",
     "src/app/posts/posts.ts",
+    "src/app/providers/emailValidator/emailValidotor.ts",
     "src/bootstrap.ts",
     "src/vendor.ts"
   ],

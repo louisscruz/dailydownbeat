@@ -10,9 +10,10 @@
       <input #username="ngForm" [ngFormControl]="loginForm.controls['username']" type="text" id="username" class="form-control" [class.form-control-success]="loginForm.find('username').valid" [class.form-control-danger]="!loginForm.find('username').valid" placeholder="Username">
       <div *ngIf="!username.control.valid" class="text-help">Username is required</div>
     </fieldset>
-    <fieldset class="form-group">
-      <label for="emailAddress">Email Address</label>
-      <input type="email" class="form-control" placeholder="Email Address">
+    <fieldset class="form-group" [class.has-success]="loginForm.find('email').valid && loginForm.find('email').touched" [class.has-danger]="!loginForm.find('email').valid && loginForm.find('email').touched">
+      <label for="emailAddress" class="form-control-label">Email Address</label>
+      <input type="email" #email="ngForm" [ngFormControl]="loginForm.controls['email']" class="form-control" placeholder="Email Address" [class.form-control-success]="loginForm.find('email').valid" [class.form-control-danger]="!loginForm.find('email').valid">
+      <div *ngIf="email.control.hasError('invalidEmail')" class="text-help">Invalid email address</div>
     </fieldset>
     <fieldset class="form-grouop">
       <label for="password">Password</label>
