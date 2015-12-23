@@ -13,7 +13,7 @@
     <fieldset class="form-group" [class.has-success]="loginForm.find('email').valid && loginForm.find('email').touched" [class.has-danger]="!loginForm.find('email').valid && loginForm.find('email').touched">
       <label for="emailAddress" class="form-control-label">Email Address</label>
       <input type="email" #email="ngForm" [ngFormControl]="loginForm.controls['email']" class="form-control" placeholder="Email Address" [class.form-control-success]="loginForm.find('email').valid" [class.form-control-danger]="!loginForm.find('email').valid">
-      <div *ngIf="email.control.hasError('invalidEmail')" class="text-help">Invalid email address</div>
+      <div *ngIf="email.control.hasError('invalidEmail') && loginForm.find('email').touched" class="text-help">Invalid email address</div>
     </fieldset>
     <fieldset class="form-grouop">
       <label for="password">Password</label>
