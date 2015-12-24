@@ -8,7 +8,7 @@
     <fieldset *ngIf="radioModel === 'Sign Up'" class="form-group" [class.has-success]="loginForm.find('username').valid && loginForm.find('username').touched" [class.has-danger]="!loginForm.find('username').valid && loginForm.find('username').touched">
       <label for="username" class="form-control-label" for="username">Username</label>
       <input #username="ngForm" [ngFormControl]="loginForm.controls['username']" type="text" id="username" class="form-control" [class.form-control-success]="loginForm.find('username').valid" [class.form-control-danger]="!loginForm.find('username').valid" placeholder="Username">
-      <div *ngIf="!username.control.valid" class="text-help">Username is required</div>
+      <div *ngIf="!username.control.valid && loginForm.find('username').touched" class="text-help">Username is required</div>
     </fieldset>
     <fieldset class="form-group" [class.has-success]="loginForm.find('email').valid && loginForm.find('email').touched" [class.has-danger]="!loginForm.find('email').valid && loginForm.find('email').touched">
       <label for="emailAddress" class="form-control-label">Email Address</label>

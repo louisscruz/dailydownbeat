@@ -12,7 +12,7 @@ import {MockBackend} from 'angular2/http/testing';
 
 // Load the implementations that should be tested
 import {Posts} from './posts';
-import {PostObject} from '../assets/postObject';
+import {Post} from '../datatypes/post/post';
 
 describe('Posts', () => {
   var posts;
@@ -30,8 +30,8 @@ describe('Posts', () => {
 
   beforeEach(() => {
     posts = [
-      new PostObject('This is a title', 53),
-      new PostObject('Another title', 44)
+      new Post('This is a title'),
+      new Post('Another title')
     ];
   });
 

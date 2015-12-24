@@ -7,7 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 100.times do
   title = Faker::Hacker.say_something_smart
+  url = Faker::Internet.url
   created_at = Faker::Time.backward(1750, :all)
   updated_at = Faker::Time.between(created_at, DateTime.now)
-  Post.create(title: title, created_at: created_at, updated_at: updated_at)
+  Post.create(title: title, url: url, created_at: created_at, updated_at: updated_at)
 end
