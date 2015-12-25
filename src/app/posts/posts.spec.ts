@@ -30,8 +30,8 @@ describe('Posts', () => {
 
   beforeEach(() => {
     posts = [
-      new Post('This is a title'),
-      new Post('Another title')
+      new Post('This is a title', 'http://www.google.com'),
+      new Post('Another title', 'http://www.google.com')
     ];
   });
 
