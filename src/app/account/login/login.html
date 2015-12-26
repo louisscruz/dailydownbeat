@@ -15,9 +15,13 @@
       <input type="email" #email="ngForm" [ngFormControl]="loginForm.controls['email']" class="form-control" placeholder="Email Address" [class.form-control-success]="loginForm.find('email').valid" [class.form-control-danger]="!loginForm.find('email').valid">
       <div *ngIf="email.control.hasError('invalidEmail') && loginForm.find('email').touched" class="text-help">Invalid email address</div>
     </fieldset>
-    <fieldset class="form-grouop">
+    <fieldset class="form-group">
       <label for="password">Password</label>
       <input type="text" class="form-control" placeholder="Password">
+    </fieldset>
+    <fieldset *ngIf="radioModel === 'Sign Up'" class="form-group">
+      <label for="password">Password Confirmation</label>
+      <input type="text" class="form-control" placeholder="Password Confirmation">
     </fieldset>
     <button type="submit" class="btn btn-block btn-primary" [disabled]="!loginForm.valid">
       <span>{{radioModel}}</span>

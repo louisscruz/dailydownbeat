@@ -10,6 +10,8 @@
   "files": [
     "src/app/account/login/login.spec.ts",
     "src/app/account/login/login.ts",
+    "src/app/account/signup/signup.spec.ts",
+    "src/app/account/signup/signup.ts",
     "src/app/alerts/alerts.spec.ts",
     "src/app/alerts/alerts.ts",
     "src/app/app.spec.ts",
@@ -17,6 +19,8 @@
     "src/app/datatypes/alertnotification.ts",
     "src/app/datatypes/post/post.spec.ts",
     "src/app/datatypes/post/post.ts",
+    "src/app/datatypes/user/user.spec.ts",
+    "src/app/datatypes/user/user.ts",
     "src/app/home/home.spec.ts",
     "src/app/home/home.ts",
     "src/app/navbar/navbar.spec.ts",
@@ -24,6 +28,7 @@
     "src/app/posts/posts.spec.ts",
     "src/app/posts/posts.ts",
     "src/app/services/posts/postsService.ts",
+    "src/app/services/users/usersService.ts",
     "src/bootstrap.ts",
     "src/vendor.ts"
   ],

@@ -7,6 +7,7 @@ import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
   template: require('./login.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ]
 })
+
 export class Login {
   private radioModel: string = 'Login';
   loginForm: ControlGroup;

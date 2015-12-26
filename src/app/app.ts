@@ -11,6 +11,7 @@ import {Navbar} from './navbar/navbar';
 import {Alerts} from './alerts/alerts';
 import {Home} from './home/home';
 import {Login} from './account/login/login';
+import {Signup} from './account/signup/signup';
 
 
 /*
@@ -49,7 +50,8 @@ import {Login} from './account/login/login';
 })
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
-  { path: '/login', component: Login, name: 'Login' }
+  { path: '/login', component: Login, name: 'Login' },
+  { path: '/signup', component: Signup, name: 'Signup'}
 ])
 export class App {
   url: string = 'https://twitter.com/AngularClass';
