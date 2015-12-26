@@ -1,9 +1,10 @@
 import {Component} from 'angular2/core';
 import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Control, Validators} from 'angular2/common';
+import {Http, Headers} from 'angular2/http';
+import {Router} from 'angular2/router';
 import {UserService} from '../../services/users/usersService';
 import {User} from '../../datatypes/user/user';
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
-import {Http, Headers} from 'angular2/http';
 
 @Component({
   selector: 'signup',
@@ -14,11 +15,10 @@ import {Http, Headers} from 'angular2/http';
 })
 
 export class Signup {
-  private radioModel: string = 'Sign Up';
   private signupForm: ControlGroup;
-  private user: User;
+  private user: User[];
 
-  constructor(fb: FormBuilder, public userService: UserService, public http: Http) {
+  constructor(fb: FormBuilder, public userService: UserService, public http: Http, private router: Router) {
     function emailValidator(control: Control): { [s: string]: boolean} {
       if (!control.value.match(/.+@.+\..+/i)) {
         return {invalidEmail: true};
@@ -37,16 +37,17 @@ export class Signup {
       userService.postUser(user).subscribe(res => this.user = res);
     }*/
   }
-    postUser(user) {
-      console.log(user);
-      console.log(this.signupForm);
-      var headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      console.log(headers);
-      console.log(JSON.stringify(user));
-      this.http.post('http://localhost:3000/users', JSON.stringify(user), {
-        headers: headers
-      })
-      .subscribe();
-    }
+  postUser(user) {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post('http://localhost:3000/users', JSON.stringify(user), {
+      headers: headers
+    })
+    .map(res => res.json())
+    .subscribe(
+      res => alert('yippee'),
+      err => console.log(err),
+      () => this.router.navigate(['Home'])
+    )
+  }
 }

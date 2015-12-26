@@ -9,7 +9,6 @@ import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 })
 
 export class Login {
-  private radioModel: string = 'Login';
   loginForm: ControlGroup;
 
   constructor(fb: FormBuilder) {

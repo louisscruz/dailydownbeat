@@ -27,6 +27,14 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "username should be unique" do
+    duplicate_user = @user.dup
+    duplicate_user.email = 'testagain@me.com'
+    duplicate_user.username = @user.username.upcase
+    @user.save
+    assert_not duplicate_user.valid?
+  end
+
   test "email should be less than 256 chars" do
     @user.email = "a" * 256
     assert_not @user.valid?
@@ -50,6 +58,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "email addresses should be unique" do
     duplicate_user = @user.dup
+    duplicate_user.username = "somethingelse"
     duplicate_user.email = @user.email.upcase
     @user.save
     assert_not duplicate_user.valid?
