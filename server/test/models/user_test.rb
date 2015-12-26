@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22")
+    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test")
   end
 
   test "should be valid" do
@@ -79,5 +79,21 @@ class UserTest < ActiveSupport::TestCase
   test "password should be at least 8 chars" do
     @user.password = @user.password_confirmation = "a" * 7
     assert_not @user.valid?
+  end
+
+  test "auth_token should be an attribute" do
+    assert @user.respond_to?(:auth_token)
+  end
+
+  test "auth_token should be unique" do
+    duplicate_user = @user.dup
+    @user.save
+    assert_not duplicate_user.valid?
+  end
+
+  test "auth_token should be generated when already taken" do
+    existing_user = FactoryGirl.create(:user, auth_token: "test")
+    @user.send(:generate_authentication_token!)
+    assert_not_equal @user.auth_token, existing_user.auth_token
   end
 end

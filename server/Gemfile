@@ -24,10 +24,14 @@ gem 'bcrypt'
 # Add serializers
 gem "active_model_serializers", github: "rails-api/active_model_serializers"
 
+# Add dalli for sessions
+#gem 'dalli'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'faker'
+  gem 'factory_girl'
 end
 
 group :development do

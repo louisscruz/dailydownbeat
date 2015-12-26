@@ -32,5 +32,8 @@ module DailyDownbeat
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+    #config.middleware.use ActionDispatch::Session::CacheStore
+    #config.middleware.use ActionDispatch::Session::CookieStore
+    #config.middleware.use ActionDispatch::Session::MemCacheStore
   end
 end

@@ -112,6 +112,8 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.8)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
     faker (1.6.1)
       i18n (~> 0.5)
     faye-websocket (0.10.2)
@@ -175,6 +177,7 @@ DEPENDENCIES
   active_model_serializers!
   bcrypt
   byebug
+  factory_girl
   faker
   pg
   puma
