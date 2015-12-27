@@ -1,12 +1,8 @@
 export class User {
-  username: string;
   email: string;
   password: string;
-  passwordConfirmation: string;
-  constructor(username: string, email: string, password: string, passwordConfirmation: string) {
-    this.username = username;
+  constructor(email: string, password: string) {
     this.email = email;
     this.password = password;
-    this.passwordConfirmation = passwordConfirmation;
   }
 }

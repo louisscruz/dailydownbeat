@@ -1,17 +1,31 @@
 <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
   <h1>Login</h1>
-  <form [ngFormModel]="loginForm" (submit)="submit(loginForm.value)">
+  <!--form [ngFormModel]="loginForm" (submit)="submit(loginForm.value)">
     <fieldset class="form-group" [class.has-success]="loginForm.find('username').valid && loginForm.find('username').touched" [class.has-danger]="!loginForm.find('username').valid && loginForm.find('username').touched">
       <label for="username" class="form-control-label">Username</label>
-      <input #username="ngForm" [ngFormControl]="loginForm.controls['username']" type="text" id="username" class="form-control" [class.form-control-success]="loginForm.find('username').valid" [class.form-control-danger]="!loginForm.find('username').valid" placeholder="Username">
+      <input [(ngModel)]="user.email" #username="ngForm" [ngFormControl]="loginForm.controls['username']" type="text" id="username" class="form-control" [class.form-control-success]="loginForm.find('username').valid" [class.form-control-danger]="!loginForm.find('username').valid" placeholder="Username">
       <div *ngIf="!username.control.valid && loginForm.find('username').touched" class="text-help">Username is required</div>
     </fieldset>
     <fieldset class="form-group">
       <label for="password" class="form-control-label">Password</label>
-      <input type="text" class="form-control" placeholder="Password">
+      <input [(ngModel)]="user.password" type="text" class="form-control" placeholder="Password">
     </fieldset>
     <button type="submit" class="btn btn-block btn-primary" [disabled]="!loginForm.valid">
       <span>Login</span>
     </button>
+    {{user}}
+  </form-->
+  <form (ngSubmit)="login(user)" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="email" class="form-control-label">Email</label>
+      <input type="text" class="form-control" required [(ngModel)]="user.email" ngControl="email" #email="ngForm">
+    </div>
+    <div class="form-group">
+      <label for="password" class="form-control-label">Password</label>
+      <input type="password" class="form-control" required [(ngModel)]="user.password" ngControl="passwrod" #password="ngForm">
+    </div>
+    <button type="submit" class="btn btn-block btn-primary" [disabled]="!loginForm.form.valid">Log In</button>
   </form>
+  {{user.email}}
+  {{user.password}}
 </div>

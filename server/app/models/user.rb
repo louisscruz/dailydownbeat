@@ -8,12 +8,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 8 }
   validates :auth_token, uniqueness: true
 
-  private
-
   def generate_authentication_token!
     begin
       self.auth_token = SecureRandom.hex
-    end
-    #while self.class.exists?(auth_token: auth_token)
+    end while self.class.exists?(auth_token: auth_token)
   end
 end
