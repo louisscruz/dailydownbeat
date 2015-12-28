@@ -8,12 +8,14 @@ module SessionsHelper
     @current_user ||= User.find_by(auth_token: request.headers['Authorization'])
   end
 
-  def log_out
-    session.delete(:user_id)
+  def log_out(user)
+    user.generate_authentication_token!
+    auth_token = user.auth_token
+    user.update_attribute(:auth_token, auth_token)
   end
 
   def logged_in?
-    !current_user.nil?
+    current_user.present?
   end
 
   def authenticate_with_token!

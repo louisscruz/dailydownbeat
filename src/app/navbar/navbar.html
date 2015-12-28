@@ -10,5 +10,8 @@
     <li class="nav-item">
       <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="userService.logout()">Log Out</a>
+    </li>
   </ul>
 </nav>

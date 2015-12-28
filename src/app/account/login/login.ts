@@ -16,10 +16,10 @@ import {User} from '../../datatypes/user/user';
 
 export class Login {
   loginForm: ControlGroup;
-  //user: User[];
   user = new User('', '');
 
-  constructor(fb: FormBuilder, public http: Http, private router: Router) {
+
+  constructor(fb: FormBuilder, public http: Http, private router: Router, private userService: UserService) {
     function emailValidator(control: Control): { [s: string]: boolean} {
       if (!control.value.match(/.+@.+\..+/i)) {
         return {invalidEmail: true}
@@ -30,19 +30,9 @@ export class Login {
       'email': ['', Validators.compose([
         Validators.required, emailValidator])]
     })
+    this.userService = userService;
   }
-
-  submit(value: string): void{
-    console.log(value);
-  };
-
-  saveJwt(jwt) {
-    if (jwt) {
-      localStorage.setItem('auth_token', jwt)
-    }
-  };
-
-  login(user: User[]) {
+  /*login(user: User[]) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
      this.http.post('http://localhost:3000/login', JSON.stringify(user), {
@@ -56,7 +46,7 @@ export class Login {
      );
   };
 
-  /*postUser(user) {
+  postUser(user) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     this.http.post('http://localhost:3000/users', JSON.stringify(user), {

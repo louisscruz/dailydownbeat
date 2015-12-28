@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
+    log_out current_user
+    render status: 204
   end
 end

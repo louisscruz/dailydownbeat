@@ -54,7 +54,7 @@ import {Signup} from './account/signup/signup';
   { path: '/signup', component: Signup, name: 'Signup'}
 ])
 export class App {
-  url: string = 'https://twitter.com/AngularClass';
+  url: string = '';
 }
 
 /*
