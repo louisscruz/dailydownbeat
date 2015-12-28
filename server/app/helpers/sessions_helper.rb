@@ -1,11 +1,10 @@
 module SessionsHelper
   def log_in(user)
     session[:user_id] = user.id
-    p session
   end
 
   def current_user
-    @current_user ||= User.find_by(auth_token: request.headers['Authorization'])
+    @current_user ||= User.find_by(auth_token: request.headers["Authorization"])
   end
 
   def log_out(user)
