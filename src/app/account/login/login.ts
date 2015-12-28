@@ -4,22 +4,21 @@ import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
-import {UserService} from '../../services/users/usersService';
+import {AuthService} from '../../services/auth/authService';
 import {User} from '../../datatypes/user/user';
 
 @Component({
   selector: 'login',
   template: require('./login.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ],
-  bindings: [UserService]
+  bindings: [AuthService]
 })
 
 export class Login {
   loginForm: ControlGroup;
   user = new User('', '');
 
-
-  constructor(fb: FormBuilder, public http: Http, private router: Router, private userService: UserService) {
+  constructor(fb: FormBuilder, public http: Http, private router: Router, private authService: AuthService) {
     function emailValidator(control: Control): { [s: string]: boolean} {
       if (!control.value.match(/.+@.+\..+/i)) {
         return {invalidEmail: true}
@@ -30,33 +29,6 @@ export class Login {
       'email': ['', Validators.compose([
         Validators.required, emailValidator])]
     })
-    this.userService = userService;
+    this.authService = authService;
   }
-  /*login(user: User[]) {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-     this.http.post('http://localhost:3000/login', JSON.stringify(user), {
-       headers: headers
-     })
-     .map(res => res.json())
-     .subscribe(
-       data => this.saveJwt(data.auth_token),
-       err => alert(err),
-       () => this.router.navigate(['Home'])
-     );
-  };
-
-  postUser(user) {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    this.http.post('http://localhost:3000/users', JSON.stringify(user), {
-      headers: headers
-    })
-    .map(res => res.json())
-    .subscribe(
-      res => alert('yippee'),
-      err => console.log(err),
-      () => this.router.navigate(['Home'])
-    )
-  }*/
 }

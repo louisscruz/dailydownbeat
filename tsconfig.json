@@ -29,6 +29,7 @@
     "src/app/posts/posts.spec.ts",
     "src/app/posts/posts.ts",
     "src/app/services/alerts/alertsService.ts",
+    "src/app/services/auth/authService.ts",
     "src/app/services/posts/postsService.ts",
     "src/app/services/users/usersService.ts",
     "src/bootstrap.ts",

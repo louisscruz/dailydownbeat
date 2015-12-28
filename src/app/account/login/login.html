@@ -15,7 +15,7 @@
     </button>
     {{user}}
   </form-->
-  <form (ngSubmit)="userService.login(user)" #loginForm="ngForm">
+  <form (ngSubmit)="authService.login(user)" #loginForm="ngForm">
     <div class="form-group">
       <label for="email" class="form-control-label">Email</label>
       <input type="text" class="form-control" required [(ngModel)]="user.email" ngControl="email" #email="ngForm">

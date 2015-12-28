@@ -2,7 +2,7 @@ import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Http} from 'angular2/http';
 
-import {UserService} from '../services/users/usersService';
+import {AuthService} from '../services/auth/authService';
 
 @Component({
   selector: 'navbar',
@@ -10,10 +10,13 @@ import {UserService} from '../services/users/usersService';
   pipes: [],
   styles: [ require('./navbar.scss') ],
   template: require('./navbar.html'),
-  bindings: [UserService]
+  bindings: [AuthService]
 })
 export class Navbar {
-  constructor(private userService: UserService) {
-    this.userService = userService;
+  isLoggedIn = 'yes';
+  constructor(private authService: AuthService) {
+    this.authService = authService;
+    authService.isLoggedIn();
   }
+
 }
