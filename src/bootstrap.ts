@@ -6,6 +6,8 @@ import {ROUTER_PROVIDERS} from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 // include for development builds
 import {ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/common_dom';
+import {AuthHttp} from 'angular2-jwt';
+import {provide} from 'angular2/core';
 // include for production builds
 // import {enableProdMode} from 'angular2/core';
 
@@ -25,7 +27,15 @@ export function main() {
     // These are dependencies of our App
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
-    ELEMENT_PROBE_PROVIDERS // remove in production
+    ELEMENT_PROBE_PROVIDERS, // remove in production
+    provide(AuthHttp, { useFactory: () => {
+      return new AuthHttp({
+        headerName: 'Authorization',
+        headerPrefix: 'Bearer',
+        tokenName: 'auth_token',
+        noJwtError: true
+      });
+    }})
   ])
   .catch(err => console.error(err));
 }

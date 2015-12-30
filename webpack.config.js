@@ -64,9 +64,10 @@ module.exports = {
       // Support for SCSS
       { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
 
-      // support for .html as raw text
+      // Support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader' },
 
+      // Support for fonts
       { test: /\.woff2?($|\?)/, loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.ttf($|\?)/,    loader: "url?limit=10000&mimetype=application/octet-stream" },
       { test: /\.eot($|\?)/,    loader: "file" },

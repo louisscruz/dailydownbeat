@@ -1,3 +1,5 @@
+require 'json_web_token'
+
 class User < ApplicationRecord
   before_save { email.downcase! }
   before_create :generate_authentication_token!
@@ -10,7 +12,11 @@ class User < ApplicationRecord
 
   def generate_authentication_token!
     begin
-      self.auth_token = SecureRandom.hex
+      self.auth_token = JsonWebToken.encode('username' => self.username)
     end while self.class.exists?(auth_token: auth_token)
+  end
+
+  def destroy_token!
+    self.auth_token = nil
   end
 end

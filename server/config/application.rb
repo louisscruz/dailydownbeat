@@ -38,6 +38,7 @@ module DailyDownbeat
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
     #config.middleware.use ActionDispatch::Session::CacheStore
     #config.middleware.use ActionDispatch::Session::CookieStore
     #config.middleware.use ActionDispatch::Session::MemCacheStore

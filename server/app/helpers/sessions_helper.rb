@@ -8,7 +8,8 @@ module SessionsHelper
   end
 
   def log_out(user)
-    user.generate_authentication_token!
+    logged_in? ? user.generate_authentication_token! : user.destroy_token!
+    #user.generate_authentication_token!
     auth_token = user.auth_token
     user.update_attribute(:auth_token, auth_token)
   end

@@ -11,7 +11,7 @@ export class PostService {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
     if (jwt) {
-      authHeader.append('Authorization', jwt)
+      authHeader.append('Authorization', jwt);
     }
     console.log(authHeader);
     return this.http.get('http://localhost:3000/posts', {
@@ -19,7 +19,6 @@ export class PostService {
     })
     .map(res => res.json())
     .map((posts: Array<any>) => {
-      console.log(posts)
       let result: Array<Post> = [];
       if (posts) {
         posts.forEach((post) => {

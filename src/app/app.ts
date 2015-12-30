@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 require('!!style!css!bootstrap/dist/css/bootstrap.css');
-import {Component} from 'angular2/core';
+import {Component, provide} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Http} from 'angular2/http';
 import {FORM_PROVIDERS} from 'angular2/common';
@@ -39,12 +39,12 @@ import {Signup} from './account/signup/signup';
     </header>
     <alerts></alerts>
 
-    <main class="row">
+    <main>
       <router-outlet></router-outlet>
     </main>
 
     <footer class="col-xs-12">
-      Daily Downbeat made by Louis Cruz
+      <small>Daily Downbeat made by Louis Cruz</small>
     </footer>
   `
 })
