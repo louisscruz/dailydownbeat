@@ -64,6 +64,9 @@ module.exports = {
       // Support for SCSS
       { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
 
+      // Support autoprefixing
+      { test: /\.scss$\|\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader!autoprefixer-loader!sass-loader' },
+
       // Support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader' },
 
