@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Control, Validators} from 'angular2/common';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, AbstractControl, Control} from 'angular2/common';
 import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
@@ -17,26 +17,34 @@ import {User} from '../../datatypes/user/user';
 
 export class Login {
   loginForm: ControlGroup;
-  user = new User('', '');
-
+  email: AbstractControl;
+  password: AbstractControl;
   constructor(
-    fb: FormBuilder,
-    private http: Http,
-    private router: Router,
     private authService: AuthService,
-    private alertService: AlertService) {
-    function emailValidator(control: Control): { [s: string]: boolean} {
-      if (!control.value.match(/.+@.+\..+/i)) {
-        return {invalidEmail: true};
+    private alertService: AlertService,
+    private fb: FormBuilder) {
+      function emailValidator(control: Control): { [s: string]: boolean } {
+        if (control.value.length > 0 && !control.value.match(/.+@.+\..+/i)) {
+          return {invalidEmail: true};
+        }
       }
-    }
-    this.loginForm = fb.group({
-      'email': ['', Validators.compose([
-        Validators.required, emailValidator])],
-      'password': ['', Validators.required]
-    });
-    this.authService = authService;
-    this.alertService = alertService;
+      function passwordLengthValidator(control: Control): { [s: string]: boolean } {
+        if (control.value != '' && control.value.length < 6) {
+          return {passwordLengthInvalid: true}
+        }
+      }
+
+      this.loginForm = fb.group({
+        'email': ['', Validators.compose([
+          Validators.required, emailValidator])],
+        'password': ['', Validators.compose([
+          Validators.required, passwordLengthValidator])]
+      });
+      this.email = this.loginForm.controls['email'];
+      this.password = this.loginForm.controls['password'];
+
+      this.authService = authService;
+      this.alertService = alertService;
   }
   login(user) {
     console.log(user);
