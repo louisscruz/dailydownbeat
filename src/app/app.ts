@@ -43,8 +43,10 @@ import {Signup} from './account/signup/signup';
       <router-outlet></router-outlet>
     </main>
 
-    <footer class="col-xs-12">
-      <small>Daily Downbeat made by Louis Cruz</small>
+    <footer class="footer">
+      <div class="col-xs-12">
+        <small>Daily Downbeat made by Louis Cruz</small>
+      </div>
     </footer>
   `
 })
