@@ -1,10 +1,13 @@
-$primary: #16948A;
-$secondary: #FF3F60;
-$animation-duration: .4s;
+@import "../global-variables";
 .navbar {
   width: 100%;
-  .title {
+  .navbar-brand {
     font-family: Arial, Helvetica, sans-serif;
+    color: $primary;
+    font-weight: 700;
+    img {
+      height: 50px;
+    }
   }
   .nav-item {
     a {

@@ -1,8 +1,7 @@
 /*
  * Application-Wide Styles
  */
-$primary: #16948A;
-$secondary: #FF3F60;
+@import "./global-variables";
 main {
   padding: 1em;
   margin-top: 25px;

@@ -31,7 +31,7 @@ import {Signup} from './account/signup/signup';
   // We need to tell Angular's compiler which custom pipes are in our template.
   pipes: [],
   // Our list of styles in our component. We may add more to compose many styles together
-  styles: [ require('./app.scss') ],
+  styles: [ require('./app.scss'), require('./global-variables.scss') ],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
   template: `
     <header>
