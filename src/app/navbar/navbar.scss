@@ -1,9 +1,129 @@
-.title {
-  font-family: Arial, Helvetica, sans-serif;
+$primary: #16948A;
+$secondary: #FF3F60;
+$animation-duration: .4s;
+.navbar {
+  width: 100%;
+  .title {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .nav-item {
+    a {
+      cursor: pointer;
+    }
+  }
+  .navbar-toggler {
+    float: right;
+    border: none;
+    &:hover, &:focus {
+      background-color: transparent;
+      border: none;
+    }
+    &.collapsed {
+      .top-bar {
+        transform: rotate(0deg) !important;
+      }
+      .middle-bar {
+        opacity: 1 !important;
+      }
+      .bottom-bar {
+        transform: rotate(0deg) !important;
+      }
+    }
+    .icon-bar {
+      display: block;
+      background-color: black;
+      width: 32px;
+      height: 3px;
+      border-radius: 3px;
+      margin: 4px 0px 4px 0px;
+      transition: all $animation-duration cubic-bezier(0.42, 0.0, 0.58, 1.0);
+      &.top-bar {
+        transform: translateX(3px) rotate(45deg);
+        transform-origin: 19% 50%
+      }
+      &.middle-bar {
+        opacity: 0;
+      }
+      &.bottom-bar {
+        transform: translateX(3px) rotate(-45deg);
+        transform-origin: 19% 50%;
+      }
+    }
+  }
 }
-
-.nav-item {
-  a {
-    cursor: pointer;
+@mixin flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fs-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+  backface-visibility: hidden;
+  outline: 1px solid transparent;
+  z-index: 10;
+  @include flex-center();
+  div {
+    width: 300vw;
+    height: 300vw;
+    color: black;
+    background-color: $secondary;
+    opacity: 0.8;
+    border-radius: 50%;
+    transition: all $animation-duration ease;
+    flex: none;
+    transform: scale(0);
+    backface-visibility: hidden;
+    overflow: hidden;
+    @include flex-center();
+    div {
+      text-align: center;
+      max-width: 90vw;
+      max-height: 100vh;
+      opacity: 0;
+      transition: opacity $animation-duration ease;
+      overflow-y: auto;
+      flex: none;
+      @include flex-center;
+      ul {
+        list-style: none;
+        max-height: 100vh;
+        li {
+          display: block;
+          a {
+            position: relative;
+            display: inline;
+            cursor: pointer;
+            font-size: 32px;
+            color: white;
+            transition: color $animation-duration ease;
+            &:after {
+              content: '';
+              position: absolute;
+              z-index: 1;
+              transition: width $animation-duration ease;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.collapsed {
+    pointer-events: auto;
+    visibility: visible;
+    div {
+      transform: scale(1);
+      transition-duration: .75s;
+      div {
+        opacity: 1;
+        transition: opacity $animation-duration ease $animation-duration;
+      }
+    }
   }
 }
