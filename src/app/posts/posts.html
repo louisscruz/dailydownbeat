@@ -8,4 +8,6 @@
       </tr>
     </tbody>
   </table>
+  {{currentPage}}
+  <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (page-changed)="pageChanged($event)"></pagination>
 </div>

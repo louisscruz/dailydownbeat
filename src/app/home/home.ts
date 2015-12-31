@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core';
 import {FORM_DIRECTIVES} from 'angular2/common';
 import {Http} from 'angular2/http';
+import {CORE_DIRECTIVES} from 'angular2/common';
+import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {Posts} from '../posts/posts';
 
