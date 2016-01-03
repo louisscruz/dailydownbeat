@@ -22,7 +22,8 @@ export class Login {
   constructor(
     private authService: AuthService,
     private alertService: AlertService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private router: Router) {
       function emailValidator(control: Control): { [s: string]: boolean } {
         if (control.value.length > 0 && !control.value.match(/.+@.+\..+/i)) {
           return {invalidEmail: true};
@@ -33,7 +34,6 @@ export class Login {
           return {passwordLengthInvalid: true}
         }
       }
-
       this.loginForm = fb.group({
         'email': ['', Validators.compose([
           Validators.required, emailValidator])],
@@ -48,7 +48,17 @@ export class Login {
   }
   login(user) {
     console.log(user);
-    this.authService.login(user);
-    this.alertService.addAlert('Login attempted', 'success');
+    this.authService.login(user)
+    .subscribe(
+      res => {this.authService.saveJwt(res.auth_token);},
+      err => {
+        (<Control>this.loginForm.controls['password']).updateValue('');
+        (<Control>this.loginForm.controls['password']).pristine = true;
+        this.alertService.addAlert('There was an error loggin in.', 'danger')},
+      () => {
+        this.authService.token = localStorage.getItem('auth_token');
+        this.router.navigate(['Home'])}
+    );
+    //this.alertService.addAlert('Login attempted', 'success');
   }
 }

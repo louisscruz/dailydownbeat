@@ -12,10 +12,9 @@
         <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="authService.logout()">Log Out</a>
+        <a class="nav-link" (click)="logout()">Log Out</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">Post</a>
       </li>
     </ul>
     <button class="btn btn-primary navbar-toggler hidden-md-up" type="button" (click)="toggleCollapse()" [class.collapsed]="isCollapsed">

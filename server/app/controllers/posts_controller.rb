@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  #before_action :authenticate_with_token!, only: [:index, :show]
+  before_action :authenticate_with_token!, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
 
   # GET /posts

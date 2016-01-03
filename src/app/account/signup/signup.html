@@ -13,14 +13,18 @@
     </fieldset>
     <fieldset class="form-group" [class.has-success]="signupForm.find('password').valid && signupForm.find('password').touched" [class.has-danger]="!signupForm.find('password').valid && signupForm.find('password').touched">
       <label for="password" class="form-control-label">Password</label>
-      <input type="text" #password="ngForm" [ngFormControl]="signupForm.controls['password']" class="form-control" placeholder="Password">
+      <input type="password" #password="ngForm" [ngFormControl]="signupForm.controls['password']" class="form-control" placeholder="Password">
       <div *ngIf="!password.control.valid && signupForm.find('password').touched" class="text-help">Password is required</div>
     </fieldset>
-    <fieldset class="form-group" [class.has-success]="signupForm.find('password_confirmation').valid && signupForm.find('password_confirmation').touched" [class.has-danger]="!signupForm.find('password_confirmation').valid && signupForm.find('password_confirmation').touched">
+    <fieldset class="form-group" [class.has-success]="password_confirmation.valid && password_confirmation.touched" [class.has-danger]="!password_confirmation.valid && password_confirmation.touched">
       <label for="passwordConfirmation" class="form-control-label">Password Confirmation</label>
-      <input type="text" #passwordConfirmation="ngForm" [ngFormControl]="signupForm.controls['password_confirmation']" class="form-control" placeholder="Password Confirmation">
-      <div *ngIf="!passwordConfirmation.control.valid && signupForm.find('password_confirmation').touched" class="text-help">Password confirmation is required</div>
+      <input type="password" [ngFormControl]="signupForm.controls['password_confirmation']" class="form-control" placeholder="Password Confirmation">
+      <div *ngIf="password_confirmation.touched">
+        <div *ngIf="password_confirmation.hasError('required')" class="text-help">Password confirmation is required</div>
+        <div *ngIf="password_confirmation.hasError('notEquivalent')" class="text-help">Confirmation does not match</div>
+      </div>
     </fieldset>
+
     <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid">
       <span>Sign Up</span>
     </button>

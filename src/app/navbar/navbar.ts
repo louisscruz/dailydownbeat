@@ -15,11 +15,12 @@ import {AlertService} from '../services/alerts/alertsService';
   bindings: [AuthService]
 })
 export class Navbar {
-  isLoggedIn = 'yes';
-  public isCollapsed: boolean = true;
-  public toggleCollapse: any;
-  public collapse: any;
-  constructor(private authService: AuthService) {
+  private isAuth: boolean = false;
+  private isCollapsed: boolean = true;
+  private toggleCollapse: any;
+  private collapse: any;
+  private logout: any;
+  constructor(private authService: AuthService, private router: Router) {
     this.authService = authService;
     this.isCollapsed;
     this.toggleCollapse = function() {
@@ -28,7 +29,18 @@ export class Navbar {
     this.collapse = function() {
       this.isCollapsed = true;
     }
-    authService.isLoggedIn();
+    this.logout = function() {
+      alert('loggin out');
+      this.authService.logout()
+      .subscribe(
+        data => console.log(data),
+        err => console.log(err),
+        () => {
+          console.log('success');
+          authService.deleteJwt();
+          this.router.navigate(['Home'])
+        }
+      );
+    }
   }
-
 }

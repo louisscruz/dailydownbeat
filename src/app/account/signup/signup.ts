@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Control, Validators} from 'angular2/common';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Control, Validators, AbstractControl} from 'angular2/common';
 import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 import {AuthService} from '../../services/auth/authService';
@@ -14,17 +14,29 @@ import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 })
 
 export class Signup {
-  private signupForm: ControlGroup;
-  private user: User;
+  signupForm: ControlGroup;
+  user: User;
+  username: AbstractControl;
+  email: AbstractControl;
+  password: AbstractControl;
+  password_confirmation: AbstractControl;
 
   constructor(
     fb: FormBuilder,
     private authService: AuthService,
-    private http: Http,
-    private router: Router) {
-    function emailValidator(control: Control): { [s: string]: boolean} {
+    http: Http,
+    router: Router) {
+    function emailValidator(control: Control): { [s: string]: boolean } {
       if (!control.value.match(/.+@.+\..+/i)) {
         return {invalidEmail: true};
+      }
+    }
+    function confirmationEquivalent(control: Control): { [s: string]: boolean } {
+      if (control.value !== 'test') {
+        console.log('not the same');
+        //console.log(control._parent.controls['password'].value)
+        // is there a function to get a control's parent?
+        return {notEquivalent: true};
       }
     }
     this.signupForm = fb.group({
@@ -32,8 +44,13 @@ export class Signup {
       'email': ['', Validators.compose([
         Validators.required, emailValidator])],
       'password': ['', Validators.required],
-      'password_confirmation': ['', Validators.required]
+      'password_confirmation': ['', Validators.compose([
+        Validators.required, confirmationEquivalent])]
     });
+    this.username = this.signupForm.controls['username'];
+    this.email = this.signupForm.controls['email'];
+    this.password = this.signupForm.controls['password'];
+    this.password_confirmation = this.signupForm.controls['password_confirmation'];
     this.authService = authService;
   }
 }

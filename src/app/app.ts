@@ -45,7 +45,8 @@ import {Signup} from './account/signup/signup';
 
     <footer class="footer">
       <div class="col-xs-12">
-        <small>Daily Downbeat made by Louis Cruz</small>
+        <!--small>Daily Downbeat made by Louis Cruz</small-->
+        <small>Test Footer</small>
       </div>
     </footer>
   `
