@@ -17,4 +17,3 @@ import 'angular2/http';
 import 'rxjs';
 
 // Other vendors for example jQuery or Lodash
-import 'jwt-decode/build/jwt-decode.js';

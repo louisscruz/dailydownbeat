@@ -22,13 +22,12 @@ export class Navbar {
   private logout: any;
   constructor(private authService: AuthService, private router: Router) {
     this.authService = authService;
-    this.isCollapsed;
     this.toggleCollapse = function() {
       this.isCollapsed = !this.isCollapsed;
-    }
+    };
     this.collapse = function() {
       this.isCollapsed = true;
-    }
+    };
     this.logout = function() {
       alert('loggin out');
       this.authService.logout()
@@ -38,9 +37,9 @@ export class Navbar {
         () => {
           console.log('success');
           authService.deleteJwt();
-          this.router.navigate(['Home'])
+          this.router.navigate(['Home']);
         }
       );
-    }
+    };
   }
 }

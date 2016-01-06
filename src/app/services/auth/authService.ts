@@ -35,7 +35,9 @@ export class AuthService {
     var header = new Headers();
     header.append('Content-Type', 'application/json');
 
-    return this.authHttp.post('http://localhost:3000/login', JSON.stringify(user), { headers: header})
+    return this.authHttp.post('http://localhost:3000/login', JSON.stringify(user), {
+      headers: header
+    })
     .map(res => res.json());
     /*.subscribe(
       data => {

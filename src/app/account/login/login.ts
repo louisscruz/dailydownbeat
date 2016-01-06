@@ -1,5 +1,12 @@
 import {Component} from 'angular2/core';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, AbstractControl, Control} from 'angular2/common';
+import {
+  FORM_DIRECTIVES,
+  FormBuilder,
+  ControlGroup,
+  Validators,
+  AbstractControl,
+  Control
+} from 'angular2/common';
 import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
@@ -30,8 +37,8 @@ export class Login {
         }
       }
       function passwordLengthValidator(control: Control): { [s: string]: boolean } {
-        if (control.value != '' && control.value.length < 6) {
-          return {passwordLengthInvalid: true}
+        if (control.value !== '' && control.value.length < 6) {
+          return {passwordLengthInvalid: true};
         }
       }
       this.loginForm = fb.group({
@@ -50,15 +57,18 @@ export class Login {
     console.log(user);
     this.authService.login(user)
     .subscribe(
-      res => {this.authService.saveJwt(res.auth_token);},
+      res => {
+        this.authService.saveJwt(res.auth_token);
+      },
       err => {
         (<Control>this.loginForm.controls['password']).updateValue('');
         (<Control>this.loginForm.controls['password']).pristine = true;
-        this.alertService.addAlert('There was an error loggin in.', 'danger')},
+        this.alertService.addAlert('There was an error loggin in.', 'danger');
+      },
       () => {
         this.authService.token = localStorage.getItem('auth_token');
-        this.router.navigate(['Home'])}
+        this.router.navigate(['Home']);
+      }
     );
-    //this.alertService.addAlert('Login attempted', 'success');
   }
 }
