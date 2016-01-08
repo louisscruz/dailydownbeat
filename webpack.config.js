@@ -4,38 +4,51 @@
  * Helper: root(), and rootDir() are defined at the bottom
  */
 var path = require('path');
-var webpack = require('webpack');
 // Webpack Plugins
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+var ProvidePlugin = require('webpack/lib/ProvidePlugin');
+var DefinePlugin  = require('webpack/lib/DefinePlugin');
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+var CopyWebpackPlugin  = require('copy-webpack-plugin');
+var HtmlWebpackPlugin  = require('html-webpack-plugin');
+var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
+var metadata = {
+  title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
+  baseUrl: '/',
+  host: '0.0.0.0',
+  port: 4000,
+  ENV: ENV
+};
 /*
  * Config
  */
 module.exports = {
+  // static data for index.html
+  metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'source-map',
-  debug: true, // remove in production
+  debug: true,
 
   entry: {
     'vendor': './src/vendor.ts',
-    'app': './src/bootstrap.ts' // our angular app
+    'main': './src/main.ts' // our angular app
   },
 
   // Config for our build files
   output: {
-    path: root('__build__'),
-    filename: '[name].js',
+    path: root('dist'),
+    filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
   },
 
   resolve: {
     // ensure loader extensions match
-    extensions: ['','.ts','.js','.json', '.css', '.scss', '.html']
+    extensions: ['','.ts','.js','.json','.css','.html']
   },
 
   module: {
-    preLoaders: [ { test: /\.ts$/, loader: 'tslint-loader' } ],
+    preLoaders: [{ test: /\.ts$/, loader: 'tslint-loader', exclude: [/node_modules/] }],
     loaders: [
       // Support for .ts files.
       {
@@ -49,10 +62,7 @@ module.exports = {
             2375  // 2375 -> Duplicate string index signature
           ]
         },
-        exclude: [
-          /\.(spec|e2e)\.ts$/,
-          /node_modules\/(?!(ng2-bootstrap)(?!(bootstrap)))/
-        ]
+        exclude: [ /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/ ]
       },
 
       // Support for *.json files.
@@ -64,25 +74,26 @@ module.exports = {
       // Support for SCSS
       { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
 
-      // Support autoprefixing
-      { test: /\.scss$\|\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader!autoprefixer-loader!sass-loader' },
+      // support for .html as raw text
+      { test: /\.html$/,  loader: 'raw-loader' }
 
-      // Support for .html as raw text
-      { test: /\.html$/,  loader: 'raw-loader' },
-
-      // Support for fonts
-      { test: /\.woff2?($|\?)/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.ttf($|\?)/,    loader: "url?limit=10000&mimetype=application/octet-stream" },
-      { test: /\.eot($|\?)/,    loader: "file" },
-      { test: /\.svg($|\?)/,    loader: "url?limit=10000&mimetype=image/svg+xml" }
-    ],
-    noParse: [ /.+zone\.js\/dist\/.+/, /.+angular2\/bundles\/.+/ ]
+      // if you add a loader include the resolve file extension above
+    ]
   },
 
   plugins: [
-    new CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js', minChunks: Infinity }),
-    new CommonsChunkPlugin({ name: 'common', filename: 'common.js', minChunks: 2, chunks: ['app', 'vendor'] })
-   // include uglify in production
+    new CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),
+    // static assets
+    new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
+    // generating html
+    new HtmlWebpackPlugin({ template: 'src/index.html', inject: false }),
+    // replace
+    new DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(metadata.ENV),
+        'NODE_ENV': JSON.stringify(metadata.ENV)
+      }
+    })
   ],
 
   // Other module loader config
@@ -92,10 +103,13 @@ module.exports = {
   },
   // our Webpack Development Server config
   devServer: {
+    port: metadata.port,
+    host: metadata.host,
     historyApiFallback: true,
-    contentBase: 'src/public',
-    publicPath: '/__build__'
-  }
+    watchOptions: { aggregateTimeout: 300, poll: 1000 }
+  },
+  // we need this due to problems with es6-shim
+  node: {global: 'window', progress: false, crypto: 'empty', module: false, clearImmediate: false, setImmediate: false}
 };
 
 // Helper functions

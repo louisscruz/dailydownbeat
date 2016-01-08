@@ -1,10 +1,11 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
-import {Http} from 'angular2/http';
+import {HTTP_PROVIDERS, Http, ConnectionBackend} from 'angular2/http';
 import {Collapse} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AuthService} from '../services/auth/authService';
 import {AlertService} from '../services/alerts/alertsService';
+import {AuthHttp} from 'angular2-jwt';
 
 @Component({
   selector: 'navbar',
@@ -12,7 +13,7 @@ import {AlertService} from '../services/alerts/alertsService';
   pipes: [],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
-  bindings: [AuthService]
+  providers: [AuthService, Http, ConnectionBackend, AuthHttp]
 })
 export class Navbar {
   private isAuth: boolean = false;
@@ -20,7 +21,7 @@ export class Navbar {
   private toggleCollapse: any;
   private collapse: any;
   private logout: any;
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private http: Http, private authService: AuthService, private router: Router) {
     this.authService = authService;
     this.toggleCollapse = function() {
       this.isCollapsed = !this.isCollapsed;

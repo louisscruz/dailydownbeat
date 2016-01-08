@@ -16,7 +16,7 @@
 > An Angular 2 starter kit featuring [Angular 2](https://angular.io) ([Router](https://angular.io/docs/js/latest/api/router/), [Forms](https://angular.io/docs/js/latest/api/forms/),
 [Http](https://angular.io/docs/js/latest/api/http/),
 [Services](https://gist.github.com/gdi2290/634101fec1671ee12b3e#_follow_@AngularClass_on_twitter),
-[Tests](https://angular.io/docs/js/latest/api/test/), [E2E](https://angular.github.io/protractor/#/faq#what-s-the-difference-between-karma-and-protractor-when-do-i-use-which-)), [Karma](https://karma-runner.github.io/), [Protractor](https://angular.github.io/protractor/), [Jasmine](https://github.com/jasmine/jasmine), [TypeScript](http://www.typescriptlang.org/), [Typings](https://github.com/typings/typings), and [Webpack](http://webpack.github.io/) by [AngularClass](https://angularclass.com).
+[Tests](https://angular.io/docs/js/latest/api/test/), [E2E](https://angular.github.io/protractor/#/faq#what-s-the-difference-between-karma-and-protractor-when-do-i-use-which-)), [Karma](https://karma-runner.github.io/), [Protractor](https://angular.github.io/protractor/), [Jasmine](https://github.com/jasmine/jasmine), [Istanbul](https://github.com/gotwarlost/istanbul), [TypeScript](http://www.typescriptlang.org/), [Typings](https://github.com/typings/typings), and [Webpack](http://webpack.github.io/) by [AngularClass](https://angularclass.com).
 
 > If you're looking for Angular 1.x please use [NG6-starter](https://github.com/angularclass/NG6-starter)  
 > If you're looking to learn about Webpack and ES6 Build Tools check out [ES6-build-tools](https://github.com/AngularClass/ES6-build-tools)
@@ -27,21 +27,17 @@ This seed repo serves as an Angular 2 starter for anyone looking to get up and r
 * Angular 2 examples that are ready to go when experimenting with Angular 2.
 * A great Angular 2 seed repo for anyone who wants to start their project.
 * Testing Angular 2 code with Jasmine and Karma.
-* end-to-end Angular 2 code using Protractor.
-* type manager with Typings
-
-
-```coffeescript
-Warning: Make sure you're using the latest version of Node.js and NPM
-```
-[Is Angular 2 Ready Yet?](http://splintercode.github.io/is-angular-2-ready/)
+* Coverage with Istanbul and Karma
+* End-to-end Angular 2 code using Protractor.
+* Type manager with Typings
 
 ### Quick start
 > Clone/Download the repo then edit `app.ts` inside [`/src/app/app.ts`](/src/app/app.ts)
 
 ```bash
 # clone our repo
-git clone https://github.com/angularclass/angular2-webpack-starter.git
+# --depth 1 removes all but one .git commit history
+git clone --depth 1 https://github.com/angularclass/angular2-webpack-starter.git
 
 # change directory to our repo
 cd angular2-webpack-starter
@@ -49,13 +45,13 @@ cd angular2-webpack-starter
 # install the repo with npm
 npm install
 
-# install typescript typings
-typings install
+# install TypeScript typings
+./node_modules/.bin/typings install
 
 # start the server
 npm start
 ```
-go to [http://localhost:3000](http://localhost:3000) in your browser
+go to [http://0.0.0.0:3000](http://0.0.0.0:3000) in your browser
 
 # Table of Contents
 * [File Structure](#file-structure)
@@ -74,33 +70,36 @@ go to [http://localhost:3000](http://localhost:3000) in your browser
 We use the component approach in our starter. This is the new standard for developing Angular apps and a great way to ensure maintainable code by encapsulation of our behavior logic. A component is basically a self contained app usually in a single file or a folder with each concern as a file: style, template, specs, e2e, and component class. Here's how it looks:
 ```
 angular2-webpack-starter/
- ├──src/                                   * our source files that will be compiled to javascript
- |   ├──bootstrap.ts                       * our entry file for our browser environment
+ ├──src/                       * our source files that will be compiled to javascript
+ |   ├──main.ts                * our entry file for our browser environment
  │   │
- |   ├──vendor.ts                          * our vendor file
+ |   ├──index.html             * Index.html: where we generate our index page
  │   │
- │   ├──app/                               * WebApp: folder
- │   │   ├──app.spec.ts                    * a simple test of components in app.ts
- │   │   ├──app.ts                         * App.ts: a simple version of our App component components
- │   │   └──bootstrap.ts                   * entry file for app
+ |   ├──vendor.ts              * our vendor file
  │   │
- │   └──public/                            * static assets are served here
- │       ├──favicon.ico                    * replace me with your own favicon.ico
- │       ├──service-worker.js              * ignore this. Web App service worker that's not complete yet
- │       ├──robots.txt                     * for search engines to crawl your website
- │       ├──human.txt                      * for humans to know who the developers are
- │       │
- │       └──index.html                     * Index.html: where we place our script tags
+ │   ├──app/                   * WebApp: folder
+ │   │   ├──app.spec.ts        * a simple test of components in app.ts
+ │   │   └──app.ts             * App.ts: a simple version of our App component components
+ │   │
+ │   └──assets/                * static assets are served here
+ │       ├──icon/              * our list of icons from www.favicon-generator.org
+ │       ├──service-worker.js  * ignore this. Web App service worker that's not complete yet
+ │       ├──robots.txt         * for search engines to crawl your website
+ │       └──human.txt          * for humans to know who the developers are
  │
- ├──test/                                  * this is our global unit tests and end-to-end tests
+ ├──test/                      * this is our global unit tests and end-to-end tests
  │
- ├──spec-bundle.js                         * ignore this magic that sets up our angular 2 testing environment
- ├──karma.config.js                        * karma config for our unit tests
- ├──protractor.config.js                   * protractor config for our end-to-end tests
- ├──tsconfig.json                          * config that webpack uses for typescript
- ├──typings.json                           * our typings manager
- ├──package.json                           * what npm uses to manage it's dependencies
- └──webpack.config.js                      * our webpack config
+ ├──spec-bundle.js             * ignore this magic that sets up our angular 2 testing environment
+ ├──karma.config.js            * karma config for our unit tests
+ ├──protractor.config.js       * protractor config for our end-to-end tests
+ │
+ ├──tsconfig.json              * config that webpack uses for typescript
+ ├──typings.json               * our typings manager
+ ├──package.json               * what npm uses to manage it's dependencies
+ │
+ ├──webpack.config.js          * our development webpack config
+ ├──webpack.test.config.js     * our testing webpack config
+ └──webpack.prod.config.js     * our production webpack config
 ```
 
 # Getting Started
@@ -125,18 +124,25 @@ Once you have those, you should install these globals with `npm install --global
 * `npm run server` to start the dev server in another tab
 
 ## Running the app
-After you have installed all dependencies you can now run the app. Run `npm run server` to start a local server using `webpack-dev-server` which will watch, build (in-memory), and reload for you. The port will be displayed to you as `http://localhost:3000` (or if you prefer IPv6, if you're using `express` server, then it's `http://[::1]:3000/`).
+After you have installed all dependencies you can now run the app. Run `npm run server` to start a local server using `webpack-dev-server` which will watch, build (in-memory), and reload for you. The port will be displayed to you as `http://0.0.0.0:3000` (or if you prefer IPv6, if you're using `express` server, then it's `http://[::1]:3000/`).
 
 ### server
 ```bash
-npm run server # or either webpack-dev-server
+# development
+npm run server
+# production
+npm run build:prod
+npm run server:prod
 ```
 
 ## Other commands
 
 ### build files
 ```bash
-npm run build
+# development
+npm run build:dev
+# production
+npm run build:prod
 ```
 
 ### watch and build files
@@ -151,7 +157,8 @@ npm run test
 
 ### run webdriver (for end-to-end)
 ```bash
-npm run webdriver-start
+npm run webdriver:update
+npm run webdriver:start
 ```
 
 ### run end-to-end tests
@@ -182,19 +189,22 @@ We have good experience using these editors:
 * [Sublime Text](http://www.sublimetext.com/3) with [Typescript-Sublime-Plugin](https://github.com/Microsoft/Typescript-Sublime-plugin#installation)
 
 # Frequently asked questions
-* What's the current browser support for Angular 2 Alpha?
+* What's the current browser support for Angular 2 Beta?
   * Please view the updated list of [browser support for Angular 2](https://github.com/angularclass/awesome-angular2#current-browser-support-for-angular-2)
 * Why is my service, aka provider, is not injecting parameter correctly?
-  * Please use `@Injectable()` for your service for typescript to correctly attach the metadata (this is a typescript beta problem)
+  * Please use `@Injectable()` for your service for typescript to correctly attach the metadata (this is a TypeScript problem)
 * How do I run protractor with node 0.12.x?
-  * please check out this repo to use the old version of protractor https://github.com/AngularClass/angular2-webpack-starter/pull/146/files
+  * please check out this repo to use the old version of protractor [#146](https://github.com/AngularClass/angular2-webpack-starter/pull/146/files)
 * Where do I write my tests?
-  * You can write your tests anywhere you like in the `/src` directory next to your components or in the  `test/` folder
-* Is Angular 2 production ready yet?
-  * No, please visit [Is Angular 2 Ready Yet?](http://splintercode.github.io/is-angular-2-ready/) website.
+  * You can write your tests next to your component files. See [`/src/app/home/home.spec.ts`](/src/app/home/home.spec.ts)
 * How do I start the app when I get `EACCES` and `EADDRINUSE` errors?
-  * The `EADDRINUSE` error means the port `3000` is currently being used and `EACCES` is lack of permission for webpack to build files to `./__build__/`
-
+  * The `EADDRINUSE` error means the port `3000` is currently being used and `EACCES` is lack of permission for webpack to build files to `./dist/`
+* How to use `sass` for css?
+ * `loaders: ['raw-loader','sass-loader']` and `@Component({ styles: [ require('./filename.scss') ] })` see issue [#136](https://github.com/AngularClass/angular2-webpack-starter/issues/136)
+* How do I test a Service?
+ * See issue [#130](https://github.com/AngularClass/angular2-webpack-starter/issues/130#issuecomment-158872648)
+* How do I add `vscode-chrome-debug` support?
+ * The VS Code chrome debug extension support can be done via `launch.json` see issue [#144](https://github.com/AngularClass/angular2-webpack-starter/issues/144#issuecomment-164063790)
 
 # Support, Questions, or Feedback
 > Contact us anytime for anything about this repo or Angular 2
@@ -226,7 +236,7 @@ enjoy — **AngularClass**
 
 [![AngularClass](https://cloud.githubusercontent.com/assets/1016365/9863770/cb0620fc-5af7-11e5-89df-d4b0b2cdfc43.png  "Angular Class")](https://angularclass.com)
 ##[AngularClass](https://angularclass.com)
-> Learn AngularJS, Angular 2, and Modern Web Development form the best.
+> Learn AngularJS, Angular 2, and Modern Web Development from the best.
 > Looking for corporate Angular training, want to host us, or Angular consulting? patrick@angularclass.com
 
 # License

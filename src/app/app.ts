@@ -4,7 +4,7 @@
 require('!!style!css!bootstrap/dist/css/bootstrap.css');
 import {Component, provide} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {Http} from 'angular2/http';
+import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {FORM_PROVIDERS} from 'angular2/common';
 
 import {Navbar} from './navbar/navbar';
@@ -13,26 +13,16 @@ import {Home} from './home/home';
 import {Login} from './account/login/login';
 import {Signup} from './account/signup/signup';
 
-
 /*
  * App Component
  * Top Level Component
  */
 @Component({
-  // The selector is what angular internally uses
-  // for `document.querySelectorAll(selector)` in our index.html
-  // where, in this case, selector is the string 'app'
-  selector: 'app', // <app></app>
-  // We need to tell Angular's Dependency Injection which providers are in our app.
-  providers: [ FORM_PROVIDERS ],
-  // We need to tell Angular's compiler which directives are in our template.
-  // Doing so will allow Angular to attach our behavior to an element
-  directives: [ ROUTER_DIRECTIVES, Navbar, Alerts],
-  // We need to tell Angular's compiler which custom pipes are in our template.
+  selector: 'app',
+  providers: [ ...FORM_PROVIDERS ],
+  directives: [ ...ROUTER_DIRECTIVES, Navbar, Alerts ],
   pipes: [],
-  // Our list of styles in our component. We may add more to compose many styles together
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
-  // Every Angular template is first compiled by the browser before Angular runs it's compiler
   template: `
     <header>
       <navbar></navbar>
@@ -54,10 +44,14 @@ import {Signup} from './account/signup/signup';
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
   { path: '/login', component: Login, name: 'Login' },
-  { path: '/signup', component: Signup, name: 'Signup'}
+  { path: '/signup', component: Signup, name: 'Signup'},
+  { path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
   url: string = '';
+  constructor(public http: Http) {
+
+  }
 }
 
 /*
