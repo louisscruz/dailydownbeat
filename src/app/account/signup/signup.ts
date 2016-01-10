@@ -17,7 +17,7 @@ import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
   selector: 'signup',
   template: require('./signup.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ],
-  bindings: [AuthService]
+  providers: [AuthService]
 })
 
 export class Signup {

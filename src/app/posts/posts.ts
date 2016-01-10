@@ -1,5 +1,5 @@
 import {Component, Injectable} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Pagination} from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -10,7 +10,7 @@ import {Post} from '../datatypes/post/post';
   selector: 'posts',
   template: require('./posts.html'),
   directives: [Pagination, FORM_DIRECTIVES, CORE_DIRECTIVES],
-  bindings: [PostService]
+  providers: [PostService, HTTP_PROVIDERS]
 })
 
 export class Posts {

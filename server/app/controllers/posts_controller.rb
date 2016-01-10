@@ -1,10 +1,13 @@
 class PostsController < ApplicationController
-  before_action :authenticate_with_token!, only: [:index, :show]
+  #before_action :authenticate_with_token!, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
 
   # GET /posts
-  def index
+  def index(start = 0, stop = 100)
     @posts = Post.all
+    p start
+    p stop
+    p params
 
     render json: @posts
   end

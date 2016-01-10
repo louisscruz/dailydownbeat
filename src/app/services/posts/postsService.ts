@@ -10,11 +10,14 @@ export class PostService {
   getPosts() {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
+    console.log(authHeader);
+    console.log(jwt);
     if (jwt) {
       authHeader.append('Authorization', jwt);
     }
     console.log(authHeader);
-    return this.http.get('http://localhost:3000/posts', {
+    //let slice = JSON.stringify({start: 15, stop: 30});
+    return this.http.get('http://localhost:3000/posts/', {
       headers: authHeader
     })
     .map(res => res.json())

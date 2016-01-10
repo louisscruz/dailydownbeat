@@ -3,9 +3,9 @@ import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, ConnectionBackend} from 'angular2/http';
 import {Collapse} from 'ng2-bootstrap/ng2-bootstrap';
 
-import {AuthService} from '../services/auth/authService';
+//import {AuthService} from '../services/auth/authService';
 import {AlertService} from '../services/alerts/alertsService';
-import {AuthHttp} from 'angular2-jwt';
+//import {AuthHttp, AuthConfig} from 'angular2-jwt';
 
 @Component({
   selector: 'navbar',
@@ -13,7 +13,7 @@ import {AuthHttp} from 'angular2-jwt';
   pipes: [],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
-  providers: [AuthService, Http, ConnectionBackend, AuthHttp]
+  providers: [Http, ConnectionBackend, HTTP_PROVIDERS]
 })
 export class Navbar {
   private isAuth: boolean = false;
@@ -21,15 +21,15 @@ export class Navbar {
   private toggleCollapse: any;
   private collapse: any;
   private logout: any;
-  constructor(private http: Http, private authService: AuthService, private router: Router) {
-    this.authService = authService;
+  constructor(private http: Http, private router: Router) {
+    //this.authService = authService;
     this.toggleCollapse = function() {
       this.isCollapsed = !this.isCollapsed;
     };
     this.collapse = function() {
       this.isCollapsed = true;
     };
-    this.logout = function() {
+    /*this.logout = function() {
       alert('loggin out');
       this.authService.logout()
       .subscribe(
@@ -41,6 +41,6 @@ export class Navbar {
           this.router.navigate(['Home']);
         }
       );
-    };
+    };*/
   }
 }

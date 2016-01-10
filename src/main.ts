@@ -28,11 +28,14 @@ document.addEventListener('DOMContentLoaded', function main() {
     provide(AuthConfig, { useFactory: () => {
       return new AuthConfig({
         headerName: 'Authorization',
-        headerPrefix: 'Bearer ',
+        //headerPrefix: 'Bearer ',
         tokenName: 'auth_token',
         noJwtError: true
       });
     }}),
+    /*provide(AuthHttp, { useFactory: () => {
+      return new AuthHttp();
+    }}),*/
     AuthHttp,
     Http,
     ConnectionBackend,
