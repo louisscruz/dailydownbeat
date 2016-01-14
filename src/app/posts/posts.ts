@@ -1,7 +1,7 @@
 import {Component, Injectable} from 'angular2/core';
 import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {Pagination} from 'ng2-bootstrap/ng2-bootstrap';
+import {PAGINATION_DIRECTIVES, Pagination} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {PostService} from '../services/posts/postsService';
 import {Post} from '../datatypes/post/post';
@@ -9,25 +9,33 @@ import {Post} from '../datatypes/post/post';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [Pagination, FORM_DIRECTIVES, CORE_DIRECTIVES],
+  directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
   providers: [PostService, HTTP_PROVIDERS]
 })
 
 export class Posts {
   private posts: Array<Post>;
-  private totalItems: number = 64;
+  private totalItems: number = 100;
+  private itemsPerPage: number = 30;
   private currentPage: number = 1;
-  private pageChanged(event: any): void {
-    console.log(event);
-  };
   constructor(public postService: PostService) {
-    postService.getPosts()
+    postService.getPosts(this.currentPage)
     .subscribe(
       res => {
         this.posts = res;
       },
       err => console.log(err),
       () => console.log('retrieved posts')
+    );
+  }
+  getPosts(event) {
+    this.postService.getPosts(event.page)
+    .subscribe(
+      res => {
+        this.posts = res;
+      },
+      err => console.log(err),
+      () => console.log('finished')
     );
   }
 }

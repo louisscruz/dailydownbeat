@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rails-api/active_model_serializers.git
-  revision: bb67735c79f739e7261382a2d553e0d1a0a9b975
+  revision: dde843d1627ad05c05ddd1c5239d9aaf86e26103
   specs:
     active_model_serializers (0.10.0.rc3)
       actionpack (>= 4.0)
@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 2fc6c094e54103db2a4550af6e2ac2f34420f084
+  revision: d9bdb61158812484aabf2a31fb943dccb7749887
   specs:
     actioncable (5.0.0.beta1)
       actionpack (= 5.0.0.beta1)
@@ -43,7 +43,6 @@ GIT
       globalid (>= 0.3.6)
     activemodel (5.0.0.beta1)
       activesupport (= 5.0.0.beta1)
-      builder (~> 3.1)
     activerecord (5.0.0.beta1)
       activemodel (= 5.0.0.beta1)
       activesupport (= 5.0.0.beta1)
@@ -110,7 +109,7 @@ GEM
       eventmachine (~> 1.0)
       hiredis (~> 0.5.0)
     erubis (2.7.0)
-    eventmachine (1.0.8)
+    eventmachine (1.0.9)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -126,6 +125,9 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     jwt (1.5.2)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -151,9 +153,9 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
-    rake (10.4.2)
+    rake (10.5.0)
     redis (3.2.2)
-    spring (1.6.1)
+    spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -181,6 +183,7 @@ DEPENDENCIES
   factory_girl
   faker
   jwt
+  kaminari
   pg
   puma
   rack-cors

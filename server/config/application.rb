@@ -42,5 +42,8 @@ module DailyDownbeat
     #config.middleware.use ActionDispatch::Session::CacheStore
     #config.middleware.use ActionDispatch::Session::CookieStore
     #config.middleware.use ActionDispatch::Session::MemCacheStore
+    Kaminari.configure do |config|
+      config.default_per_page = 30
+    end
   end
 end

@@ -44,8 +44,8 @@ import {Signup} from './account/signup/signup';
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
   { path: '/login', component: Login, name: 'Login' },
-  { path: '/signup', component: Signup, name: 'Signup'},
-  { path: '/**', redirectTo: ['Home'] }
+  { path: '/signup', component: Signup, name: 'Signup'}
+  //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
   url: string = '';

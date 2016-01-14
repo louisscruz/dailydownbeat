@@ -1,13 +1,12 @@
 class PostsController < ApplicationController
   #before_action :authenticate_with_token!, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
+  after_filter only: [:index] { set_pagination_header(:posts) }
 
   # GET /posts
-  def index(start = 0, stop = 100)
-    @posts = Post.all
-    p start
-    p stop
-    p params
+  def index
+    @posts = Post.page params[:page]
+    p response.headers
 
     render json: @posts
   end
