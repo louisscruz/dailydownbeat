@@ -6,7 +6,6 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.page params[:page]
-    p response.headers
 
     render json: @posts
   end

@@ -23,6 +23,10 @@ export class PostService {
     return this.http.get('http://localhost:3000/posts?page=' + page, {
       headers: authHeader
     })
+    .map(res => {
+      console.log(res.headers);
+      return res
+    })
     .map(res => res.json())
     .map((posts: Array<any>) => {
       let result: Array<Post> = [];

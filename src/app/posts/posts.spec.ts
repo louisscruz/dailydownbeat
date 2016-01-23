@@ -39,6 +39,6 @@ describe('Posts', () => {
     //expect(app.title.value).toEqual('Angular 2');
   //}));
   it('should load all posts', inject([ Posts ], (app) => {
-    expect(posts).toEqual(posts);
+    expect(posts.length).toEqual(30);
   }));
 });

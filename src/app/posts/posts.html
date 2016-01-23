@@ -2,7 +2,7 @@
   <table>
     <tbody>
       <tr *ngFor="#post of posts; #i=index">
-        <th>{{i + 1}}.</th>
+        <th>{{i + 1 + pageOffset}}.</th>
         <td><a href="{{post.url}}" target="_blank">{{post.title}}</a></td>
         <td><small>comments</small></td>
       </tr>

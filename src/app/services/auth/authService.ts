@@ -31,11 +31,12 @@ export class AuthService {
     console.log(date);
     return (date.valueOf() > (new Date().valueOf()));
   }
-  login(user: User[]) {
+  login(user) {
+    console.log(user);
     var header = new Headers();
     header.append('Content-Type', 'application/json');
 
-    return this.authHttp.post('http://localhost:3000/login', JSON.stringify(user), {
+    return this.http.post('tcp://localhost:3000/login', JSON.stringify(user), {
       headers: header
     })
     .map(res => res.json());

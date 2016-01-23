@@ -11,7 +11,7 @@ import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
-import {AuthHttp} from 'angular2-jwt';
+import {AuthHttp, JwtHelper} from 'angular2-jwt';
 
 import {AuthService} from '../../services/auth/authService';
 import {AlertService} from '../../services/alerts/alertsService';
@@ -30,6 +30,7 @@ export class Login {
   password: AbstractControl;
   constructor(
     private http: Http,
+    private authHttp: AuthHttp,
     private authService: AuthService,
     private alertService: AlertService,
     private fb: FormBuilder,
@@ -57,7 +58,6 @@ export class Login {
       this.alertService = alertService;
   }
   login(user) {
-    console.log(user);
     this.authService.login(user)
     .subscribe(
       res => {

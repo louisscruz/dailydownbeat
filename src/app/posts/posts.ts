@@ -18,6 +18,7 @@ export class Posts {
   private totalItems: number = 100;
   private itemsPerPage: number = 30;
   private currentPage: number = 1;
+  private pageOffset:number = 0;
   constructor(public postService: PostService) {
     postService.getPosts(this.currentPage)
     .subscribe(
@@ -28,10 +29,14 @@ export class Posts {
       () => console.log('retrieved posts')
     );
   }
+  setPageOffset(currentPage) {
+    this.pageOffset = ((this.currentPage - 1) * 30);
+  }
   getPosts(event) {
     this.postService.getPosts(event.page)
     .subscribe(
       res => {
+        this.setPageOffset(this.currentPage);
         this.posts = res;
       },
       err => console.log(err),
