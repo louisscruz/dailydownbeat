@@ -8,5 +8,5 @@
       </tr>
     </tbody>
   </table>
-  <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event)"></pagination>
+  <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event, perPage)"></pagination>
 </div>

@@ -40,7 +40,8 @@ module.exports = {
       },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.html$/, loader: 'raw-loader' },
-      { test: /\.css$/,  loader: 'raw-loader' }
+      { test: /\.css$/,  loader: 'raw-loader' },
+      { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
     ],
     postLoaders: [
       // instrument only testing sources with Istanbul

@@ -28,3 +28,5 @@ import 'angular2/core';
 import 'rxjs';
 
 // Other vendors for example jQuery, Lodash, angular2-jwt
+import 'angular2-jwt';
+import 'ng2-bootstrap';

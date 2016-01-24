@@ -1,4 +1,4 @@
-import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
+import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 import {Injectable} from 'angular2/core';
 import {AuthHttp, JwtHelper, AuthConfig} from 'angular2-jwt';
@@ -9,7 +9,7 @@ import {User} from '../../datatypes/user/user';
 export class AuthService {
   token: any;
   jwtHelper: JwtHelper = new JwtHelper();
-  constructor(public http: Http, private router: Router, public authHttp: AuthHttp) { }
+  constructor(private http: Http, private router: Router, private authHttp: AuthHttp) { }
   saveJwt(jwt) {
     if (jwt) {
       localStorage.setItem('auth_token', jwt);
@@ -32,16 +32,17 @@ export class AuthService {
     return (date.valueOf() > (new Date().valueOf()));
   }
   login(user) {
-    console.log(user);
+    console.log('inside authService.login');
     var header = new Headers();
     header.append('Content-Type', 'application/json');
 
-    return this.http.post('tcp://localhost:3000/login', JSON.stringify(user), {
+    return this.authHttp.post('http://localhost:3000/login', JSON.stringify(user), {
       headers: header
     })
     .map(res => res.json());
     /*.subscribe(
       data => {
+        alert('logging in');
         this.saveJwt(data.auth_token);
       },
       err => console.log(err),

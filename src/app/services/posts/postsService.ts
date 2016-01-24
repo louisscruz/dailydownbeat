@@ -7,7 +7,7 @@ export class PostService {
   constructor(public http: Http) {
     console.log('Service Created!', http);
   }
-  getPosts(page) {
+  getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
     //console.log(authHeader);
@@ -20,12 +20,12 @@ export class PostService {
     //authHeader.append('Per-Page', "30");
     //console.log(authHeader);
     //let slice = JSON.stringify({start: 15, stop: 30});
-    return this.http.get('http://localhost:3000/posts?page=' + page, {
+    return this.http.get('http://localhost:3000/posts?page=' + page + '&per_page=' + per_page, {
       headers: authHeader
     })
     .map(res => {
       console.log(res.headers);
-      return res
+      return res;
     })
     .map(res => res.json())
     .map((posts: Array<any>) => {

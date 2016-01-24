@@ -7,11 +7,11 @@ import {
   AbstractControl,
   Control
 } from 'angular2/common';
-import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
+import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
-import {AuthHttp, JwtHelper} from 'angular2-jwt';
+import {AuthHttp, JwtHelper, AuthConfig} from 'angular2-jwt';
 
 import {AuthService} from '../../services/auth/authService';
 import {AlertService} from '../../services/alerts/alertsService';
@@ -21,7 +21,7 @@ import {User} from '../../datatypes/user/user';
   selector: 'login',
   template: require('./login.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ],
-  providers: [AuthService, AlertService, HTTP_PROVIDERS, Http, AuthHttp]
+  providers: [Http, AuthService, AlertService]
 })
 
 export class Login {
@@ -58,6 +58,8 @@ export class Login {
       this.alertService = alertService;
   }
   login(user) {
+    console.log('inside login.ts function');
+    console.log(user);
     this.authService.login(user)
     .subscribe(
       res => {
