@@ -9,7 +9,7 @@ import {User} from '../../datatypes/user/user';
 export class AuthService {
   token: any;
   jwtHelper: JwtHelper = new JwtHelper();
-  constructor(private http: Http, private router: Router, private authHttp: AuthHttp) { }
+  constructor(public http: Http, private router: Router, public authHttp: AuthHttp) { }
   saveJwt(jwt) {
     if (jwt) {
       localStorage.setItem('auth_token', jwt);
@@ -34,20 +34,18 @@ export class AuthService {
   login(user) {
     console.log('inside authService.login');
     var header = new Headers();
+    console.log(header);
     header.append('Content-Type', 'application/json');
+    console.log(JSON.stringify(user));
 
-    return this.authHttp.post('http://localhost:3000/login', JSON.stringify(user), {
+
+    return this.authHttp.post('http://localhost:3000/api/login', JSON.stringify(user), {
       headers: header
     })
-    .map(res => res.json());
-    /*.subscribe(
-      data => {
-        alert('logging in');
-        this.saveJwt(data.auth_token);
-      },
-      err => console.log(err),
-      () => this.router.navigate(['Home'])
-    );*/
+    .map(res => {
+      console.log(res);
+      return res.json();
+    });
   }
   logout() {
     /*var jwt = localStorage.getItem('auth_token');
@@ -61,7 +59,7 @@ export class AuthService {
     header.append('Authorization', token);
     console.log(token);
 
-    return this.authHttp.delete('http://localhost:3000/logout', {
+    return this.authHttp.delete('http://localhost:3000/api/logout', {
       headers: header
     })
     .map(res => res.json());

@@ -7,7 +7,7 @@ import {
   AbstractControl,
   Control
 } from 'angular2/common';
-import {Http, Headers} from 'angular2/http';
+//import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
@@ -21,7 +21,7 @@ import {User} from '../../datatypes/user/user';
   selector: 'login',
   template: require('./login.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ],
-  providers: [Http, AuthService, AlertService]
+  providers: [AuthService, AlertService]
 })
 
 export class Login {
@@ -29,12 +29,11 @@ export class Login {
   email: AbstractControl;
   password: AbstractControl;
   constructor(
-    private http: Http,
-    private authHttp: AuthHttp,
-    private authService: AuthService,
-    private alertService: AlertService,
-    private fb: FormBuilder,
-    private router: Router) {
+    //public authHttp: AuthHttp,
+    public authService: AuthService,
+    public alertService: AlertService,
+    public fb: FormBuilder,
+    public router: Router) {
       function emailValidator(control: Control): { [s: string]: boolean } {
         if (control.value.length > 0 && !control.value.match(/.+@.+\..+/i)) {
           return {invalidEmail: true};
@@ -57,9 +56,12 @@ export class Login {
       this.authService = authService;
       this.alertService = alertService;
   }
+  test(user) {
+    console.log(user);
+
+  }
   login(user) {
     console.log('inside login.ts function');
-    console.log(user);
     this.authService.login(user)
     .subscribe(
       res => {

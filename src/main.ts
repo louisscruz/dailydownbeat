@@ -4,7 +4,7 @@
 import {provide} from 'angular2/core';
 import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router';
-import {HTTP_PROVIDERS, ConnectionBackend} from 'angular2/http';
+import {HTTP_PROVIDERS, Http, ConnectionBackend} from 'angular2/http';
 
 /*
  * App Component
@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function main() {
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    provide(AuthHttp, {useFactory: (http) => {
+        return new AuthHttp(new AuthConfig(), http);
+      },
+      deps: [Http]
+    }),
     provide(AuthConfig, { useFactory: () => {
       return new AuthConfig({
         headerName: 'Authorization',
@@ -33,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function main() {
         noJwtError: true
       });
     }}),
-    AuthHttp,
     AuthService,
     ConnectionBackend
   ])
