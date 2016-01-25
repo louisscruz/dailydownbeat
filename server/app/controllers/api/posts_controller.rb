@@ -1,7 +1,7 @@
-class PostsController < ApplicationController
+class Api::PostsController < ApplicationController
   #before_action :authenticate_with_token!, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
-  after_filter only: [:index] { set_pagination_header(:posts) }
+  after_action only: [:index] { set_pagination_header(:posts) }
 
   # GET /posts
   def index

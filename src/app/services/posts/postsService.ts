@@ -20,7 +20,7 @@ export class PostService {
     //authHeader.append('Per-Page', "30");
     //console.log(authHeader);
     //let slice = JSON.stringify({start: 15, stop: 30});
-    return this.http.get('http://localhost:3000/posts?page=' + page + '&per_page=' + per_page, {
+    return this.http.get('http://localhost:3000/api/posts?page=' + page + '&per_page=' + per_page, {
       headers: authHeader
     })
     .map(res => {

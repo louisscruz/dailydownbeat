@@ -1,13 +1,13 @@
 require 'test_helper'
 
-class SessionsControllerTest < ActionDispatch::IntegrationTest
+class Api::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
     @credentials = { email: @user.email, password: "testtest"}
   end
 
   test "should return the user record corresponding to the given credentials" do
-    post login_url, params: { session: @credentials }
+    post api_login_url, params: { session: @credentials }
     old_user = @user
     @user.reload
     assert_equal @user, old_user
@@ -15,14 +15,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should return a json error when wrong credentials" do
     @credentials = { email: @user.email, password: "wrongpassword" }
-    post login_url, params: { session: @credentials }
+    post api_login_url, params: { session: @credentials }
     assert_response 422
   end
 
   test "should log out" do
-    post login_url, params: { session: @credentials }
+    post api_login_url, params: { session: @credentials }
     @request.headers["Authorization"] = @user.auth_token
-    delete logout_url, headers: @request.headers
+    delete api_logout_url, headers: @request.headers
     assert_response :success
   end
 end
