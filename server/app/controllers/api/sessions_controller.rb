@@ -4,7 +4,6 @@ class Api::SessionsController < ApplicationController
   end
 
   def create
-    p 'trying to create'
     user = User.find_by(email: params[:session][:email].downcase)
 
     if user && user.authenticate(params[:session][:password])

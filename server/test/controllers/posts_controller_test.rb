@@ -14,7 +14,6 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     get api_posts_url
     assert_response :success
     body = JSON.parse(response.body)
-    p body.count
     assert_equal body.length, 30
   end
 

@@ -26,19 +26,17 @@ document.addEventListener('DOMContentLoaded', function main() {
     ROUTER_PROVIDERS,
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
     provide(AuthHttp, {useFactory: (http) => {
-        return new AuthHttp(new AuthConfig(), http);
-      },
+      return new AuthHttp(
+        new AuthConfig({
+          headerName: 'Authorization',
+          headerPrefix: 'Bearer ',
+          tokenName: 'auth_token',
+          noJwtError: true
+        }),
+        http
+      ); },
       deps: [Http]
     }),
-    provide(AuthConfig, { useFactory: () => {
-      return new AuthConfig({
-        headerName: 'Authorization',
-        headerPrefix: 'Bearer ',
-        tokenName: 'auth_token',
-        noJwtError: true
-      });
-    }}),
-    AuthService,
     ConnectionBackend
   ])
   .catch(err => console.error(err));
