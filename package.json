@@ -1,9 +1,8 @@
 {
-  "name": "angular2-webpack-starter",
+  "name": "daily-downbeat",
   "version": "0.0.0",
-  "description": "An Angular 2 Webpack Starter kit featuring Angular 2 (Router, Http, Forms, Services, Tests, E2E, Coverage), Karma, Protractor, Jasmine, Istanbul, TypeScript, and Webpack by AngularClass",
-  "author": "Patrick Stapleton <patrick@angularclass.com>",
-  "homepage": "https://github.com/angularclass/angular2-webpack-starter",
+  "description": "New music's most relevant news",
+  "author": "Louis Cruz <louisstephancruz@me.com>",
   "license": "MIT",
   "scripts": {
     "clean": "./node_modules/.bin/rimraf node_modules doc typings coverage dist && npm cache clean",
@@ -90,10 +89,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/angularclass/angular2-webpack-starter.git"
+    "url": "https://github.com/louisscruz/dd.git"
   },
   "bugs": {
-    "url": "https://github.com/angularclass/angular2-webpack-starter/issues"
+    "url": "https://github.com/louisscruz/dd/issues"
   },
   "engines": {
     "node": ">= 4.2.1 <= 5",
