@@ -12,6 +12,7 @@ class Api::PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    p @post.comments
     render json: @post
   end
 
@@ -48,6 +49,6 @@ class Api::PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:title)
+      params.require(:post).permit(:title, :comments)
     end
 end
