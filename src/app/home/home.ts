@@ -8,8 +8,6 @@ import {Posts} from '../posts/posts';
 @Component({
   selector: 'home',
   directives: [ FORM_DIRECTIVES, Posts ],
-  providers: [ ],
-  pipes: [],
   styles: [ require('./home.css') ],
   template: require('./home.html')
 })

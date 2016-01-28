@@ -10,7 +10,6 @@ import {AlertService} from '../services/alerts/alertsService';
 @Component({
   selector: 'navbar',
   directives: [ROUTER_DIRECTIVES, Collapse],
-  pipes: [],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
   providers: [Http, ConnectionBackend, HTTP_PROVIDERS]

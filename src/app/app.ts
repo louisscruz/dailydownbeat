@@ -21,7 +21,6 @@ import {Signup} from './account/signup/signup';
   selector: 'app',
   providers: [ ...FORM_PROVIDERS ],
   directives: [ ...ROUTER_DIRECTIVES, Navbar, Alerts ],
-  pipes: [],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   template: `
     <header>

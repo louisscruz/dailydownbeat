@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
 
   protected
 
-  def set_pagination_header(name, options = {})
+  def set_pagination_headers(name, options = {})
     scope = instance_variable_get("@#{name}")
     request_params = request.query_parameters
     url_without_params = request.original_url.slice(0..(request.original_url.index("?")-1)) unless request_params.empty?

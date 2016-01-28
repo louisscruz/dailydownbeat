@@ -10,16 +10,9 @@ export class PostService {
   getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
-    //console.log(authHeader);
-    //console.log(jwt);
     if (jwt) {
       authHeader.append('Authorization', jwt);
-      //authHeader.append('X-Page', page)
     }
-    //authHeader.append('Page', page);
-    //authHeader.append('Per-Page', "30");
-    //console.log(authHeader);
-    //let slice = JSON.stringify({start: 15, stop: 30});
     return this.http.get('http://localhost:3000/api/posts?page=' + page + '&per_page=' + per_page, {
       headers: authHeader
     })

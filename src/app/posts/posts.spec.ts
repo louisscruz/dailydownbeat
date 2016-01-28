@@ -28,12 +28,12 @@ describe('Posts', () => {
       deps: [MockBackend, BaseRequestOptions]})
   ]);
 
-  beforeEach(() => {
+  /*beforeEach(() => {
     posts = [
       new Post('This is a title', 'http://www.google.com'),
       new Post('Another title', 'http://www.google.com')
     ];
-  });
+  });*/
 
   it('should load all posts', inject([ Posts ], (app) => {
     expect(posts.length).toEqual(30);
