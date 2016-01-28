@@ -1,8 +1,5 @@
 export class Post {
-  title: string;
-  url: string;
-  constructor(title: string, url: string) {
-    this.title = title;
-    this.url = url;
+  constructor(public id: number, public title: string, public url: string) {
+
   }
 }

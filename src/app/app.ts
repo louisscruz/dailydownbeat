@@ -12,6 +12,7 @@ import {Alerts} from './alerts/alerts';
 import {Home} from './home/home';
 import {Login} from './account/login/login';
 import {Signup} from './account/signup/signup';
+import {PostDetail} from './post/post';
 
 /*
  * App Component
@@ -43,7 +44,8 @@ import {Signup} from './account/signup/signup';
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
   { path: '/login', component: Login, name: 'Login' },
-  { path: '/signup', component: Signup, name: 'Signup'}
+  { path: '/signup', component: Signup, name: 'Signup'},
+  { path: '/post/:id', component: PostDetail, name: 'PostDetail'}
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {

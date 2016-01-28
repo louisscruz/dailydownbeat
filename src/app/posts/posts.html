@@ -4,9 +4,9 @@
       <tr *ngFor="#post of posts; #i=index">
         <th>{{i + 1 + pageOffset}}.</th>
         <td><a href="{{post.url}}" target="_blank">{{post.title}}</a></td>
-        <td><small>comments</small></td>
+        <td><small (click)="onSelect(post.id)">comments</small></td>
       </tr>
     </tbody>
   </table>
-  <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event, perPage)"></pagination>
+  <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)"></pagination>
 </div>

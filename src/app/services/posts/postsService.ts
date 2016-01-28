@@ -1,10 +1,11 @@
 import {Http, Headers} from 'angular2/http';
 import {Injectable} from 'angular2/core';
 import {Post} from '../../datatypes/post/post';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PostService {
-  constructor(public http: Http) {
+  constructor(private http: Http) {
     console.log('Service Created!', http);
   }
   getPosts(page, per_page) {
@@ -16,10 +17,6 @@ export class PostService {
     return this.http.get('http://localhost:3000/api/posts?page=' + page + '&per_page=' + per_page, {
       headers: authHeader
     })
-    .map(res => {
-      console.log(res.headers);
-      return res;
-    })
     .map(res => res.json())
     .map((posts: Array<any>) => {
       let result: Array<Post> = [];
@@ -27,6 +24,7 @@ export class PostService {
         posts.forEach((post) => {
           result.push(
             new Post(
+              post.id,
               post.title,
               post.url
             )
@@ -35,5 +33,9 @@ export class PostService {
       }
       return result;
     });
+  }
+  getPost(id: number | string) {
+    return this.http.get('http://localhost:3000/api/posts/' + id)
+    .map(res => <Post> res.json());
   }
 }
