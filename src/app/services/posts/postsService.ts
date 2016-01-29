@@ -26,7 +26,9 @@ export class PostService {
             new Post(
               post.id,
               post.title,
-              post.url
+              post.url,
+              post.user,
+              post.comments
             )
           );
         });

@@ -49,8 +49,7 @@ import {PostDetail} from './post/post';
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
-  url: string = '';
-  constructor(public http: Http) {
+  constructor(private _http: Http) {
 
   }
 }

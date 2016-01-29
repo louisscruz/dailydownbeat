@@ -7,7 +7,8 @@ class Api::CommentsController < ApplicationController
   def index
     @commentable = find_commentable
     if @commentable === nil
-      @comments = Comment.all
+      @comments = Comment.includes(:user)
+      #@comments = Comment.includes(:user)
     else
       @comments = @commentable.comments
     end

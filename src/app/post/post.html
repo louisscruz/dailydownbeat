@@ -1,3 +1,9 @@
 <div *ngIf="post">
   <a href="{{post.url}}">{{post.title}}</a>
+  <small>{{post.user}}</small>
+  <ul>
+    <li *ngFor="#comment of post.comments">
+      {{comment.body}}
+    </li>
+  </ul>
 </div>
