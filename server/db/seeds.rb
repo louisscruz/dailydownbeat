@@ -16,8 +16,9 @@ User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', 
   Post.create(title: title, url: url, created_at: created_at, updated_at: updated_at, user_id: user_id)
 
   comment_body = Faker::Hacker.say_something_smart
-  comment_id = 1
-  Comment.create(body: comment_body,  user_id: user_id, commentable: Post.first)
+  commentable_offset = rand(Post.count)
+  rand_post = Post.offset(commentable_offset).first
+  Comment.create(body: comment_body,  user_id: user_id, commentable: rand_post)
 
   username = Faker::Internet.user_name
   email = Faker::Internet.safe_email
