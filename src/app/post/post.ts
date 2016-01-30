@@ -5,13 +5,14 @@ import {Post} from '../datatypes/post/post';
 import {PostService} from '../services/posts/postsService';
 
 @Component({
-  selector: 'post',
+  selector: 'postDetail',
   template: require('./post.html'),
   providers: [PostService]
 })
 
 export class PostDetail implements OnInit{
   private post: Post;
+  private comments: Array<any>;
 
   constructor(
     private _router: Router,
@@ -26,5 +27,11 @@ export class PostDetail implements OnInit{
       err => console.log(err),
       () => console.log(this.post)
     );
+    this._postsService.getPostComments(id)
+    .subscribe(
+      res => this.comments = res,
+      err => console.log(err),
+      () => console.log(this.comments)
+    )
   }
 }

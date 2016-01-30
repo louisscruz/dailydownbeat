@@ -4,6 +4,6 @@ export class Post {
     public title: string,
     public url: string,
     public user: string,
-    public comments: Array<any>
+    public comments: number
   ) { }
 }

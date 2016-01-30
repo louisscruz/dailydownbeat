@@ -12,12 +12,4 @@ import {Posts} from '../posts/posts';
   template: require('./home.html')
 })
 export class Home {
-  /* TypeScript public modifiers
-  constructor(public title: Title, public http: Http) {
-  }
-
-  ngOnInit() {
-    console.log('hello Home');
-  }*/
-  values: number[] = [1, 2, 3];
 }

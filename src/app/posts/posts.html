@@ -3,8 +3,8 @@
     <tbody>
       <tr *ngFor="#post of posts; #i=index">
         <th>{{i + 1 + pageOffset}}.</th>
-        <td><a href="{{post.url}}" target="_blank">{{post.title}}</a></td>
-        <td><small (click)="onSelect(post.id)">comments</small></td>
+        <td><a href="{{post.url}}" target="_blank">{{post.title}}</a>{{post.user}}</td>
+        <td><small (click)="onSelect(post.id)">comments {{post.comments}}</small></td>
       </tr>
     </tbody>
   </table>

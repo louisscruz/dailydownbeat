@@ -40,4 +40,8 @@ export class PostService {
     return this.http.get('http://localhost:3000/api/posts/' + id)
     .map(res => <Post> res.json());
   }
+  getPostComments(id: number | string) {
+    return this.http.get('http://localhost:3000/api/posts/' + id + '/comments')
+    .map(res => res.json())
+  }
 }
