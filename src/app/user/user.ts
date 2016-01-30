@@ -1,26 +1,30 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 
-import {Post} from '../datatypes/post/post';
-import {PostService} from '../services/posts/postsService';
+import {User} from '../datatypes/user/user';
+import {UserService} from '../services/users/usersService';
 
 @Component({
-  selector: 'postDetail',
-  template: require('./post.html'),
-  providers: [PostService]
+  selector: 'userDetail',
+  template: require('./user.html'),
+  providers: [UserService]
 })
 
-export class PostDetail implements OnInit{
-  private post: Post;
-  private comments: Array<any>;
+export class UserDetail implements OnInit{
+  private user: User;
 
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
-    private _postsService: PostService) { }
+    private _userService: UserService) { }
 
   ngOnInit() {
     let id = this._routeParams.get('id');
+    this._userService.getUser(id)
+    .subscribe(
+      res => this.user = res
+    )
+    /*let id = this._routeParams.get('id');
     this._postsService.getPost(id)
     .subscribe(
       res => this.post = res,
@@ -32,9 +36,6 @@ export class PostDetail implements OnInit{
       res => this.comments = res,
       err => console.log(err),
       () => console.log(this.comments)
-    )
-  }
-  onSelectUser(id: number) {
-    this._router.navigate( ['UserDetail', { id: id }]);
+    )*/
   }
 }

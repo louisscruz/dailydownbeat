@@ -5,18 +5,24 @@ import {User} from '../../datatypes/user/user';
 
 @Injectable()
 export class UserService {
-  constructor(public http: Http, private router: Router) { }
+  constructor(
+    private _http: Http,
+    private _router: Router) { }
   postUser(user) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    this.http.post('http://localhost:3000/users', JSON.stringify(user), {
+    this._http.post('http://localhost:3000/users', JSON.stringify(user), {
       headers: headers
     })
     .map(res => res.json())
     .subscribe(
       res => alert('yippee'),
       err => console.log(err),
-      () => this.router.navigate(['Home'])
+      () => this._router.navigate(['Home'])
     )
+  }
+  getUser(id: number | string) {
+    return this._http.get('http://localhost:3000/api/users/' + id)
+    .map(res => res.json())
   }
 }

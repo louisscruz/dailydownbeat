@@ -1,10 +1,11 @@
 <div *ngIf="post">
   <a href="{{post.url}}">{{post.title}}</a>
-  <small>{{post.user}}</small>
+  <small (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</small>
   <ul>
     <li *ngFor="#comment of comments">
       {{comment.body}}
       {{comment.user}}
+      <div (click)="onSelectUser()">{{comment.user}}</div>
     </li>
   </ul>
 </div>

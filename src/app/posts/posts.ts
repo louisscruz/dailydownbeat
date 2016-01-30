@@ -41,7 +41,10 @@ export class Posts implements OnInit {
   ngOnInit() {
     this.getPosts(this.currentPage, this.perPage);
   }
-  onSelect(id: number) {
+  onSelectPost(id: number) {
     this._router.navigate( ['PostDetail', { id: id }]);
+  }
+  onSelectUser(id: number) {
+    this._router.navigate( ['UserDetail', { id: id }]);
   }
 }
