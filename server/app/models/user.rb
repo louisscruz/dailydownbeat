@@ -11,6 +11,7 @@ class User < ApplicationRecord
   validates :auth_token, uniqueness: true
   has_many :posts
   has_many :comments
+  has_many :votes
 
   def generate_authentication_token!
     begin

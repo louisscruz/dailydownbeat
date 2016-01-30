@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url
+  attributes :id, :title, :url, :votes_count
   has_one :user do
     [username: object.user.username, user_id: object.user.id]
   end
