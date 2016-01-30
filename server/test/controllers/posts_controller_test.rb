@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Api::PostsControllerTest < ActionDispatch::IntegrationTest
   def setup
+    FactoryGirl.create(:user)
     FactoryGirl.create_list(:post, 44)
     @post_count = Post.count
     @per_page = 15

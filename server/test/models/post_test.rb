@@ -5,7 +5,8 @@ class PostTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @post = Post.new(title: "test post", url: "test.com")
+    User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
+    @post = Post.create(title: "test post", url: "test.com", user_id: 1)
   end
 
   test "should be valid" do
