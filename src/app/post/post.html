@@ -4,8 +4,7 @@
   <ul>
     <li *ngFor="#comment of comments">
       {{comment.body}}
-      {{comment.user}}
-      <div (click)="onSelectUser()">{{comment.user}}</div>
+      <a (click)="onSelectUser(comment.user[0].user_id)">{{comment.user[0].username}}</a>
     </li>
   </ul>
 </div>
