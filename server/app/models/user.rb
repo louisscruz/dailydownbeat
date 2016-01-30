@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }
   validates :auth_token, uniqueness: true
+  has_many :posts
   has_many :comments
 
   def generate_authentication_token!
