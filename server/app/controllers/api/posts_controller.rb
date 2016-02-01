@@ -5,7 +5,8 @@ class Api::PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.page(params[:page]).per(params[:per_page])
+    ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
+    @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
 
     render json: @posts
   end

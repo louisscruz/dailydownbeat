@@ -8,20 +8,38 @@
 User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', password_confirmation: 'testtest')
 
 100.times do
-  title = Faker::Hacker.say_something_smart
-  url = Faker::Internet.url
-  created_at = Faker::Time.backward(1750, :all)
-  updated_at = Faker::Time.between(created_at, DateTime.now)
-  user_id = rand(1..100)
-  Post.create(title: title, url: url, created_at: created_at, updated_at: updated_at, user_id: user_id)
+  user_username = Faker::Internet.user_name
+  user_email = Faker::Internet.safe_email
+  user_password = 'testtest'
+  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password)
+
+  post_title = Faker::Hacker.say_something_smart
+  post_url = Faker::Internet.url
+  post_created_at = Faker::Time.backward(1750, :all)
+  post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
+  post_user_id = rand(1..100)
+  Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id)
+
+  rand_post = Post.offset(rand(Post.count)).first
+  rand_comment = Comment.offset(rand(Comment.count)).first
+  rand_vote_user = User.offset(rand(User.count)).first
+  rand_comment_user = User.offset(rand(User.count)).first
+  polarity = 1
 
   comment_body = Faker::Hacker.say_something_smart
-  commentable_offset = rand(Post.count)
-  rand_post = Post.offset(commentable_offset).first
-  Comment.create(body: comment_body,  user_id: user_id, commentable: rand_post)
+  Comment.create(body: comment_body, user_id: rand_comment_user.id, commentable: rand_post)
 
-  username = Faker::Internet.user_name
-  email = Faker::Internet.safe_email
-  password = 'testtest'
-  User.create(username: username, email: email, password: password, password_confirmation: password)
+  Vote.create(votable: rand_post, user_id: rand_vote_user.id, polarity: polarity)
+  Vote.create(votable: rand_comment, user_id: rand_vote_user.id, polarity: polarity)
+end
+
+50.times do
+  rand_post = Post.offset(rand(Post.count)).first
+  rand_comment = Comment.offset(rand(Comment.count)).first
+  rand_vote_user = User.offset(rand(User.count)).first
+  rand_comment_user = User.offset(rand(User.count)).first
+  polarity = -1
+
+  Vote.create(votable: rand_post, user_id: rand_vote_user.id, polarity: polarity)
+  Vote.create(votable: rand_comment, user_id: rand_vote_user.id, polarity: polarity)
 end

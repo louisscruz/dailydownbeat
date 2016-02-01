@@ -27,8 +27,10 @@ export class PostService {
               post.id,
               post.title,
               post.url,
+              post.created_at,
               post.user,
-              post.comments
+              post.comments,
+              post.vote_count
             )
           );
         });
