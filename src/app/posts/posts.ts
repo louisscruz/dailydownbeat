@@ -7,10 +7,13 @@ import {PAGINATION_DIRECTIVES, Pagination} from 'ng2-bootstrap/ng2-bootstrap';
 import {PostService} from '../services/posts/postsService';
 import {Post} from '../datatypes/post/post';
 
+import {TimeSincePipe} from '../pipes/timeSince.ts';
+
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
   directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
+  pipes: [TimeSincePipe],
   providers: [PostService, HTTP_PROVIDERS]
 })
 

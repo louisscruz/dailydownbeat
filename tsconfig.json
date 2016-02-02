@@ -27,6 +27,7 @@
     "./src/app/home/home.ts",
     "./src/app/navbar/navbar.spec.ts",
     "./src/app/navbar/navbar.ts",
+    "./src/app/pipes/timeSince.ts",
     "./src/app/post/post.ts",
     "./src/app/posts/posts.spec.ts",
     "./src/app/posts/posts.ts",
