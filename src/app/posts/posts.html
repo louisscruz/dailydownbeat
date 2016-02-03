@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
+<div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
   <!--table cellpadding="1" cellspacing="0">
     <tbody>
       <tr>
@@ -17,17 +17,19 @@
       </tr>
     </tbody>
   </table-->
-  <table *ngFor="#post of posts; #i=index">
-    <tr>
-      <th rowspan="2">{{i + 1 + pageOffset}}.</th>
-      <th rowspan="2">{{post.vote_count}}</th>
-      <th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
-    </tr>
-    <tr>
-      <td>{{post.created_at | timeSince}} by <a (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</a> <small (click)="onSelectPost(post.id)"><a>comments {{post.comments}}</a></small></td>
-      <td></td>
-      <td></td>
-    </tr>
+  <table>
+    <template ngFor #post [ngForOf]="posts" #i="index">
+      <tr>
+        <th rowspan="2">{{i + 1 + pageOffset}}.</th>
+        <th rowspan="2">{{post.vote_count}}</th>
+        <th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
+      </tr>
+      <tr>
+        <td>{{post.created_at | timeSince}} by <a (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</a> <small (click)="onSelectPost(post.id)"><a>comments {{post.comments}}</a></small></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
   </table>
 
   <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)"></pagination>

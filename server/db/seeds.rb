@@ -20,6 +20,13 @@ User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', 
   post_user_id = rand(1..100)
   Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id)
 
+  post_title = Faker::Hacker.say_something_smart
+  post_url = Faker::Internet.url
+  post_created_at = Faker::Time.between(12.hours.ago, Time.now, :all)
+  post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
+  post_user_id = rand(1..100)
+  Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id)
+
   rand_post = Post.offset(rand(Post.count)).first
   rand_comment = Comment.offset(rand(Comment.count)).first
   rand_vote_user = User.offset(rand(User.count)).first
@@ -42,4 +49,8 @@ end
 
   Vote.create(votable: rand_post, user_id: rand_vote_user.id, polarity: polarity)
   Vote.create(votable: rand_comment, user_id: rand_vote_user.id, polarity: polarity)
+end
+
+10.times do
+
 end
