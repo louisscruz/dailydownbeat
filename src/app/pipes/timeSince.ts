@@ -1,14 +1,16 @@
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform, ChangeDetectorRef, OnDestroy} from 'angular2/core';
 
-@Pipe({name: 'timeSince'})
+@Pipe({name: 'timeSince', pure: false})
 
-export class TimeSincePipe implements PipeTransform {
+export class TimeSincePipe implements PipeTransform, OnDestroy {
+  private _currentTimer: number;
+
+  constructor(private _cdRef: ChangeDetectorRef) {};
+
   transform(date: any): string {
-    let now = new Date();
-    let then = new Date(date);
-    var diff = (now.getTime() - then.getTime()) / 1000;
-    var result = '';
-
+    this._destroyTimer();
+    let result: string;
+    let diff = this._diffInTime(date);
     if (diff < 60) {
       result = 'less than 1 minute';
     } else {
@@ -48,6 +50,38 @@ export class TimeSincePipe implements PipeTransform {
         }
       }
     }
+    let timeToUpdate = this._getSecondsUntilUpdate(diff) * 1000;
+    if (timeToUpdate !== 0) {
+      this._currentTimer = window.setTimeout(() => this._cdRef.markForCheck(), timeToUpdate);
+    }
+    console.log(this._currentTimer);
     return result.concat(' ago');
+  }
+
+  ngOnDestroy(): void {
+    this._destroyTimer();
+  }
+
+  _diffInTime(then) {
+    return ((new Date().getTime()) - (new Date(then).getTime())) / 1000;
+  }
+
+  _destroyTimer() {
+    if (this._currentTimer) {
+      window.clearTimeout(this._currentTimer);
+      this._currentTimer = null;
+    }
+  }
+
+  _getSecondsUntilUpdate(diff) {
+    if (diff < 1) {
+      return 1
+    } else if (diff < 60) {
+      return 30
+    } else if (diff < 3600) {
+      return 1600
+    } else {
+      return 0
+    }
   }
 }

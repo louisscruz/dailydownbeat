@@ -49,5 +49,6 @@ module DailyDownbeat
       # Change total count header title (default: 'Total-Count')
       #config.total_count_header = 'X-Total-Count'
     #end
+    config.cache_store = :memory_store
   end
 end
