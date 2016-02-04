@@ -25,19 +25,16 @@ document.addEventListener('DOMContentLoaded', function main() {
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
-    provide(AuthHttp, {useFactory: (http) => {
-      return new AuthHttp(
-        new AuthConfig({
-          headerName: 'Authorization',
-          headerPrefix: 'Bearer ',
-          tokenName: 'auth_token',
-          noJwtError: true
-        }),
-        http
-      ); },
-      deps: [Http]
+    provide(AuthConfig, {
+      useValue: new AuthConfig({
+        headerName: 'Authorization',
+        headerPrefix: 'Bearer',
+        tokenName: 'auth_token',
+        tokenGetter: () => localStorage.getItem('auth_token'),
+        noJwtError: true
+      })
     }),
-    ConnectionBackend
+    AuthHttp
   ])
   .catch(err => console.error(err));
 });

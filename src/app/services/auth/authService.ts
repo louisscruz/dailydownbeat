@@ -1,7 +1,7 @@
 import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 import {Injectable} from 'angular2/core';
-import {AuthHttp, JwtHelper, AuthConfig} from 'angular2-jwt';
+import {AuthHttp, JwtHelper, tokenNotExpired} from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';
 
@@ -9,7 +9,10 @@ import {User} from '../../datatypes/user/user';
 export class AuthService {
   token: any;
   jwtHelper: JwtHelper = new JwtHelper();
-  constructor(public http: Http, private router: Router, public authHttp: AuthHttp) { }
+  constructor(
+    private http: Http,
+    private router: Router,
+    private authHttp: AuthHttp) { }
   saveJwt(jwt) {
     if (jwt) {
       localStorage.setItem('auth_token', jwt);
@@ -20,16 +23,9 @@ export class AuthService {
     localStorage.removeItem('auth_token');
     this.token = localStorage.getItem('auth_token');
   };
-  isAuth() {
-    var decoded: any;
-    //decoded = this.jwtHelper(this.token);
-    var date = new Date(0);
-    date.setUTCSeconds(decoded.exp);
-    if (date === null) {
-      return false;
-    }
-    console.log(date);
-    return (date.valueOf() > (new Date().valueOf()));
+  isAuth(): boolean {
+    let token = localStorage.getItem('auth_token');
+    return tokenNotExpired(null, token);
   }
   login(user) {
     console.log('inside authService.login');
@@ -53,16 +49,19 @@ export class AuthService {
     if (jwt) {
       authHeader.append('Authorization', jwt);
     }*/
-    var token = localStorage.getItem('auth_token');
-    var header = new Headers();
+    let token = localStorage.getItem('auth_token');
+    let header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     console.log(token);
 
     return this.authHttp.delete('http://localhost:3000/api/logout', {
       headers: header
-    })
-    .map(res => res.json());
+    });
+    /*.map(res => {
+
+      console.log(res);
+      return res.json()});*/
     /*.subscribe(
       data => this.deleteJwt(),
       err => console.log(err),

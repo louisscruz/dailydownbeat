@@ -54,7 +54,6 @@ export class TimeSincePipe implements PipeTransform, OnDestroy {
     if (timeToUpdate !== 0) {
       this._currentTimer = window.setTimeout(() => this._cdRef.markForCheck(), timeToUpdate);
     }
-    console.log(this._currentTimer);
     return result.concat(' ago');
   }
 

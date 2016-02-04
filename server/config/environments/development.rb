@@ -44,8 +44,8 @@ Rails.application.configure do
   # Configure CORS
   config.middleware.use Rack::Cors do
     allow do
-      origins 'localhost:4000'
-      resource '*', :headers => :any, :methods => [:get, :post, :options, :delete]
+      origins '*'
+      resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put, :patch]
     end
   end
 end

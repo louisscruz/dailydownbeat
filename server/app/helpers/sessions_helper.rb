@@ -5,9 +5,9 @@ module SessionsHelper
 
   def current_user
     auth_token = request.headers["Authorization"]
-    #if auth_token.split(" ").length > 1
-      #auth_token = auth_token.split(" ")[1]
-    #end
+    if auth_token
+      auth_token = auth_token.split(" ").last
+    end
     @current_user ||= User.find_by(auth_token: auth_token)
   end
 
