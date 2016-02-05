@@ -8,7 +8,7 @@
       <li class="nav-item" *ngIf="!_authService.loggedIn">
         <a class="nav-link" [routerLink]=" ['Login'] ">Login</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!_authService.loggedIn">
         <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
       </li>
       <li class="nav-item" *ngIf="_authService.loggedIn">
@@ -35,7 +35,7 @@
         <li class="nav-item" *ngIf="!_authService.loggedIn" (click)="collapse()">
           <a class="nav-link" [routerLink]=" ['Login'] ">Login</a>
         </li>
-        <li class="nav-item" (click)="collapse()">
+        <li class="nav-item" *ngIf="!_authService.loggedIn" (click)="collapse()">
           <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
         </li>
         <li class="nav-item" *ngIf="_authService.loggedIn" (click)="collapse()">
