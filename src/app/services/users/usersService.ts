@@ -19,10 +19,10 @@ export class UserService {
       res => alert('yippee'),
       err => console.log(err),
       () => this._router.navigate(['Home'])
-    )
+    );
   }
   getUser(id: number | string) {
     return this._http.get('http://localhost:3000/api/users/' + id)
-    .map(res => res.json())
+    .map(res => res.json());
   }
 }

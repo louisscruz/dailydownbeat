@@ -10,7 +10,7 @@ import {PostService} from '../services/posts/postsService';
   providers: [PostService]
 })
 
-export class PostDetail implements OnInit{
+export class PostDetail implements OnInit {
   private post: Post;
   private comments: Array<any>;
 
@@ -32,7 +32,7 @@ export class PostDetail implements OnInit{
       res => this.comments = res,
       err => console.log(err),
       () => console.log(this.comments)
-    )
+    );
   }
   onSelectUser(id: number) {
     this._router.navigate( ['UserDetail', { id: id }]);

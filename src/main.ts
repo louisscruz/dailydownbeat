@@ -17,8 +17,6 @@ import {App} from './app/app';
  */
 import {AuthHttp, JwtHelper, AuthConfig} from 'angular2-jwt';
 
-import {AuthService} from './app/services/auth/authService';
-
 document.addEventListener('DOMContentLoaded', function main() {
   bootstrap(App, [
     ('production' === process.env.ENV ? [] : ELEMENT_PROBE_PROVIDERS),

@@ -10,7 +10,7 @@ import {UserService} from '../services/users/usersService';
   providers: [UserService]
 })
 
-export class UserDetail implements OnInit{
+export class UserDetail implements OnInit {
   private user: User;
 
   constructor(
@@ -23,19 +23,6 @@ export class UserDetail implements OnInit{
     this._userService.getUser(id)
     .subscribe(
       res => this.user = res
-    )
-    /*let id = this._routeParams.get('id');
-    this._postsService.getPost(id)
-    .subscribe(
-      res => this.post = res,
-      err => console.log(err),
-      () => console.log(this.post)
     );
-    this._postsService.getPostComments(id)
-    .subscribe(
-      res => this.comments = res,
-      err => console.log(err),
-      () => console.log(this.comments)
-    )*/
   }
 }

@@ -71,12 +71,12 @@ module.exports = {
       },
       'global': 'window',
       // TypeScript helpers
-      '__metadata': 'Reflect.metadata',
-      '__decorate': 'Reflect.decorate'
+      //'__metadata': 'Reflect.metadata',
+      //'__decorate': 'Reflect.decorate'
     }),
     new ProvidePlugin({
-      // '__metadata': 'ts-helper/metadata',
-      // '__decorate': 'ts-helper/decorate',
+      '__metadata': 'ts-helper/metadata',
+      '__decorate': 'ts-helper/decorate',
       '__awaiter': 'ts-helper/awaiter',
       '__extends': 'ts-helper/extends',
       '__param': 'ts-helper/param',

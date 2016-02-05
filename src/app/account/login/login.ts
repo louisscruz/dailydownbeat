@@ -7,7 +7,6 @@ import {
   AbstractControl,
   Control
 } from 'angular2/common';
-//import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 
 import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
@@ -25,57 +24,55 @@ import {User} from '../../datatypes/user/user';
 })
 
 export class Login {
-  loginForm: ControlGroup;
-  email: AbstractControl;
-  password: AbstractControl;
+  private loginForm: ControlGroup;
+  private email: AbstractControl;
+  private password: AbstractControl;
+  private login: any;
   constructor(
-    //public authHttp: AuthHttp,
-    public authService: AuthService,
-    public alertService: AlertService,
-    public fb: FormBuilder,
-    public router: Router) {
-      function emailValidator(control: Control): { [s: string]: boolean } {
-        if (control.value.length > 0 && !control.value.match(/.+@.+\..+/i)) {
-          return {invalidEmail: true};
-        }
+    private _authService: AuthService,
+    private _alertService: AlertService,
+    private _fb: FormBuilder,
+    private _router: Router) {
+    function emailValidator(control: Control): { [s: string]: boolean } {
+      if (control.value.length > 0 && !control.value.match(/.+@.+\..+/i)) {
+        return {invalidEmail: true};
       }
-      function passwordLengthValidator(control: Control): { [s: string]: boolean } {
-        if (control.value !== '' && control.value.length < 6) {
-          return {passwordLengthInvalid: true};
-        }
+    }
+    function passwordLengthValidator(control: Control): { [s: string]: boolean } {
+      if (control.value !== '' && control.value.length < 6) {
+        return {passwordLengthInvalid: true};
       }
-      this.loginForm = fb.group({
-        'email': ['', Validators.compose([
-          Validators.required, emailValidator])],
-        'password': ['', Validators.compose([
-          Validators.required, passwordLengthValidator])]
-      });
-      this.email = this.loginForm.controls['email'];
-      this.password = this.loginForm.controls['password'];
+    }
+    this.loginForm = _fb.group({
+      'email': ['', Validators.compose([
+        Validators.required, emailValidator])],
+      'password': ['', Validators.compose([
+        Validators.required, passwordLengthValidator])]
+    });
+    this.email = this.loginForm.controls['email'];
+    this.password = this.loginForm.controls['password'];
 
-      this.authService = authService;
-      this.alertService = alertService;
-  }
-  test(user) {
-    console.log(user);
-
-  }
-  login(user) {
-    console.log('inside login.ts function');
-    this.authService.login(user)
-    .subscribe(
-      res => {
-        this.authService.saveJwt(res.auth_token);
-      },
-      err => {
-        (<Control>this.loginForm.controls['password']).updateValue('');
-        (<Control>this.loginForm.controls['password']).pristine = true;
-        this.alertService.addAlert('There was an error loggin in.', 'danger');
-      },
-      () => {
-        this.authService.token = localStorage.getItem('auth_token');
-        this.router.navigate(['Home']);
-      }
-    );
+    this._alertService = _alertService;
+    this.login = function(user) {
+      console.log('inside login.ts function');
+      this._authService.login(user)
+      .subscribe(
+        res => {
+          this._authService.saveJwt(res.auth_token);
+          console.log(this._authService.token);
+        },
+        err => {
+          (<Control>this.loginForm.controls['password']).updateValue('');
+          (<Control>this.loginForm.controls['password']).pristine = true;
+          this._alertService.addAlert('There was an error loggin in.', 'danger');
+        },
+        () => {
+          this._authService.isAuth();
+          //this._authService.token = localStorage.getItem('auth_token');
+          this._authService.loggedIn = true;
+          this._router.navigate(['Home']);
+        }
+      );
+    };
   }
 }

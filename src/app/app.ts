@@ -51,6 +51,6 @@ import {UserDetail} from './user/user';
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
-  constructor(private _http: Http) {
+  constructor() {
   }
 }

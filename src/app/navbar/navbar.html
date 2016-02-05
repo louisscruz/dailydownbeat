@@ -11,7 +11,8 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
       </li>
-      <li class="nav-item" *ngIf="isAuth">
+      {{_authService.loggedIn}}
+      <li class="nav-item" *ngIf="_authService.loggedIn">
         <a class="nav-link" (click)="logout()">Log Out</a>
       </li>
       <li class="nav-item">

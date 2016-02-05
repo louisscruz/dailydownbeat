@@ -23,8 +23,10 @@ export class TimeSincePipe implements PipeTransform, OnDestroy {
           result = Math.floor(diff).toString().concat(' hours');
         } else {
           diff /= 24;
-          if (diff < 7) {
+          if (diff < 2) {
             result = Math.floor(diff).toString().concat(' days');
+          } else if (diff < 7) {
+            result = Math.floor(diff).toString().concat(' day');
           } else {
             diff /= 7;
             if (diff < 2) {
@@ -56,31 +58,27 @@ export class TimeSincePipe implements PipeTransform, OnDestroy {
     }
     return result.concat(' ago');
   }
-
   ngOnDestroy(): void {
     this._destroyTimer();
   }
-
   _diffInTime(then) {
     return ((new Date().getTime()) - (new Date(then).getTime())) / 1000;
   }
-
   _destroyTimer() {
     if (this._currentTimer) {
       window.clearTimeout(this._currentTimer);
       this._currentTimer = null;
     }
   }
-
   _getSecondsUntilUpdate(diff) {
     if (diff < 1) {
-      return 1
+      return 1;
     } else if (diff < 60) {
-      return 30
+      return 30;
     } else if (diff < 3600) {
-      return 1600
+      return 1600;
     } else {
-      return 0
+      return 0;
     }
   }
 }
