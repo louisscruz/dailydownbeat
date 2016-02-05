@@ -24,9 +24,9 @@ export class TimeSincePipe implements PipeTransform, OnDestroy {
         } else {
           diff /= 24;
           if (diff < 2) {
-            result = Math.floor(diff).toString().concat(' days');
-          } else if (diff < 7) {
             result = Math.floor(diff).toString().concat(' day');
+          } else if (diff < 7) {
+            result = Math.floor(diff).toString().concat(' days');
           } else {
             diff /= 7;
             if (diff < 2) {
