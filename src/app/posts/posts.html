@@ -21,7 +21,19 @@
     <template ngFor #post [ngForOf]="posts" #i="index">
       <tr>
         <th rowspan="2">{{i + 1 + pageOffset}}.</th>
-        <th rowspan="2">{{post.vote_count}}</th>
+        <th rowspan="2">
+          <div>
+            <div>
+              arrow
+            </div>
+            <div>
+            {{post.vote_count}}
+            </div>
+            <div>
+              arrow
+            </div>
+          </div>
+        </th>
         <th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
       </tr>
       <tr>

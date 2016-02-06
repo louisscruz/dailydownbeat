@@ -25,7 +25,7 @@ module DailyDownbeat
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
+    config.api_only = false
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       YAML.load(File.open(env_file)).each do |key, value|
@@ -49,6 +49,6 @@ module DailyDownbeat
       # Change total count header title (default: 'Total-Count')
       #config.total_count_header = 'X-Total-Count'
     #end
-    config.cache_store = :memory_store
+    #config.cache_store = :memory_store
   end
 end

@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       resources :comments
     end
 
-    resources :users
+    resources :users do
+      member do
+        post 'confirm/:confirmation_code' => 'users#confirm'
+      end
+    end
     resources :posts, concerns: :commentable
     resources :comments
   end

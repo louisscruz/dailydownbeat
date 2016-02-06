@@ -5,13 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', password_confirmation: 'testtest')
+User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', password_confirmation: 'testtest', confirmation_code: SecureRandom.hex)
 
 100.times do
   user_username = Faker::Internet.user_name
   user_email = Faker::Internet.safe_email
   user_password = 'testtest'
-  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password)
+  user_confirmation_code = SecureRandom.hex
+  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, confirmation_code: user_confirmation_code)
 
   post_title = Faker::Hacker.say_something_smart
   post_url = Faker::Internet.url

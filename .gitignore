@@ -61,3 +61,6 @@ Thumbs.db
 
 # Artwork
 /artwork
+
+# Server secrets
+/server/config/email_config.yml

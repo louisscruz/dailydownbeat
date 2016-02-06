@@ -40,9 +40,7 @@ export class Signup {
     }
     function confirmationEquivalent(control: Control): { [s: string]: boolean } {
       if (control.value !== 'test') {
-        console.log('not the same');
-        //console.log(control._parent.controls['password'].value)
-        // is there a function to get a control's parent?
+        //console.log(control);
         return {notEquivalent: true};
       }
     }
