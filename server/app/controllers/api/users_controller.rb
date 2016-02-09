@@ -16,7 +16,7 @@ class Api::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    UserMailer.welcome_email(@user).deliver_now
+    UserMailer.welcome(@user).deliver_now
     render json: @user
   end
 
@@ -26,6 +26,7 @@ class Api::UsersController < ApplicationController
     @user.confirmation_code = SecureRandom.hex
 
     if @user.save
+      #UserMailer.welcome_email(@user).deliver_now
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity

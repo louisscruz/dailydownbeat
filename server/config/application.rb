@@ -25,7 +25,7 @@ module DailyDownbeat
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_only = false
+    config.api_only = true
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       YAML.load(File.open(env_file)).each do |key, value|
@@ -50,5 +50,14 @@ module DailyDownbeat
       #config.total_count_header = 'X-Total-Count'
     #end
     #config.cache_store = :memory_store
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :authentication => :plain,
+      :address => "smtp.mailgun.org",
+      :port => 587,
+      :domain => "http://localhost:3000",
+      :user_name => "postmaster@mg.dailydownbeat.com",
+      :password => "356ff386ae8d000527d4a6aaf1c969c7"
+    }
   end
 end

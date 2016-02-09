@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test")
+    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test", confirmation_code: SecureRandom.hex )
   end
 
   test "should be valid" do
@@ -20,6 +20,11 @@ class UserTest < ActiveSupport::TestCase
   test "email should be present" do
     @user.email = "   "
     assert_not @user.valid?
+  end
+
+  test "confirmed is automatically false" do
+    @user.save
+    assert_equal @user.confirmed, false
   end
 
   test "username should be less than 25 chars" do
