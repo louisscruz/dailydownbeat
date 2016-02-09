@@ -57,7 +57,7 @@ module DailyDownbeat
       :port => 587,
       :domain => "http://localhost:3000",
       :user_name => "postmaster@mg.dailydownbeat.com",
-      :password => "356ff386ae8d000527d4a6aaf1c969c7"
+      :password => ENV["EMAIL_MAILGUN_PASSWORD"]
     }
   end
 end

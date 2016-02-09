@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create(username: 'louisscruz', email: 'test@me.com', password: 'testtest', password_confirmation: 'testtest', confirmation_code: SecureRandom.hex)
+User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 'testtest', password_confirmation: 'testtest', confirmation_code: SecureRandom.hex)
 
 100.times do
   user_username = Faker::Internet.user_name

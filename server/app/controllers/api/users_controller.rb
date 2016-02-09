@@ -17,6 +17,7 @@ class Api::UsersController < ApplicationController
   # GET /users/1
   def show
     UserMailer.welcome(@user).deliver_now
+    UserMailer.confirm(@user).deliver_now
     render json: @user
   end
 
