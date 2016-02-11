@@ -16,8 +16,8 @@ class Api::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    UserMailer.welcome(@user).deliver_now
-    UserMailer.confirm(@user).deliver_now
+    #UserMailer.welcome(@user).deliver_now
+    #UserMailer.confirm(@user).deliver_now
     render json: @user
   end
 
@@ -27,7 +27,8 @@ class Api::UsersController < ApplicationController
     @user.confirmation_code = SecureRandom.hex
 
     if @user.save
-      #UserMailer.welcome_email(@user).deliver_now
+      UserMailer.welcome(@user).deliver_now
+      UserMailer.confirm(@user).deliver_now
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -51,8 +52,12 @@ class Api::UsersController < ApplicationController
   # POST /users/1/confirm/a23iuhfsdkfj23h98h...
   def confirm
     if (@user.confirmation_code == params[:confirmation_code])
-      @user.update_attribute(:confirmed, true)
-      render json: @user
+      if (@user.confirmed)
+        render json: @user.errors, status: :forbidden
+      else
+        @user.update_attribute(:confirmed, true)
+        render json: @user
+      end
     else
       render json: @user.errors, status: :bad_request
     end

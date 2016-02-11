@@ -18,4 +18,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_not @user.confirmed
   end
+
+  test "confirm method should not allow redundant requests" do
+    assert_not @user.confirmed
+    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
+    @user.reload
+    assert @user.confirmed
+    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
+    assert_response 403
+  end
 end

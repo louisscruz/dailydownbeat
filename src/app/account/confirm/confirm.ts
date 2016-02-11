@@ -26,11 +26,17 @@ export class Confirm implements OnInit {
     let confirmationCode = this._routeParams.get('confirmation_code');
     this._userService.confirmUser(id, confirmationCode)
     .subscribe(
-      res => console.log(res),
-      err => console.log(err),
-      () => {
-        //this._router.navigate(['Home']);
-        this._alertService.addAlert('Your account has been confirmed', 'success');
+      res => {
+        this._alertService.addAlert('Your account has been confirmed.', 'success');
+        this._router.navigate(['Home']);
+      },
+      err => {
+        if (err.status === 403) {
+          this._alertService.addAlert('Your account was not in need of confirmation.');
+        } else {
+          this._alertService.addAlert('There was a problem with the confirmation of your account. If this fails after another try, contact us.');
+        }
+        this._router.navigate(['Home']);
       }
     )
   }
