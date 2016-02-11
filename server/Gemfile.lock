@@ -203,6 +203,7 @@ DEPENDENCIES
   pg
   puma
   rack-cors
+  rack-test
   rails!
   spring
   tzinfo-data
