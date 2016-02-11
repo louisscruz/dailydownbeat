@@ -101,4 +101,8 @@ class UserTest < ActiveSupport::TestCase
     @user.send(:generate_authentication_token!)
     assert_not_equal @user.auth_token, existing_user.auth_token
   end
+
+  test "confirmation should default to false" do
+    assert_equal @user.confirmed, false
+  end
 end

@@ -7,5 +7,6 @@ FactoryGirl.define do
     password_confirmation "testtest"
     auth_token "testing123"
     confirmation_code SecureRandom.hex
+    confirmed false
   end
 end

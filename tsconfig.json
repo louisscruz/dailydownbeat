@@ -9,6 +9,8 @@
     "sourceMap": true
   },
   "files": [
+    "./src/app/account/confirm/confirm.spec.ts",
+    "./src/app/account/confirm/confirm.ts",
     "./src/app/account/login/login.spec.ts",
     "./src/app/account/login/login.ts",
     "./src/app/account/signup/signup.spec.ts",

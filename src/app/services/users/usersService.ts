@@ -25,4 +25,8 @@ export class UserService {
     return this._http.get('http://localhost:3000/api/users/' + id)
     .map(res => res.json());
   }
+  confirmUser(id: number | string, confirmationCode: string) {
+    return this._http.post('http://localhost:3000/api/users/' + id + '/confirm/' + confirmationCode, confirmationCode)
+    .map(res => res.json());
+  }
 }

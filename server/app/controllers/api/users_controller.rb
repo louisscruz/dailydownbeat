@@ -48,9 +48,14 @@ class Api::UsersController < ApplicationController
     @user.destroy
   end
 
-  # POST /users/1/confirm/a23iuhfsdkfj23h98h
+  # POST /users/1/confirm/a23iuhfsdkfj23h98h...
   def confirm
-
+    if (@user.confirmation_code == params[:confirmation_code])
+      @user.update_attribute(:confirmed, true)
+      render json: @user
+    else
+      render json: @user.errors, status: :bad_request
+    end
   end
 
   private
@@ -61,6 +66,6 @@ class Api::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code)
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed)
     end
 end
