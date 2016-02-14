@@ -11,6 +11,18 @@ import {AlertService} from '../services/alerts/alertsService.ts';
   providers: [AlertService]
 })
 
+/*export class Alerts {
+  private alerts: AlertNotification[];
+  constructor(private _alertService: AlertService) {
+    this.alerts = this._alertService.getAlerts();
+  }
+
+  private onAlertAdded(alert: AlertNotification): void {
+    console.log(alert);
+    this.alerts.push(alert);
+  }
+}*/
+
 export class Alerts implements OnInit {
   public alerts: AlertNotification[];
 

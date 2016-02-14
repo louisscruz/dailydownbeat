@@ -1,3 +1,3 @@
 <div class="col-xs-12 notifications">
-  <alert *ngFor="#alert of alerts" class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0" [type]="alert.type" dismissible="true">{{alert.message}}</alert>
+  <alert *ngFor="#alert of alerts" class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0" [type]="alert.type" dismissible="true" dismissOnTimeout="{{alert.timeout}}">{{alert.message}}</alert>
 </div>

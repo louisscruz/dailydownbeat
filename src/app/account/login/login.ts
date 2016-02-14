@@ -38,21 +38,21 @@ export class Login {
         return {invalidEmail: true};
       }
     }
-    function passwordLengthValidator(control: Control): { [s: string]: boolean } {
+    /*function passwordLengthValidator(control: Control): { [s: string]: boolean } {
       if (control.value !== '' && control.value.length < 6) {
         return {passwordLengthInvalid: true};
       }
-    }
+    }*/
     this.loginForm = _fb.group({
       'email': ['', Validators.compose([
         Validators.required, emailValidator])],
       'password': ['', Validators.compose([
-        Validators.required, passwordLengthValidator])]
+        Validators.required])]
     });
     this.email = this.loginForm.controls['email'];
     this.password = this.loginForm.controls['password'];
 
-    this._alertService = _alertService;
+    //this._alertService = _alertService;
     this.login = function(user) {
       console.log('inside login.ts function');
       this._authService.login(user)
@@ -64,11 +64,14 @@ export class Login {
         err => {
           (<Control>this.loginForm.controls['password']).updateValue('');
           (<Control>this.loginForm.controls['password']).pristine = true;
-          this._alertService.addAlert('There was an error loggin in.', 'danger');
+          //this._alertService.addAlert('There was an error loggin in.', 'danger');
+          this._alertService.addAlert({
+            'message': 'Incorrect email or password',
+            'type': 'danger'
+          });
         },
         () => {
           this._authService.isAuth();
-          //this._authService.token = localStorage.getItem('auth_token');
           this._authService.loggedIn = true;
           this._router.navigate(['Home']);
         }
