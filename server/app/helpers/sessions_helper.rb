@@ -1,5 +1,5 @@
 module SessionsHelper
-  def log_in(user)
+  def create_session(user)
     session[:user_id] = user.id
   end
 
@@ -25,5 +25,11 @@ module SessionsHelper
 
   def authenticate_with_token!
     render json: { errors: "Not authenticated" }, status: :unauthorized unless logged_in?
+  end
+
+  def log_in(user)
+    create_session(user)
+    user.generate_authentication_token!
+    user.update_attribute(:auth_token, user.auth_token)
   end
 end

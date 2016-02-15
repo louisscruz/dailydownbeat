@@ -8,8 +8,6 @@ class Api::SessionsController < ApplicationController
 
     if user && user.authenticate(params[:session][:password])
       log_in user
-      user.generate_authentication_token!
-      user.update_attribute(:auth_token, user.auth_token)
       render json: user, status: :created
     else
       render json: user.errors, status: :unprocessable_entity
