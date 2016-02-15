@@ -56,6 +56,9 @@ class Api::UsersController < ApplicationController
         render json: @user.errors, status: :forbidden
       else
         @user.update_attribute(:confirmed, true)
+        log_in @user
+        @user.generate_authentication_token!
+        @user.update_attribute(:auth_token, @user.auth_token)
         render json: @user
       end
     else
