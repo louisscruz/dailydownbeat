@@ -2,4 +2,4 @@
 New music's most relevant news.
 
 ## Contribute
-If you'd like to contribute to DailyDownbeat, send a push request.
+If you'd like to contribute to DailyDownbeat, send a pull request.
