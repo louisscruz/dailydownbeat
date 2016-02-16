@@ -34,4 +34,39 @@ class VoteTest < ActiveSupport::TestCase
     @vote.save
     assert_not duplicate_vote.valid?
   end
+
+  test "should increment tally of points for posts when upvote" do
+    old_points = @vote.votable.points
+    @vote.save
+    assert_equal old_points + 1, @vote.votable.points
+  end
+
+  test "should reduce tally of points for posts when downvote" do
+    old_points = @vote.votable.points
+    @vote.polarity = -1
+    @vote.save
+    post = Post.find(@vote.votable_id)
+    assert_equal old_points - 1, post.points
+  end
+
+  test "should correctly change tally on update of vote from down to up" do
+    old_points = @vote.votable.points
+    @vote.polarity = -1
+    @vote.save
+    post = Post.find(@vote.votable_id)
+    assert_equal old_points - 1, post.points
+    @vote.update_attribute :polarity, 1
+    @vote.reload
+    assert_equal old_points + 1, @vote.votable.points
+  end
+
+  test "should correctly change tally on update of vote from up to down" do
+    old_points = @vote.votable.points
+    @vote.save
+    post = Post.find(@vote.votable_id)
+    assert_equal old_points + 1, post.points
+    @vote.update_attribute :polarity, -1
+    @vote.reload
+    assert_equal old_points - 1, @vote.votable.points
+  end
 end
