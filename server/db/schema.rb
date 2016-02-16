@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216035047) do
+ActiveRecord::Schema.define(version: 20160216205540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,16 +24,18 @@ ActiveRecord::Schema.define(version: 20160216035047) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "points",           default: 0
+    t.integer  "comment_count",    default: 0
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   end
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "url"
     t.integer  "user_id"
-    t.integer  "points",     default: 0
+    t.integer  "points",        default: 0
+    t.integer  "comment_count", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
 

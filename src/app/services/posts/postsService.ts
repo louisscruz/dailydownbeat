@@ -5,9 +5,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PostService {
-  constructor(private http: Http) {
-    console.log('Service Created!', http);
-  }
+  constructor(private http: Http) { }
   getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
@@ -29,8 +27,8 @@ export class PostService {
               post.url,
               post.created_at,
               post.user,
-              post.comments,
-              post.vote_count
+              post.comment_count,
+              post.points
             )
           );
         });

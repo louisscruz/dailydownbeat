@@ -5,7 +5,7 @@ export class Post {
     public url: string,
     public created_at: number,
     public user: Array<any>,
-    public comments: number,
-    public vote_count: number
+    public comment_count: number,
+    public points: number
   ) { }
 }

@@ -48,7 +48,7 @@ class VoteTest < ActiveSupport::TestCase
     post = Post.find(@vote.votable_id)
     assert_equal old_points - 1, post.points
   end
-
+=begin
   test "should correctly change tally on update of vote from down to up" do
     old_points = @vote.votable.points
     @vote.polarity = -1
@@ -69,4 +69,5 @@ class VoteTest < ActiveSupport::TestCase
     @vote.reload
     assert_equal old_points - 1, @vote.votable.points
   end
+=end
 end

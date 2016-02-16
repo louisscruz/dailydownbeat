@@ -5,9 +5,11 @@ class Api::PostsController < ApplicationController
 
   # GET /posts
   def index
-    Post.all.sort_by { |a, b| a.ranking }
     ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
+    #ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
     @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
+    #response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
+    #response.headers['X-Total-Count'] = 10
 
     render json: @posts
   end
