@@ -19,7 +19,9 @@ export class TimeSincePipe implements PipeTransform, OnDestroy {
         result = Math.floor(diff).toString().concat(' minutes');
       } else {
         diff /= 60;
-        if (diff < 24) {
+        if (diff < 2) {
+          result = Math.floor(diff).toString().concat(' hour');
+        } else if (diff < 24) {
           result = Math.floor(diff).toString().concat(' hours');
         } else {
           diff /= 24;
