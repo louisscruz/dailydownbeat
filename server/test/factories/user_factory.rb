@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user do
+  factory :user do |u|
     id 1
     username "Johndoe"
     email "test@woohoo.com"

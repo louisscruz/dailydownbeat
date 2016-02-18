@@ -5,6 +5,7 @@ class VoteTest < ActiveSupport::TestCase
     FactoryGirl.create(:user)
     FactoryGirl.create(:post)
     @vote = Vote.create(votable: Post.first, user_id: User.first.id, polarity: 1)
+    @downvote = Vote.create(votable: Post.first, user_id: User.first.id, polarity: -1)
   end
 
   test "should be valid" do
@@ -36,38 +37,28 @@ class VoteTest < ActiveSupport::TestCase
   end
 
   test "should increment tally of points for posts when upvote" do
-    old_points = @vote.votable.points
-    @vote.save
-    assert_equal old_points + 1, @vote.votable.points
+    old_points = Post.first.points
+    User.create(id: 2, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
+    upvote = Vote.create(votable: Post.first, user_id: 2, polarity: 1)
+    upvote.save
+    assert_equal old_points + 1, upvote.votable.points
   end
 
   test "should reduce tally of points for posts when downvote" do
-    old_points = @vote.votable.points
-    @vote.polarity = -1
-    @vote.save
-    post = Post.find(@vote.votable_id)
-    assert_equal old_points - 1, post.points
-  end
-=begin
-  test "should correctly change tally on update of vote from down to up" do
-    old_points = @vote.votable.points
-    @vote.polarity = -1
-    @vote.save
-    post = Post.find(@vote.votable_id)
-    assert_equal old_points - 1, post.points
-    @vote.update_attribute :polarity, 1
-    @vote.reload
-    assert_equal old_points + 1, @vote.votable.points
+    old_points = Post.first.points
+    User.create(id: 3, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
+    upvote = Vote.create(votable: Post.first, user_id: 3, polarity: -1)
+    upvote.save
+    assert_equal old_points - 1, upvote.votable.points
   end
 
-  test "should correctly change tally on update of vote from up to down" do
-    old_points = @vote.votable.points
-    @vote.save
-    post = Post.find(@vote.votable_id)
-    assert_equal old_points + 1, post.points
-    @vote.update_attribute :polarity, -1
-    @vote.reload
-    assert_equal old_points - 1, @vote.votable.points
+  test "should negate tally of points for posts when vote deleted" do
+    old_points = Post.first.points
+    User.create(id: 2, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
+    upvote = Vote.create(votable: Post.first, user_id: 2, polarity: 1)
+    upvote.save
+    assert_equal old_points + 1, upvote.votable.points
+    upvote.destroy
+    assert_equal old_points, upvote.votable.points
   end
-=end
 end

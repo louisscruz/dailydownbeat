@@ -1,11 +1,14 @@
 class Vote < ApplicationRecord
-  around_save :update_points!
+  after_destroy :remove_points!
+  after_create :update_points!
+  #after_update { update_points!(2) }
+  #around_save :update_points!
   belongs_to :votable, polymorphic: true
   belongs_to :user
   validates_presence_of :votable
   validates_presence_of :user_id
   validates :user_id, uniqueness: { scope: [:votable_type, :votable_id] }
-
+=begin
   def update_points!
     new_record = self.new_record?
 
@@ -24,6 +27,23 @@ class Vote < ApplicationRecord
         #value = resource.points + (self.polarity * 2)
       #end
       resource.update_attribute :points, value
+    end
+  end
+=end
+
+  def update_points!(v=1)
+    resource = self.votable
+    resource.with_lock do
+      value = resource.points
+      resource.update_attribute :points, value + (self.polarity * v)
+    end
+  end
+
+  def remove_points!
+    resource = self.votable
+    resource.with_lock do
+      value = resource.points
+      resource.update_attribute :points, value - self.polarity
     end
   end
 end
