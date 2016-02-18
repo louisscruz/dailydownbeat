@@ -25,14 +25,14 @@ class VoteTest < ActiveSupport::TestCase
   test "should not allow multiple votes by one user" do
     duplicate_vote = @vote.dup
     duplicate_vote.polarity = -1
-    @vote.save
+    #@vote.save
     assert_not duplicate_vote.valid?
   end
 
   test "should allow several votes by one user on different objects" do
     duplicate_vote = @vote.dup
     duplicate_vote.votable = Post.second
-    @vote.save
+    #@vote.save
     assert_not duplicate_vote.valid?
   end
 
@@ -40,7 +40,7 @@ class VoteTest < ActiveSupport::TestCase
     old_points = Post.first.points
     User.create(id: 2, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
     upvote = Vote.create(votable: Post.first, user_id: 2, polarity: 1)
-    upvote.save
+    #upvote.save
     assert_equal old_points + 1, upvote.votable.points
   end
 
@@ -48,7 +48,7 @@ class VoteTest < ActiveSupport::TestCase
     old_points = Post.first.points
     User.create(id: 3, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
     upvote = Vote.create(votable: Post.first, user_id: 3, polarity: -1)
-    upvote.save
+    #upvote.save
     assert_equal old_points - 1, upvote.votable.points
   end
 
@@ -56,9 +56,19 @@ class VoteTest < ActiveSupport::TestCase
     old_points = Post.first.points
     User.create(id: 2, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
     upvote = Vote.create(votable: Post.first, user_id: 2, polarity: 1)
-    upvote.save
+    #upvote.save
     assert_equal old_points + 1, upvote.votable.points
     upvote.destroy
     assert_equal old_points, upvote.votable.points
+  end
+
+  test "should reverse vote when change from upvote to downvote" do
+    old_points = Post.first.points
+    User.create(id: 2, username: "johndoe2", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
+    upvote = Vote.create(votable: Post.first, user_id: 2, polarity: 1)
+    #upvote.save
+    assert_equal old_points + 1, upvote.votable.points
+    upvote.update_attribute(:polarity, -1)
+    assert_equal old_points - 1, upvote.votable.points
   end
 end
