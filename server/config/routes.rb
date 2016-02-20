@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :users do
       member do
         post 'confirm/:confirmation_code' => 'users#confirm'
+        get  'posts' => 'users#posts'
       end
     end
     resources :posts, concerns: :commentable
