@@ -21,6 +21,7 @@
     "./src/app/app.ts",
     "./src/app/datatypes/alert/alertnotification.ts",
     "./src/app/datatypes/alert/mock-alerts.ts",
+    "./src/app/datatypes/comment/comment.ts",
     "./src/app/datatypes/post/post.spec.ts",
     "./src/app/datatypes/post/post.ts",
     "./src/app/datatypes/user/user.spec.ts",

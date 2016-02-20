@@ -1,17 +1,23 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
+import {TAB_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {User} from '../datatypes/user/user';
+import {Post} from '../datatypes/post/post';
+import {Comment} from '../datatypes/comment/comment';
 import {UserService} from '../services/users/usersService';
 
 @Component({
   selector: 'userDetail',
+  directives: [TAB_DIRECTIVES],
   template: require('./user.html'),
   providers: [UserService]
 })
 
 export class UserDetail implements OnInit {
   private user: User;
+  private posts: Post[];
+  private comments: Comment[];
 
   constructor(
     private _router: Router,
@@ -24,5 +30,11 @@ export class UserDetail implements OnInit {
     .subscribe(
       res => this.user = res
     );
+    this._userService.getUserPosts(id)
+    .subscribe(
+      res => {
+        console.log(res);
+        this.posts = res
+    });
   }
 }
