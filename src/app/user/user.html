@@ -1,17 +1,20 @@
 <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
   <h3 class="text-xs-center">{{user.username}}</h3>
-  <tabset>
+  <!--tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+    <tab *ngFor="#t of tabset" [heading]="t.header">{{t.content}}</tab>
+  </tabset-->
+  <tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
     <tab heading="Bio">
-      <p>This is {{user.username}}'s bio.</p>
+      <p>{{user.bio}}</p>
     </tab>
     <tab heading="Posts">
       <ul>
         <li *ngFor="#post of posts">{{post.title}}</li>
       </ul>
     </tab>
-    <tab heading="Comments">
+    <tab heading="Comments" *ngIf="comments">
       <ul>
-        <li>Comment 1</li>
+        <li *ngFor="#comment of comments">{{comment.body}}</li>
       </ul>
     </tab>
   </tabset>

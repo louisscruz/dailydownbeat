@@ -11,7 +11,7 @@ import {UserService} from '../services/users/usersService';
   selector: 'userDetail',
   directives: [TAB_DIRECTIVES],
   template: require('./user.html'),
-  providers: [UserService]
+  providers: [UserService, TAB_DIRECTIVES]
 })
 
 export class UserDetail implements OnInit {
@@ -22,7 +22,7 @@ export class UserDetail implements OnInit {
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
-    private _userService: UserService) { }
+    private _userService: UserService) {}
 
   ngOnInit() {
     let id = this._routeParams.get('id');
@@ -32,9 +32,11 @@ export class UserDetail implements OnInit {
     );
     this._userService.getUserPosts(id)
     .subscribe(
-      res => {
-        console.log(res);
-        this.posts = res
-    });
+      res => this.posts = res
+    );
+    this._userService.getUserComments(id)
+    .subscribe(
+      res => this.comments = res
+    );
   }
 }

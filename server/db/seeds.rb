@@ -11,8 +11,9 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
   user_username = Faker::Internet.user_name
   user_email = Faker::Internet.safe_email
   user_password = 'testtest'
+  user_bio = Faker::Hacker.say_something_smart
   user_confirmation_code = SecureRandom.hex
-  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, confirmation_code: user_confirmation_code)
+  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, confirmation_code: user_confirmation_code, bio: user_bio)
 
   post_title = Faker::Hacker.say_something_smart
   post_url = Faker::Internet.url

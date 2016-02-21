@@ -4,6 +4,7 @@
  * Helper: root(), and rootDir() are defined at the bottom
  */
 var path = require('path');
+var zlib = require('zlib');
 // Webpack Plugins
 var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
@@ -12,11 +13,12 @@ var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
 var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash    = require('webpack-md5-hash');
 var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-var HOST = process.env.HOST || '0.0.0.0';
+var HOST = process.env.HOST || 'localhost';
 var PORT = process.env.PORT || 8080;
 
 var metadata = {
@@ -35,10 +37,10 @@ module.exports = {
   metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'source-map',
-  debug: true,
+  debug: false,
 
   entry: {
-    'vendor':'./src/vendor.ts',
+    'polyfills':'./src/polyfills.ts',
     'main':'./src/main.ts' // our angular app
   },
 
@@ -53,7 +55,7 @@ module.exports = {
   resolve: {
     cache: false,
     // ensure loader extensions match
-    extensions: ['','.ts','.js','.json','.css','.html']
+    extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
@@ -62,11 +64,24 @@ module.exports = {
         test: /\.ts$/,
         loader: 'tslint-loader',
         exclude: [
-          /node_modules/
+          root('node_modules')
+        ]
+      },
+      {
+        test: /\.js$/,
+        loader: "source-map-loader",
+        exclude: [
+          root('node_modules/rxjs')
         ]
       }
     ],
     loaders: [
+      // Support Angular 2 async routes via .async.ts
+      {
+        test: /\.async\.ts$/,
+        loaders: ['es6-promise-loader', 'ts-loader'],
+        exclude: [ /\.(spec|e2e)\.ts$/ ]
+      },
       // Support for .ts files.
       {
         test: /\.ts$/,
@@ -76,15 +91,9 @@ module.exports = {
           'compilerOptions': {
             'removeComments': true,
             'noEmitHelpers': true,
-          },
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 -> Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375  // 2375 -> Duplicate string index signature
-          ]
+          }
         },
-        exclude: [ /\.(spec|e2e)\.ts$/ ]
+        exclude: [ /\.(spec|e2e|async)\.ts$/ ]
       },
 
       // Support for *.json files.
@@ -94,7 +103,7 @@ module.exports = {
       { test: /\.css$/,   loader: 'raw-loader' },
 
       // support for .html as raw text
-      { test: /\.html$/,  loader: 'raw-loader' }
+      { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] }
 
       // if you add a loader include the file extension
     ]
@@ -105,9 +114,9 @@ module.exports = {
     new DedupePlugin(),
     new OccurenceOrderPlugin(true),
     new CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.[chunkhash].bundle.js',
-      minChunks: Infinity
+      name: 'polyfills',
+      filename: 'polyfills.[chunkhash].bundle.js',
+      chunks: Infinity
     }),
     // static assets
     new CopyWebpackPlugin([
@@ -117,9 +126,7 @@ module.exports = {
       }
     ]),
     // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html'
-    }),
+    new HtmlWebpackPlugin({ template: 'src/index.html' }),
     new DefinePlugin({
       // Environment helpers
       'process.env': {
@@ -134,20 +141,34 @@ module.exports = {
       '__awaiter': 'ts-helper/awaiter',
       '__extends': 'ts-helper/extends',
       '__param': 'ts-helper/param',
-      'Reflect': 'es7-reflect-metadata/dist/browser'
+      'Reflect': 'es7-reflect-metadata/src/global/browser'
     }),
     new UglifyJsPlugin({
-      // beautify: true,
-      // mangle: false,
-      comments: false,
-      compress : {
-        screw_ie8 : true
-      },
-      mangle: {
-        screw_ie8 : true
-      }
-    })
+      // to debug prod builds uncomment //debug lines and comment //prod lines
+
+      // beautify: true,//debug
+      // mangle: false,//debug
+      // dead_code: false,//debug
+      // unused: false,//debug
+      // deadCode: false,//debug
+      // compress : { screw_ie8 : true, keep_fnames: true, drop_debugger: false, dead_code: false, unused: false, }, // debug
+      // comments: true,//debug
+
+      beautify: false,//prod
+      // disable mangling because of a bug in angular2 beta.1, beta.2 and beta.3
+      // TODO(mastertinner): enable mangling as soon as angular2 beta.4 is out
+      // mangle: { screw_ie8 : true },//prod
+      mangle: false,
+      compress : { screw_ie8 : true},//prod
+      comments: false//prod
+
+    }),
    // include uglify in production
+    new CompressionPlugin({
+      algorithm: gzipMaxLevel,
+      regExp: /\.css$|\.html$|\.js$|\.map$/,
+      threshold: 2 * 1024
+    })
   ],
   // Other module loader config
   tslint: {
@@ -168,6 +189,9 @@ module.exports = {
 };
 
 // Helper functions
+function gzipMaxLevel(buffer, callback) {
+  return zlib['gzip'](buffer, {level: 9}, callback)
+}
 
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
@@ -177,4 +201,14 @@ function root(args) {
 function rootNode(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return root.apply(path, ['node_modules'].concat(args));
+}
+
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) { args = [args] }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }

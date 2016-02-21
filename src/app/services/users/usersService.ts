@@ -33,4 +33,8 @@ export class UserService {
     return this._http.get('http://localhost:3000/api/users/' + id + '/posts')
     .map(res => res.json());
   }
+  getUserComments(id: number | string) {
+    return this._http.get('http://localhost:3000/api/users/' + id + '/comments')
+    .map(res => res.json());
+  }
 }

@@ -15,33 +15,46 @@ var ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 module.exports = {
   resolve: {
     cache: false,
-    extensions: ['','.ts','.js','.json','.css','.html']
+    extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works
   },
   devtool: 'inline-source-map',
   module: {
+    preLoaders: [
+      {
+        test: /\.ts$/,
+        loader: 'tslint-loader',
+        exclude: [
+          root('node_modules')
+        ]
+      },
+      {
+        test: /\.js$/,
+        loader: "source-map-loader",
+        exclude: [
+          root('node_modules/rxjs')
+        ]
+      }
+    ],
     loaders: [
+      {
+        test: /\.async\.ts$/,
+        loaders: ['es6-promise-loader', 'ts-loader'],
+        exclude: [ /\.(spec|e2e)\.ts$/ ]
+      },
       {
         test: /\.ts$/,
         loader: 'ts-loader',
         query: {
-          // remove TypeScript helpers to be injected below by DefinePlugin
-          'compilerOptions': {
-            'removeComments': true,
-            'noEmitHelpers': true,
-          },
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375  // 2375 -> Duplicate string index signature
-          ]
+          "compilerOptions": {
+            "noEmitHelpers": true,
+            "removeComments": true,
+          }
         },
-        exclude: [ /\.e2e\.ts$/, /node_modules\/(?!(ng2-.+))/ ]
+        exclude: [ /\.e2e\.ts$/ ]
       },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.html$/, loader: 'raw-loader' },
-      { test: /\.css$/,  loader: 'raw-loader' },
-      { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
+      { test: /\.css$/,  loader: 'raw-loader' }
     ],
     postLoaders: [
       // instrument only testing sources with Istanbul
@@ -50,14 +63,14 @@ module.exports = {
         include: root('src'),
         loader: 'istanbul-instrumenter-loader',
         exclude: [
-          /\.e2e\.ts$/,
+          /\.(e2e|spec)\.ts$/,
           /node_modules/
         ]
       }
     ],
     noParse: [
-      /zone\.js\/dist\/.+/,
-      /angular2\/bundles\/.+/
+      root('zone.js/dist'),
+      root('angular2/bundles')
     ]
   },
   stats: { colors: true, reasons: true },
@@ -68,19 +81,16 @@ module.exports = {
       'process.env': {
         'ENV': JSON.stringify(ENV),
         'NODE_ENV': JSON.stringify(ENV)
-      },
-      'global': 'window',
-      // TypeScript helpers
-      //'__metadata': 'Reflect.metadata',
-      //'__decorate': 'Reflect.decorate'
+      }
     }),
     new ProvidePlugin({
+      // TypeScript helpers
       '__metadata': 'ts-helper/metadata',
       '__decorate': 'ts-helper/decorate',
       '__awaiter': 'ts-helper/awaiter',
       '__extends': 'ts-helper/extends',
       '__param': 'ts-helper/param',
-      'Reflect': 'es7-reflect-metadata/dist/browser'
+      'Reflect': 'es7-reflect-metadata/src/global/browser'
     })
   ],
     // we need this due to problems with es6-shim
@@ -104,4 +114,14 @@ function root(args) {
 function rootNode(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return root.apply(path, ['node_modules'].concat(args));
+}
+
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) { args = [args] }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }

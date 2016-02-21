@@ -2,11 +2,26 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmitHelpers": false,
     "sourceMap": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/main.d.ts",
+    "typings/main"
+  ],
+  "filesGlob": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "!./node_modules/**/*.ts",
+    "src/custom_typings.d.ts",
+    "typings/browser.d.ts"
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
   },
   "files": [
     "./src/app/account/confirm/confirm.spec.ts",
@@ -39,19 +54,10 @@
     "./src/app/services/posts/postsService.ts",
     "./src/app/services/users/usersService.ts",
     "./src/app/user/user.ts",
+    "./src/custom_typings.d.ts",
     "./src/main.ts",
-    "./src/vendor.ts",
-    "./test/injector.spec.ts",
-    "./test/sanity-test.spec.ts"
-  ],
-  "filesGlob": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "!./node_modules/**/*.ts"
-  ],
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": {
-    "rewriteTsconfig": true
-  }
+    "./src/polyfills.ts",
+    "src/custom_typings.d.ts",
+    "typings/browser.d.ts"
+  ]
 }

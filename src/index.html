@@ -2,12 +2,12 @@
 <html lang="">
 <head>
 
-  <title>{%= o.webpackConfig.metadata.title %}</title>
+  <title><%= webpackConfig.metadata.title %></title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{%= o.webpackConfig.metadata.description %}">
+  <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
   <!-- use http://www.favicon-generator.org/ to replace files in public/icon-->
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-icon-57x57.png">
@@ -30,12 +30,10 @@
   <!-- end favicon -->
 
   <!-- base url -->
-  <base href="{%= o.webpackConfig.metadata.baseUrl %}">
+  <base href="<%= webpackConfig.metadata.baseUrl %>">
 
-  {% for (var css in o.htmlWebpackPlugin.files.css) { %}
-  <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
-  {% } %}
 </head>
+
 <body>
 
   <app>
@@ -48,19 +46,15 @@
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    //ga('create', 'UA-71073175-1', 'auto');
+
+    ga('create', 'UA-71073175-1', 'auto');
     ga('send', 'pageview');
   </script>
 
-  {% if (o.webpackConfig.metadata.ENV === 'development') { %}
+  <% if (webpackConfig.metadata.ENV === 'development') { %>
   <!-- Webpack Dev Server reload -->
-  <script src="http://{%= o.webpackConfig.metadata.host %}:{%= o.webpackConfig.metadata.port %}/webpack-dev-server.js"></script>
-  {% } %}
-
-  <!-- Webpack HtmlWebpackPlugin manually inject scripts -->
-  {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-  <script src="{%= o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-  {% } %}
+  <script src="http://<%= webpackConfig.metadata.host %>:<%= webpackConfig.metadata.port %>/webpack-dev-server.js"></script>
+  <% } %>
 
 </body>
 </html>

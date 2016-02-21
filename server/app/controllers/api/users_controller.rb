@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :authenticate_with_token!, only: [:update, :destroy]
-  before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts]
+  before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts, :comments]
   wrap_parameters :user, include: [:username, :email, :password, :password_confirmation]
 
   # GET /users
@@ -68,6 +68,12 @@ class Api::UsersController < ApplicationController
     @posts = @user.posts
 
     render json: @posts, each_serializer: UserPostsSerializer
+  end
+
+  def comments
+    @comments = @user.comments
+
+    render json: @comments, each_serializer: UserCommentsSerializer
   end
 
   private
