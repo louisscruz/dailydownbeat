@@ -19,8 +19,8 @@ export class Navbar {
   private collapse: any;
   private logout: any;
   constructor(
-    private http: Http,
-    private router: Router,
+    private _http: Http,
+    private _router: Router,
     private _authService: AuthService) {
 
     this.toggleCollapse = function() {
@@ -35,11 +35,24 @@ export class Navbar {
         data => console.log(data),
         err => console.log(err),
         () => {
-          _authService.deleteJwt();
-          _authService.isAuth();
-          this.router.navigate(['Home']);
+          this._authService.deleteJwt();
+          this._authService.isAuth();
+          this._router.navigate(['Home']);
         }
       );
     };
+  }
+  isLoggedIn() {
+    return this._authService.isAuth();
+  }
+  username() {
+    return this._authService.username;
+  }
+  addPost() {
+    if (this.isLoggedIn()) {
+      this._router.navigate(['AddPost']);
+    } else {
+      this._router.navigate(['Login']);
+    }
   }
 }

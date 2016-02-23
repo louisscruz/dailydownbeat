@@ -71,7 +71,7 @@ export class Login {
           });
         },
         () => {
-          this._authService.isAuth();
+          this.isLoggedIn = this._authService.isAuth();
           this._authService.loggedIn = true;
           this._router.navigate(['Home']);
         }

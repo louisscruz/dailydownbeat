@@ -31,4 +31,6 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_equal body.length, @remainder
   end
+
+  # Test that only confirmed accounts can create posts
 end

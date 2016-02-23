@@ -19,7 +19,7 @@ if ('production' === process.env.ENV) {
  * our top level component that holds all of our components
  */
 import {App} from './app/app';
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function main() {
         noJwtError: true
       })
     }),
-    AuthHttp
+    AuthHttp,
+    JwtHelper
   ])
   .catch(err => console.error(err));
 
@@ -77,7 +78,8 @@ if (module.hot) {
           noJwtError: true
         })
       }),
-      AuthHttp
+      AuthHttp,
+      JwtHelper
     ])
     .catch(err => console.error(err));
 

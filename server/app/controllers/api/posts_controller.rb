@@ -6,7 +6,6 @@ class Api::PostsController < ApplicationController
   # GET /posts
   def index
     ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
-    #ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
     @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
     #response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     #response.headers['X-Total-Count'] = 10
@@ -16,7 +15,6 @@ class Api::PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    p @post.comments
     render json: @post
   end
 
@@ -25,7 +23,7 @@ class Api::PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: @post, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -53,6 +51,6 @@ class Api::PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:title, :comments)
+      params.require(:post).permit(:title, :url, :user_id)
     end
 end

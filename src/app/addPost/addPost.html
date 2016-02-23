@@ -1,0 +1,40 @@
+<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+  <h1 class="text-xs-center">Add a Post</h1>
+  <form [ngFormModel]="addPostForm" (ngSubmit)="addPost()">
+    <fieldset class="form-group">
+      <div>
+        <label class="form-control-label">Type of Post:</label>
+      </div>
+      <div class="btn-group">
+        <label class="btn btn-success" [(ngModel)]="type" btnRadio="Post">Post</label>
+        <label class="btn btn-success" [(ngModel)]="type" btnRadio="Ask DD">Ask</label>
+        <label class="btn btn-success" [(ngModel)]="type" btnRadio="Show DD">Show</label>
+        <label class="btn btn-success" [(ngModel)]="type" btnRadio="Job">Job</label>
+      </div>
+      <p class="card card-block" *ngIf="type === 'Post'">Regular posts are for sharing links with the Daily Downbeat community.</p>
+      <p class="card card-block" *ngIf="type === 'Ask DD'">Ask posts are for questions you would like to propose directly to the Daily Downbeat community.</p>
+      <p class="card card-block" *ngIf="type === 'Show DD'">Show posts are for promoting and sharing content (e.g. compositions, performances) with the Daily Downbeat community.</p>
+      <p class="card card-block" *ngIf="type === 'Job'">Job posts are for sharing employment postings with the Daily Downbeat community.</p>
+    </fieldset>
+    <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
+      <label for="titleInput" class="form-control-label">Title</label>
+      <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [ngFormControl]="addPostForm.controls['title']" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid">
+      <div class="input-group" *ngIf="type !== 'Post'">
+        <div class="input-group-addon">{{type}}:</div>
+        <input type="text" id="titleInput" placeholder="Title" [ngFormControl]="addPostForm.controls['title']" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid">
+      </div>
+      <div *ngIf="title.touched">
+        <div *ngIf="title.hasError('required')" class="text-help">Title Required</div>
+      </div>
+    </fieldset>
+    <fieldset class="form-group" [class.has-success]="url.valid && url.touched" [class.has-danger]="!url.valid && url.touched">
+      <label for="urlInput" class="form-control-label">Link</label>
+      <input type="url" id="urlInput" placeholder="Link" [ngFormControl]="addPostForm.controls['url']" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid">
+      <div *ngIf="url.touched">
+        <div *ngIf="url.hasError('required')" class="text-help">Link Required</div>
+        <div *ngIf="url.hasError('invalidUrl')" class="text-help">Link Invalid</div>
+      </div>
+    </fieldset>
+    <button type="submit" [disabled]="!addPostForm.valid" class="btn btn-block btn-primary">Add Post</button>
+  </form>
+</div>

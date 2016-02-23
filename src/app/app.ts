@@ -14,6 +14,7 @@ import {Login} from './account/login/login';
 import {Signup} from './account/signup/signup';
 import {Confirm} from './account/confirm/confirm';
 import {PostDetail} from './post/post';
+import {AddPost} from './addPost/addPost';
 import {UserDetail} from './user/user';
 
 /*
@@ -46,13 +47,13 @@ import {UserDetail} from './user/user';
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
   { path: '/login', component: Login, name: 'Login' },
-  { path: '/signup', component: Signup, name: 'Signup'},
-  { path: '/post/:id', component: PostDetail, name: 'PostDetail'},
-  { path: '/user/:id', component: UserDetail, name: 'UserDetail'},
-  { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm'}
+  { path: '/signup', component: Signup, name: 'Signup' },
+  { path: '/post/:id', component: PostDetail, name: 'PostDetail' },
+  { path: '/add', component: AddPost, name: 'AddPost' },
+  { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
+  { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' }
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
-  constructor() {
-  }
+  constructor() {}
 }

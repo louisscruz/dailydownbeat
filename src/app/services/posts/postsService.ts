@@ -19,18 +19,8 @@ export class PostService {
     .map((posts: Array<any>) => {
       let result: Array<Post> = [];
       if (posts) {
-        posts.forEach((post) => {
-          result.push(
-            new Post(
-              post.id,
-              post.title,
-              post.url,
-              post.created_at,
-              post.user,
-              post.comment_count,
-              post.points
-            )
-          );
+        posts.forEach((post: Post) => {
+          result.push(post);
         });
       }
       return result;
@@ -43,5 +33,16 @@ export class PostService {
   getPostComments(id: number | string) {
     return this.http.get('http://localhost:3000/api/posts/' + id + '/comments')
     .map(res => res.json());
+  }
+  addPost(post: any) {
+    console.log(post)
+    let token = localStorage.getItem('auth_token');
+    let header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+    return this.http.post('http://localhost:3000/api/posts/', JSON.stringify(post), {
+      headers: header
+    })
+    .map(res => res.json())
   }
 }

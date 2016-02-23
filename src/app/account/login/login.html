@@ -1,5 +1,5 @@
 <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-  <h1>Login</h1>
+  <h1 class="text-sm-center">Login</h1>
   <form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)">
     <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
       <label for="emailInput" class="form-control-label">Email</label>
@@ -14,7 +14,6 @@
       <input type="password" id="passwordInput" placeholder="Password" [ngFormControl]="loginForm.controls['password']" class="form-control" [class.form-control-success]="password.valid" [class.form-control-danger]="!password.valid">
       <div *ngIf="password.touched">
         <div *ngIf="password.hasError('required')" class="text-help">Password Required</div>
-        <div *ngIf="password.hasError('passwordLengthInvalid')" class="text-help">Password Must Be a Minimum of 6 Characters</div>
       </div>
     </fieldset>
     <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>

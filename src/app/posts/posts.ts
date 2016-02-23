@@ -5,6 +5,8 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {PAGINATION_DIRECTIVES, Pagination} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {PostService} from '../services/posts/postsService';
+import {AuthService} from '../services/auth/authService';
+
 import {Post} from '../datatypes/post/post';
 
 import {TimeSincePipe} from '../pipes/timeSince.ts';
@@ -14,7 +16,7 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
   template: require('./posts.html'),
   directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
   pipes: [TimeSincePipe],
-  providers: [PostService, HTTP_PROVIDERS]
+  providers: [PostService, AuthService, HTTP_PROVIDERS]
 })
 
 export class Posts implements OnInit {
@@ -25,7 +27,9 @@ export class Posts implements OnInit {
   private pageOffset: number = 0;
   private perPage: number = 30;
 
-  constructor(private _router: Router, private _postService: PostService) { }
+  constructor(private _router: Router,
+              private _postService: PostService,
+              private _authService: AuthService) {}
 
   setPageOffset(currentPage) {
     this.pageOffset = ((this.currentPage - 1) * this.perPage);
@@ -49,5 +53,8 @@ export class Posts implements OnInit {
   }
   onSelectUser(id: number) {
     this._router.navigate( ['UserDetail', { id: id }]);
+  }
+  username() {
+    return this._authService.username;
   }
 }

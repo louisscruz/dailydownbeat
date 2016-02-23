@@ -1,7 +1,7 @@
 import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 import {Injectable, OnInit} from 'angular2/core';
-import {AuthHttp, tokenNotExpired} from 'angular2-jwt';
+import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';
 
@@ -9,12 +9,13 @@ import {User} from '../../datatypes/user/user';
 export class AuthService {
   public loggedIn: boolean;
   public token: string;
+  public userId: number;
+  public username: string;
   constructor(
     private http: Http,
     private router: Router,
-    private authHttp: AuthHttp) {
-      this.isAuth();
-    }
+    private authHttp: AuthHttp,
+    private _jwtHelper: JwtHelper) { }
   saveJwt(jwt) {
     localStorage.setItem('auth_token', jwt);
     this.token = localStorage.getItem('auth_token');
@@ -26,6 +27,10 @@ export class AuthService {
   isAuth(): boolean {
     let token = localStorage.getItem('auth_token');
     this.loggedIn = tokenNotExpired(null, token);
+    if (token) {
+      this.userId = this._jwtHelper.decodeToken(token).id;
+      this.username = this._jwtHelper.decodeToken(token).username;
+    }
     return this.loggedIn;
   }
   login(user) {
@@ -45,5 +50,10 @@ export class AuthService {
     return this.authHttp.delete('http://localhost:3000/api/logout', {
       headers: header
     });
+  }
+  getUserId() {
+    let token = localStorage.getItem('auth_token');
+    this.userId = this._jwtHelper.decodeToken(token).id;
+    return this.userId;
   }
 }

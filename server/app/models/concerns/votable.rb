@@ -10,7 +10,7 @@ module Votable
   end
 
   def ranking
-    age_in_minutes = ((Time.now - self.created_at) / 1.minute).round
-    rank = self.points.to_f / (age_in_minutes ** 2.5)
+    age_in_hours = ((Time.now - self.created_at) / 1.hour).round
+    rank = (self.points.to_f + 1) / ((age_in_hours + 2) ** 1.8)
   end
 end

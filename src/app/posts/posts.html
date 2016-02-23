@@ -1,36 +1,19 @@
 <div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <!--table cellpadding="1" cellspacing="0">
-    <tbody>
-      <tr>
-        <td>{{i + 1 + pageOffset}}.</td>
-        <td>
-          <table border="0" cellpadding="0" cellspacing="0">
-            <tbody>
-              <td>{{post.vote_count}}</td>
-              <td><a href="{{post.url}}" target="_blank">{{post.title}}</a></td>
-              <td>{{post.created_at | timeSince}}</td>
-              <td><a (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</a></td>
-              <td><small (click)="onSelectPost(post.id)">comments {{post.comments}}</small></td>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table-->
   <table>
+    <!-- change post.user to post.username and post.user_id -->
     <template ngFor #post [ngForOf]="posts" #i="index">
-      <tr>
+      <tr [class.self]="username() === post.user[0].username">
         <th rowspan="2">{{i + 1 + pageOffset}}.</th>
         <th rowspan="2">
           <div>
             <div>
-              arrow
+              ^
             </div>
             <div>
             {{post.points}}
             </div>
             <div>
-              arrow
+              v
             </div>
           </div>
         </th>
@@ -43,6 +26,4 @@
       </tr>
     </template>
   </table>
-
-  <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)"></pagination>
 </div>

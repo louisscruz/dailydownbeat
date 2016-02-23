@@ -1,5 +1,5 @@
 <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-  <h1>Sign Up</h1>
+  <h1 class="text-sm-center">Sign Up</h1>
   <form [ngFormModel]="signupForm" (submit)="userSerivce.postUser(signupForm.value)">
     <fieldset class="form-group" [class.has-success]="signupForm.find('username').valid && signupForm.find('username').touched" [class.has-danger]="!signupForm.find('username').valid && signupForm.find('username').touched">
       <label for="username" class="form-control-label">Username</label>
