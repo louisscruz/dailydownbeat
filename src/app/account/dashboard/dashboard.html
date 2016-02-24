@@ -1,0 +1,38 @@
+<div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+  <h1 class="text-sm-center">{{user.username}}</h1>
+  <h3 class="text-xs-center">Manage Account</h3>
+  <!--tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+    <tab *ngFor="#t of tabset" [heading]="t.header">{{t.content}}</tab>
+  </tabset-->
+  <!--tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+    <tab heading="Bio">
+      <p>{{user.bio}}</p>
+    </tab>
+    <tab heading="Posts">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="#post of posts">{{post.title}}</li>
+        </ul>
+      </div>
+    </tab>
+    <tab heading="Comments">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="#comment of comments">{{comment}}: {{comment.body}}</li>
+        </ul>
+      </div>
+    </tab>
+  </tabset-->
+  <tabset>
+    <tab heading="Activity">
+      Edit
+    </tab>
+    <tab heading="Account Details">
+      {{user | json}}
+      <div class="card text-xs-center">
+        email: {{user.email}}
+        <button class="btn btn-success">Edit</button>
+      </div>
+    </tab>
+  </tabset>
+</div>

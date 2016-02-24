@@ -1,9 +1,6 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :commentable_type, :commentable_id, :created_at
-  has_one :user do
-    [username: object.user.username, user_id: object.user.id]
-  end
-  has_one :vote_count do
-    object.vote_total
+  attributes :id, :body, :commentable_type, :commentable_id, :user, :created_at
+  def user
+    { id: object.user.id, username: object.user.username }
   end
 end

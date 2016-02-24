@@ -2,7 +2,7 @@
   <table>
     <!-- change post.user to post.username and post.user_id -->
     <template ngFor #post [ngForOf]="posts" #i="index">
-      <tr [class.self]="username() === post.user[0].username">
+      <tr>
         <th rowspan="2">{{i + 1 + pageOffset}}.</th>
         <th rowspan="2">
           <div>
@@ -20,7 +20,7 @@
         <th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
       </tr>
       <tr>
-        <td>{{post.created_at | timeSince}} by <a (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</a> <small (click)="onSelectPost(post.id)"><a>{{post.comment_count}} comments</a></small></td>
+        <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> <small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
         <td></td>
         <td></td>
       </tr>

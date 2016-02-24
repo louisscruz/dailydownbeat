@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Router, RouterLink} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {PAGINATION_DIRECTIVES, Pagination} from 'ng2-bootstrap/ng2-bootstrap';
@@ -14,7 +14,7 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
+  directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
   providers: [PostService, AuthService, HTTP_PROVIDERS]
 })
@@ -50,9 +50,6 @@ export class Posts implements OnInit {
   }
   onSelectPost(id: number) {
     this._router.navigate( ['PostDetail', { id: id }]);
-  }
-  onSelectUser(id: number) {
-    this._router.navigate( ['UserDetail', { id: id }]);
   }
   username() {
     return this._authService.username;

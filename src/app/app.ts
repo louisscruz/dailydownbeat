@@ -16,6 +16,7 @@ import {Confirm} from './account/confirm/confirm';
 import {PostDetail} from './post/post';
 import {AddPost} from './addPost/addPost';
 import {UserDetail} from './user/user';
+import {Dashboard} from './account/dashboard/dashboard';
 
 /*
  * App Component
@@ -51,7 +52,8 @@ import {UserDetail} from './user/user';
   { path: '/post/:id', component: PostDetail, name: 'PostDetail' },
   { path: '/add', component: AddPost, name: 'AddPost' },
   { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
-  { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' }
+  { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' },
+  { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'}
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App {

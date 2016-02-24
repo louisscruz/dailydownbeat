@@ -1,6 +1,6 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url, :points, :comment_count, :created_at
-  has_one :user do
-    [username: object.user.username, user_id: object.user.id]
+  attributes :id, :title, :url, :user, :points, :comment_count, :created_at
+  def user
+    { id: object.user.id, username: object.user.username }
   end
 end

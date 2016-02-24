@@ -1,11 +1,12 @@
 import {Component, OnInit} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Router, RouteParams, RouterLink} from 'angular2/router';
 
 import {Post} from '../datatypes/post/post';
 import {PostService} from '../services/posts/postsService';
 
 @Component({
   selector: 'postDetail',
+  directives: [RouterLink],
   template: require('./post.html'),
   providers: [PostService]
 })

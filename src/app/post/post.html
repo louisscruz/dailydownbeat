@@ -1,10 +1,16 @@
-<div *ngIf="post">
-  <a href="{{post.url}}">{{post.title}}</a>
-  <small (click)="onSelectUser(post.user[0].user_id)">{{post.user[0].username}}</small>
+<div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" *ngIf="post">
+  <h5 class="text-sm-center">
+    <a href="{{post.url}}">{{post.title}}</a>
+  </h5>
+  <div class="text-xs-center">
+    <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a></small>
+  </div>
   <ul>
-    <li *ngFor="#comment of comments">
-      {{comment.body}}
-      <a (click)="onSelectUser(comment.user[0].user_id)">{{comment.user[0].username}}</a>
+    <li *ngFor="#comment of comments" class="card card-block">
+      <p>{{comment.body}}</p>
+      <p>
+        <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
+      </p>
     </li>
   </ul>
 </div>

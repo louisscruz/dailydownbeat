@@ -26,6 +26,8 @@
   "files": [
     "./src/app/account/confirm/confirm.spec.ts",
     "./src/app/account/confirm/confirm.ts",
+    "./src/app/account/dashboard/dashboard.spec.ts",
+    "./src/app/account/dashboard/dashboard.ts",
     "./src/app/account/login/login.spec.ts",
     "./src/app/account/login/login.ts",
     "./src/app/account/signup/signup.spec.ts",
@@ -52,8 +54,6 @@
     "./src/app/post/post.ts",
     "./src/app/posts/posts.spec.ts",
     "./src/app/posts/posts.ts",
-    "./src/app/profile/profile.spec.ts",
-    "./src/app/profile/profile.ts",
     "./src/app/services/alerts/alertsService.ts",
     "./src/app/services/auth/authService.ts",
     "./src/app/services/posts/postsService.ts",

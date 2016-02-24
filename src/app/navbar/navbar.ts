@@ -1,14 +1,14 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, ConnectionBackend} from 'angular2/http';
-import {Collapse} from 'ng2-bootstrap/ng2-bootstrap';
+import {Collapse, DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AuthService} from '../services/auth/authService';
 import {AlertService} from '../services/alerts/alertsService';
 
 @Component({
   selector: 'navbar',
-  directives: [ROUTER_DIRECTIVES, Collapse],
+  directives: [ROUTER_DIRECTIVES, Collapse, DROPDOWN_DIRECTIVES],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
   providers: [Http, ConnectionBackend, HTTP_PROVIDERS, AuthService]
@@ -47,6 +47,9 @@ export class Navbar {
   }
   username() {
     return this._authService.username;
+  }
+  userId() {
+    return this._authService.userId;
   }
   addPost() {
     if (this.isLoggedIn()) {
