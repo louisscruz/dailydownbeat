@@ -6,14 +6,15 @@
   .navbar-brand {
     font-family: Arial, Helvetica, sans-serif;
     color: $primary;
-    font-weight: 700;
+    font-weight: 800;
     img {
-      height: 50px;
+      height: 40px;
     }
   }
   .nav-item {
     a {
       cursor: pointer;
+      font-weight: 400;
     }
   }
   .pull-right {
@@ -133,5 +134,12 @@
         transition: opacity $animation-duration ease $animation-duration;
       }
     }
+  }
+}
+
+@media (min-width: 48em) {
+  .navbar {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

@@ -1,37 +1,73 @@
 <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
   <h1 class="text-sm-center">{{user.username}}</h1>
   <h3 class="text-xs-center">Manage Account</h3>
-  <!--tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-    <tab *ngFor="#t of tabset" [heading]="t.header">{{t.content}}</tab>
-  </tabset-->
-  <!--tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-    <tab heading="Bio">
-      <p>{{user.bio}}</p>
-    </tab>
-    <tab heading="Posts">
-      <div class="card">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="#post of posts">{{post.title}}</li>
-        </ul>
-      </div>
-    </tab>
-    <tab heading="Comments">
-      <div class="card">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="#comment of comments">{{comment}}: {{comment.body}}</li>
-        </ul>
-      </div>
-    </tab>
-  </tabset-->
   <tabset>
-    <tab heading="Activity">
+    <tab heading="Activity" (select)="removeEditStatus()">
       Edit
     </tab>
-    <tab heading="Account Details">
-      {{user | json}}
-      <div class="card text-xs-center">
-        email: {{user.email}}
-        <button class="btn btn-success">Edit</button>
+    <tab heading="Account Details" (select)="removeEditStatus()">
+      <div class="card card-block text-xs-center">
+        <div *ngIf="editing !== 'email'">
+          <h5>Email:</h5>
+          <p>{{user.email}}</p>
+          <button class="btn btn-success" (click)="editing = 'email'">Change Email</button>
+        </div>
+        <div *ngIf="editing === 'email'">
+          <h5>Update Email</h5>
+          <form [ngFormModel]="emailForm" (ngSubmit)="updateEmail()">
+            <fieldset class="form-group" [class.has-success]="newEmail.valid && newEmail.touched" [class.has-danger]="!newEmail.valid && newEmail.touched">
+              <label for="newEmailInput" class="form-control-label">New Email</label>
+              <input type="password" id="newEmailInput" placeholder="New Password" [ngFormControl]="emailForm.controls['newEmail']" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid">
+              <div *ngIf="newEmail.touched">
+                <div *ngIf="newEmail.hasError('required')" class="text-help">New Email Required</div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group" [class.has-success]="newEmailConfirm.valid && newEmailConfirm.touched" [class.has-danger]="!newEmailConfirm.valid && newEmailConfirm.touched">
+              <label for="newEmailConfirm" class="form-control-label">New Email Confirmation</label>
+              <input type="password" id="newEmailConfirm" placeholder="New Password Confirmation" [ngFormControl]="emailForm.controls['newEmailConfirm']" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid">
+              <div *ngIf="newEmailConfirm.touched">
+                <div *ngIf="newEmailConfirm.hasError('required')" class="text-help">Confirmation Required</div>
+              </div>
+            </fieldset>
+            <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Password</button>
+            <button type="reset" class="btn btn-secondary" (click)="removeEditStatus()">Cancel</button>
+          </form>
+        </div>
+      </div>
+      <div class="card card-block text-xs-center">
+        <div *ngIf="editing !== 'password'">
+          <h5>Password:</h5>
+          <button class="btn btn-success" (click)="editing = 'password'">Change Password</button>
+        </div>
+        <div *ngIf="editing === 'password'">
+          <!-- TODO: reset form values and set pristine on 'editing' change! -->
+          <h5>Update Password</h5>
+          <form [ngFormModel]="passwordForm" (ngSubmit)="updatePassword()">
+            <fieldset class="form-group" [class.has-success]="oldPassword.valid && oldPassword.touched" [class.has-danger]="!oldPassword.valid && oldPassword.touched">
+              <label for="oldPasswordInput" class="form-control-label">Old Password</label>
+              <input type="password" id="oldPasswordInput" placeholder="Old Password" [ngFormControl]="passwordForm.controls['oldPassword']" class="form-control" [class.form-control-success]="oldPassword.valid" [class.form-control-danger]="!oldPassword.valid">
+              <div *ngIf="oldPassword.touched">
+                <div *ngIf="oldPassword.hasError('required')" class="text-help">Old Password Required</div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group" [class.has-success]="newPassword.valid && newPassword.touched" [class.has-danger]="!newPassword.valid && newPassword.touched">
+              <label for="newPasswordInput" class="form-control-label">New Password</label>
+              <input type="password" id="newPasswordInput" placeholder="New Password" [ngFormControl]="passwordForm.controls['newPassword']" class="form-control" [class.form-control-success]="newPassword.valid" [class.form-control-danger]="!newPassword.valid">
+              <div *ngIf="newPassword.touched">
+                <div *ngIf="newPassword.hasError('required')" class="text-help">New Password Required</div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group" [class.has-success]="newPasswordConfirm.valid && newPasswordConfirm.touched" [class.has-danger]="!newPasswordConfirm.valid && newPasswordConfirm.touched">
+              <label for="newPasswordConfirm" class="form-control-label">New Password Confirmation</label>
+              <input type="password" id="newPasswordConfirm" placeholder="New Password Confirmation" [ngFormControl]="passwordForm.controls['newPasswordConfirm']" class="form-control" [class.form-control-success]="newPasswordConfirm.valid" [class.form-control-danger]="!newPasswordConfirm.valid">
+              <div *ngIf="newPasswordConfirm.touched">
+                <div *ngIf="newPasswordConfirm.hasError('required')" class="text-help">Confirmation Required</div>
+              </div>
+            </fieldset>
+            <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">Update Password</button>
+            <button type="reset" class="btn btn-secondary" (click)="removeEditStatus()">Cancel</button>
+          </form>
+        </div>
       </div>
     </tab>
   </tabset>

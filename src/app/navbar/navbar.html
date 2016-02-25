@@ -1,5 +1,6 @@
 <nav class="navbar navbar-full navbar-fixed-top navbar-light">
-  <!--a class="navbar-brand" [routerLink]=" ['Home'] "><img src="assets/img/dailydownbeat.svg"></a-->
+  <div class="container">
+  <a class="navbar-brand" [routerLink]=" ['Home'] "><img src="assets/img/dailydownbeat_icon.svg"></a>
   <div>
     <ul class="nav navbar-nav hidden-sm-down">
       <li class="nav-item">
@@ -25,18 +26,29 @@
     </button>
   </div>
   <div class="pull-xs-right hidden-sm-down">
-    <ul class="nav navbar-nav">
-      <li class="nav-item" *ngIf="isLoggedIn()">
-        <a class="nav-link" [routerLink]=" ['Dashboard', {id: userId()}] ">{{username()}}</a>
-      </li>
-    </ul>
+    <div dropdown (on-toggle)="toggled($event)" *ngIf="isLoggedIn()">
+      <ul class="nav navbar-nav">
+        <a href id="account-dropdown" class="nav-link" dropdownToggle>
+          {{username()}}
+        </a>
+      </ul>
+      <ul class="dropdown-menu" aria-labelledby="account-dropdown">
+        <li>
+          <a class="dropdown-item" [routerLink]="['UserDetail', {id: userId()}]">Profile</a>
+        </li>
+        <li>
+          <a class="dropdown-item" [routerLink]="['Dashboard', {id: userId()}]">Account</a>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="pull-xs-right hidden-sm-down">
+  <!--div class="pull-xs-right hidden-sm-down">
     <button class="btn btn-success" (click)="addPost()">Add Post</button>
   </div>
   <div class="pull-xs-right hidden-md-up">
     <button class="btn btn-success" (click)="addPost()">+</button>
-  </div>
+  </div-->
+</div>
 </nav>
 <div class="fs-menu hidden-md-up" [class.collapsed]="!isCollapsed">
   <div>

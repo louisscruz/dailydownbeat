@@ -33,7 +33,7 @@ import {Dashboard} from './account/dashboard/dashboard';
     </header>
     <alerts></alerts>
 
-    <main>
+    <main class="container">
       <router-outlet></router-outlet>
     </main>
 

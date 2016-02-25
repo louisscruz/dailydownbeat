@@ -45,6 +45,7 @@ export class AuthService {
   logout() {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
+    console.log(token);
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     return this.authHttp.delete('http://localhost:3000/api/logout', {

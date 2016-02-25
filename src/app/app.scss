@@ -6,9 +6,19 @@
 * {
   font-family: 'Open Sans', sans-serif;
 }
+html {
+  //-webkit-font-smoothing: antialiased;
+  //-webkit-backface-visibility: hidden;
+}
 main {
   margin-top: 60px;
   //min-height: 100vh;
   padding: 1em;
   width: 100%;
 }
+//@media only screen and (-webkit-min-device-pixel-ratio: 1.25),
+//only screen and ( min-device-pixel-ratio: 1.25),
+//only screen and ( min-resolution: 200dpi),
+//only screen and ( min-resolution: 1.25dppx) {
+//  -webkit-font-smoothing: subpixel-antialiased;
+//}

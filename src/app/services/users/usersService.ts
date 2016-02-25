@@ -37,4 +37,12 @@ export class UserService {
     return this._http.get('http://localhost:3000/api/users/' + id + '/comments')
     .map(res => res.json());
   }
+  updateEmailAddress(id: number, newEmail) {
+    return this._http.get('http://localhost:3000/api/users/' + id + '/update_email', newEmail)
+    .map(res =>res.json());
+  }
+  updatePassword(id: number, oldPassword, newPassword) {
+    return this._http.get('http://localhost:3000/api/users/' + id + '/update_password', [oldPassword, newPassword])
+    .map(res => res.json());
+  }
 }
