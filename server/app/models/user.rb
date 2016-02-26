@@ -3,6 +3,7 @@ require 'json_web_token'
 class User < ApplicationRecord
   before_save { email.downcase! }
   before_create :generate_authentication_token!
+  before_update :reset_confirmed!, :if => :email_changed?
   has_secure_password
   has_many :posts
   has_many :comments
@@ -21,5 +22,9 @@ class User < ApplicationRecord
 
   def destroy_token!
     self.auth_token = nil
+  end
+
+  def reset_confirmed!
+    self.confirmed = false
   end
 end

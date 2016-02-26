@@ -41,4 +41,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_not_equal @user.auth_token, old_auth
   end
+
+  test "updated password should result in need for reconfirmation" do
+    assert_not @user.confirmed
+    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
+    @user.reload
+    assert @user.confirmed
+    @user.email = "new@address.com"
+    @user.save
+    @user.reload
+    assert_not @user.confirmed
+  end
 end

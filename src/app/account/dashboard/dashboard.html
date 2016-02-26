@@ -19,14 +19,14 @@
               <label for="newEmailInput" class="form-control-label">New Email</label>
               <input type="password" id="newEmailInput" placeholder="New Password" [ngFormControl]="emailForm.controls['newEmail']" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid">
               <div *ngIf="newEmail.touched">
-                <div *ngIf="newEmail.hasError('required')" class="text-help">New Email Required</div>
+                <div *ngIf="newEmail.hasError('required')" class="text-help">New email required</div>
               </div>
             </fieldset>
             <fieldset class="form-group" [class.has-success]="newEmailConfirm.valid && newEmailConfirm.touched" [class.has-danger]="!newEmailConfirm.valid && newEmailConfirm.touched">
               <label for="newEmailConfirm" class="form-control-label">New Email Confirmation</label>
               <input type="password" id="newEmailConfirm" placeholder="New Password Confirmation" [ngFormControl]="emailForm.controls['newEmailConfirm']" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid">
               <div *ngIf="newEmailConfirm.touched">
-                <div *ngIf="newEmailConfirm.hasError('required')" class="text-help">Confirmation Required</div>
+                <div *ngIf="newEmailConfirm.hasError('required')" class="text-help">Confirmation required</div>
               </div>
             </fieldset>
             <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Password</button>
@@ -47,21 +47,24 @@
               <label for="oldPasswordInput" class="form-control-label">Old Password</label>
               <input type="password" id="oldPasswordInput" placeholder="Old Password" [ngFormControl]="passwordForm.controls['oldPassword']" class="form-control" [class.form-control-success]="oldPassword.valid" [class.form-control-danger]="!oldPassword.valid">
               <div *ngIf="oldPassword.touched">
-                <div *ngIf="oldPassword.hasError('required')" class="text-help">Old Password Required</div>
+                <div *ngIf="oldPassword.hasError('required')" class="text-help">Old password required</div>
               </div>
             </fieldset>
             <fieldset class="form-group" [class.has-success]="newPassword.valid && newPassword.touched" [class.has-danger]="!newPassword.valid && newPassword.touched">
               <label for="newPasswordInput" class="form-control-label">New Password</label>
               <input type="password" id="newPasswordInput" placeholder="New Password" [ngFormControl]="passwordForm.controls['newPassword']" class="form-control" [class.form-control-success]="newPassword.valid" [class.form-control-danger]="!newPassword.valid">
               <div *ngIf="newPassword.touched">
-                <div *ngIf="newPassword.hasError('required')" class="text-help">New Password Required</div>
+                <div *ngIf="newPassword.hasError('required')" class="text-help">New password required</div>
+                <div *ngIf="newPassword.hasError('minlength')" class="text-help">Must be at least 8 characters</div>
               </div>
             </fieldset>
             <fieldset class="form-group" [class.has-success]="newPasswordConfirm.valid && newPasswordConfirm.touched" [class.has-danger]="!newPasswordConfirm.valid && newPasswordConfirm.touched">
-              <label for="newPasswordConfirm" class="form-control-label">New Password Confirmation</label>
+              <label for="newPasswordConfirm" class="form-control-label">New password confirmation</label>
               <input type="password" id="newPasswordConfirm" placeholder="New Password Confirmation" [ngFormControl]="passwordForm.controls['newPasswordConfirm']" class="form-control" [class.form-control-success]="newPasswordConfirm.valid" [class.form-control-danger]="!newPasswordConfirm.valid">
               <div *ngIf="newPasswordConfirm.touched">
-                <div *ngIf="newPasswordConfirm.hasError('required')" class="text-help">Confirmation Required</div>
+                <div *ngIf="newPasswordConfirm.hasError('required')" class="text-help">Confirmation required</div>
+                <div *ngIf="newPasswordConfirm.hasError('notEquivalent')" class="text-help">Confirmation does not match</div>
+                <div *ngIf="newPasswordConfirm.hasError('minlength')" class="text-help">Must be at least 8 characters</div>
               </div>
             </fieldset>
             <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">Update Password</button>

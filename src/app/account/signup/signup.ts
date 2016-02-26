@@ -1,6 +1,7 @@
 import {Component} from 'angular2/core';
 import {
   FORM_DIRECTIVES,
+  FORM_BINDINGS,
   FormBuilder,
   ControlGroup,
   Control,
@@ -32,16 +33,21 @@ export class Signup {
     fb: FormBuilder,
     private authService: AuthService,
     http: Http,
-    router: Router) {
+    router: Router
+  ) {
+    // TODO: refactor form validators to be global
     function emailValidator(control: Control): { [s: string]: boolean } {
       if (!control.value.match(/.+@.+\..+/i)) {
         return {invalidEmail: true};
       }
     }
-    function confirmationEquivalent(control: Control): { [s: string]: boolean } {
-      if (control.value !== 'test') {
-        //console.log(control);
-        return {notEquivalent: true};
+    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string) {
+      return (group: ControlGroup) => {
+        let passwordInput = group.controls[passwordKey];
+        let passwordConfirmationInput = group.controls[passwordConfirmationKey];
+        if (passwordInput.value !== passwordConfirmationInput.value) {
+          return passwordConfirmationInput.setErrors({notEquivalent: true})
+        }
       }
     }
     this.signupForm = fb.group({
@@ -50,8 +56,8 @@ export class Signup {
         Validators.required, emailValidator])],
       'password': ['', Validators.required],
       'password_confirmation': ['', Validators.compose([
-        Validators.required, confirmationEquivalent])]
-    });
+        Validators.required])]
+    }, {validator: confirmationEquivalent('password', 'password_confirmation')});
     this.username = this.signupForm.controls['username'];
     this.email = this.signupForm.controls['email'];
     this.password = this.signupForm.controls['password'];

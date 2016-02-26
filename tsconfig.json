@@ -58,6 +58,7 @@
     "./src/app/services/auth/authService.ts",
     "./src/app/services/posts/postsService.ts",
     "./src/app/services/users/usersService.ts",
+    "./src/app/services/validators/validatorsservice.ts",
     "./src/app/user/user.ts",
     "./src/custom_typings.d.ts",
     "./src/main.ts",

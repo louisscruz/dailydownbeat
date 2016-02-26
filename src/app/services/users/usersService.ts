@@ -3,11 +3,15 @@ import {Router} from 'angular2/router';
 import {Injectable} from 'angular2/core';
 import {User} from '../../datatypes/user/user';
 
+import {JwtHelper} from 'angular2-jwt';
+
 @Injectable()
 export class UserService {
   constructor(
     private _http: Http,
-    private _router: Router) { }
+    private _router: Router,
+    private _jwtHelper: JwtHelper
+  ) { }
   postUser(user) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -41,8 +45,15 @@ export class UserService {
     return this._http.get('http://localhost:3000/api/users/' + id + '/update_email', newEmail)
     .map(res =>res.json());
   }
-  updatePassword(id: number, oldPassword, newPassword) {
-    return this._http.get('http://localhost:3000/api/users/' + id + '/update_password', [oldPassword, newPassword])
+  updatePassword(password: string, new_password: string, new_password_confirmation: string) {
+    let token = localStorage.getItem('auth_token');
+    let header = new Headers();
+    let id = this._jwtHelper.decodeToken(token).id;
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+    return this._http.patch('http://localhost:3000/api/users/' + id + '/update_password', JSON.stringify({password, new_password, new_password_confirmation}), {
+      headers: header
+    })
     .map(res => res.json());
   }
 }

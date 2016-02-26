@@ -3,7 +3,6 @@ require 'test_helper'
 class Api::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
-    @user2 = FactoryGirl.create :user
     @credentials = { email: @user.email, password: "testtest"}
   end
 
