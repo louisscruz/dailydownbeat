@@ -8,9 +8,8 @@ class Api::SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should return the user record corresponding to the given credentials" do
     post api_login_url, params: { session: @credentials }
-    old_user = @user
-    @user.reload
-    assert_equal @user, old_user
+    body = JSON.parse(response.body)
+    assert_equal @user.id, body["id"]
   end
 
   test "should return a json error when wrong credentials" do

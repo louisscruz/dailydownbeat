@@ -3,6 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
+    @credentials = { email: @user.email, password: "testtest"}
   end
 
   test "confirm method should set the user to confirmed" do
@@ -42,7 +43,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal @user.auth_token, old_auth
   end
 
-  test "updated password should result in need for reconfirmation" do
+  test "updated email should result in need for reconfirmation" do
     assert_not @user.confirmed
     post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
     @user.reload
@@ -51,5 +52,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.save
     @user.reload
     assert_not @user.confirmed
+  end
+
+  test "should successfully update valid email" do
+    old = @user.dup
+    post '/api/login', params: { session: @credentials }
+    @user.reload
+    assert_not_equal old.auth_token, @user.auth_token
+    @request.headers["Authorization"] = @user.auth_token
+    put api_user_path(@user), params: { user: { id: @user.id, email: "new@me.com", password: "testtest" }}, headers: @request.headers
+    assert_response 201
+    assert_equal "new@me.com", User.find(@user.id).email
+  end
+
+  test "should not update invalid email" do
+    post api_login_url, params: { session: @credentials }
+    @request.headers["Authorization"] = @user.auth_token
+    email = "foo@bar..com"
+    put "/api/users/" + @user.id.to_s, params: { email: email, password: "testtest", password_confirmation: "testtest" }, headers: @request.headers
+    assert_not_equal email, @user.email
   end
 end

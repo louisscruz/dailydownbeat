@@ -41,9 +41,16 @@ export class UserService {
     return this._http.get('http://localhost:3000/api/users/' + id + '/comments')
     .map(res => res.json());
   }
-  updateEmailAddress(id: number, newEmail) {
-    return this._http.get('http://localhost:3000/api/users/' + id + '/update_email', newEmail)
-    .map(res =>res.json());
+  updateEmail(email: string, password: string) {
+    let token = localStorage.getItem('auth_token');
+    let header = new Headers();
+    let id = this._jwtHelper.decodeToken(token).id;
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', token);
+    return this._http.put('http://localhost:3000/api/users/' + id, JSON.stringify({email, password}), {
+      headers: header
+    })
+    .map(res => res.json());
   }
   updatePassword(password: string, new_password: string, new_password_confirmation: string) {
     let token = localStorage.getItem('auth_token');

@@ -29,6 +29,7 @@ export class Dashboard implements OnInit{
   private emailForm: ControlGroup;
   private newEmail: AbstractControl;
   private newEmailConfirm: AbstractControl;
+  private newEmailPassword: AbstractControl;
   private passwordForm: ControlGroup;
   private oldPassword: AbstractControl;
   private newPassword: AbstractControl;
@@ -42,7 +43,7 @@ export class Dashboard implements OnInit{
     private _userService: UserService
   ) {
     function emailValidator(control: Control): { [s: string]: boolean } {
-      if (!control.value.match(/.+@.+\..+/i)) {
+      if (!control.value.match(/.+@.+\..+/i) && control.value.length > 0) {
         return {invalidEmail: true};
       }
     }
@@ -57,12 +58,15 @@ export class Dashboard implements OnInit{
     }
     this.emailForm = _fb.group({
       'newEmail': ['', Validators.compose([
-        Validators.required])],
+        Validators.required, emailValidator])],
       'newEmailConfirm': ['', Validators.compose([
+        Validators.required])],
+      'newEmailPassword': ['', Validators.compose([
         Validators.required])]
-    });
+    }, {validator: confirmationEquivalent('newEmail', 'newEmailConfirm')});
     this.newEmail = this.emailForm.controls['newEmail'];
     this.newEmailConfirm = this.emailForm.controls['newEmailConfirm'];
+    this.newEmailPassword = this.emailForm.controls['newEmailPassword'];
     this.passwordForm = _fb.group({
       'oldPassword': ['', Validators.compose([
         Validators.required])],
@@ -80,18 +84,35 @@ export class Dashboard implements OnInit{
     this.editing = '';
   }
 
+  updateEmail() {
+    this._userService.updateEmail(this.newEmail.value, this.newEmailPassword.value)
+    .subscribe(
+      res => {
+        this._alertService.addAlert({
+          'message': 'Email successfully changed!',
+          'type': 'success',
+          'timeout': 8000,
+          'dismissible': true
+        });
+      }, err => {
+
+      }, () => {
+        this.removeEditStatus();
+      }
+    )
+  }
+
   updatePassword() {
     this._userService.updatePassword(this.oldPassword.value, this.newPassword.value, this.newPasswordConfirm.value)
     .subscribe(
       res => {
         this._alertService.addAlert({
-          'message': 'Password successfully changed!',
+          'message': 'Password successfully changed! An email has been sent to revalidate your account.',
           'type': 'success',
-          'timeout': 8000,
+          'timeout': 20000,
           'dismissible': true
         });
-      },
-      err => {
+      }, err => {
         if (err.status === 401) {
           this._alertService.addAlert({
             'message': 'Incorrect password!',
@@ -107,8 +128,7 @@ export class Dashboard implements OnInit{
             'dismissible': false
           });
         }
-      },
-      () => {
+      }, () => {
         this.removeEditStatus();
       }
     );

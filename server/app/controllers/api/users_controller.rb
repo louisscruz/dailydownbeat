@@ -16,8 +16,6 @@ class Api::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    #UserMailer.welcome(@user).deliver_now
-    #UserMailer.confirm(@user).deliver_now
     render json: @user
   end
 
@@ -37,8 +35,8 @@ class Api::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    p "UPDATING!"
-    if @user.update(update_params)
+    p "INSIDE UPDATE"
+    if @user.update(user_params)
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -80,15 +78,13 @@ class Api::UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      p "Setting User"
       @user = User.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def user_params
+      p "user params"
       params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed)
-    end
-
-    def update_params
-      params.require(:user).permit(:email, :password, :new_password)
     end
 end

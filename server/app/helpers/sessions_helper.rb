@@ -5,7 +5,9 @@ module SessionsHelper
 
   def current_user
     auth_token = request.headers["Authorization"]
-    auth_token = auth_token.split(" ").last if auth_token
+    if auth_token
+      auth_token = auth_token.split(" ").last
+    end
     @current_user ||= User.find_by(auth_token: auth_token)
   end
 
@@ -16,10 +18,12 @@ module SessionsHelper
   end
 
   def logged_in?
+    p "IS LOGGED IN?"
     current_user.present?
   end
 
   def authenticate_with_token!
+    p "AUTHING"
     render json: { errors: "Not authenticated" }, status: :unauthorized unless logged_in?
   end
 

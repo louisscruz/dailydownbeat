@@ -17,19 +17,28 @@
           <form [ngFormModel]="emailForm" (ngSubmit)="updateEmail()">
             <fieldset class="form-group" [class.has-success]="newEmail.valid && newEmail.touched" [class.has-danger]="!newEmail.valid && newEmail.touched">
               <label for="newEmailInput" class="form-control-label">New Email</label>
-              <input type="password" id="newEmailInput" placeholder="New Password" [ngFormControl]="emailForm.controls['newEmail']" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid">
+              <input type="text" id="newEmailInput" placeholder="New Email" [ngFormControl]="emailForm.controls['newEmail']" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid">
               <div *ngIf="newEmail.touched">
                 <div *ngIf="newEmail.hasError('required')" class="text-help">New email required</div>
+                <div *ngIf="newEmail.hasError('invalidEmail')" class="text-help">Invalid email</div>
               </div>
             </fieldset>
             <fieldset class="form-group" [class.has-success]="newEmailConfirm.valid && newEmailConfirm.touched" [class.has-danger]="!newEmailConfirm.valid && newEmailConfirm.touched">
               <label for="newEmailConfirm" class="form-control-label">New Email Confirmation</label>
-              <input type="password" id="newEmailConfirm" placeholder="New Password Confirmation" [ngFormControl]="emailForm.controls['newEmailConfirm']" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid">
+              <input type="text" id="newEmailConfirm" placeholder="New Email Confirmation" [ngFormControl]="emailForm.controls['newEmailConfirm']" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid">
               <div *ngIf="newEmailConfirm.touched">
                 <div *ngIf="newEmailConfirm.hasError('required')" class="text-help">Confirmation required</div>
+                <div *ngIf="newEmailConfirm.hasError('notEquivalent')" class="text-help">Confirmation does not match</div>
               </div>
             </fieldset>
-            <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Password</button>
+            <fieldset class="form-group" [class.has-success]="newEmailPassword.valid && newEmailPassword.touched" [class.has-danger]="!newEmailPassword.valid && newEmailPassword.touched">
+              <label for="newEmailPassword" class="form-control-label">Password</label>
+              <input type="password" id="newEmailPassword" placeholder="Confirm Password" [ngFormControl]="emailForm.controls['newEmailPassword']" class="form-control" [class.form-control-success]="newEmailPassword.valid" [class.form-control-danger]="!newEmailPassword.valid">
+              <div *ngIf="newEmailPassword.touched">
+                <div *ngIf="newEmailPassword.hasError('required')" class="text-help">Password Required</div>
+              </div>
+            </fieldset>
+            <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Email</button>
             <button type="reset" class="btn btn-secondary" (click)="removeEditStatus()">Cancel</button>
           </form>
         </div>
