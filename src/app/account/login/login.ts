@@ -20,7 +20,7 @@ import {User} from '../../datatypes/user/user';
   selector: 'login',
   template: require('./login.html'),
   directives: [ ButtonRadio, FORM_DIRECTIVES ],
-  providers: [AuthService, AlertService]
+  providers: [AlertService]
 })
 
 export class Login {
@@ -58,10 +58,8 @@ export class Login {
       this._authService.login(user)
       .subscribe(
         res => {
+          this._authService.currentUser = res;
           this._authService.saveJwt(res.auth_token);
-          console.log(this._authService.token);
-          //this._authService.setCurrentUser(res);
-          console.log(this._authService.isAdmin)
         },
         err => {
           (<Control>this.loginForm.controls['password']).updateValue('');
@@ -73,8 +71,6 @@ export class Login {
           });
         },
         () => {
-          this.isLoggedIn = this._authService.isAuth();
-          this._authService.loggedIn = true;
           this._router.navigate(['Home']);
         }
       );

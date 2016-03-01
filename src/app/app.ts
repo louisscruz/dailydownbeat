@@ -2,7 +2,8 @@
  * Angular 2 decorators and services
  */
 require('!!style!css!bootstrap/dist/css/bootstrap.css');
-import {Component, provide} from 'angular2/core';
+require('font-awesome-sass-loader');
+import {Component, provide, OnInit} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {FORM_PROVIDERS} from 'angular2/common';
@@ -17,6 +18,8 @@ import {PostDetail} from './post/post';
 import {AddPost} from './addPost/addPost';
 import {UserDetail} from './user/user';
 import {Dashboard} from './account/dashboard/dashboard';
+
+import {AuthService} from './services/auth/authService';
 
 /*
  * App Component
@@ -56,6 +59,10 @@ import {Dashboard} from './account/dashboard/dashboard';
   { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'}
   //{ path: '/**', redirectTo: ['Home'] }
 ])
-export class App {
-  constructor() {}
+export class App implements OnInit{
+  constructor(private _authService: AuthService) {}
+
+  ngOnInit() {
+    this._authService.isLoggedIn();
+  }
 }

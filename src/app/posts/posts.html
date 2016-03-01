@@ -14,9 +14,9 @@
         <td>v</td>
         <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
         <td><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-        <td><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode">Edit</button></td>
-        <td><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode">Delete</button></td>
-        <td><button class="btn btn-warning-outline btn-sm">Flag</button></td>
+        <td><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
+        <td><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
+        <td><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
       </tr>
     </template>
   </table>

@@ -36,26 +36,13 @@ export class Navbar {
         err => console.log(err),
         () => {
           this._authService.deleteJwt();
-          this._authService.isAuth();
           this._router.navigate(['Home']);
         }
       );
     };
   }
-  isLoggedIn() {
-    return this._authService.isAuth();
-  }
-  username() {
-    return this._authService.username;
-  }
-  userId() {
-    return this._authService.userId;
-  }
-  isAdmin() {
-    return this._authService.isAdmin();
-  }
   addPost() {
-    if (this.isLoggedIn()) {
+    if (this._authService.currentUser) {
       this._router.navigate(['AddPost']);
     } else {
       this._router.navigate(['Login']);

@@ -4,9 +4,9 @@
   </h5>
   <div class="text-xs-center">
     <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a></small>
-    <button *ngIf="_authService.adminMode" class="btn btn-warning-outline btn-sm">Flag</button>
-    <button *ngIf="_authService.adminMode" class="btn btn-secondary btn-sm">Edit</button>
-    <button *ngIf="_authService.adminMode" class="btn btn-danger btn-sm">Delete</button>
+    <button *ngIf="!_authService.isSelf(post.user.id)" class="btn btn-warning-outline btn-sm"><i class="fa fa-flag-o"></i></button>
+    <button *ngIf="_authService.isSelf(post.user.id) || _authService.adminMode" class="btn btn-secondary btn-sm"><i class="fa fa-cog"></i></button>
+    <button *ngIf="_authService.isSelf(post.user.id) || _authService.adminMode" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
   </div>
   <ul>
     <li *ngFor="#comment of comments" class="card card-block">
@@ -15,10 +15,10 @@
         <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
       </p>
       <div class="text-xs-right">
-        <button class="btn btn-warning-outline btn-sm">Flag</button>
-        <button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode">Delete</button>
-        <button class="btn btn-secondary btn-sm" *ngIf="_authService.isSelf(comment.user.id) || _authService.adminMode">Edit</button>
-        <button class="btn btn-secondary btn-sm" *ngIf="_authService.loggedIn">Reply</button>
+        <button class="btn btn-warning-outline btn-sm" *ngIf="!_authService.isSelf(comment.user.id)"><i class="fa fa-flag-o"></i></button>
+        <button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-secondary btn-sm" *ngIf="_authService.isSelf(comment.user.id) || _authService.adminMode"><i class="fa fa-cog"></i></button>
+        <button class="btn btn-secondary btn-sm" *ngIf="_authService.loggedIn"><i class="fa fa-reply"></i></button>
       </div>
     </li>
   </ul>

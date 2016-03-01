@@ -25,7 +25,7 @@ export class Dashboard implements OnInit{
   private user: any;
   private posts: any;
   private comments: any;
-  private activitySelect: string = 'All';
+  private activitySelect: string = 'Posts';
   private editing: string;
   private emailForm: ControlGroup;
   private newEmail: AbstractControl;

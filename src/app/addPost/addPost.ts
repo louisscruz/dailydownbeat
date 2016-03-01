@@ -23,7 +23,7 @@ import {PrefixTitlePipe} from '../pipes/prefixTitle';
   template: require('./addPost.html'),
   directives: [FORM_DIRECTIVES, ButtonRadio],
   pipes: [PrefixTitlePipe],
-  providers: [AlertService, AuthService, PostService]
+  providers: [AlertService, PostService]
 })
 
 export class AddPost implements OnInit {
@@ -52,7 +52,7 @@ export class AddPost implements OnInit {
     this.url = this.addPostForm.controls['url'];
   }
   addPost() {
-    let id = this._authService.getUserId();
+    let id = this._authService.currentUser.id;
     console.log(id);
     this._postService.addPost({
       title: this.title.value,

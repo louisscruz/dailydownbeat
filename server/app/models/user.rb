@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   def generate_authentication_token!
     begin
-      self.auth_token = JsonWebToken.encode('id' => self.id, 'username' => self.username, 'admin' => self.admin)
+      self.auth_token = JsonWebToken.encode('id' => self.id, 'username' => self.username, 'email' => self.email, 'bio' => self.bio, 'confirmed' => self.confirmed, 'admin' => self.admin)
     end while self.class.exists?(auth_token: auth_token)
   end
 

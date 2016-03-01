@@ -5,17 +5,17 @@
     <tab heading="Activity" (select)="removeEditStatus()">
       <div class="text-xs-center">
         <div class="btn-group text-xs-center">
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="All">All</label>
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Posts">Posts</label>
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Comments">Comments</label>
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Votes">Votes</label>
+          <!--label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="All">All</label-->
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Posts"><i class="fa fa-newspaper-o"></i> Posts</label>
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Comments"><i class="fa fa-comments"></i> Comments</label>
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Votes"><i class="fa fa-arrows-v"></i> Votes</label>
         </div>
       </div>
-      <ul *ngIf="activitySelect === 'All'">
+      <!--ul *ngIf="activitySelect === 'All'">
         <li *ngFor="#post of posts">
           <div class="card card-block">{{post.title}}</div>
         </li>
-      </ul>
+      </ul-->
       <ul *ngIf="activitySelect === 'Posts'">
         <li *ngFor="#post of posts">
           <div class="card card-block">{{post.title}}</div>

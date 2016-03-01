@@ -52,9 +52,9 @@ export class Posts implements OnInit {
     this._router.navigate( ['PostDetail', { id: id }]);
   }
   username() {
-    return this._authService.username;
+    return this._authService.currentUser.username;
   }
   adminMode() {
-    return this._authService.getAdminMode();
+    return this._authService.adminMode;
   }
 }
