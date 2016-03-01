@@ -7,7 +7,7 @@ import {User} from '../../datatypes/user/user';
 
 @Injectable()
 export class AuthService {
-  public loggedIn: boolean;
+  public loggedIn: boolean = false;
   public token: string;
   public userId: number;
   public username: string;
@@ -49,6 +49,7 @@ export class AuthService {
     .map(res => res.json());
   }
   logout() {
+    this.loggedIn = false;
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
     header.append('Content-Type', 'application/json');
@@ -76,6 +77,12 @@ export class AuthService {
   }
   getAdminMode() {
     if (this.adminMode) {
+      return true;
+    }
+    return false;
+  }
+  isSelf(id: number): boolean {
+    if (id === this.userId) {
       return true;
     }
     return false;

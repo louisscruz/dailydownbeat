@@ -5,20 +5,18 @@
       <tr>
         <th rowspan="3">{{i + 1 + pageOffset}}.</th>
         <th>^</th>
-        <th colspan="2" rowspan="2"><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
-        <th></th>
-        <!--th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th-->
+        <th colspan="5" rowspan="2"><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
       </tr>
       <tr>
-        <!--td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> <small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td-->
         <td>{{post.points}}</td>
-        <td><button class="btn btn-danger btn-sm" *ngIf="adminMode()">Delete</button></td>
       </tr>
       <tr>
         <td>v</td>
         <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
         <td><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-        <td>flag</td>
+        <td><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode">Edit</button></td>
+        <td><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode">Delete</button></td>
+        <td><button class="btn btn-warning-outline btn-sm">Flag</button></td>
       </tr>
     </template>
   </table>

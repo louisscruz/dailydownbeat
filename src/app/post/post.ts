@@ -2,6 +2,7 @@ import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams, RouterLink} from 'angular2/router';
 
 import {Post} from '../datatypes/post/post';
+import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 
 @Component({
@@ -18,7 +19,9 @@ export class PostDetail implements OnInit {
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
-    private _postsService: PostService) { }
+    private _authService: AuthService,
+    private _postsService: PostService
+  ) { }
 
   ngOnInit() {
     let id = this._routeParams.get('id');

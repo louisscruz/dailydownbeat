@@ -5,6 +5,7 @@ import {TAB_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {User} from '../datatypes/user/user';
 import {Post} from '../datatypes/post/post';
 import {Comment} from '../datatypes/comment/comment';
+import {AuthService} from '../services/auth/authService';
 import {UserService} from '../services/users/usersService';
 
 @Component({
@@ -22,7 +23,9 @@ export class UserDetail implements OnInit {
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
-    private _userService: UserService) {}
+    private _userService: UserService,
+    private _authService: AuthService
+  ) {}
 
   ngOnInit() {
     let id = this._routeParams.get('id');

@@ -46,6 +46,8 @@
     "es6-promise": "^3.1.2",
     "es6-shim": "^0.33.3",
     "es7-reflect-metadata": "^1.5.5",
+    "font-awesome": "^4.5.0",
+    "font-awesome-sass-loader": "^1.0.1",
     "ng2-bootstrap": "^1.0.3",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "0.5.15"
