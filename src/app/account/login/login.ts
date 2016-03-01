@@ -60,6 +60,8 @@ export class Login {
         res => {
           this._authService.saveJwt(res.auth_token);
           console.log(this._authService.token);
+          //this._authService.setCurrentUser(res);
+          console.log(this._authService.isAdmin)
         },
         err => {
           (<Control>this.loginForm.controls['password']).updateValue('');

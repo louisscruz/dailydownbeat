@@ -3,26 +3,22 @@
     <!-- change post.user to post.username and post.user_id -->
     <template ngFor #post [ngForOf]="posts" #i="index">
       <tr>
-        <th rowspan="2">{{i + 1 + pageOffset}}.</th>
-        <th rowspan="2">
-          <div>
-            <div>
-              ^
-            </div>
-            <div>
-            {{post.points}}
-            </div>
-            <div>
-              v
-            </div>
-          </div>
-        </th>
-        <th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
+        <th rowspan="3">{{i + 1 + pageOffset}}.</th>
+        <th>^</th>
+        <th colspan="2" rowspan="2"><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
+        <th></th>
+        <!--th><a href="{{post.url}}" target="_blank">{{post.title}}</a></th-->
       </tr>
       <tr>
-        <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> <small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-        <td></td>
-        <td></td>
+        <!--td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> <small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td-->
+        <td>{{post.points}}</td>
+        <td><button class="btn btn-danger btn-sm" *ngIf="adminMode()">Delete</button></td>
+      </tr>
+      <tr>
+        <td>v</td>
+        <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
+        <td><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
+        <td>flag</td>
       </tr>
     </template>
   </table>

@@ -16,7 +16,7 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
   template: require('./posts.html'),
   directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
-  providers: [PostService, AuthService, HTTP_PROVIDERS]
+  providers: [PostService, HTTP_PROVIDERS]
 })
 
 export class Posts implements OnInit {
@@ -53,5 +53,8 @@ export class Posts implements OnInit {
   }
   username() {
     return this._authService.username;
+  }
+  adminMode() {
+    return this._authService.getAdminMode();
   }
 }

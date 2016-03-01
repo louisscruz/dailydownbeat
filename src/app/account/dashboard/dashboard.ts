@@ -9,14 +9,15 @@ import {
   Control
 } from 'angular2/common';
 
-import {TAB_DIRECTIVES} from 'ng2-bootstrap';
+import {TAB_DIRECTIVES, ButtonRadio} from 'ng2-bootstrap';
 
 import {AlertService} from '../../services/alerts/alertsService';
 import {UserService} from '../../services/users/usersService';
 
 @Component({
   selector: 'dashboard',
-  directives: [TAB_DIRECTIVES],
+  directives: [TAB_DIRECTIVES, ButtonRadio],
+  styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
   providers: [AlertService, UserService]
 })
@@ -24,8 +25,8 @@ export class Dashboard implements OnInit{
   private user: any;
   private posts: any;
   private comments: any;
+  private activitySelect: string = 'All';
   private editing: string;
-  private active: boolean = true;
   private emailForm: ControlGroup;
   private newEmail: AbstractControl;
   private newEmailConfirm: AbstractControl;

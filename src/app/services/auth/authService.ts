@@ -11,6 +11,9 @@ export class AuthService {
   public token: string;
   public userId: number;
   public username: string;
+  public admin: boolean = false;
+  public currentUser: User;
+  public adminMode: boolean = false;
   constructor(
     private http: Http,
     private router: Router,
@@ -26,12 +29,15 @@ export class AuthService {
   };
   isAuth(): boolean {
     let token = localStorage.getItem('auth_token');
-    this.loggedIn = tokenNotExpired(null, token);
     if (token) {
-      this.userId = this._jwtHelper.decodeToken(token).id;
-      this.username = this._jwtHelper.decodeToken(token).username;
+      let decodedToken = this._jwtHelper.decodeToken(token);
+      this.loggedIn = tokenNotExpired(null, token);
+      this.userId = decodedToken.id;
+      this.username = decodedToken.username;
+      this.admin = decodedToken.admin;
+      return this.loggedIn;
     }
-    return this.loggedIn;
+    return false;
   }
   login(user) {
     let header = new Headers();
@@ -45,16 +51,33 @@ export class AuthService {
   logout() {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
-    console.log(token);
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     return this.authHttp.delete('http://localhost:3000/api/logout', {
       headers: header
     });
+    this.deleteJwt();
   }
   getUserId() {
     let token = localStorage.getItem('auth_token');
     this.userId = this._jwtHelper.decodeToken(token).id;
     return this.userId;
+  }
+  isAdmin() {
+    let token = localStorage.getItem('auth_token');
+    if (token) {
+      this.admin = this._jwtHelper.decodeToken(token).admin;
+      return this.admin;
+    }
+    return false;
+  }
+  setCurrentUser(user) {
+    this.currentUser = user;
+  }
+  getAdminMode() {
+    if (this.adminMode) {
+      return true;
+    }
+    return false;
   }
 }

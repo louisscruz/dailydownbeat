@@ -1,54 +1,64 @@
 <nav class="navbar navbar-full navbar-fixed-top navbar-light">
   <div class="container">
-  <a class="navbar-brand" [routerLink]=" ['Home'] "><img src="assets/img/dailydownbeat_icon.svg"></a>
-  <div>
-    <ul class="nav navbar-nav hidden-sm-down">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]=" ['Home'] ">Home</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLoggedIn()">
-        <a class="nav-link" [routerLink]=" ['Login'] ">Login</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLoggedIn()">
-        <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn()">
-        <a class="nav-link" (click)="logout()">Log Out</a>
-      </li>
-    </ul>
-  </div>
-  <div class="pull-xs-right hidden-md-up">
-    <button class="btn btn-primary navbar-toggler" type="button" (click)="toggleCollapse()" [class.collapsed]="isCollapsed">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar top-bar"></span>
-      <span class="icon-bar middle-bar"></span>
-      <span class="icon-bar bottom-bar"></span>
-    </button>
-  </div>
-  <div class="pull-xs-right hidden-sm-down">
-    <div dropdown (on-toggle)="toggled($event)" *ngIf="isLoggedIn()">
-      <ul class="nav navbar-nav">
-        <a href id="account-dropdown" class="nav-link" dropdownToggle>
-          {{username()}}
-        </a>
-      </ul>
-      <ul class="dropdown-menu" aria-labelledby="account-dropdown">
-        <li>
-          <a class="dropdown-item" [routerLink]="['UserDetail', {id: userId()}]">Profile</a>
+    <a class="navbar-brand" [routerLink]=" ['Home'] "><img src="assets/img/dailydownbeat_icon.svg"></a>
+    <div>
+      <ul class="nav navbar-nav hidden-sm-down">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]=" ['Home'] ">Home</a>
         </li>
-        <li>
-          <a class="dropdown-item" [routerLink]="['Dashboard', {id: userId()}]">Account</a>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" [routerLink]=" ['Login'] ">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" (click)="logout()">Log Out</a>
+        </li>
+      </ul>
+    </div>
+    <div class="pull-xs-right hidden-md-up">
+      <button class="btn btn-primary navbar-toggler" type="button" (click)="toggleCollapse()" [class.collapsed]="isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+    </div>
+    <div class="pull-xs-right hidden-sm-down">
+      <ul class="nav navbar-nav hidden-sm-down">
+        <li class="nav-item">
+          <div class="hidden-md-down">
+            <button class="btn btn-success-outline" (click)="addPost()">Add Post</button>
+          </div>
+          <div class="hidden-lg-up">
+            <button class="btn btn-success-outline" (click)="addPost()">+</button>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div dropdown (on-toggle)="toggled($event)" *ngIf="isLoggedIn()">
+            <ul class="nav navbar-nav">
+              <a href id="account-dropdown" class="nav-link" dropdownToggle>
+                {{username()}}
+              </a>
+            </ul>
+            <ul class="dropdown-menu" aria-labelledby="account-dropdown">
+              <li>
+                <a class="dropdown-item" [routerLink]="['UserDetail', {id: userId()}]">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['Dashboard', {id: userId()}]">Account</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          {{_authService.adminMode}}
+          <button class="btn btn-primary-outline" *ngIf="isAdmin()" type="button" [(ngModel)]="_authService.adminMode" btnCheckbox>Admin Mode</button>
         </li>
       </ul>
     </div>
   </div>
-  <!--div class="pull-xs-right hidden-sm-down">
-    <button class="btn btn-success" (click)="addPost()">Add Post</button>
-  </div>
-  <div class="pull-xs-right hidden-md-up">
-    <button class="btn btn-success" (click)="addPost()">+</button>
-  </div-->
-</div>
 </nav>
 <div class="fs-menu hidden-md-up" [class.collapsed]="!isCollapsed">
   <div>
@@ -57,14 +67,17 @@
         <li class="nav-item" (click)="collapse()">
           <a class="nav-link" [routerLink]=" ['Home'] ">Home</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.loggedIn" (click)="collapse()">
+        <li class="nav-item" *ngIf="!isLoggedIn()" (click)="collapse()">
           <a class="nav-link" [routerLink]=" ['Login'] ">Login</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.loggedIn" (click)="collapse()">
+        <li class="nav-item" *ngIf="!isLoggedIn()" (click)="collapse()">
           <a class="nav-link" [routerLink]=" ['Signup'] ">Sign Up</a>
         </li>
-        <li class="nav-item" *ngIf="_authService.loggedIn" (click)="collapse()">
-          <a class="nav-link" (click)="authService.logout()">Log Out</a>
+        <li class="nav-item" *ngIf="isLoggedIn()" (click)="collapse()">
+          <a class="nav-link" (click)="logout()">Log Out</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()" (click)="collapse()">
+          <a class="nav-link" (click)="addPost()">Add Post</a>
         </li>
       </ul>
     </div>

@@ -20,4 +20,6 @@ class Post < ApplicationRecord
       errors.add(:title, "Ask DD posts must begin with 'Ask DD: '")
     end
   end
+
+  private
 end

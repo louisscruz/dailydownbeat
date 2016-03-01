@@ -18,12 +18,10 @@ module SessionsHelper
   end
 
   def logged_in?
-    p "IS LOGGED IN?"
     current_user.present?
   end
 
   def authenticate_with_token!
-    p "AUTHING"
     render json: { errors: "Not authenticated" }, status: :unauthorized unless logged_in?
   end
 

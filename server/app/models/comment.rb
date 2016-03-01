@@ -6,6 +6,8 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true
   belongs_to :user
 
+  private
+
   def update_comment_count(v=1)
     resource = self.commentable
     value = resource.comment_count

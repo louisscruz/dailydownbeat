@@ -1,9 +1,38 @@
 <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <h1 class="text-sm-center">{{user.username}}</h1>
+  <h1 class="text-xs-center">{{user.username}}</h1>
   <h3 class="text-xs-center">Manage Account</h3>
   <tabset>
     <tab heading="Activity" (select)="removeEditStatus()">
-      Edit
+      <div class="text-xs-center">
+        <div class="btn-group text-xs-center">
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="All">All</label>
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Posts">Posts</label>
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Comments">Comments</label>
+          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Votes">Votes</label>
+        </div>
+      </div>
+      <ul *ngIf="activitySelect === 'All'">
+        <li *ngFor="#post of posts">
+          <div class="card card-block">{{post.title}}</div>
+        </li>
+      </ul>
+      <ul *ngIf="activitySelect === 'Posts'">
+        <li *ngFor="#post of posts">
+          <div class="card card-block">{{post.title}}</div>
+        </li>
+      </ul>
+      <ul *ngIf="activitySelect === 'Comments'">
+        <li *ngFor="#comment of comments">
+          <div class="card card-block">
+            {{comment.body}}
+          </div>
+        </li>
+      </ul>
+      <ul *ngIf="activitySelect === 'Votes'">
+        <li *ngFor="#post of posts">
+          <div class="card card-block">{{post.title}}</div>
+        </li>
+      </ul>
     </tab>
     <tab heading="Account Details" (select)="removeEditStatus()">
       <div class="card card-block text-xs-center">

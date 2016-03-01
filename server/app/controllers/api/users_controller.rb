@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :authenticate_with_token!, only: [:update, :destroy]
-  before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts, :comments]
+  before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts, :comments, :upvotes, :downvotes]
   wrap_parameters :user, include: [:username, :email, :password, :password_confirmation]
 
   # GET /users
@@ -35,7 +35,6 @@ class Api::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    p "INSIDE UPDATE"
     if @user.update(user_params)
       render json: @user
     else
@@ -75,16 +74,26 @@ class Api::UsersController < ApplicationController
     render json: @comments, each_serializer: UserCommentsSerializer
   end
 
+  def upvotes
+    @upvotes = @user.upvotes
+
+    render json: @upvotes, each_serializer: VotesSerializer
+  end
+
+  def downvotes
+    @downvotes = @user.downvotes
+
+    render json: @downvotes, each_serializer: VotesSerializer
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      p "Setting User"
       @user = User.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      p "user params"
       params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed)
     end
 end
