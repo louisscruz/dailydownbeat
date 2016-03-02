@@ -20,7 +20,7 @@ describe('Home', () => {
     BaseRequestOptions,
     MockBackend,
     provide(Http, {
-      useFactory: function(backend, defaultOptions) {
+      useFactory: function(backend, defaultOptions): any {
         return new Http(backend, defaultOptions);
       },
       deps: [MockBackend, BaseRequestOptions]})

@@ -27,7 +27,7 @@ export class Login {
   private loginForm: ControlGroup;
   private email: AbstractControl;
   private password: AbstractControl;
-  private login: any;
+
   constructor(
     private _authService: AuthService,
     private _alertService: AlertService,
@@ -38,11 +38,6 @@ export class Login {
         return {invalidEmail: true};
       }
     }
-    /*function passwordLengthValidator(control: Control): { [s: string]: boolean } {
-      if (control.value !== '' && control.value.length < 6) {
-        return {passwordLengthInvalid: true};
-      }
-    }*/
     this.loginForm = _fb.group({
       'email': ['', Validators.compose([
         Validators.required, emailValidator])],
@@ -51,29 +46,27 @@ export class Login {
     });
     this.email = this.loginForm.controls['email'];
     this.password = this.loginForm.controls['password'];
-
-    //this._alertService = _alertService;
-    this.login = function(user) {
-      console.log('inside login.ts function');
-      this._authService.login(user)
-      .subscribe(
-        res => {
-          this._authService.currentUser = res;
-          this._authService.saveJwt(res.auth_token);
-        },
-        err => {
-          (<Control>this.loginForm.controls['password']).updateValue('');
-          (<Control>this.loginForm.controls['password']).pristine = true;
-          //this._alertService.addAlert('There was an error loggin in.', 'danger');
-          this._alertService.addAlert({
-            'message': 'Incorrect email or password',
-            'type': 'danger'
-          });
-        },
-        () => {
-          this._router.navigate(['Home']);
-        }
-      );
-    };
+  }
+  login(user: User): void {
+    this._authService.login(user)
+    .subscribe(
+      res => {
+        this._authService.currentUser = res;
+        this._authService.saveJwt(res.auth_token);
+      },
+      err => {
+        (<Control>this.loginForm.controls['password']).updateValue('');
+        (<Control>this.loginForm.controls['password']).pristine = true;
+        this._alertService.addAlert({
+          'message': 'Incorrect email or password',
+          'type': 'danger',
+          'timeout': 8000,
+          'dismissible': true
+        });
+      },
+      () => {
+        this._router.navigate(['Home']);
+      }
+    );
   }
 }

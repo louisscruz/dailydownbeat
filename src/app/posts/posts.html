@@ -4,19 +4,19 @@
     <template ngFor #post [ngForOf]="posts" #i="index">
       <tr>
         <th rowspan="3">{{i + 1 + pageOffset}}.</th>
-        <th>^</th>
-        <th colspan="5" rowspan="2"><a href="{{post.url}}" target="_blank">{{post.title}}</a></th>
+        <th><a href="#"><i class="fa fa-angle-up fa-fw fa-2x"></i></a></th>
+        <th colspan="5" rowspan="2" valign="center"><a href="{{post.url}}" target="_blank">{{post.title}}</a> <small>(etc.com)</small></th>
       </tr>
       <tr>
-        <td>{{post.points}}</td>
+        <td align="center">{{post.points}}</td>
       </tr>
       <tr>
-        <td>v</td>
-        <td>{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
-        <td><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-        <td><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
-        <td><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
-        <td><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
+        <td><a href="#"><i class="fa fa-angle-down fa-fw fa-2x"></i></a></td>
+        <td valign="top">{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
+        <td valign="top"><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
+        <td valign="top"><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
+        <td valign="top"><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
+        <td valign="top"><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
       </tr>
     </template>
   </table>

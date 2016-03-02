@@ -27,7 +27,7 @@ export class UserDetail implements OnInit {
     private _authService: AuthService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     let id = this._routeParams.get('id');
     this._userService.getUser(id)
     .subscribe(

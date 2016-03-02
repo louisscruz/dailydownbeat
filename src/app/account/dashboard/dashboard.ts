@@ -21,7 +21,7 @@ import {UserService} from '../../services/users/usersService';
   template: require('./dashboard.html'),
   providers: [AlertService, UserService]
 })
-export class Dashboard implements OnInit{
+export class Dashboard implements OnInit {
   private user: any;
   private posts: any;
   private comments: any;
@@ -48,14 +48,14 @@ export class Dashboard implements OnInit{
         return {invalidEmail: true};
       }
     }
-    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string) {
+    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string): any {
       return (group: ControlGroup) => {
         let passwordInput = group.controls[passwordKey];
         let passwordConfirmationInput = group.controls[passwordConfirmationKey];
         if (passwordInput.value !== passwordConfirmationInput.value) {
-          return passwordConfirmationInput.setErrors({notEquivalent: true})
+          return passwordConfirmationInput.setErrors({notEquivalent: true});
         }
-      }
+      };
     }
     this.emailForm = _fb.group({
       'newEmail': ['', Validators.compose([
@@ -81,11 +81,11 @@ export class Dashboard implements OnInit{
     this.newPasswordConfirm = this.passwordForm.controls['newPasswordConfirm'];
   }
 
-  removeEditStatus() {
+  removeEditStatus(): void {
     this.editing = '';
   }
 
-  updateEmail() {
+  updateEmail(): void {
     this._userService.updateEmail(this.newEmail.value, this.newEmailPassword.value)
     .subscribe(
       res => {
@@ -100,10 +100,10 @@ export class Dashboard implements OnInit{
       }, () => {
         this.removeEditStatus();
       }
-    )
+    );
   }
 
-  updatePassword() {
+  updatePassword(): void {
     this._userService.updatePassword(this.oldPassword.value, this.newPassword.value, this.newPasswordConfirm.value)
     .subscribe(
       res => {
@@ -135,7 +135,7 @@ export class Dashboard implements OnInit{
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     let id = this._routeParams.get('id');
     this._userService.getUser(id)
     .subscribe(

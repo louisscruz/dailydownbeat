@@ -70,4 +70,8 @@ class VoteTest < ActiveSupport::TestCase
     upvote.update_attribute(:polarity, 1)
     assert_equal old_points + 1, upvote.votable.points
   end
+
+  test "should increment user points on vote create of votable" do
+    
+  end
 end

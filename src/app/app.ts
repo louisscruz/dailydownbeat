@@ -59,7 +59,7 @@ import {AuthService} from './services/auth/authService';
   { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'}
   //{ path: '/**', redirectTo: ['Home'] }
 ])
-export class App implements OnInit{
+export class App implements OnInit {
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {

@@ -25,23 +25,23 @@ export class UserService {
       () => this._router.navigate(['Home'])
     );
   }
-  getUser(id: number | string) {
+  getUser(id: number | string): any {
     return this._http.get('http://localhost:3000/api/users/' + id)
     .map(res => res.json());
   }
-  confirmUser(id: number | string, confirmationCode: string) {
+  confirmUser(id: number | string, confirmationCode: string): any {
     return this._http.post('http://localhost:3000/api/users/' + id + '/confirm/' + confirmationCode, confirmationCode)
     .map(res => res.json());
   }
-  getUserPosts(id: number | string) {
+  getUserPosts(id: number | string): any {
     return this._http.get('http://localhost:3000/api/users/' + id + '/posts')
     .map(res => res.json());
   }
-  getUserComments(id: number | string) {
+  getUserComments(id: number | string): any {
     return this._http.get('http://localhost:3000/api/users/' + id + '/comments')
     .map(res => res.json());
   }
-  updateEmail(email: string, password: string) {
+  updateEmail(email: string, password: string): any {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
     let id = this._jwtHelper.decodeToken(token).id;
@@ -52,7 +52,7 @@ export class UserService {
     })
     .map(res => res.json());
   }
-  updatePassword(password: string, new_password: string, new_password_confirmation: string) {
+  updatePassword(password: string, new_password: string, new_password_confirmation: string): any {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
     let id = this._jwtHelper.decodeToken(token).id;

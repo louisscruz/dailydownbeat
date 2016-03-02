@@ -41,14 +41,14 @@ export class Signup {
         return {invalidEmail: true};
       }
     }
-    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string) {
+    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string): any {
       return (group: ControlGroup) => {
         let passwordInput = group.controls[passwordKey];
         let passwordConfirmationInput = group.controls[passwordConfirmationKey];
         if (passwordInput.value !== passwordConfirmationInput.value) {
-          return passwordConfirmationInput.setErrors({notEquivalent: true})
+          return passwordConfirmationInput.setErrors({notEquivalent: true});
         }
-      }
+      };
     }
     this.signupForm = fb.group({
       'username': ['', Validators.required],

@@ -21,6 +21,7 @@ if ('production' === process.env.ENV) {
 import {App} from './app/app';
 import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
 import {AuthService} from './app/services/auth/authService';
+import {PostService} from './app/services/posts/postsService';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -44,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function main() {
     }),
     AuthHttp,
     JwtHelper,
-    AuthService
+    AuthService,
+    PostService
   ])
   .catch(err => console.error(err));
 
@@ -82,7 +84,8 @@ if (module.hot) {
       }),
       AuthHttp,
       JwtHelper,
-      AuthService
+      AuthService,
+      PostService
     ])
     .catch(err => console.error(err));
 

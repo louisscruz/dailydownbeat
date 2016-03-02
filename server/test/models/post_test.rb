@@ -1,14 +1,10 @@
 require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
     User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
     @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1)
   end
-
 
   test "should be valid" do
     assert @post.valid?
@@ -49,5 +45,14 @@ class PostTest < ActiveSupport::TestCase
       @post.title = "testing"
       assert_not @post.valid?
     end
+  end
+
+  test "create post should increment user points" do
+    assert_equal 1, @post.user.points
+  end
+
+  test "delete post should decrement user points" do
+    @post.destroy
+    assert_equal 0, @post.user.points
   end
 end

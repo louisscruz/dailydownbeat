@@ -23,7 +23,7 @@ import {PrefixTitlePipe} from '../pipes/prefixTitle';
   template: require('./addPost.html'),
   directives: [FORM_DIRECTIVES, ButtonRadio],
   pipes: [PrefixTitlePipe],
-  providers: [AlertService, PostService]
+  providers: [AlertService]
 })
 
 export class AddPost implements OnInit {
@@ -38,7 +38,8 @@ export class AddPost implements OnInit {
               private _postService: PostService,
               private _router: Router) {
     function urlValidator(control: Control): { [s: string]: boolean } {
-      if (control.value.length > 0 && !control.value.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)) {
+      let regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+      if (control.value.length > 0 && !control.value.match(regex)) {
         return {invalidUrl: true};
       }
     }
@@ -80,7 +81,7 @@ export class AddPost implements OnInit {
         console.log('finished');
         this._router.navigate(['Home']);
       }
-    )
+    );
   }
   ngOnInit() {
 

@@ -30,7 +30,6 @@ export class AuthService {
     if (token) {
       if (tokenNotExpired(null, token)) {
         let decodedToken = this._jwtHelper.decodeToken(token);
-        console.log(decodedToken);
         this.currentUser = new User(
           decodedToken.id,
           token,
@@ -39,7 +38,7 @@ export class AuthService {
           decodedToken.bio,
           decodedToken.confirmed,
           decodedToken.admin
-        )
+        );
         return true;
       } else {
         this.currentUser = null;
@@ -59,13 +58,13 @@ export class AuthService {
     this.currentUser = null;
     this.adminMode = false;
     let token = localStorage.getItem('auth_token');
+    this.deleteJwt();
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
     return this.authHttp.delete('http://localhost:3000/api/logout', {
       headers: header
     });
-    this.deleteJwt();
   }
   isSelf(id: number): boolean {
     if (this.currentUser) {

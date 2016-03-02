@@ -8,8 +8,7 @@ import {PostService} from '../services/posts/postsService';
 @Component({
   selector: 'postDetail',
   directives: [RouterLink],
-  template: require('./post.html'),
-  providers: [PostService]
+  template: require('./post.html')
 })
 
 export class PostDetail implements OnInit {

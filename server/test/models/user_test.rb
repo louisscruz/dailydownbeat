@@ -1,9 +1,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
     @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test", confirmation_code: SecureRandom.hex )
   end
@@ -25,6 +22,16 @@ class UserTest < ActiveSupport::TestCase
   test "confirmed is automatically false" do
     @user.save
     assert_equal @user.confirmed, false
+  end
+
+  test "admin is automatically false" do
+    @user.save
+    assert_equal false, @user.admin
+  end
+
+  test "points is automatically 0" do
+    @user.save
+    assert_equal 0, @user.points
   end
 
   test "username should be less than 25 chars" do

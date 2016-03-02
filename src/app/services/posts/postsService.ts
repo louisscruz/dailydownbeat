@@ -35,7 +35,6 @@ export class PostService {
     .map(res => res.json());
   }
   addPost(post: any) {
-    console.log(post)
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
     header.append('Content-Type', 'application/json');
@@ -43,6 +42,6 @@ export class PostService {
     return this.http.post('http://localhost:3000/api/posts/', JSON.stringify(post), {
       headers: header
     })
-    .map(res => res.json())
+    .map(res => res.json());
   }
 }

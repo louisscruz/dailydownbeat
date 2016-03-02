@@ -16,7 +16,7 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
   template: require('./posts.html'),
   directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
-  providers: [PostService, HTTP_PROVIDERS]
+  providers: [HTTP_PROVIDERS]
 })
 
 export class Posts implements OnInit {
@@ -47,14 +47,5 @@ export class Posts implements OnInit {
   }
   ngOnInit() {
     this.getPosts(this.currentPage, this.perPage);
-  }
-  onSelectPost(id: number) {
-    this._router.navigate( ['PostDetail', { id: id }]);
-  }
-  username() {
-    return this._authService.currentUser.username;
-  }
-  adminMode() {
-    return this._authService.adminMode;
   }
 }

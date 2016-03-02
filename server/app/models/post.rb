@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   include Votable
 
+  after_create :update_user_points
+  after_destroy { update_user_points(-1)}
   belongs_to :user
   has_many :comments, as: :commentable
   validate :title_prepend
@@ -22,4 +24,9 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def update_user_points(v=1)
+    new_points = self.user.points + v
+    user.update_attribute :points, new_points
+  end
 end
