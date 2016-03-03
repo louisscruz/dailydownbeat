@@ -10,6 +10,8 @@ class Post < ApplicationRecord
   validates :url, presence: true, format: { with: URI::regexp(%w(http https)) }
   validates :user_id, presence: true
 
+  private
+
   def title_prepend
     prepends = ["show dd", "job", "ask dd"]
     if !type && prepends.any? { |w| title.downcase =~ /#{w}/ }
@@ -22,8 +24,6 @@ class Post < ApplicationRecord
       errors.add(:title, "Ask DD posts must begin with 'Ask DD: '")
     end
   end
-
-  private
 
   def update_user_points(v=1)
     new_points = self.user.points + v

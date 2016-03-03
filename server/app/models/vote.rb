@@ -7,12 +7,21 @@ class Vote < ApplicationRecord
   validates_presence_of :votable
   validates_presence_of :user_id
   validates :user_id, uniqueness: { scope: [:votable_type, :votable_id] }
+  validate :may_not_vote_for_self
+
+  private
+
+  def may_not_vote_for_self
+    return unless self.votable
+    errors.add(:user_id, "can't vote for user's own votable") unless self.user_id != self.votable.user.id
+  end
 
   def update_points!(i=1)
     self.with_lock do
       resource = self.votable
-      value = resource.points
-      resource.update_attribute :points, value + (self.polarity * i)
+      user = resource.user
+      resource.update_attribute :points, resource.points + (self.polarity * i)
+      user.update_attribute :points, user.points + (self.polarity * i)
     end
   end
 end

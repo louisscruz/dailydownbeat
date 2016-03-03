@@ -3,10 +3,11 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
+    @user2 = User.create(id: 2, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest")
     @credentials = { email: @user.email, password: "testtest"}
     FactoryGirl.create_list(:post, 2)
-    @post = Post.first
-    @post2 = Post.second
+    @post = Post.create(title: "testing", user_id: 2, url: "http://www.test.com")
+    @post2 = Post.create(title: "testing2", user_id: 2, url: "http://www.test.com")
     @vote = Vote.create(votable: @post, user_id: @user.id, polarity: 1)
     @downvote = Vote.create(votable: @post2, user_id: @user.id, polarity: -1)
   end
@@ -82,7 +83,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get upvotes_api_user_url(@user)
     assert_response 200
     body = JSON.parse(response.body)
-    p body
     assert_equal @post.id, body[0]["votable_id"]
   end
 

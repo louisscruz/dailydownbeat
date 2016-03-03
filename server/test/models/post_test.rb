@@ -48,7 +48,8 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "create post should increment user points" do
-    assert_equal 1, @post.user.points
+    second_post = Post.create(title:"test", url: "http://www.test.com", user_id: 1)
+    assert_equal 2, second_post.user.points
   end
 
   test "delete post should decrement user points" do
