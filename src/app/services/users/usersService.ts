@@ -30,7 +30,8 @@ export class UserService {
     .map(res => res.json());
   }
   confirmUser(id: number | string, confirmationCode: string): any {
-    return this._http.post('http://localhost:3000/api/users/' + id + '/confirm/' + confirmationCode, confirmationCode)
+    let call = 'http://localhost:3000/api/users/' + id + '/confirm/' + confirmationCode;
+    return this._http.post(call, confirmationCode)
     .map(res => res.json());
   }
   getUserPosts(id: number | string): any {
@@ -47,7 +48,8 @@ export class UserService {
     let id = this._jwtHelper.decodeToken(token).id;
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    return this._http.put('http://localhost:3000/api/users/' + id, JSON.stringify({email, password}), {
+    let call = 'http://localhost:3000/api/users/' + id;
+    return this._http.put(call, JSON.stringify({email, password}), {
       headers: header
     })
     .map(res => res.json());
@@ -58,7 +60,8 @@ export class UserService {
     let id = this._jwtHelper.decodeToken(token).id;
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    return this._http.patch('http://localhost:3000/api/users/' + id + '/update_password', JSON.stringify({password, new_password, new_password_confirmation}), {
+    let call = 'http://localhost:3000/api/users/' + id + '/update_password'
+    return this._http.patch(call, JSON.stringify({password, new_password, new_password_confirmation}), {
       headers: header
     })
     .map(res => res.json());

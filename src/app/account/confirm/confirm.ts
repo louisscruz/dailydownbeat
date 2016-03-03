@@ -45,7 +45,7 @@ export class Confirm implements OnInit {
           });
         } else {
           this._alertService.addAlert({
-            'message': 'There was a problem with the confirmation of your account. If this fails after another try, contact us.',
+            'message': 'There was a problem. If this fails after another try, contact us.',
             'type': 'danger',
             'timeout': 5000,
             'dismissible': true
@@ -53,6 +53,6 @@ export class Confirm implements OnInit {
         }
         this._router.navigate(['Home']);
       }
-    )
+    );
   }
 }

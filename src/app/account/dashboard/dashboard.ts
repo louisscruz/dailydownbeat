@@ -104,11 +104,14 @@ export class Dashboard implements OnInit {
   }
 
   updatePassword(): void {
-    this._userService.updatePassword(this.oldPassword.value, this.newPassword.value, this.newPasswordConfirm.value)
+    this._userService.updatePassword(
+      this.oldPassword.value,
+      this.newPassword.value,
+      this.newPasswordConfirm.value)
     .subscribe(
       res => {
         this._alertService.addAlert({
-          'message': 'Password successfully changed! An email has been sent to revalidate your account.',
+          'message': 'Password updated! An email has been sent to revalidate your account.',
           'type': 'success',
           'timeout': 20000,
           'dismissible': true
