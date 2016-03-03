@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function main() {
     ...ENV_PROVIDERS,
     ...HTTP_PROVIDERS,
     ...ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    //provide(LocationStrategy, { useClass: HashLocationStrategy }),
     provide(AuthConfig, {
       useValue: new AuthConfig({
         headerName: 'Authorization',
