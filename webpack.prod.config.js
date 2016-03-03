@@ -21,7 +21,7 @@ var HOST = process.env.HOST || 'localhost';
 var PORT = process.env.PORT || 8080;
 
 var metadata = {
-  title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
+  title: 'Daily Downbeat',
   baseUrl: '/',
   host: HOST,
   port: PORT,
@@ -104,6 +104,14 @@ module.exports = helpers.validate({
         test: /\.css$/,
         loader: 'raw-loader'
       },
+
+      // Support for SCSS
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: 'raw-loader!sass-loader'
+      },
+
 
       // support for .html as raw text
       {
