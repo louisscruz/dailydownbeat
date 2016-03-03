@@ -2,8 +2,9 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   def setup
-    User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
+    @user = User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
     @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1)
+    @user.reload
   end
 
   test "should be valid" do
@@ -36,6 +37,20 @@ class PostTest < ActiveSupport::TestCase
     assert @post.valid?
   end
 
+  test "title should be at least 3 chars" do
+    @post.title = "a" * 2
+    assert_not @post.valid?
+    @post.title = "a" * 3
+    assert @post.valid?
+  end
+
+  test "title should be limited to 80 chars" do
+    @post.title = "a" * 81
+    assert_not @post.valid?
+    @post.title = "a" * 80
+    assert @post.valid?
+  end
+
   type_hash = {"show" => "Show DD: ", "job" => "Job: ", "ask" => "Ask DD: "}
   type_hash.each do |type, prefix|
     test "title should have '#{prefix}' when type is #{type}" do
@@ -48,12 +63,29 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "create post should increment user points" do
+    old_points = @user.points
     second_post = Post.create(title:"test", url: "http://www.test.com", user_id: 1)
-    assert_equal 2, second_post.user.points
+    assert_equal old_points + 1, second_post.user.points
   end
 
   test "delete post should decrement user points" do
+    old_points = @user.points
     @post.destroy
-    assert_equal 0, @post.user.points
+    assert_equal old_points - 1, @post.user.points
+  end
+
+  test "update post should not alter user points" do
+    old_points = @user.points
+    @post.update_attribute :title, "something new"
+    @user.reload
+    assert_equal old_points, @user.points
+  end
+
+  invalid_urls = ["i.n.v.a.l.i.d.", "www.valid.com", "test.com"]
+  invalid_urls.each do |url|
+    test "url of #{url} should be invalid" do
+      @post.url = url
+      assert_not @post.valid?
+    end
   end
 end
