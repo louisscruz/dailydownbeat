@@ -2,13 +2,15 @@ require 'test_helper'
 
 class Api::PostsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    FactoryGirl.create(:user)
+    @user = FactoryGirl.create(:user)
     FactoryGirl.create_list(:post, 44)
     @post_count = Post.count
     @per_page = 15
     @current_page = 2
     @last_page = (@post_count / @per_page.to_f).ceil
     @remainder = (@post_count % @per_page)
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
   end
 
   test "should default to first page" do

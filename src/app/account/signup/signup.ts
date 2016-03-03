@@ -51,10 +51,12 @@ export class Signup {
       };
     }
     this.signupForm = fb.group({
-      'username': ['', Validators.required],
+      'username': ['', Validators.compose([
+        Validators.required, Validators.maxLength(24)])],
       'email': ['', Validators.compose([
         Validators.required, emailValidator])],
-      'password': ['', Validators.required],
+      'password': ['', Validators.compose([
+        Validators.required, Validators.minLength(8)])],
       'password_confirmation': ['', Validators.compose([
         Validators.required])]
     }, {validator: confirmationEquivalent('password', 'password_confirmation')});
