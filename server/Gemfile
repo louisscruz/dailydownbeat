@@ -37,11 +37,12 @@ gem 'kaminari'
 # mail
 gem 'mailgun-ruby', require: 'mailgun'
 
+gem 'faker'
+gem 'factory_girl'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'faker'
-  gem 'factory_girl'
   gem 'rack-test'
 end
 
@@ -52,8 +53,6 @@ end
 
 group :production do
   gem 'unicorn'
-  gem 'faker'
-  gem 'factory_girl'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
