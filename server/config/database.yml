@@ -6,7 +6,7 @@
 #
 default: &default
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   pool: 5
   timeout: 5000
   username: <%= ENV["APP_DATABASE_USER"] %>
