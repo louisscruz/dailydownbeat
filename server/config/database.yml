@@ -25,6 +25,6 @@ test:
 
 production:
   <<: *default
-  database: rails_project_production
+  database: dailydownbeat_production
   username: <%= ENV['APP_DATABASE_USER'] %>
   password: <%= ENV['APP_DATABASE_PASSWORD'] %>
