@@ -32,12 +32,6 @@ module DailyDownbeat
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
-    config.middleware.insert_before 0, "Rack::Cors" do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => :any
-      end
-    end
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     #config.middleware.use ActionDispatch::Session::CacheStore
     #config.middleware.use ActionDispatch::Session::CookieStore
