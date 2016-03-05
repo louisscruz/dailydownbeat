@@ -53,11 +53,11 @@ module DailyDownbeat
       :user_name => "postmaster@mg.dailydownbeat.com",
       :password => ENV["EMAIL_MAILGUN_PASSWORD"]
     }
-  end
-  config.middleware.insert_before 0, "Rack::Cors" do
-    allow do
-      origins '*'
-      resource '*', :headers => :any, :methods => :any
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => :any
+      end
     end
   end
 end

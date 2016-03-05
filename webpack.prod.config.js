@@ -26,7 +26,7 @@ var metadata = {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  apiUrl: 'http://www.dailydownbeat.com'
+  apiUrl: 'http://198.211.116.68'
 };
 
 /*
