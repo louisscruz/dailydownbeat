@@ -25,7 +25,8 @@ var metadata = {
   baseUrl: '/',
   host: HOST,
   port: PORT,
-  ENV: ENV
+  ENV: ENV,
+  apiUrl: 'http://www.dailydownbeat.com'
 };
 
 /*
@@ -155,7 +156,8 @@ module.exports = helpers.validate({
       // Environment helpers
       'process.env': {
         'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV)
+        'NODE_ENV': JSON.stringify(metadata.ENV),
+        'API_URL': JSON.stringify(metadata.apiUrl)
       }
     }),
     new ProvidePlugin({

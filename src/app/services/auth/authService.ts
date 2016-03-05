@@ -7,6 +7,7 @@ import {User} from '../../datatypes/user/user';
 
 @Injectable()
 export class AuthService {
+  private apiUrl: string = process.env.API_URL;
   public adminMode: boolean = false;
   public currentUser: User;
 
@@ -49,7 +50,7 @@ export class AuthService {
   login(user) {
     let header = new Headers();
     header.append('Content-Type', 'application/json');
-    return this.authHttp.post('http://localhost:3000/api/login', JSON.stringify(user), {
+    return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
       headers: header
     })
     .map(res => res.json());
@@ -62,7 +63,7 @@ export class AuthService {
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    return this.authHttp.delete('http://localhost:3000/api/logout', {
+    return this.authHttp.delete(this.apiUrl + '/api/logout', {
       headers: header
     });
   }

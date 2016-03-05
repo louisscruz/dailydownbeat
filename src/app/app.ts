@@ -60,9 +60,11 @@ import {AuthService} from './services/auth/authService';
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App implements OnInit {
+  private apiUrl: string = process.env.API_URL;
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {
     this._authService.isLoggedIn();
+    console.log(this.apiUrl);
   }
 }

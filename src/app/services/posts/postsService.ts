@@ -4,7 +4,8 @@ import {Post} from '../../datatypes/post/post';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class PostService {  
+export class PostService {
+  private apiUrl: string = process.env.API_URL;
   constructor(private http: Http) {}
   getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');
@@ -12,7 +13,7 @@ export class PostService {
     if (jwt) {
       authHeader.append('Authorization', jwt);
     }
-    return this.http.get('http://localhost:3000/api/posts?page=' + page + '&per_page=' + per_page, {
+    return this.http.get(this.apiUrl + '/api/posts?page=' + page + '&per_page=' + per_page, {
       headers: authHeader
     })
     .map(res => res.json())
@@ -27,11 +28,11 @@ export class PostService {
     });
   }
   getPost(id: number | string) {
-    return this.http.get('http://localhost:3000/api/posts/' + id)
+    return this.http.get(this.apiUrl + '/api/posts/' + id)
     .map(res => res.json());
   }
   getPostComments(id: number | string) {
-    return this.http.get('http://localhost:3000/api/posts/' + id + '/comments')
+    return this.http.get(this.apiUrl + '/api/posts/' + id + '/comments')
     .map(res => res.json());
   }
   addPost(post: any) {
@@ -39,7 +40,7 @@ export class PostService {
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    return this.http.post('http://localhost:3000/api/posts/', JSON.stringify(post), {
+    return this.http.post(this.apiUrl + '/api/posts/', JSON.stringify(post), {
       headers: header
     })
     .map(res => res.json());
