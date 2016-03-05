@@ -70,7 +70,7 @@ Rails.application.configure do
 
   config.middleware.insert_before 0, "Rack::Cors" do
     allow do
-      origins '198.211.103.4'
+      origins '*'
       resource '*', :headers => :any, :methods => :any
     end
   end
