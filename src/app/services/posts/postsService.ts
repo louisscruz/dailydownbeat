@@ -4,8 +4,8 @@ import {Post} from '../../datatypes/post/post';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class PostService {
-  constructor(private http: Http) { }
+export class PostService {  
+  constructor(private http: Http) {}
   getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();

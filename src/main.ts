@@ -3,7 +3,7 @@
  */
 import {provide, enableProdMode} from 'angular2/core';
 import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
-import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router';
+import {ROUTER_PROVIDERS, LocationStrategy, PathLocationStrategy} from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 
 const ENV_PROVIDERS = [];
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function main() {
     ...ENV_PROVIDERS,
     ...HTTP_PROVIDERS,
     ...ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    provide(LocationStrategy, { useClass: PathLocationStrategy }),
     provide(AuthConfig, {
       useValue: new AuthConfig({
         headerName: 'Authorization',
@@ -72,7 +72,7 @@ if (module.hot) {
       ...ENV_PROVIDERS,
       ...HTTP_PROVIDERS,
       ...ROUTER_PROVIDERS,
-      provide(LocationStrategy, { useClass: HashLocationStrategy }),
+      provide(LocationStrategy, { useClass: PathLocationStrategy }),
       provide(AuthConfig, {
         useValue: new AuthConfig({
           headerName: 'Authorization',

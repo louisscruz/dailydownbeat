@@ -10,6 +10,7 @@ import {FORM_PROVIDERS} from 'angular2/common';
 
 import {Navbar} from './navbar/navbar';
 import {Alerts} from './alerts/alerts';
+import {Footer} from './footer/footer';
 import {Home} from './home/home';
 import {Login} from './account/login/login';
 import {Signup} from './account/signup/signup';
@@ -18,6 +19,7 @@ import {PostDetail} from './post/post';
 import {AddPost} from './addPost/addPost';
 import {UserDetail} from './user/user';
 import {Dashboard} from './account/dashboard/dashboard';
+import {About} from './about/about';
 
 import {AuthService} from './services/auth/authService';
 
@@ -28,7 +30,7 @@ import {AuthService} from './services/auth/authService';
 @Component({
   selector: 'app',
   providers: [ ...FORM_PROVIDERS ],
-  directives: [ ...ROUTER_DIRECTIVES, Navbar, Alerts ],
+  directives: [ ...ROUTER_DIRECTIVES, Navbar, Alerts, Footer ],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   template: `
     <header>
@@ -40,11 +42,8 @@ import {AuthService} from './services/auth/authService';
       <router-outlet></router-outlet>
     </main>
 
-    <footer class="footer">
-      <div class="col-xs-12">
-        <!--small>Daily Downbeat made by Louis Cruz</small-->
-        <small>Test Footer</small>
-      </div>
+    <footer class="container">
+      <footer-content></footer-content>
     </footer>
   `
 })
@@ -56,7 +55,8 @@ import {AuthService} from './services/auth/authService';
   { path: '/add', component: AddPost, name: 'AddPost' },
   { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
   { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' },
-  { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'}
+  { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'},
+  { path: '/about', component: About, name: 'About'}
   //{ path: '/**', redirectTo: ['Home'] }
 ])
 export class App implements OnInit {

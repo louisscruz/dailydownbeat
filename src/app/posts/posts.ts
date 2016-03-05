@@ -26,10 +26,13 @@ export class Posts implements OnInit {
   private currentPage: number = 1;
   private pageOffset: number = 0;
   private perPage: number = 30;
+  private serverDown: boolean = false;
 
-  constructor(private _router: Router,
-              private _postService: PostService,
-              private _authService: AuthService) {}
+  constructor(
+    private _router: Router,
+    private _postService: PostService,
+    private _authService: AuthService
+  ) {}
 
   setPageOffset(currentPage) {
     this.pageOffset = ((this.currentPage - 1) * this.perPage);
@@ -41,7 +44,10 @@ export class Posts implements OnInit {
         this.setPageOffset(this.currentPage);
         this.posts = res;
       },
-      err => console.log(err),
+      err => {
+        this.serverDown = true;
+        console.log(err);
+      },
       () => console.log('finished')
     );
   }

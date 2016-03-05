@@ -24,6 +24,8 @@
     "rewriteTsconfig": false
   },
   "files": [
+    "./src/app/about/about.spec.ts",
+    "./src/app/about/about.ts",
     "./src/app/account/confirm/confirm.spec.ts",
     "./src/app/account/confirm/confirm.ts",
     "./src/app/account/dashboard/dashboard.spec.ts",
@@ -45,6 +47,8 @@
     "./src/app/datatypes/post/post.ts",
     "./src/app/datatypes/user/user.spec.ts",
     "./src/app/datatypes/user/user.ts",
+    "./src/app/footer/footer.spec.ts",
+    "./src/app/footer/footer.ts",
     "./src/app/home/home.spec.ts",
     "./src/app/home/home.ts",
     "./src/app/navbar/navbar.spec.ts",
