@@ -6,9 +6,10 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, as: :commentable
   validate :title_prepend
-  validates :title, presence: true, length: { minimum: 3, maximum: 80 }
+  validates :title, presence: true
   validates :url, presence: true, format: { with: URI::regexp(%w(http https)) }
   validates :user_id, presence: true
+  validates_length_of :title, :minimum => 3, :maximum => 80
 
   private
 
