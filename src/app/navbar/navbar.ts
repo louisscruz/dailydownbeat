@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteConfig, Router, Location} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, ConnectionBackend} from 'angular2/http';
 import {Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox} from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -21,7 +21,8 @@ export class Navbar {
   constructor(
     private _http: Http,
     private _router: Router,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _location: Location) {
 
     this.toggleCollapse = function() {
       this.isCollapsed = !this.isCollapsed;
@@ -46,6 +47,11 @@ export class Navbar {
       this._router.navigate(['AddPost']);
     } else {
       this._router.navigate(['Login']);
+    }
+  }
+  isActive(path) {
+    if (path === this._location.path()) {
+      return true;
     }
   }
 }

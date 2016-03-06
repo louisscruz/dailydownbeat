@@ -1,23 +1,25 @@
 <div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <table *ngIf="!serverDown">
+  <table *ngIf="!serverDown" class="posts">
     <!-- change post.user to post.username and post.user_id -->
     <template ngFor #post [ngForOf]="posts" #i="index">
-      <tr>
-        <th rowspan="3">{{i + 1 + pageOffset}}.</th>
-        <th><a href="#"><i class="fa fa-angle-up fa-fw fa-2x"></i></a></th>
-        <th colspan="5" rowspan="2" valign="center"><a href="{{post.url}}" target="_blank">{{post.title}}</a> <small>(etc.com)</small></th>
-      </tr>
-      <tr>
-        <td align="center">{{post.points}}</td>
-      </tr>
-      <tr>
-        <td><a href="#"><i class="fa fa-angle-down fa-fw fa-2x"></i></a></td>
-        <td valign="top">{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
-        <td valign="top"><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-        <td valign="top"><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
-        <td valign="top"><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
-        <td valign="top"><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
-      </tr>
+      <tbody class="post">
+        <tr>
+          <th rowspan="3">{{i + 1 + pageOffset}}.</th>
+          <th><a href="#"><i class="fa fa-angle-up fa-fw fa-2x"></i></a></th>
+          <th colspan="5" rowspan="2" valign="center"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a> <small>(etc.com)</small></th>
+        </tr>
+        <tr>
+          <td align="center">{{post.points}}</td>
+        </tr>
+        <tr class="btm-row">
+          <td><a href="#"><i class="fa fa-angle-down fa-fw fa-2x"></i></a></td>
+          <td valign="top">{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
+          <td valign="top"><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
+          <td valign="top"><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
+          <td valign="top"><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
+          <td valign="top"><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
+        </tr>
+      </tbody>
     </template>
   </table>
   <div *ngIf="serverDown" class="card card-block">

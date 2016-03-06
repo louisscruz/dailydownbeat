@@ -16,7 +16,8 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
   template: require('./posts.html'),
   directives: [Pagination, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
-  providers: [HTTP_PROVIDERS]
+  providers: [HTTP_PROVIDERS],
+  styles: [require('./posts.scss')]
 })
 
 export class Posts implements OnInit {

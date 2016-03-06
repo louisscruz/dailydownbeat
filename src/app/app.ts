@@ -52,12 +52,12 @@ import {AuthService} from './services/auth/authService';
   { path: '/login', component: Login, name: 'Login' },
   { path: '/signup', component: Signup, name: 'Signup' },
   { path: '/post/:id', component: PostDetail, name: 'PostDetail' },
-  { path: '/add', component: AddPost, name: 'AddPost' },
+  { path: '/post', component: AddPost, name: 'AddPost' },
   { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
   { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' },
   { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'},
-  { path: '/about', component: About, name: 'About'}
-  //{ path: '/**', redirectTo: ['Home'] }
+  { path: '/about', component: About, name: 'About'},
+  { path: '/**', redirectTo: ['Home'] }
 ])
 export class App implements OnInit {
   private apiUrl: string = process.env.API_URL;

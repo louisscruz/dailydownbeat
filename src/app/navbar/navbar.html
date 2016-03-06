@@ -1,15 +1,15 @@
-<nav class="navbar navbar-full navbar-fixed-top navbar-light">
+<nav class="navbar navbar-full navbar-fixed-top">
   <div class="container">
     <a class="navbar-brand" [routerLink]=" ['Home'] "><img src="assets/img/dailydownbeat_icon.svg"></a>
     <div>
       <ul class="nav navbar-nav hidden-sm-down">
-        <li class="nav-item">
+        <li class="nav-item" [class.current-path]="isActive('')">
           <a class="nav-link" [routerLink]=" ['Home'] "><i class="fa fa-home"></i> Home</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.currentUser">
+        <li class="nav-item" *ngIf="!_authService.currentUser" [class.current-path]="isActive('/login')">
           <a class="nav-link" [routerLink]=" ['Login'] "><i class="fa fa-sign-in"></i> Login</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.currentUser">
+        <li class="nav-item" *ngIf="!_authService.currentUser" [class.current-path]="isActive('/signup')">
           <a class="nav-link" [routerLink]=" ['Signup'] "><i class="fa fa-user-plus"></i> Sign Up</a>
         </li>
         <li class="nav-item" *ngIf="_authService.currentUser">
@@ -62,19 +62,19 @@
   <div>
     <div>
       <ul class="hidden-md-up">
-        <li class="nav-item" (click)="collapse()">
+        <li class="nav-item" (click)="collapse()" [class.current-path]="isActive('')">
           <a class="nav-link" [routerLink]=" ['Home'] "><i class="fa fa-home fa-fw"></i> Home</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.currentUser" (click)="collapse()">
+        <li class="nav-item" *ngIf="!_authService.currentUser" (click)="collapse()" [class.current-path]="isActive('/login')">
           <a class="nav-link" [routerLink]=" ['Login'] "><i class="fa fa-sign-in fa-fw"></i>Login</a>
         </li>
-        <li class="nav-item" *ngIf="!_authService.currentUser" (click)="collapse()">
+        <li class="nav-item" *ngIf="!_authService.currentUser" (click)="collapse()" [class.current-path]="isActive('/signup')">
           <a class="nav-link" [routerLink]=" ['Signup'] "><i class="fa fa-user-plus fa-fw"></i> Sign Up</a>
         </li>
         <li class="nav-item" *ngIf="_authService.currentUser" (click)="collapse()">
           <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
         </li>
-        <li class="nav-item" *ngIf="_authService.currentUser" (click)="collapse()">
+        <li class="nav-item" *ngIf="_authService.currentUser" (click)="collapse()" [class.current-path]="isActive('/post')">
           <a class="nav-link" (click)="addPost()"><i class="fa fa-pencil fa-fw"></i> Add Post</a>
         </li>
       </ul>
