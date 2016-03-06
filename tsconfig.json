@@ -55,6 +55,7 @@
     "./src/app/navbar/navbar.ts",
     "./src/app/pipes/prefixTitle.ts",
     "./src/app/pipes/timeSince.ts",
+    "./src/app/post/post.spec.ts",
     "./src/app/post/post.ts",
     "./src/app/posts/posts.spec.ts",
     "./src/app/posts/posts.ts",

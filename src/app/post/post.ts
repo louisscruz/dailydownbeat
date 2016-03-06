@@ -8,6 +8,7 @@ import {PostService} from '../services/posts/postsService';
 @Component({
   selector: 'postDetail',
   directives: [RouterLink],
+  styles: [ require('./post.scss') ],
   template: require('./post.html')
 })
 
