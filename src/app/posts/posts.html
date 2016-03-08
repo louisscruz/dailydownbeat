@@ -1,6 +1,5 @@
-<div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <table *ngIf="!serverDown" class="posts">
-    <!-- change post.user to post.username and post.user_id -->
+<div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+  <!--table *ngIf="!serverDown" class="posts">
     <template ngFor #post [ngForOf]="posts" #i="index">
       <tbody class="post">
         <tr>
@@ -21,8 +20,21 @@
         </tr>
       </tbody>
     </template>
-  </table>
+  </table-->
+  <div class="post card" *ngFor="#post of posts">
+    <div class="vote-block">
+      <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+      <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+    </div>
+    <div class="info-block">
+      <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
+      <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small>
+    </div>
+  </div>
   <div *ngIf="serverDown" class="card card-block">
     <p>The server is momentarily at intermission. Bookmark <i>DailyDownbeat</i> and come back later!</p>
+  </div>
+  <div class="">
+    <pager [totalItems]="totalItems" [(ngModel)]="currentPage" onPageChanged="pageChanged($event)" [itemsPerPage]="itemsPerPage"></pager>
   </div>
 </div>
