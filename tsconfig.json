@@ -49,6 +49,7 @@
     "./src/app/datatypes/post/post.ts",
     "./src/app/datatypes/user/user.spec.ts",
     "./src/app/datatypes/user/user.ts",
+    "./src/app/directives/router-active.ts",
     "./src/app/donate/donate.spec.ts",
     "./src/app/donate/donate.ts",
     "./src/app/footer/footer.spec.ts",

@@ -6,9 +6,11 @@ import {Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox} from 'ng2-bootstrap/ng2-b
 import {AuthService} from '../services/auth/authService';
 import {AlertService} from '../services/alerts/alertsService';
 
+import {RouterActive} from '../directives/router-active';
+
 @Component({
   selector: 'navbar',
-  directives: [ROUTER_DIRECTIVES, Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox],
+  directives: [ROUTER_DIRECTIVES, Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox, RouterActive],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
   providers: [Http, ConnectionBackend, HTTP_PROVIDERS]

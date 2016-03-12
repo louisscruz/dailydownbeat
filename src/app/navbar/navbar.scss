@@ -17,7 +17,7 @@
       cursor: pointer;
       font-weight: 400;
     }
-    &.current-path {
+    &.active {
       border-bottom: 2px solid $primary;
       a {
         color: $primary;
@@ -128,7 +128,7 @@
               transition: width $animation-duration ease;
             }
           }
-          &.current-path {
+          &.active {
             border-bottom: 2px solid white;
           }
         }
