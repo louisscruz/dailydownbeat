@@ -8,7 +8,7 @@ import {CORE_DIRECTIVES,
         Validators,
         AbstractControl,
         Control} from 'angular2/common';
-import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
+//import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AlertService} from '../services/alerts/alertsService';
 import {AuthService} from '../services/auth/authService';
@@ -21,7 +21,7 @@ import {PrefixTitlePipe} from '../pipes/prefixTitle';
 @Component({
   selector: 'add-post',
   template: require('./addPost.html'),
-  directives: [FORM_DIRECTIVES, ButtonRadio],
+  directives: [FORM_DIRECTIVES],
   pipes: [PrefixTitlePipe],
   providers: [AlertService]
 })

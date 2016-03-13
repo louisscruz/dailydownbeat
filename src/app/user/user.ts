@@ -1,6 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
-import {TAB_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+//import {TAB_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {User} from '../datatypes/user/user';
 import {Post} from '../datatypes/post/post';
@@ -10,9 +10,9 @@ import {UserService} from '../services/users/usersService';
 
 @Component({
   selector: 'userDetail',
-  directives: [TAB_DIRECTIVES],
+  //directives: [TAB_DIRECTIVES],
   template: require('./user.html'),
-  providers: [UserService, TAB_DIRECTIVES]
+  providers: [UserService]
 })
 
 export class UserDetail implements OnInit {

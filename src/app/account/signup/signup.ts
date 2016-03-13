@@ -12,12 +12,12 @@ import {Http, Headers} from 'angular2/http';
 import {Router} from 'angular2/router';
 import {AuthService} from '../../services/auth/authService';
 import {User} from '../../datatypes/user/user';
-import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
+//import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
   selector: 'signup',
   template: require('./signup.html'),
-  directives: [ ButtonRadio, FORM_DIRECTIVES ],
+  directives: [ FORM_DIRECTIVES ],
   providers: [AuthService]
 })
 

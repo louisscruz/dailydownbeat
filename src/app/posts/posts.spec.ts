@@ -35,7 +35,7 @@ describe('Posts', () => {
     ];
   });*/
 
-  it('should load all posts', inject([ Posts ], (app) => {
-    expect(posts.length).toEqual(30);
+  it('should load all posts', inject([ Posts ], (posts) => {
+    expect(posts.length).toEqual(2);
   }));
 });

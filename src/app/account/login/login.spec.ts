@@ -11,7 +11,7 @@ import {BaseRequestOptions, Http} from 'angular2/http';
 import {MockBackend} from 'angular2/http/testing';
 //import {Router} from 'angular2/router';
 
-import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
+//import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 import {AuthService} from '../../services/auth/authService';
 import {AlertService} from '../../services/alerts/alertsService';
 import {User} from '../../datatypes/user/user';

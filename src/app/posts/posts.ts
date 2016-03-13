@@ -2,7 +2,7 @@ import {Component, OnInit} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {PAGINATION_DIRECTIVES, Pager} from 'ng2-bootstrap/ng2-bootstrap';
+import {Pager} from '../directives/pagination/pager';
 
 import {PostService} from '../services/posts/postsService';
 import {AuthService} from '../services/auth/authService';
@@ -14,7 +14,8 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [Pager, PAGINATION_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
+  //directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
+  directives: [Pager, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
   providers: [HTTP_PROVIDERS],
   styles: [require('./posts.scss')]

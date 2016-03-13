@@ -65,6 +65,5 @@ export class App implements OnInit {
 
   ngOnInit() {
     this._authService.isLoggedIn();
-    console.log(this.apiUrl);
   }
 }

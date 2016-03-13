@@ -9,14 +9,14 @@ import {
   Control
 } from 'angular2/common';
 
-import {TAB_DIRECTIVES, ButtonRadio} from 'ng2-bootstrap';
+//import {TAB_DIRECTIVES, ButtonRadio} from 'ng2-bootstrap';
 
 import {AlertService} from '../../services/alerts/alertsService';
 import {UserService} from '../../services/users/usersService';
 
 @Component({
   selector: 'dashboard',
-  directives: [TAB_DIRECTIVES, ButtonRadio],
+  //directives: [TAB_DIRECTIVES, ButtonRadio],
   styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
   providers: [AlertService, UserService]

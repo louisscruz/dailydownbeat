@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {Alert} from 'ng2-bootstrap/ng2-bootstrap';
+import {Alert} from '../directives/alert/alert';
 import {AlertNotification} from '../datatypes/alert/alertnotification';
 import {AlertService} from '../services/alerts/alertsService.ts';
 

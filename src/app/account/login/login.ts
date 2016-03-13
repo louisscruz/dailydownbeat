@@ -9,7 +9,7 @@ import {
 } from 'angular2/common';
 import {Router} from 'angular2/router';
 
-import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
+//import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
 import {AuthHttp, JwtHelper, AuthConfig} from 'angular2-jwt';
 
 import {AuthService} from '../../services/auth/authService';
@@ -19,7 +19,7 @@ import {User} from '../../datatypes/user/user';
 @Component({
   selector: 'login',
   template: require('./login.html'),
-  directives: [ ButtonRadio, FORM_DIRECTIVES ],
+  directives: [ FORM_DIRECTIVES ],
   providers: [AlertService]
 })
 
