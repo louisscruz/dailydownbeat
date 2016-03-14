@@ -23,7 +23,7 @@ import {PrefixTitlePipe} from '../pipes/prefixTitle';
   template: require('./addPost.html'),
   directives: [FORM_DIRECTIVES],
   pipes: [PrefixTitlePipe],
-  providers: [AlertService]
+  providers: [PostService]
 })
 
 export class AddPost implements OnInit {
@@ -32,11 +32,13 @@ export class AddPost implements OnInit {
   private title: AbstractControl;
   private url: AbstractControl;
 
-  constructor(private _fb: FormBuilder,
-              private _alertService: AlertService,
-              private _authService: AuthService,
-              private _postService: PostService,
-              private _router: Router) {
+  constructor(
+    private _fb: FormBuilder,
+    private _alertService: AlertService,
+    private _authService: AuthService,
+    private _postService: PostService,
+    private _router: Router
+  ) {
     function urlValidator(control: Control): { [s: string]: boolean } {
       let regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
       if (control.value.length > 0 && !control.value.match(regex)) {

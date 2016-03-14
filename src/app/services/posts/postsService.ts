@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PostService {
-  private apiUrl: string = process.env.API_URL;
+  private apiUrl: string = API_URL;
   constructor(private http: Http) {}
   getPosts(page, per_page) {
     var jwt = localStorage.getItem('auth_token');

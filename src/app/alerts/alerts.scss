@@ -1,6 +1,16 @@
 .notifications {
-  margin-top: 20px;
+  margin-top: 12px;
   opacity: 0.9;
   position: fixed;
   z-index: 3;
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: auto;
+  margin-right: auto;
 }
+//.alerts {
+  //position: fixed;
+  //width: 100%;
+  //z-index: 3;
+//}

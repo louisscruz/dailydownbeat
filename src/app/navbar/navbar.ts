@@ -40,7 +40,7 @@ export class Navbar {
         this._authService.deleteJwt();
         this._router.navigate(['Home']);
       }
-    )
+    );
   }
   addPost() {
     if (this._authService.currentUser) {

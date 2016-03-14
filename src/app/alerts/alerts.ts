@@ -8,7 +8,7 @@ import {AlertService} from '../services/alerts/alertsService.ts';
   directives: [Alert],
   styles: [ require('./alerts.scss') ],
   template: require('./alerts.html'),
-  providers: [AlertService]
+  providers: []
 })
 
 /*export class Alerts {

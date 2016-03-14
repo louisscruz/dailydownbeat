@@ -15,9 +15,9 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
   selector: 'posts',
   template: require('./posts.html'),
   //directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
-  directives: [Pager, FORM_DIRECTIVES, CORE_DIRECTIVES, RouterLink],
+  directives: [Pager, CORE_DIRECTIVES, RouterLink],
   pipes: [TimeSincePipe],
-  providers: [HTTP_PROVIDERS],
+  providers: [HTTP_PROVIDERS, PostService],
   styles: [require('./posts.scss')]
 })
 

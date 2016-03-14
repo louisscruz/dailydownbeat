@@ -1,6 +1,6 @@
-<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-  <h1 class="text-sm-center">Login</h1>
-  <form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)">
+<div class="row">
+  <form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+    <h1 class="text-xs-center">Login</h1>
     <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
       <label for="emailInput" class="form-control-label">Email</label>
       <input type="text" id="emailInput" placeholder="Email Address" [ngFormControl]="loginForm.controls['email']" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid">

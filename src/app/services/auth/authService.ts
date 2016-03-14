@@ -7,16 +7,16 @@ import {User} from '../../datatypes/user/user';
 
 @Injectable()
 export class AuthService {
-  private apiUrl: string = process.env.API_URL;
   public adminMode: boolean = false;
   public currentUser: User;
+  private apiUrl: string = API_URL;
 
   constructor(
     private http: Http,
     private router: Router,
     private authHttp: AuthHttp,
     private _jwtHelper: JwtHelper
-  ) { }
+  ) {}
   saveJwt(jwt) {
     localStorage.setItem('auth_token', jwt);
   };

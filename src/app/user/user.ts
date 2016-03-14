@@ -9,7 +9,7 @@ import {AuthService} from '../services/auth/authService';
 import {UserService} from '../services/users/usersService';
 
 @Component({
-  selector: 'userDetail',
+  selector: 'user-detail',
   //directives: [TAB_DIRECTIVES],
   template: require('./user.html'),
   providers: [UserService]

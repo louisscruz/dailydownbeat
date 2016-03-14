@@ -18,14 +18,14 @@ const ALERT_TEMPLATE = `
   template: ALERT_TEMPLATE
 })
 export class Alert implements OnInit {
-  @Input() public type:string = 'warning';
-  @Input() public dismissible:boolean;
-  @Input() public dismissOnTimeout:number;
+  @Input() public type: string = 'warning';
+  @Input() public dismissible: boolean;
+  @Input() public dismissOnTimeout: number;
 
-  @Output() public close:EventEmitter<Alert> = new EventEmitter();
+  @Output() public close: EventEmitter<Alert> = new EventEmitter();
 
-  private closed:boolean;
-  private classes:Array<string> = [];
+  private closed: boolean;
+  private classes: Array<string> = [];
 
   constructor() {}
 

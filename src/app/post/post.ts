@@ -6,7 +6,7 @@ import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 
 @Component({
-  selector: 'postDetail',
+  selector: 'post-detail',
   directives: [RouterLink],
   styles: [ require('./post.scss') ],
   template: require('./post.html')

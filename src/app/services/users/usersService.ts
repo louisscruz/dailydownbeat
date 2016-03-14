@@ -61,8 +61,9 @@ export class UserService {
     let id = this._jwtHelper.decodeToken(token).id;
     header.append('Content-Type', 'application/json');
     header.append('Authorization', token);
-    let call = this.apiUrl + '/api/users/' + id + '/update_password'
-    return this._http.patch(call, JSON.stringify({password, new_password, new_password_confirmation}), {
+    let call = this.apiUrl + '/api/users/' + id + '/update_password';
+    return this._http
+    .patch(call, JSON.stringify({password, new_password, new_password_confirmation}), {
       headers: header
     })
     .map(res => res.json());

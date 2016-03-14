@@ -1,98 +1,122 @@
 /*
  * Providers provided by Angular
  */
-import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
-import {ROUTER_PROVIDERS, LocationStrategy, PathLocationStrategy, APP_BASE_HREF} from 'angular2/router';
+import * as browser from 'angular2/platform/browser';
+import * as ngCore from 'angular2/core';
+import {
+  ROUTER_PROVIDERS,
+  ROUTER_DIRECTIVES,
+  LocationStrategy,
+  PathLocationStrategy
+} from 'angular2/router';
+import {FORM_PROVIDERS} from 'angular2/common';
 import {HTTP_PROVIDERS} from 'angular2/http';
-
-const ENV_PROVIDERS = [];
-
-if ('production' === process.env.ENV) {
-  enableProdMode();
-} else {
-  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
-}
+import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
 
 /*
  * App Component
  * our top level component that holds all of our components
  */
 import {App} from './app/app';
-import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
+import {RouterActive} from './app/directives/router-active';
+import {Navbar} from './app/navbar/navbar';
+import {Alerts} from './app/alerts/alerts';
+import {Footer} from './app/footer/footer';
 import {AuthService} from './app/services/auth/authService';
-import {PostService} from './app/services/posts/postsService';
+import {AlertService} from './app/services/alerts/alertsService';
+//import {FooterContent} from './app/footer-content/footer-content';
+
+/*
+ * Application Providers/Directives/Pipes
+ * providers/directives/pipes that only live in our browser environment
+ */
+// application_providers: providers that are global through out the application
+const APPLICATION_PROVIDERS = [
+  ...HTTP_PROVIDERS,
+  ...ROUTER_PROVIDERS,
+  ...FORM_PROVIDERS,
+  AuthService,
+  AuthHttp,
+  JwtHelper,
+  AlertService,
+  ngCore.provide(AuthConfig, {
+    useValue: new AuthConfig({
+      headerName: 'Authorization',
+      headerPrefix: 'Bearer',
+      tokenName: 'auth_token',
+      tokenGetter: () => localStorage.getItem('auth_token'),
+      noJwtError: true
+    })
+  }),
+  ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy })
+];
+
+// application_directives: directives that are global through out the application
+const APPLICATION_DIRECTIVES = [
+  ...ROUTER_DIRECTIVES,
+  RouterActive,
+  Navbar,
+  Alerts,
+  Footer//,
+  //FooterContent
+];
+
+// application_pipes: pipes that are global through out the application
+const APPLICATION_PIPES = [
+
+];
+
+// Environment
+if ('production' === ENV) {
+  // Production
+  ngCore.enableProdMode();
+  APPLICATION_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS_PROD_MODE);
+} else {
+  // Development
+  APPLICATION_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS);
+}
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
  */
-
-document.addEventListener('DOMContentLoaded', function main() {
-  bootstrap(App, [
-    ...ENV_PROVIDERS,
-    ...HTTP_PROVIDERS,
-    ...ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: PathLocationStrategy }),
-    provide(APP_BASE_HREF, { useValue: '/' }),
-    provide(AuthConfig, {
-      useValue: new AuthConfig({
-        headerName: 'Authorization',
-        headerPrefix: 'Bearer',
-        tokenName: 'auth_token',
-        tokenGetter: () => localStorage.getItem('auth_token'),
-        noJwtError: true
-      })
-    }),
-    AuthHttp,
-    JwtHelper,
-    AuthService,
-    PostService
+export function main() {
+  return browser.bootstrap(App, [
+    ...APPLICATION_PROVIDERS,
+    ngCore.provide(ngCore.PLATFORM_DIRECTIVES, {useValue: APPLICATION_DIRECTIVES, multi: true}),
+    ngCore.provide(ngCore.PLATFORM_PIPES, {useValue: APPLICATION_PIPES, multi: true})
   ])
   .catch(err => console.error(err));
-
-});
-
-
-/*
- * Modified for using hot module reload
- */
-
-// typescript lint error 'Cannot find name "module"' fix
-declare let module: any;
-
-// activate hot module reload
-if (module.hot) {
-
-  // bootstrap must not be called after DOMContentLoaded,
-  // otherwise it cannot be rerenderd after module replacement
-  //
-  // for testing try to comment the bootstrap function,
-  // open the dev tools and you'll see the reloader is replacing the module but cannot rerender it
-  bootstrap(App, [
-      ...ENV_PROVIDERS,
-      ...HTTP_PROVIDERS,
-      ...ROUTER_PROVIDERS,
-      provide(LocationStrategy, { useClass: PathLocationStrategy }),
-      provide(APP_BASE_HREF, { useValue: '/' }),
-      provide(AuthConfig, {
-        useValue: new AuthConfig({
-          headerName: 'Authorization',
-          headerPrefix: 'Bearer',
-          tokenName: 'auth_token',
-          tokenGetter: () => localStorage.getItem('auth_token'),
-          noJwtError: true
-        })
-      }),
-      AuthHttp,
-      JwtHelper,
-      AuthService,
-      PostService
-    ])
-    .catch(err => console.error(err));
-
-  module.hot.accept();
 }
 
-// For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
-// Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
+/*
+ * Vendors
+ * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
+ * You can also import them in vendors to ensure that they are bundled in one file
+ * Also see custom-typings.d.ts as you also need to do `typings install x` where `x` is your module
+ */
+/*
+ * Hot Module Reload
+ * experimental version by @gdi2290
+ */
+
+function bootstrapDomReady() {
+  // bootstrap after document is ready
+  return document.addEventListener('DOMContentLoaded', main);
+}
+
+if ('development' === ENV) {
+  // activate hot module reload
+  if (HMR) {
+    if (document.readyState === 'complete') {
+      main();
+    } else {
+      bootstrapDomReady();
+    }
+    module.hot.accept();
+  } else {
+    bootstrapDomReady();
+  }
+} else {
+  bootstrapDomReady();
+}

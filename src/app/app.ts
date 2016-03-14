@@ -1,16 +1,10 @@
 /*
  * Angular 2 decorators and services
  */
-require('!!style!css!bootstrap/dist/css/bootstrap.css');
-require('font-awesome-sass-loader');
 import {Component, provide, OnInit} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
-import {FORM_PROVIDERS} from 'angular2/common';
 
-import {Navbar} from './navbar/navbar';
-import {Alerts} from './alerts/alerts';
-import {Footer} from './footer/footer';
 import {Home} from './home/home';
 import {Login} from './account/login/login';
 import {Signup} from './account/signup/signup';
@@ -29,14 +23,14 @@ import {AuthService} from './services/auth/authService';
  */
 @Component({
   selector: 'app',
-  providers: [ ...FORM_PROVIDERS ],
-  directives: [ ...ROUTER_DIRECTIVES, Navbar, Alerts, Footer ],
+  providers: [],
+  directives: [],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   template: `
     <header>
       <navbar></navbar>
     </header>
-    <alerts></alerts>
+    <alerts class="alerts"></alerts>
 
     <main class="container">
       <router-outlet></router-outlet>
@@ -48,22 +42,31 @@ import {AuthService} from './services/auth/authService';
   `
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Home' },
+  { path: '/', component: Home, name: 'Home', useAsDefault: true },
   { path: '/login', component: Login, name: 'Login' },
   { path: '/signup', component: Signup, name: 'Signup' },
-  { path: '/post/:id', component: PostDetail, name: 'PostDetail' },
-  { path: '/post', component: AddPost, name: 'AddPost' },
+  {
+    path: '/post/:id',
+    name: 'PostDetail',
+    loader: () => require('es6-promise!./post/post')('PostDetail')
+  }, { path: '/post', component: AddPost, name: 'AddPost' },
   { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
-  { path: '/user/:id/confirm/:confirmation_code', component: Confirm, name: 'Confirm' },
-  { path: '/user/:id/dashboard', component: Dashboard, name: 'Dashboard'},
-  { path: '/about', component: About, name: 'About'},
-  { path: '/**', redirectTo: ['Home'] }
+  {
+    path: '/user/:id/confirm/:confirmation_code',
+    name: 'Confirm',
+    loader: () => require('es6-promise!./account/confirm/confirm')('Confirm')
+  }, {
+    path: '/user/:id/dashboard',
+    name: 'Dashboard',
+    loader: () => require('es6-promise!./account/dashboard/dashboard')('Dashboard')
+  },
+  { path: '/about', component: About, name: 'About'}
 ])
 export class App implements OnInit {
-  private apiUrl: string = process.env.API_URL;
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {
     this._authService.isLoggedIn();
+    console.log(API_URL)
   }
 }

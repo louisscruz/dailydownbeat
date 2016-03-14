@@ -19,8 +19,8 @@ import {User} from '../../datatypes/user/user';
 @Component({
   selector: 'login',
   template: require('./login.html'),
-  directives: [ FORM_DIRECTIVES ],
-  providers: [AlertService]
+  directives: [],
+  providers: []
 })
 
 export class Login {
@@ -55,8 +55,10 @@ export class Login {
         this._authService.saveJwt(res.auth_token);
       },
       err => {
-        (<Control>this.loginForm.controls['password']).updateValue('');
-        (<Control>this.loginForm.controls['password']).pristine = true;
+        console.log('in error');
+        //(<Control>this.loginForm.controls['password']).updateValue('');
+        //(<Control>this.loginForm.controls['password']).pristine = true;
+        console.log('in error');
         this._alertService.addAlert({
           'message': 'Incorrect email or password',
           'type': 'danger',

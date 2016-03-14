@@ -1,11 +1,15 @@
+// @AngularClass
+
 var webpack = require('webpack');
 var helpers = require('./helpers');
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ProvidePlugin = require('webpack/lib/ProvidePlugin');
+var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-var HMR = process.argv.join('').indexOf('hot') > -1;
+var HMR = helpers.hasProcessFlag('hot');
 
 var metadata = {
   title: 'Daily Downbeat',
@@ -13,21 +17,31 @@ var metadata = {
   host: 'localhost',
   port: 9000,
   ENV: ENV,
+  HMR: HMR,
   apiUrl: 'http://localhost:3000'
 };
 /*
  * Config
+ * with default values at webpack.default.conf
  */
-module.exports = helpers.validate({
+module.exports = {
   // static data for index.html
   metadata: metadata,
-  // for faster builds use 'eval'
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
+  // cache: true,
   debug: true,
-  // cache: false,
+  // devtool: 'eval' // for faster builds use 'eval'
 
   // our angular app
-  entry: { 'polyfills': './src/polyfills.ts', 'main': './src/main.ts' },
+  entry: {
+    'polyfills': './src/polyfills.ts',
+    'vendor': './src/vendor.ts',
+    'app': './src/main.ts'
+  },
+
+  resolve: {
+    extensions: ['', '.ts', '.js']
+  },
 
   // Config for our build files
   output: {
@@ -35,10 +49,6 @@ module.exports = helpers.validate({
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
-  },
-
-  resolve: {
-    extensions: ['', '.ts', '.async.ts', '.js']
   },
 
   module: {
@@ -49,7 +59,7 @@ module.exports = helpers.validate({
     ],
     loaders: [
       // Support for .ts files.
-      { test: /\.ts$/, loader: 'ts-loader', exclude: [ /\.(spec|e2e)\.ts$/ ] },
+      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [ /\.(spec|e2e)\.ts$/ ] },
 
       // Support for *.json files.
       { test: /\.json$/,  loader: 'json-loader' },
@@ -57,13 +67,17 @@ module.exports = helpers.validate({
       // Support for CSS as raw text
       { test: /\.css$/,   loader: 'raw-loader' },
 
-      // Support for SCSS
-      { test: /\.scss$/,  exclude: /node_modules/,  loader: 'raw-loader!sass-loader' },
-
       // support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader', exclude: [ helpers.root('src/index.html') ] },
 
-      // Load font aweomse
+      // Support SCSS
+      { test: /.scss$/, exclude: /node_modules/, loaders: ['raw-loader','sass-loader'] },
+
+      // Bootstrap 4
+      { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url?limit=10000' },
+      { test: /bootstrap\/dist\/js\/umd\//, loader: 'imports?jQuery=jquery' },
+
+      // Load font awesome
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
 
@@ -71,38 +85,52 @@ module.exports = helpers.validate({
   },
 
   plugins: [
+    new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
+    new webpack.optimize.CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'], minChunks: Infinity }),
     // static assets
     new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     // generating html
-    new HtmlWebpackPlugin({ template: 'src/index.html' }),
-    // replace
+    new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
+    // Environment helpers (when adding more properties make sure you include them in custom-typings.d.ts)
     new webpack.DefinePlugin({
-      'process.env': {
-        'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV),
-        'HMR': HMR,
-        'API_URL': JSON.stringify(metadata.apiUrl)
-      }
+      'ENV': JSON.stringify(metadata.ENV),
+      'NODE_ENV': JSON.stringify(metadata.ENV),
+      'HMR': HMR,
+      'API_URL': JSON.stringify(metadata.apiUrl)
+    }),
+    new ProvidePlugin({
+      //jQuery: 'jquery',
+      //$: 'jquery',
+      //jquery: 'jquery',
+      "Tether": 'tether',
+      "window.Tether": "tether"
     })
   ],
 
   // Other module loader config
+
+  // our Webpack Development Server config
   tslint: {
     emitErrors: false,
     failOnHint: false,
     resourcePath: 'src',
   },
-
-  // our Webpack Development Server config
   devServer: {
     port: metadata.port,
     host: metadata.host,
-    // contentBase: 'src/',
     historyApiFallback: true,
-    watchOptions: { aggregateTimeout: 300, poll: 1000 }
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000
+    }
   },
-  // we need this due to problems with es6-shim
-  node: {global: 'window', progress: false, crypto: 'empty', module: false, clearImmediate: false, setImmediate: false}
-});
+  node: {
+    global: 'window',
+    process: true,
+    crypto: 'empty',
+    module: false,
+    clearImmediate: false,
+    setImmediate: false
+  }
+};
