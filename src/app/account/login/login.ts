@@ -56,8 +56,8 @@ export class Login {
       },
       err => {
         console.log('in error');
-        //(<Control>this.loginForm.controls['password']).updateValue('');
-        //(<Control>this.loginForm.controls['password']).pristine = true;
+        (<Control>this.loginForm.controls['password']).updateValue('');
+        (<Control>this.loginForm.controls['password']).pristine = true;
         console.log('in error');
         this._alertService.addAlert({
           'message': 'Incorrect email or password',
