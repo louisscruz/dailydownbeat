@@ -213,6 +213,8 @@ module.exports = {
           'NgFormModel',
           'NgModel',
           'NgSelectOption',
+          'Tab',
+          'Tabset',
           'DefaultValueAccessor',
           'NumberValueAccessor',
           'CheckboxControlValueAccessor',

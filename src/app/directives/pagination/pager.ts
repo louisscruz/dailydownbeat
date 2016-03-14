@@ -11,11 +11,11 @@ const pagerConfig = {
 };
 
 const PAGER_TEMPLATE = `
-  <ul class="pager">
-    <li [style.display]="noPrevious() ? 'none' : 'inherit'" [class.previous]="align" [ngClass]="{'pull-left': align}">
+  <ul class="container">
+    <li class="btn btn-link" [style.display]="noPrevious() ? 'none' : 'inherit'" [class.previous]="align" [ngClass]="{'pull-left': align}">
       <a href (click)="selectPage(page - 1, $event)">{{getText('previous')}}</a>
     </li>
-    <li [hidden]="noNext()" [class.next]="align" [ngClass]="{'pull-right': align}">
+    <li class="btn btn-link" [hidden]="noNext()" [class.next]="align" [ngClass]="{'pull-right': align}">
       <a href (click)="selectPage(page + 1, $event)">{{getText('next')}}</a>
     </li>
   </ul>
