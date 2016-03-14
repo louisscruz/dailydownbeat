@@ -7,7 +7,7 @@ import {JwtHelper} from 'angular2-jwt';
 
 @Injectable()
 export class UserService {
-  private apiUrl: string = process.env.API_URL;
+  private apiUrl: string = API_URL;
   constructor(
     private _http: Http,
     private _router: Router,

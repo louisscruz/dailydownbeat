@@ -1,6 +1,8 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 //import {TAB_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {Tab} from '../directives/tabs/tab';
+import {Tabset} from '../directives/tabs/tabset';
 
 import {User} from '../datatypes/user/user';
 import {Post} from '../datatypes/post/post';
@@ -10,7 +12,7 @@ import {UserService} from '../services/users/usersService';
 
 @Component({
   selector: 'user-detail',
-  //directives: [TAB_DIRECTIVES],
+  directives: [Tab, Tabset],
   template: require('./user.html'),
   providers: [UserService]
 })
