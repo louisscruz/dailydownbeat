@@ -12,7 +12,7 @@ const pagerConfig = {
 
 const PAGER_TEMPLATE = `
   <ul class="pager">
-    <li [hidden]="noPrevious()" [class.previous]="align" [ngClass]="{'pull-left': align}">
+    <li [style.display]="noPrevious() ? 'none' : 'inherit'" [class.previous]="align" [ngClass]="{'pull-left': align}">
       <a href (click)="selectPage(page - 1, $event)">{{getText('previous')}}</a>
     </li>
     <li [hidden]="noNext()" [class.next]="align" [ngClass]="{'pull-right': align}">

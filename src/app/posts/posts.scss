@@ -1,6 +1,9 @@
 .posts {
   .post {
     display: flex;
+    &:hover {
+      background-color: lighten(gray, 30%);
+    }
     .vote-block {
       width: 27px;
     }
