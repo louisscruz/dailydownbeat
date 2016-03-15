@@ -77,7 +77,8 @@
         </div>
       </div>
       <div>
-        <pager [totalItems]="totalItems" [(ngModel)]="currentPage" onPageChanged="pageChanged($event)" [itemsPerPage]="itemsPerPage" [align]="true"></pager>
+        {{currentPage}}
+        <pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)" [itemsPerPage]="perPage" [align]="true"></pager>
       </div>
     </div>
     <div *ngSwitchWhen="true">

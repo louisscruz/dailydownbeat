@@ -42,16 +42,31 @@ import {AuthService} from './services/auth/authService';
   `
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Home', useAsDefault: true },
-  { path: '/login', component: Login, name: 'Login' },
-  { path: '/signup', component: Signup, name: 'Signup' },
-  {
+  { path: '/',
+    component: Home,
+    name: 'Home',
+    useAsDefault: true
+  }, {
+    path: '/login',
+    component: Login,
+    name: 'Login'
+  }, {
+    path: '/signup',
+    component: Signup,
+    name: 'Signup'
+  }, {
     path: '/post/:id',
     name: 'PostDetail',
     loader: () => require('es6-promise!./post/post')('PostDetail')
-  }, { path: '/post', component: AddPost, name: 'AddPost' },
-  { path: '/user/:id', component: UserDetail, name: 'UserDetail' },
-  {
+  }, {
+    path: '/post',
+    component: AddPost,
+    name: 'AddPost'
+  }, {
+    path: '/user/:id',
+    component: UserDetail,
+    name: 'UserDetail'
+  }, {
     path: '/user/:id/confirm/:confirmation_code',
     name: 'Confirm',
     loader: () => require('es6-promise!./account/confirm/confirm')('Confirm')
@@ -59,14 +74,16 @@ import {AuthService} from './services/auth/authService';
     path: '/user/:id/dashboard',
     name: 'Dashboard',
     loader: () => require('es6-promise!./account/dashboard/dashboard')('Dashboard')
-  },
-  { path: '/about', component: About, name: 'About'}
+  }, {
+    path: '/about',
+    component: About,
+    name: 'About'
+  }
 ])
 export class App implements OnInit {
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {
     this._authService.isLoggedIn();
-    console.log(API_URL)
   }
 }

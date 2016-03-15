@@ -24,7 +24,6 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
 export class Posts implements OnInit {
   private posts: Array<Post>;
   private totalItems: number = 100;
-  private itemsPerPage: number = 30;
   private currentPage: number = 1;
   private pageOffset: number = 0;
   private perPage: number = 30;
