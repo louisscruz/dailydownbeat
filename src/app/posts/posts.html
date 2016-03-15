@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+  <div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" [ngSwitch]="serverDown">
     <!--table *ngIf="!serverDown" class="posts">
       <template ngFor #post [ngForOf]="posts" #i="index">
         <tbody class="post">
@@ -22,21 +22,68 @@
         </tbody>
       </template>
     </table-->
-    <div class="post card" *ngFor="#post of posts">
-      <div class="vote-block">
-        <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
-        <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+    <div *ngSwitchDefault>
+      <div class="post card" *ngFor="#post of posts; #i = index">
+        <div class="vote-block">
+          <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+          <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+        </div>
+        <div class="info-block">
+          <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
+          <span>
+            <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a>
+              <!--span dropdown>
+                <a class="btn btn-secondary-outline btn-sm edit-toggle" (click)="toggleEdit(i)"><i class="fa fa-chevron-down fa-fw"></i></a>
+                <ul class="dropdown-menu" [style.display]="editing === i ? 'inherit' : 'none'">
+                  <li>
+                    <a class="dropdown-item">Flag</a>
+                  </li>
+                  <li *ngIf="_authService.adminMode">
+                    <a class="dropdown-item">Delete</a>
+                  </li>
+                </ul>
+              </span>
+              <span dropdown (on-toggle)="toggled($event)">
+                <a href id="simple-dropdown" dropdownToggle>
+                  Click me for a dropdown, yo!
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                  <li *ngFor="#choice of items">
+                    <a class="dropdown-item" href="#">{{choice}}</a>
+                  </li>
+                </ul>
+              </span-->
+              <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right">
+                <a href id="options-dropdown" class="btn btn-secondary-outline btn-sm" dropdownToggle>
+                  <i class="fa fa-chevron-down fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+                  <li>
+                    <a class="dropdown-item"><i class="fa fa-comments fa-fw"></i> Comments</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
+                  </li>
+                  <template [ngIf]="_authService.adminMode">
+                    <div class="dropdown-divider"></div>
+                    <li>
+                      <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                    </li>
+                  </template>
+                </ul>
+              </span>
+            </small>
+          </span>
+        </div>
       </div>
-      <div class="info-block">
-        <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
-        <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small>
+      <div>
+        <pager [totalItems]="totalItems" [(ngModel)]="currentPage" onPageChanged="pageChanged($event)" [itemsPerPage]="itemsPerPage" [align]="true"></pager>
       </div>
     </div>
-    <div *ngIf="serverDown" class="card card-block">
-      <p>The server is momentarily at intermission. Bookmark <i>DailyDownbeat</i> and come back later!</p>
-    </div>
-    <div class="">
-      <pager [totalItems]="totalItems" [(ngModel)]="currentPage" onPageChanged="pageChanged($event)" [itemsPerPage]="itemsPerPage" [align]="true"></pager>
+    <div *ngSwitchWhen="true">
+      <div class="card card-block">
+        <p>The server is momentarily at intermission. Bookmark <i>DailyDownbeat</i> and come back later!</p>
+      </div>
     </div>
   </div>
 </div>

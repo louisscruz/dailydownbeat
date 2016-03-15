@@ -9,6 +9,7 @@ import {User} from '../../datatypes/user/user';
 export class AuthService {
   public adminMode: boolean = false;
   public currentUser: User;
+  public isAdmin: boolean = false;
   private apiUrl: string = API_URL;
 
   constructor(
@@ -40,6 +41,9 @@ export class AuthService {
           decodedToken.confirmed,
           decodedToken.admin
         );
+        if (this.currentUser.admin) {
+          this.isAdmin = true;
+        }
         return true;
       } else {
         this.currentUser = null;
