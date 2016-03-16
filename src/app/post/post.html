@@ -1,25 +1,58 @@
-<div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" *ngIf="post" class="post">
-  <h5 class="text-sm-left">
-    <a href="{{post.url}}">{{post.title}}</a>
-  </h5>
-  <div class="text-xs-center info">
-    <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a></small>
-    <button *ngIf="!_authService.isSelf(post.user.id)" class="btn btn-warning-outline btn-sm"><i class="fa fa-flag-o"></i></button>
-    <button *ngIf="_authService.isSelf(post.user.id) || _authService.adminMode" class="btn btn-secondary btn-sm"><i class="fa fa-cog"></i></button>
-    <button *ngIf="_authService.isSelf(post.user.id) || _authService.adminMode" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+<div class="row">
+  <div class="col-xs-12 col-lg-8 col-lg-offset-2 post" *ngIf="post">
+    <h6 class="text-xs-center">
+      <a href="{{post.url}}">{{post.title}}</a>
+    </h6>
+    <div class="text-xs-center info">
+      <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a></small>
+      <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
+        <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
+          <i class="fa fa-chevron-down fa-fw"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+          <li>
+            <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
+          </li>
+          <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
+            <div class="dropdown-divider"></div>
+            <li>
+              <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+            </li>
+            <li>
+              <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+            </li>
+          </template>
+        </ul>
+      </span>
+    </div>
+    <ul class="comments">
+      <li *ngFor="#comment of comments" class="card card-block">
+        <p>{{comment.body}}</p>
+        <p>
+          <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
+        </p>
+        <div class="text-xs-right">
+          <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
+            <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
+              <i class="fa fa-chevron-down fa-fw"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+              <li>
+                <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
+              </li>
+              <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
+                <div class="dropdown-divider"></div>
+                <li>
+                  <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+                </li>
+                <li>
+                  <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                </li>
+              </template>
+            </ul>
+          </span>
+        </div>
+      </li>
+    </ul>
   </div>
-  <ul class="comments">
-    <li *ngFor="#comment of comments" class="card card-block">
-      <p>{{comment.body}}</p>
-      <p>
-        <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
-      </p>
-      <div class="text-xs-right">
-        <button class="btn btn-warning-outline btn-sm" *ngIf="!_authService.isSelf(comment.user.id)"><i class="fa fa-flag-o"></i></button>
-        <button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button>
-        <button class="btn btn-secondary btn-sm" *ngIf="_authService.isSelf(comment.user.id) || _authService.adminMode"><i class="fa fa-cog"></i></button>
-        <button class="btn btn-secondary btn-sm" *ngIf="_authService.loggedIn"><i class="fa fa-reply"></i></button>
-      </div>
-    </li>
-  </ul>
 </div>

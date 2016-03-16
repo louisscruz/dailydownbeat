@@ -1,5 +1,15 @@
 .post {
+  .info {
+    margin-bottom: 24px;
+  }
   .comments {
     padding-left: 0px;
+  }
+  .dropdown-toggle {
+    margin-bottom: 16px;
+    &:after {
+      content: none;
+      border: none;
+    }
   }
 }

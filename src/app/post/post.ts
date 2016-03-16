@@ -1,5 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams, RouterLink} from 'angular2/router';
+import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
 
 import {Post} from '../datatypes/post/post';
 import {AuthService} from '../services/auth/authService';
@@ -7,7 +8,7 @@ import {PostService} from '../services/posts/postsService';
 
 @Component({
   selector: 'post-detail',
-  directives: [RouterLink],
+  directives: [RouterLink, DROPDOWN_DIRECTIVES],
   providers: [PostService],
   styles: [ require('./post.scss') ],
   template: require('./post.html')
