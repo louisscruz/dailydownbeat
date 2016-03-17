@@ -4,9 +4,12 @@
   }
   .comments {
     padding-left: 0px;
+    .add-comment {
+      padding-bottom: 16px;
+    }
   }
   .dropdown-toggle {
-    margin-bottom: 16px;
+    //margin-bottom: 16px;
     &:after {
       content: none;
       border: none;

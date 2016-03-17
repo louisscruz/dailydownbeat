@@ -26,13 +26,25 @@
       </span>
     </div>
     <ul class="comments">
+      <h5 class="text-xs-center">Comments</h5>
+      <div class="add-comment text-xs-center">
+        <a type="button" class="btn btn-success-outline btn-sm" [class.active]="!isCollapsed" (click)="isCollapsed = !isCollapsed"><i class="fa fa-plus fa-fw"></i> Add Comment</a>
+      </div>
+      <div [collapse]="isCollapsed">
+        <div class="well well-lg">
+          <form class="text-xs-right" [ngFormModel]="commentForm" (ngSubmit)="comment(commentForm.value)">
+            <fieldset class="form-group">
+              <textarea class="form-control" [ngFormControl]="commentForm.controls['comment']"></textarea>
+            </fieldset>
+            <button class="btn btn-primary" type="submit" [disabled]="!commentForm.valid">Comment</button>
+          </form>
+        </div>
+      </div>
       <li *ngFor="#comment of comments" class="card card-block">
         <p>{{comment.body}}</p>
-        <p>
+        <div>
           <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
-        </p>
-        <div class="text-xs-right">
-          <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
+          <span dropdown (on-toggle)="toggled($event)" class="text-xs-right" *ngIf="_authService.currentUser">
             <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
               <i class="fa fa-chevron-down fa-fw"></i>
             </a>

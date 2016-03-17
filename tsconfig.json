@@ -58,6 +58,7 @@
     "./src/app/datatypes/user/user.ts",
     "./src/app/directives/alert/alert.spec.ts",
     "./src/app/directives/alert/alert.ts",
+    "./src/app/directives/collapse/collapse.ts",
     "./src/app/directives/common.ts",
     "./src/app/directives/dropdown.ts",
     "./src/app/directives/dropdown/dropdown-keyboard-nav.ts",
