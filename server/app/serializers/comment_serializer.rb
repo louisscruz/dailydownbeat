@@ -1,5 +1,5 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :commentable_type, :commentable_id, :user, :created_at, :comment_count
+  attributes :id, :body, :commentable_type, :commentable_id, :user, :created_at, :comment_count, :points
   has_many :comments
   def user
     { id: object.user.id, username: object.user.username }
