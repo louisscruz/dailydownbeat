@@ -47,6 +47,8 @@
     "./src/app/app.e2e.ts",
     "./src/app/app.spec.ts",
     "./src/app/app.ts",
+    "./src/app/comment/comment.spec.ts",
+    "./src/app/comment/comment.ts",
     "./src/app/datatypes/alert/alertnotification.ts",
     "./src/app/datatypes/alert/mock-alerts.ts",
     "./src/app/datatypes/alert/seed-alerts.ts",

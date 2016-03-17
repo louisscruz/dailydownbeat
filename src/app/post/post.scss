@@ -4,6 +4,9 @@
   }
   .comments {
     padding-left: 0px;
+    li {
+      list-style: none;
+    }
     .add-comment {
       padding-bottom: 16px;
     }

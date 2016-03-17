@@ -1,0 +1,28 @@
+<div class="comment card card-block">
+  <span>
+    <div class="vote-block">
+      <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+      <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+    </div>
+    <p>{{comment.body}}</p>
+  </span>
+  <span>
+    by
+    <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
+    <div *ngIf="comment.comment_count">
+      <a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed">{{comment.comment_count}} replies <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a>
+    </div>
+  </span>
+  <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
+    <div class="dropdown-divider"></div>
+    <li>
+      <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+    </li>
+    <li>
+      <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+    </li>
+  </template>
+  <div *ngFor="#childComment of comment.comments">
+    <comment [comment]="childComment" [collapse]="isCollapsed"></comment>
+  </div>
+</div>

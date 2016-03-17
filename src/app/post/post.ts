@@ -11,13 +11,14 @@ import {
 } from 'angular2/common';
 
 import {Post} from '../datatypes/post/post';
+import {CommentDetail} from '../comment/comment';
 import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 import {Collapse} from '../directives/collapse/collapse';
 
 @Component({
   selector: 'post-detail',
-  directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse],
+  directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
   providers: [PostService],
   styles: [ require('./post.scss') ],
   template: require('./post.html')

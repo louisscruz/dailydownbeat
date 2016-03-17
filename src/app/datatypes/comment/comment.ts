@@ -7,6 +7,7 @@ export class Comment {
     public commentable_type: string,
     public commentable_id: number,
     public comment_count: number,
+    public comments: Array<Comment>,
     public created_at: number,
     public updated_at: number
   ) { }

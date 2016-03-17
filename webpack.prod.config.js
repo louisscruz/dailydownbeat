@@ -190,6 +190,7 @@ module.exports = {
         except: [
           'App',
           'About',
+          'Comment',
           'Contact',
           'Dropdown',
           'DropdownMenu',

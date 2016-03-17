@@ -40,10 +40,11 @@
           </form>
         </div>
       </div>
-      <li *ngFor="#comment of comments" class="card card-block">
-        <p>{{comment.body}}</p>
+      <li *ngFor="#comment of comments">
+        <!--p>{{comment.body}}</p>
         <div>
           <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
+          {{comment.comment_count}}
           <span dropdown (on-toggle)="toggled($event)" class="text-xs-right" *ngIf="_authService.currentUser">
             <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
               <i class="fa fa-chevron-down fa-fw"></i>
@@ -63,7 +64,11 @@
               </template>
             </ul>
           </span>
-        </div>
+          <div *ngFor="#c of comment.comments">
+            {{c}}
+          </div>
+        </div-->
+        <comment [comment]="comment"></comment>
       </li>
     </ul>
   </div>
