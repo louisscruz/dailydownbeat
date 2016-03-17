@@ -25,13 +25,31 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal 0, @comment.comment_count
   end
 
-  test "should increment comment_count on create" do
-    @comment.save
+  test "should increment comment_count on immediate parent on create" do
     assert_equal 1, @comment.commentable.comment_count
   end
 
-  test "should decrement comment_count on destroy" do
+  test "should decrement comment_count on immediate parent on destroy" do
     @comment.destroy
     assert_equal 0, @comment.commentable.comment_count
+  end
+
+  test "should be commentable" do
+    comment = Comment.create(commentable: @comment, user_id: User.first.id, body: "testing2")
+    assert comment.valid?
+  end
+
+  test "should increment comment_count on top commentable on create" do
+    assert_equal 1, @comment.commentable.comment_count
+    Comment.create(commentable: @comment, user_id: User.first.id, body: "testing2")
+    assert_equal 2, @comment.commentable.comment_count
+  end
+
+  test "should decrement comment_count on top commentable on destroy" do
+    assert_equal 1, @comment.commentable.comment_count
+    new_comment = Comment.create(commentable: @comment, user_id: User.first.id, body: "testing2")
+    assert_equal 2, @comment.commentable.comment_count
+    new_comment.destroy
+    assert_equal 1, @comment.commentable.comment_count
   end
 end

@@ -5,12 +5,20 @@ class Comment < ApplicationRecord
   after_destroy { update_comment_count(-1) }
   belongs_to :commentable, polymorphic: true
   belongs_to :user
+  has_many :comments, :as => :commentable, :dependent => :destroy
 
   private
 
   def update_comment_count(v=1)
-    resource = self.commentable
-    value = resource.comment_count
-    resource.update_attribute :comment_count, value + v
+    parent = self.commentable
+    parent_value = parent.comment_count
+    parent.update_attribute :comment_count, parent_value + v
+    if parent.instance_of? Comment
+      while parent.instance_of? Comment
+        parent = parent.commentable
+      end
+      parent_value = parent.comment_count
+      parent.update_attribute :comment_count, parent_value + v
+    end
   end
 end

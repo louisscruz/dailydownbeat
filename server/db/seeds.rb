@@ -38,6 +38,8 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
       rand_post = Post.offset(rand(Post.count)).first
       rand_comment_user_id = rand(1..x)
       Comment.create(body: comment_body, user_id: rand_comment_user_id, commentable: rand_post)
+      rand_comment = rand(1..Comment.count)
+      Comment.create(body: comment_body, user_id: rand_comment_user_id, commentable: Comment.find(rand_comment))
 
       rand_comment = Comment.offset(rand(Comment.count)).first
       rand_vote_user_id = ([*1..x] - [rand_post.user_id, rand_comment.user_id]).sample

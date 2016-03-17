@@ -1,26 +1,28 @@
-<div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <h3 class="text-xs-center">{{user.username}}</h3>
-  <div *ngIf="_authService.adminMode" class="text-xs-center">
-    <button class="btn btn-danger btn-sm">Delete</button>
-    <button class="btn btn-warning btn-sm">Edit</button>
+<div class="row">
+  <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+    <h3 class="text-xs-center">{{user.username}}</h3>
+    <div *ngIf="_authService.adminMode" class="text-xs-center">
+      <button class="btn btn-danger btn-sm">Delete</button>
+      <button class="btn btn-warning btn-sm">Edit</button>
+    </div>
+    <tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+      <tab heading="Bio">
+        <p>{{user.bio}}</p>
+      </tab>
+      <tab heading="Posts">
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="#post of posts">{{post.title}}</li>
+          </ul>
+        </div>
+      </tab>
+      <tab heading="Comments">
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="#comment of comments">{{comment}}: {{comment.body}}</li>
+          </ul>
+        </div>
+      </tab>
+    </tabset>
   </div>
-  <tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-    <tab heading="Bio">
-      <p>{{user.bio}}</p>
-    </tab>
-    <tab heading="Posts">
-      <div class="card">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="#post of posts">{{post.title}}</li>
-        </ul>
-      </div>
-    </tab>
-    <tab heading="Comments">
-      <div class="card">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="#comment of comments">{{comment}}: {{comment.body}}</li>
-        </ul>
-      </div>
-    </tab>
-  </tabset>
 </div>

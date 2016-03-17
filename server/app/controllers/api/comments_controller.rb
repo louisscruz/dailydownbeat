@@ -8,12 +8,11 @@ class Api::CommentsController < ApplicationController
     @commentable = find_commentable
     if @commentable === nil
       @comments = Comment.includes(:user)
-      #@comments = Comment.includes(:user)
     else
       @comments = @commentable.comments
     end
 
-    render json: @comments
+    render json: @comments, include: ["comments.**"]
   end
 
   def new

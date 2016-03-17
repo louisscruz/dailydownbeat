@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   after_create :update_user_points
   after_destroy { update_user_points(-1)}
   belongs_to :user
-  has_many :comments, as: :commentable
+  has_many :comments, as: :commentable, :dependent => :destroy
   validate :title_prepend
   validates :title, presence: true
   validates :url, presence: true, format: { with: URI::regexp(%w(http https)) }
