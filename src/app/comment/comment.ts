@@ -15,10 +15,11 @@ import {Comment} from '../datatypes/comment/comment';
 import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 import {Collapse} from '../directives/collapse/collapse';
+import {Pluralize} from '../directives/pluralize/pluralize';
 
 @Component({
   selector: 'comment',
-  directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
+  directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize],
   //providers: [PostService],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')

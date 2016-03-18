@@ -199,6 +199,7 @@ module.exports = {
           'Menu',
           'Navbar',
           'Footer',
+          'Pluralize',
           'RouterActive',
           'RouterLink',
           'RouterOutlet',

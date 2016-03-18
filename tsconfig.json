@@ -71,6 +71,7 @@
     "./src/app/directives/dropdown/dropdown.service.ts",
     "./src/app/directives/pagination/pager.ts",
     "./src/app/directives/pagination/pagination.ts",
+    "./src/app/directives/pluralize/pluralize.ts",
     "./src/app/directives/router-active.ts",
     "./src/app/directives/tabs/tab-heading.ts",
     "./src/app/directives/tabs/tab.ts",

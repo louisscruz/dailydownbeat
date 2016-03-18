@@ -1,0 +1,22 @@
+.comment {
+  &.card-block {
+    padding: 0.25rem 0.5rem;
+  }
+  .in.collapse {
+    padding: 0rem !important;
+  }
+  .content {
+    display: flex;
+    align-items: center;
+    .vote-block {
+      width: 27px;
+    }
+    .info-block {
+      flex-grow: 1;
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 0rem;
+      }
+    }
+  }
+}
