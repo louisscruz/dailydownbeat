@@ -85,6 +85,7 @@
     "./src/app/modal/modal.ts",
     "./src/app/navbar/navbar.spec.ts",
     "./src/app/navbar/navbar.ts",
+    "./src/app/pipes/orderBy.ts",
     "./src/app/pipes/prefixTitle.ts",
     "./src/app/pipes/timeSince.ts",
     "./src/app/post/post.spec.ts",

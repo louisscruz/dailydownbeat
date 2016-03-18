@@ -191,6 +191,7 @@ module.exports = {
           'App',
           'About',
           'Comment',
+          'CommentDetail',
           'Contact',
           'Dropdown',
           'DropdownMenu',

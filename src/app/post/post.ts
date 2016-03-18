@@ -15,10 +15,12 @@ import {CommentDetail} from '../comment/comment';
 import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 import {Collapse} from '../directives/collapse/collapse';
+import {OrderBy} from '../pipes/orderBy';
 
 @Component({
   selector: 'post-detail',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
+  pipes: [OrderBy],
   providers: [PostService],
   styles: [ require('./post.scss') ],
   template: require('./post.html')
