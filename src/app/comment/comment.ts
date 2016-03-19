@@ -11,7 +11,7 @@ import {
 } from 'angular2/common';
 
 import {Post} from '../datatypes/post/post';
-import {Comment} from '../datatypes/comment/comment';
+//import {Comment} from '../datatypes/comment/comment';
 import {AuthService} from '../services/auth/authService';
 import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';

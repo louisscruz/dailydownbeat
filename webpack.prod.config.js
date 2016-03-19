@@ -190,6 +190,7 @@ module.exports = {
         except: [
           'App',
           'About',
+          'Collapse',
           'Comment',
           'CommentDetail',
           'Contact',
@@ -200,6 +201,7 @@ module.exports = {
           'Menu',
           'Navbar',
           'Footer',
+          'OrderBy',
           'Pluralize',
           'RouterActive',
           'RouterLink',
