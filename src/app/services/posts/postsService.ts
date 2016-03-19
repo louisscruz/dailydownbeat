@@ -45,4 +45,16 @@ export class PostService {
     })
     .map(res => res.json());
   }
+  vote(polarity: number) {
+    alert(polarity);
+  }
+  addVote() {
+
+  }
+  editVote() {
+
+  }
+  deleteVote() {
+    
+  }
 }

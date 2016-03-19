@@ -1,58 +1,15 @@
 <div class="row">
   <div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" [ngSwitch]="serverDown">
-    <!--table *ngIf="!serverDown" class="posts">
-      <template ngFor #post [ngForOf]="posts" #i="index">
-        <tbody class="post">
-          <tr>
-            <th rowspan="3">{{i + 1 + pageOffset}}.</th>
-            <th><a href="#"><i class="fa fa-angle-up fa-fw fa-2x"></i></a></th>
-            <th colspan="5" rowspan="2" valign="center"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a> <small>(etc.com)</small></th>
-          </tr>
-          <tr>
-            <td align="center">{{post.points}}</td>
-          </tr>
-          <tr class="btm-row">
-            <td><a href="#"><i class="fa fa-angle-down fa-fw fa-2x"></i></a></td>
-            <td valign="top">{{post.created_at | timeSince}} by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a></td>
-            <td valign="top"><small><a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a></small></td>
-            <td valign="top"><button class="btn btn-secondary btn-sm" *ngIf="_authService.adminMode || _authService.isSelf(post.user.id)"><i class="fa fa-cog"></i></button></td>
-            <td valign="top"><button class="btn btn-danger btn-sm" *ngIf="_authService.adminMode"><i class="fa fa-trash"></i></button></td>
-            <td valign="top"><button class="btn btn-danger-outline btn-sm"><i class="fa fa-flag-o"></i></button></td>
-          </tr>
-        </tbody>
-      </template>
-    </table-->
     <div *ngSwitchDefault>
       <div class="post card" *ngFor="#post of posts; #i = index">
         <div class="vote-block">
-          <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
-          <a href="#" *ngIf="_authService.currentUser && _authService.currentUser.points > 49"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+          <a *ngIf="!_authService.isSelf(post.user.id)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+          <a href="#" *ngIf="!_authService.isSelf(post.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)" (click)="vote(-1)"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
         </div>
         <div class="info-block">
           <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
           <span>
             <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a>
-              <!--span dropdown>
-                <a class="btn btn-secondary-outline btn-sm edit-toggle" (click)="toggleEdit(i)"><i class="fa fa-chevron-down fa-fw"></i></a>
-                <ul class="dropdown-menu" [style.display]="editing === i ? 'inherit' : 'none'">
-                  <li>
-                    <a class="dropdown-item">Flag</a>
-                  </li>
-                  <li *ngIf="_authService.adminMode">
-                    <a class="dropdown-item">Delete</a>
-                  </li>
-                </ul>
-              </span>
-              <span dropdown (on-toggle)="toggled($event)">
-                <a href id="simple-dropdown" dropdownToggle>
-                  Click me for a dropdown, yo!
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-                  <li *ngFor="#choice of items">
-                    <a class="dropdown-item" href="#">{{choice}}</a>
-                  </li>
-                </ul>
-              </span-->
               <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right">
                 <a href id="options-dropdown" class="btn btn-secondary-outline btn-sm" dropdownToggle>
                   <i class="fa fa-chevron-down fa-fw"></i>

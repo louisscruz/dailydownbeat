@@ -16,10 +16,12 @@ import {AuthService} from '../services/auth/authService';
 import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
 import {Pluralize} from '../directives/pluralize/pluralize';
+import {OrderBy} from '../pipes/orderBy';
 
 @Component({
   selector: 'comment',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize],
+  pipes: [OrderBy],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')
 })
@@ -42,13 +44,6 @@ export class CommentDetail {
     });
     this.reply = this.replyForm.controls['reply'];
   }
-  /*toggleReplyOpen(id: number) {
-    if (id === this.replyOpen) {
-      this.replyOpen = null;
-    } else {
-      this.replyOpen = id;
-    }
-  }*/
   cancelReply() {
     this.replyCollapsed = true;
     (<Control>this.replyForm.controls['reply']).updateValue('');

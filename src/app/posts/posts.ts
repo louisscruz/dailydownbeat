@@ -52,6 +52,9 @@ export class Posts implements OnInit {
       () => console.log('finished')
     );
   }
+  vote(polarity: number) {
+    this._postService.vote(polarity);
+  }
   ngOnInit() {
     this.getPosts(this.currentPage, this.perPage);
   }

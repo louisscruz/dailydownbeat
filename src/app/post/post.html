@@ -41,7 +41,7 @@
           </form>
         </div>
       </div>
-      <li *ngFor="#comment of comments">
+      <li *ngFor="#comment of comments | orderBy: ['-points']">
         <!--p>{{comment.body}}</p>
         <div>
           <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>

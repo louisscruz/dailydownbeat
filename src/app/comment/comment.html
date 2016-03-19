@@ -56,7 +56,7 @@
       <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">Reply</button>
     </form>
   </div>
-  <div *ngFor="#childComment of comment.comments">
+  <div *ngFor="#childComment of comment.comments | orderBy: ['-points']">
     <comment [comment]="childComment" [collapse]="isCollapsed" [replyOpen]="replyOpen"></comment>
   </div>
 </div>
