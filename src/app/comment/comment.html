@@ -2,7 +2,7 @@
   <span class="content">
     <div class="vote-block">
       <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
-      <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+      <a href="#" *ngIf="_authService.currentUser && _authService.currentUser.points > 49"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
     </div>
     <div class="info-block">
       <p>{{comment.body}}</p>
@@ -11,9 +11,31 @@
         by
         <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
       </small>
+      <small>
+        <a class="btn btn-link btn-sm" (click)="_commentService.toggleReplyOpen(comment.id)"><i class="fa fa-reply fa-fw"></i> Reply</a>
+      </small>
       <div *ngIf="comment.comment_count">
         <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
       </div>
+      <!--span dropdown (on-toggle)="toggled($event)" class="text-xs-right" *ngIf="_authService.currentUser">
+        <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
+          <i class="fa fa-chevron-down fa-fw"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+          <li>
+            <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
+          </li>
+          <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
+            <div class="dropdown-divider"></div>
+            <li>
+              <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+            </li>
+            <li>
+              <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+            </li>
+          </template>
+        </ul>
+      </span-->
       <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
         <div class="dropdown-divider"></div>
         <li>
@@ -25,7 +47,16 @@
       </template>
     </div>
   </span>
+  <div class="well well-lg" [collapse]="replyOpen !== comment.id">
+    <form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="reply(replyForm.value)">
+      <fieldset class="form-group">
+        <textarea class="form-control" [ngFormControl]="replyForm.controls['reply']"></textarea>
+      </fieldset>
+      <button class="btn btn-secondary" (click)="_commentService.toggleReplyOpen(comment.id)">Cancel</button>
+      <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">Reply</button>
+    </form>
+  </div>
   <div *ngFor="#childComment of comment.comments">
-    <comment [comment]="childComment" [collapse]="isCollapsed"></comment>
+    <comment [comment]="childComment" [collapse]="isCollapsed" [replyOpen]="replyOpen"></comment>
   </div>
 </div>

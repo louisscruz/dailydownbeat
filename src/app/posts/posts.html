@@ -26,7 +26,7 @@
       <div class="post card" *ngFor="#post of posts; #i = index">
         <div class="vote-block">
           <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
-          <a href="#" *ngIf="49 === 50"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+          <a href="#" *ngIf="_authService.currentUser && _authService.currentUser.points > 49"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
         </div>
         <div class="info-block">
           <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>

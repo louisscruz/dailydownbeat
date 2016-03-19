@@ -6,6 +6,7 @@ export class User {
     public email: string,
     public bio: string,
     public confirmed: boolean,
-    public admin: boolean
+    public admin: boolean,
+    public points: number
   ) { }
 }

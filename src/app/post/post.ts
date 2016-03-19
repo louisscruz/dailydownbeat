@@ -14,6 +14,7 @@ import {Post} from '../datatypes/post/post';
 import {CommentDetail} from '../comment/comment';
 import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
+import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
 import {OrderBy} from '../pipes/orderBy';
 
@@ -21,7 +22,7 @@ import {OrderBy} from '../pipes/orderBy';
   selector: 'post-detail',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
   pipes: [OrderBy],
-  providers: [PostService],
+  providers: [PostService, CommentService],
   styles: [ require('./post.scss') ],
   template: require('./post.html')
 })
@@ -38,6 +39,7 @@ export class PostDetail implements OnInit {
     private _routeParams: RouteParams,
     private _authService: AuthService,
     private _postsService: PostService,
+    private _commentService: CommentService,
     private _fb: FormBuilder
   ) {
     this.commentForm = _fb.group({

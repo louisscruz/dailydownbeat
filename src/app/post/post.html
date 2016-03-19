@@ -36,6 +36,7 @@
             <fieldset class="form-group">
               <textarea class="form-control" [ngFormControl]="commentForm.controls['comment']"></textarea>
             </fieldset>
+            <button class="btn btn-secondary" (click)="isCollapsed = !isCollapsed">Cancel</button>
             <button class="btn btn-primary" type="submit" [disabled]="!commentForm.valid">Comment</button>
           </form>
         </div>
@@ -68,7 +69,7 @@
             {{c}}
           </div>
         </div-->
-        <comment [comment]="comment"></comment>
+        <comment [comment]="comment" [replyOpen]="_commentService.replyOpen"></comment>
       </li>
     </ul>
   </div>

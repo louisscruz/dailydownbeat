@@ -94,6 +94,7 @@
     "./src/app/posts/posts.ts",
     "./src/app/services/alerts/alertsService.ts",
     "./src/app/services/auth/authService.ts",
+    "./src/app/services/comments/commentService.ts",
     "./src/app/services/modal/modalService.ts",
     "./src/app/services/posts/postsService.ts",
     "./src/app/services/users/usersService.ts",

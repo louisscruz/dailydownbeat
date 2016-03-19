@@ -39,7 +39,8 @@ export class AuthService {
           decodedToken.email,
           decodedToken.bio,
           decodedToken.confirmed,
-          decodedToken.admin
+          decodedToken.admin,
+          decodedToken.points
         );
         if (this.currentUser.admin) {
           this.isAdmin = true;

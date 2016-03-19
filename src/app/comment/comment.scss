@@ -2,6 +2,12 @@
   &.card-block {
     padding: 0.25rem 0.5rem;
   }
+  &:hover, &:hover .comment {
+    background-color: lighten(gray, 47.5%);
+  }
+  .comment:hover {
+    background-color: white;
+  }
   .in.collapse {
     padding: 0rem !important;
   }
