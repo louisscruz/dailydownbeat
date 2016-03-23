@@ -6,13 +6,13 @@ export const NONINPUT = 'nonInput';
 import {Dropdown} from './dropdown.directive';
 
 export class DropdownService {
-  private openScope:Dropdown;
-  private dropdownScope:Dropdown;
+  private openScope: Dropdown;
+  private dropdownScope: Dropdown;
 
-  private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
-  private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
+  private closeDropdownBind: EventListener = this.closeDropdown.bind(this);
+  private keybindFilterBind: EventListener = this.keybindFilter.bind(this);
 
-  public open(dropdownScope:Dropdown) {
+  public open(dropdownScope: Dropdown) {
     if (!this.openScope) {
       window.document.addEventListener('click', this.closeDropdownBind);
       window.document.addEventListener('keydown', this.keybindFilterBind);
@@ -25,7 +25,7 @@ export class DropdownService {
     this.openScope = dropdownScope;
   }
 
-  public close(dropdownScope:Dropdown) {
+  public close(dropdownScope: Dropdown) {
     if (this.openScope !== dropdownScope) {
       return;
     }
@@ -35,7 +35,7 @@ export class DropdownService {
     window.document.removeEventListener('keydown', this.keybindFilterBind);
   }
 
-  private closeDropdown(event:MouseEvent) {
+  private closeDropdown(event: MouseEvent) {
     if (!this.openScope) {
       return;
     }
@@ -65,7 +65,7 @@ export class DropdownService {
     this.openScope.isOpen = false;
   }
 
-  private keybindFilter(event:KeyboardEvent) {
+  private keybindFilter(event: KeyboardEvent) {
     if (event.which === 27) {
       this.openScope.focusToggleElement();
       this.closeDropdown(null);

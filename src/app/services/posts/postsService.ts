@@ -48,13 +48,7 @@ export class PostService {
   vote(polarity: number) {
     alert(polarity);
   }
-  addVote() {
-
-  }
-  editVote() {
-
-  }
-  deleteVote() {
-    
-  }
+  addVote() {}
+  editVote() {}
+  deleteVote() {}
 }

@@ -1,9 +1,10 @@
-import {Input, OnInit, Component} from "angular2/core";
+import {Input, OnInit, Component} from 'angular2/core';
 
 @Component({
-  selector: "pluralize",
+  selector: 'pluralize',
   template: `<span>{{content}}</span>`
 })
+
 export class Pluralize implements OnInit {
   @Input() count: number;
   @Input() when: any;

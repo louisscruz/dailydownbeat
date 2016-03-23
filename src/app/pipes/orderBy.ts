@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from "angular2/core";
+import {Pipe, PipeTransform} from 'angular2/core';
 
 @Pipe({
   name: 'orderBy',
@@ -6,12 +6,12 @@ import {Pipe, PipeTransform} from "angular2/core";
 })
 export class OrderBy implements PipeTransform {
   static _orderByComparator(a: any, b: any): number {
-    if((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))) {
-      if(a.toLowerCase() < b.toLowerCase()) return -1;
-      if(a.toLowerCase() > b.toLowerCase()) return 1;
+    if ((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))) {
+      if (a.toLowerCase() < b.toLowerCase()) return -1;
+      if (a.toLowerCase() > b.toLowerCase()) return 1;
     } else {
-      if(parseFloat(a) < parseFloat(b)) return -1;
-      if(parseFloat(a) > parseFloat(b)) return 1;
+      if (parseFloat(a) < parseFloat(b)) return -1;
+      if (parseFloat(a) > parseFloat(b)) return 1;
     }
     return 0;
   }
@@ -19,14 +19,15 @@ export class OrderBy implements PipeTransform {
   transform(input: any, [config = '+']): any {
     if (!Array.isArray(input)) return input;
 
-    if (!Array.isArray(config) || (Array.isArray(config) && config.length == 1)) {
+    if (!Array.isArray(config) || (Array.isArray(config) && config.length === 1)) {
       let propertyToCheck: string = !Array.isArray(config) ? config : config[0];
-      let desc = propertyToCheck.substr(0, 1) == '-';
+      let desc = propertyToCheck.substr(0, 1) === '-';
 
-      if (!propertyToCheck || propertyToCheck == '-' || propertyToCheck == '+') {
+      if (!propertyToCheck || propertyToCheck === '-' || propertyToCheck === '+') {
         return !desc ? input.sort() : input.sort().reverse();
       } else {
-        let property: string = propertyToCheck.substr(0, 1) == '+' || propertyToCheck.substr(0, 1) == '-'
+        let propertySlice = propertyToCheck.substr(0, 1);
+        let property: string = propertySlice === '+' || propertySlice === '-'
           ? propertyToCheck.substr(1)
           : propertyToCheck;
         return input.sort(function(a: any, b: any) {
@@ -38,8 +39,8 @@ export class OrderBy implements PipeTransform {
     } else {
       return input.sort(function(a: any, b: any) {
         for (let i: number = 0; i < config.length; i++) {
-          let desc = config[i].substr(0, 1) == '-';
-          let property = config[i].substr(0, 1) == '+' || config[i].substr(0, 1) == '-'
+          let desc = config[i].substr(0, 1) === '-';
+          let property = config[i].substr(0, 1) === '+' || config[i].substr(0, 1) === '-'
             ? config[i].substr(1)
             : config[i];
 
@@ -47,7 +48,7 @@ export class OrderBy implements PipeTransform {
             ? OrderBy._orderByComparator(a[property], b[property])
             : -OrderBy._orderByComparator(a[property], b[property]);
 
-          if (comparison != 0) return comparison;
+          if (comparison !== 0) return comparison;
         }
         return 0;
       });

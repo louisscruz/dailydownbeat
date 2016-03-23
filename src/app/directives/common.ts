@@ -11,7 +11,7 @@ export interface IAttribute {
 export class NgTransclude {
   private _ngTransclude: TemplateRef;
 
-  private set ngTransclude(templateRef:TemplateRef) {
+  private set ngTransclude(templateRef: TemplateRef) {
     this._ngTransclude = templateRef;
     if (templateRef) {
       this.viewRef.createEmbeddedView(templateRef);
@@ -22,6 +22,6 @@ export class NgTransclude {
     return this._ngTransclude;
   }
 
-  constructor(@Inject(ViewContainerRef) public viewRef:ViewContainerRef) {
+  constructor(@Inject(ViewContainerRef) public viewRef: ViewContainerRef) {
   }
 }

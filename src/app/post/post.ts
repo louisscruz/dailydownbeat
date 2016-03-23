@@ -28,11 +28,11 @@ import {OrderBy} from '../pipes/orderBy';
 })
 
 export class PostDetail implements OnInit {
+  public isCollapsed: boolean = true;
   private post: Post;
   private comments: Array<any>;
   private commentForm: ControlGroup;
   private comment: AbstractControl;
-  public isCollapsed: boolean = true;
 
   constructor(
     private _router: Router,

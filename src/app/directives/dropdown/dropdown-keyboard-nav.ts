@@ -8,12 +8,12 @@ import {Dropdown} from './dropdown.directive';
   }
 })
 export class KeyboardNav {
-  constructor(private dd:Dropdown, private el:ElementRef) {
+  constructor(private dd: Dropdown, private el: ElementRef) {
     console.warn('keyboard-nav deprecated');
     dd.keyboardNav = true;
   }
 
-  onKeydown(event:KeyboardEvent) {
+  onKeydown(event: KeyboardEvent) {
     if (event.which !== 40 && event.which !== 38) {
       return;
     }

@@ -11,9 +11,9 @@ import {Tabset} from './tabset';
 // TODO: templateUrl?
 @Directive({selector: 'tab, [tab]'})
 export class Tab implements OnDestroy {
-  @Input() public heading:string;
-  @Input() public disabled:boolean;
-  @Input() public removable:boolean;
+  @Input() public heading: string;
+  @Input() public disabled: boolean;
+  @Input() public removable: boolean;
 
   /** tab active state toogle */
   @HostBinding('class.active')
@@ -21,9 +21,9 @@ export class Tab implements OnDestroy {
     return this._active;
   }
 
-  @Output() public select:EventEmitter<Tab> = new EventEmitter();
-  @Output() public deselect:EventEmitter<Tab> = new EventEmitter();
-  @Output() public removed:EventEmitter<Tab> = new EventEmitter();
+  @Output() public select: EventEmitter<Tab> = new EventEmitter();
+  @Output() public deselect: EventEmitter<Tab> = new EventEmitter();
+  @Output() public removed: EventEmitter<Tab> = new EventEmitter();
 
   public set active(active) {
     if (this.disabled && active || !active) {
@@ -37,19 +37,19 @@ export class Tab implements OnDestroy {
 
     this._active = active;
     this.select.emit(this);
-    this.tabset.tabs.forEach((tab:Tab) => {
+    this.tabset.tabs.forEach((tab: Tab) => {
       if (tab !== this) {
         tab.active = false;
       }
     });
   }
 
+  public headingRef: TemplateRef;
   @HostBinding('class.tab-pane') private addClass = true;
 
-  private _active:boolean;
-  public headingRef:TemplateRef;
+  private _active: boolean;
 
-  constructor(public tabset:Tabset) {
+  constructor(public tabset: Tabset) {
     this.tabset.addTab(this);
   }
 

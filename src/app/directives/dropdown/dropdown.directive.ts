@@ -10,29 +10,32 @@ import {dropdownService, NONINPUT} from './dropdown.service';
 @Directive({selector: '[dropdown]'})
 export class Dropdown implements OnInit, OnDestroy {
   @HostBinding('class.open')
-  @Input() public get isOpen():boolean {
+  @Input() public get isOpen(): boolean {
     return this._isOpen;
   }
 
-  @Input() public autoClose:string;
-  @Input() public keyboardNav:boolean;
+  @Input() public autoClose: string;
+  @Input() public keyboardNav: boolean;
   // enum string: ['always', 'outsideClick', 'disabled']
-  @Input() public appendToBody:boolean;
+  @Input() public appendToBody: boolean;
 
-  @Output() public onToggle:EventEmitter<boolean> = new EventEmitter();
-  @Output() public isOpenChange:EventEmitter<boolean> = new EventEmitter();
+  @Output() public onToggle: EventEmitter<boolean> = new EventEmitter();
+  @Output() public isOpenChange: EventEmitter<boolean> = new EventEmitter();
+  // index of selected element
+  public selectedOption: number;
+  // drop menu html
+  public menuEl: ElementRef;
+  // drop down toggle element
+  public toggleEl: ElementRef;
+
   @HostBinding('class.dropdown') private addClass = true;
 
-  private _isOpen:boolean;
-  // index of selected element
-  public selectedOption:number;
-  // drop menu html
-  public menuEl:ElementRef;
-  // drop down toggle element
-  public toggleEl:ElementRef;
+  private _isOpen: boolean;
 
-  constructor(public el:ElementRef,
-              @Query('dropdownMenu', {descendants: false}) dropdownMenuList:QueryList<ElementRef>) {
+  constructor(
+    public el: ElementRef,
+    @Query('dropdownMenu', {descendants: false}) dropdownMenuList: QueryList<ElementRef>
+  ) {
     // todo: bind to route change event
   }
 
@@ -70,7 +73,7 @@ export class Dropdown implements OnInit, OnDestroy {
     }
   }
 
-  public set dropDownMenu(dropdownMenu:{el:ElementRef}) {
+  public set dropDownMenu(dropdownMenu: {el: ElementRef}) {
     // init drop down menu
     this.menuEl = dropdownMenu.el;
 
@@ -79,16 +82,16 @@ export class Dropdown implements OnInit, OnDestroy {
     }
   }
 
-  public set dropDownToggle(dropdownToggle:{el:ElementRef}) {
+  public set dropDownToggle(dropdownToggle: {el: ElementRef}) {
     // init toggle element
     this.toggleEl = dropdownToggle.el;
   }
 
-  public toggle(open?:boolean):boolean {
+  public toggle(open?: boolean): boolean {
     return this.isOpen = arguments.length ? !!open : !this.isOpen;
   }
 
-  public focusDropdownEntry(keyCode:number) {
+  public focusDropdownEntry(keyCode: number) {
     // If append to body is used.
     let hostEl = this.menuEl ?
       this.menuEl.nativeElement :

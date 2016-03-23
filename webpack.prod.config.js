@@ -203,6 +203,7 @@ module.exports = {
           'Footer',
           'OrderBy',
           'Pluralize',
+          'ReplyOpen',
           'RouterActive',
           'RouterLink',
           'RouterOutlet',

@@ -16,7 +16,8 @@ import {Tab} from './tab';
             (click)="tabz.active = true">
             <span [ngTransclude]="tabz.headingRef">{{tabz.heading}}</span>
             <span [hidden]="!tabz.removable">
-              <span (click)="$event.preventDefault(); removeTab(tabz);" class="glyphicon glyphicon-remove-circle"></span>
+              <span (click)="$event.preventDefault(); removeTab(tabz);"
+                    class="glyphicon glyphicon-remove-circle"></span>
             </span>
           </a>
         </li>
@@ -27,6 +28,42 @@ import {Tab} from './tab';
   `
 })
 export class Tabset implements OnInit {
+  public tabs: Array<Tab> = [];
+  private isDestroyed: boolean;
+  private _vertical: boolean;
+  private _justified: boolean;
+  private _type: string;
+  private classMap: any = {};
+
+  constructor() {}
+
+  ngOnInit() {
+    this.type = this.type !== 'undefined' ? this.type : 'tabs';
+  }
+  ngOnDestroy() {
+    this.isDestroyed = true;
+  }
+
+  public addTab(tab: Tab) {
+    this.tabs.push(tab);
+    tab.active = this.tabs.length === 1 && tab.active !== false;
+  }
+
+  public removeTab(tab: Tab) {
+    let index = this.tabs.indexOf(tab);
+    if (index === -1 || this.isDestroyed) {
+      return;
+    }
+    // Select a new tab if the tab to be removed is selected and not destroyed
+    if (tab.active && this.hasAvailableTabs(index)) {
+      let newActiveIndex = this.getClosestTabIndex(index);
+      this.tabs[newActiveIndex].active = true;
+    }
+
+    tab.removed.emit(tab);
+    this.tabs.splice(index, 1);
+  }
+
   @Input() private get vertical() {
     return this._vertical;
   };
@@ -62,46 +99,7 @@ export class Tabset implements OnInit {
     };
   }
 
-  public tabs:Array<Tab> = [];
-
-  private isDestroyed:boolean;
-  private _vertical:boolean;
-  private _justified:boolean;
-  private _type:string;
-  private classMap:any = {};
-
-  constructor() {
-  }
-
-  ngOnInit() {
-    this.type = this.type !== 'undefined' ? this.type : 'tabs';
-  }
-
-  ngOnDestroy() {
-    this.isDestroyed = true;
-  }
-
-  public addTab(tab:Tab) {
-    this.tabs.push(tab);
-    tab.active = this.tabs.length === 1 && tab.active !== false;
-  }
-
-  public removeTab(tab:Tab) {
-    let index = this.tabs.indexOf(tab);
-    if (index === -1 || this.isDestroyed) {
-      return;
-    }
-    // Select a new tab if the tab to be removed is selected and not destroyed
-    if (tab.active && this.hasAvailableTabs(index)) {
-      let newActiveIndex = this.getClosestTabIndex(index);
-      this.tabs[newActiveIndex].active = true;
-    }
-
-    tab.removed.emit(tab);
-    this.tabs.splice(index, 1);
-  }
-
-  private getClosestTabIndex (index:number):number {
+  private getClosestTabIndex (index: number): number {
     let tabsLength = this.tabs.length;
     if (!tabsLength) {
       return -1;
@@ -120,7 +118,7 @@ export class Tabset implements OnInit {
     return -1;
   }
 
-  private hasAvailableTabs (index:number) {
+  private hasAvailableTabs (index: number) {
     let tabsLength = this.tabs.length;
     if (!tabsLength) {
       return false;
