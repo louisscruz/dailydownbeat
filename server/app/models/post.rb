@@ -15,13 +15,13 @@ class Post < ApplicationRecord
 
   def title_prepend
     prepends = ["show dd", "job", "ask dd"]
-    if !type && prepends.any? { |w| title.downcase =~ /#{w}/ }
+    if kind == "post" && prepends.any? { |w| title.downcase =~ /#{w}/ }
       errors.add(:title, 'Regular posts may not have prepends')
-    elsif type == "show" && title[0, 9] != "Show DD: "
+    elsif kind == "show" && title[0, 9] != "Show DD: "
       errors.add(:title, "Show DD posts must begin with 'Show DD: '")
-    elsif type == "job" && title[0, 5] != "Job: "
+    elsif kind == "job" && title[0, 5] != "Job: "
       errors.add(:title, "Job posts must begin with 'Job: '")
-    elsif type == "ask" && title[0, 8] != "Ask DD: "
+    elsif kind == "ask" && title[0, 8] != "Ask DD: "
       errors.add(:title, "Ask DD posts must begin with 'Ask DD: '")
     end
   end

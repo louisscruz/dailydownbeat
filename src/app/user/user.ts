@@ -14,6 +14,7 @@ import {UserService} from '../services/users/usersService';
   selector: 'user-detail',
   directives: [Tab, Tabset],
   template: require('./user.html'),
+  styles: [ require('./user.scss') ],
   providers: [UserService]
 })
 

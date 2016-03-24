@@ -1,5 +1,14 @@
 <div class="row">
   <div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" [ngSwitch]="serverDown">
+    <div class="text-xs-center">
+      <div class="btn-group" role="group" aria-label="Set">
+        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'all'" (click)="setContentSelect('all')">All</a>
+        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'posts'" (click)="setContentSelect('posts')">Posts</a>
+        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'jobs'" (click)="setContentSelect('jobs')">Jobs</a>
+        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'show'" (click)="setContentSelect('show')">Show DD</a>
+        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'ask'" (click)="setContentSelect('ask')">Ask DD</a>
+      </div>
+    </div>
     <div *ngSwitchDefault>
       <div class="post card" *ngFor="#post of posts; #i = index">
         <div class="vote-block">
@@ -10,21 +19,21 @@
           <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
           <span>
             <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a>
-              <span dropdown (on-toggle)="toggled($event)" class="pull-xs-right">
-                <a href id="options-dropdown" class="btn btn-secondary-outline btn-sm" dropdownToggle>
+              <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
+                <a href id="simple-btn-keyboard-nav" class="btn btn-secondary-outline btn-sm" dropdownToggle>
                   <i class="fa fa-chevron-down fa-fw"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
-                  <li>
-                    <a class="dropdown-item"><i class="fa fa-comments fa-fw"></i> Comments</a>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                  <li role="menuitem">
+                    <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-comments fa-fw"></i> Comments</a>
                   </li>
-                  <li>
-                    <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
+                  <li role="menuitem">
+                    <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-flag fa-fw"></i> Flag</a>
                   </li>
                   <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
                     <div class="dropdown-divider"></div>
-                    <li>
-                      <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                    <li role="menuitem">
+                      <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-trash fa-fw"></i> Delete</a>
                     </li>
                   </template>
                 </ul>

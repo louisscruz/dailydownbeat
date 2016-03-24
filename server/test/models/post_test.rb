@@ -26,7 +26,11 @@ class PostTest < ActiveSupport::TestCase
     assert_not @post.valid?
   end
 
-  test "title should not have prepend when regular type of post" do
+  test "kind should default to post" do
+    assert_equal "post", @post.kind
+  end
+
+  test "title should not have prepend when regular kind of post" do
     @post.title = "ShOW dd: Something"
     assert_not @post.valid?
     @post.title = "JoB: Something"
@@ -51,10 +55,10 @@ class PostTest < ActiveSupport::TestCase
     assert @post.valid?
   end
 
-  type_hash = {"show" => "Show DD: ", "job" => "Job: ", "ask" => "Ask DD: "}
-  type_hash.each do |type, prefix|
-    test "title should have '#{prefix}' when type is #{type}" do
-      @post.type = type
+  kind_hash = {"show" => "Show DD: ", "job" => "Job: ", "ask" => "Ask DD: "}
+  kind_hash.each do |kind, prefix|
+    test "title should have '#{prefix}' when kind is #{kind}" do
+      @post.kind = kind
       @post.title = prefix + "testing"
       assert @post.valid?
       @post.title = "testing"

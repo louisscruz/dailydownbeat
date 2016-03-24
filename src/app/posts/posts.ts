@@ -22,6 +22,7 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
 })
 
 export class Posts implements OnInit {
+  private contentSelect: string = 'all';
   private posts: Array<Post>;
   private totalItems: number = 100;
   private currentPage: number = 1;
@@ -35,6 +36,11 @@ export class Posts implements OnInit {
     private _authService: AuthService
   ) {}
 
+  setContentSelect(content: string) {
+    if (this.contentSelect !== content) {
+      this.contentSelect = content;
+    }
+  }
   setPageOffset(currentPage) {
     this.pageOffset = ((this.currentPage - 1) * this.perPage);
   }

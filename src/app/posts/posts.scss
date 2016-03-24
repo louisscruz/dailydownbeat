@@ -1,4 +1,13 @@
 .posts {
+  .btn-link {
+    &.active {
+      color: black;
+      &:hover {
+        text-decoration: none;
+        cursor: default;
+      }
+    }
+  }
   .post {
     //transition: background-color 0.1s ease;
     display: flex;

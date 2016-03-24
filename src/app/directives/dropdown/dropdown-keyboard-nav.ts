@@ -1,11 +1,8 @@
-import {Directive, ElementRef} from 'angular2/core';
+import {Directive, ElementRef, HostListener} from 'angular2/core';
 import {Dropdown} from './dropdown.directive';
 
 @Directive({
-  selector: '[dropdown][dropdownKeyboardNav]',
-  host: {
-    '(keydown)': 'onKeydown($event)'
-  }
+  selector: '[dropdown][dropdownKeyboardNav]'
 })
 export class KeyboardNav {
   constructor(private dd: Dropdown, private el: ElementRef) {
@@ -13,6 +10,7 @@ export class KeyboardNav {
     dd.keyboardNav = true;
   }
 
+  @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent) {
     if (event.which !== 40 && event.which !== 38) {
       return;
