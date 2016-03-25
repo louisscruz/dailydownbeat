@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {Router, RouteParams, RouterLink} from 'angular2/router';
 import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
 import {
@@ -26,7 +26,7 @@ import {OrderBy} from '../pipes/orderBy';
   template: require('./comment.html')
 })
 
-export class CommentDetail {
+export class CommentDetail implements OnInit {
   @Input() comment;
   @Input() replyOpen;
   private isCollapsed: boolean = true;
@@ -48,5 +48,8 @@ export class CommentDetail {
     this.replyCollapsed = true;
     (<Control>this.replyForm.controls['reply']).updateValue('');
     (<Control>this.replyForm.controls['reply']).pristine = true;
+  }
+  ngOnInit() {
+    this.isCollapsed = true;
   }
 }

@@ -1,5 +1,8 @@
 .posts {
   .btn-link {
+    &.disabled {
+      color: red;
+    }
     &.active {
       color: black;
       &:hover {

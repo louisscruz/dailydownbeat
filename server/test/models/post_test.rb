@@ -16,14 +16,24 @@ class PostTest < ActiveSupport::TestCase
     assert_not @post.valid?
   end
 
-  test "url should be present" do
+  test "url should be present for non-ask posts" do
     @post.url = "    "
     assert_not @post.valid?
+  end
+
+  test "url should be blank for ask posts" do
+    @ask_post = Post.create(title: "Testing", url: "http://test.com", user_id: 1, kind: "ask")
+    assert_equal nil, @ask_post.url
   end
 
   test "url should be valid" do
     @post.url = "notvalid"
     assert_not @post.valid?
+  end
+
+  test "'ask' kind should always have blank url" do
+    @ask_post = Post.create(title: "testing 123", user_id: 1, kind: "ask")
+    #assert_equal "post"
   end
 
   test "kind should default to post" do

@@ -14,11 +14,11 @@ const PAGER_TEMPLATE = `
   <ul class="container">
     <li class="btn btn-link"
         [style.display]="noPrevious() ? 'none' : 'inherit'"
-        [class.previous]="align" [ngClass]="{'pull-left': align}">
-      <a href (click)="selectPage(page - 1, $event)">{{getText('previous')}}</a>
+        [class.previous]="align" [ngClass]="{'pull-left': align}" [class.disabled]="loading">
+      <a href (click)="selectPage(page - 1, $event)" [class.disabled]="loading">{{getText('previous')}}</a>
     </li>
     <li class="btn btn-link"
-        [hidden]="noNext()" [class.next]="align" [ngClass]="{'pull-right': align}">
+        [hidden]="noNext()" [class.next]="align" [ngClass]="{'pull-right': align}" [class.disabled]="loading">
       <a href (click)="selectPage(page + 1, $event)">{{getText('next')}}</a>
     </li>
   </ul>
@@ -32,6 +32,7 @@ const PAGER_TEMPLATE = `
     'align',
     'totalItems', 'itemsPerPage',
     'previousText', 'nextText',
+    'loading'
   ]
 })
 export class Pager extends Pagination implements OnInit {

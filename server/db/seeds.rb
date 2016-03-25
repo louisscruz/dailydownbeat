@@ -19,9 +19,14 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
 
   3.times do |y|
     post_title = ""
+    post_hash = {"post" => "", "ask" => "Ask DD: ", "show" => "Show DD: ", "job" => "Job: "}
+    post_type = post_hash.to_a.sample.flatten
+    post_title_prepend = post_type[1]
+
     until post_title.length < 81 && post_title.length > 2
-      post_title = Faker::App.name + ": " + Faker::StarWars.quote
+      post_title = post_title_prepend + Faker::StarWars.quote
     end
+    post_type = post_type[0]
     post_url = Faker::Internet.url
     if y < 2
       post_created_at = Faker::Time.backward(2010, :all)
@@ -30,7 +35,7 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
     end
     post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
     post_user_id = rand(1..x)
-    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id)
+    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id, kind: post_type)
   end
   unless x < 20
     5.times do |z|

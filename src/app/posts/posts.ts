@@ -28,6 +28,7 @@ export class Posts implements OnInit {
   private currentPage: number = 1;
   private pageOffset: number = 0;
   private perPage: number = 30;
+  private loadingPosts: boolean = false;
   private serverDown: boolean = false;
 
   constructor(
@@ -45,6 +46,7 @@ export class Posts implements OnInit {
     this.pageOffset = ((this.currentPage - 1) * this.perPage);
   }
   getPosts(page, per_page) {
+    this.loadingPosts = true;
     this._postService.getPosts(page, per_page)
     .subscribe(
       res => {
@@ -55,7 +57,10 @@ export class Posts implements OnInit {
         this.serverDown = true;
         console.log(err);
       },
-      () => console.log('finished')
+      () => {
+        this.loadingPosts = false;
+        console.log('finished')
+      }
     );
   }
   vote(polarity: number) {

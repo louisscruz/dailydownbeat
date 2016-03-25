@@ -1,22 +1,23 @@
 <div class="row">
   <div class="posts col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2" [ngSwitch]="serverDown">
-    <div class="text-xs-center">
-      <div class="btn-group" role="group" aria-label="Set">
-        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'all'" (click)="setContentSelect('all')">All</a>
-        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'posts'" (click)="setContentSelect('posts')">Posts</a>
-        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'jobs'" (click)="setContentSelect('jobs')">Jobs</a>
-        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'show'" (click)="setContentSelect('show')">Show DD</a>
-        <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'ask'" (click)="setContentSelect('ask')">Ask DD</a>
-      </div>
-    </div>
     <div *ngSwitchDefault>
+      <div class="text-xs-center">
+        <div class="btn-group" role="group" aria-label="Set">
+          <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'all'" (click)="setContentSelect('all')">All</a>
+          <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'posts'" (click)="setContentSelect('posts')">Posts</a>
+          <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'jobs'" (click)="setContentSelect('jobs')">Jobs</a>
+          <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'show'" (click)="setContentSelect('show')">Show DD</a>
+          <a type="button" class="btn btn-link btn-xs" [class.active]="contentSelect === 'ask'" (click)="setContentSelect('ask')">Ask DD</a>
+        </div>
+      </div>
       <div class="post card" *ngFor="#post of posts; #i = index">
         <div class="vote-block">
           <a *ngIf="!_authService.isSelf(post.user.id)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
           <a href="#" *ngIf="!_authService.isSelf(post.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)" (click)="vote(-1)"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
         </div>
         <div class="info-block">
-          <p><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
+          <p *ngIf="post.url"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
+          <p *ngIf="!post.url"><a [routerLink]=" ['PostDetail', {id: post.id}] ">{{post.title}}</a></p>
           <span>
             <small>{{post.points}} points by <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> | <a [routerLink]=" ['PostDetail', {id: post.id} ] ">{{post.comment_count}} comments</a>
               <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
@@ -43,7 +44,7 @@
         </div>
       </div>
       <div>
-        <pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)" [itemsPerPage]="perPage" [align]="true"></pager>
+        <pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage)" [itemsPerPage]="perPage" [align]="true" [loading]="loadingPosts"></pager>
       </div>
     </div>
     <div *ngSwitchWhen="true">

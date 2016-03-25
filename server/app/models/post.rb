@@ -3,11 +3,13 @@ class Post < ApplicationRecord
 
   after_create :update_user_points
   after_destroy { update_user_points(-1)}
+  before_validation :filter_url
+  before_validation :title_prepend
   belongs_to :user
   has_many :comments, as: :commentable, :dependent => :destroy
-  validate :title_prepend
   validates :title, presence: true
-  validates :url, presence: true, format: { with: URI::regexp(%w(http https)) }
+  validates_presence_of :url, :unless => :ask_post?
+  validates_format_of :url, with: URI::regexp(%w(http https)), :unless => :ask_post?
   validates :user_id, presence: true
   validates_length_of :title, :minimum => 3, :maximum => 80
 
@@ -29,5 +31,16 @@ class Post < ApplicationRecord
   def update_user_points(v=1)
     new_points = self.user.points + v
     user.update_attribute :points, new_points
+  end
+
+  #def default_ask_url
+    #self.url = "http://dailydownbeat.com/posts/" + self.id.to_s if self.kind == "ask"
+  #end
+  def ask_post?
+    self.kind == "ask"
+  end
+
+  def filter_url
+    self.url = nil if self.kind == "ask"
   end
 end

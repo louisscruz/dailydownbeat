@@ -42,6 +42,9 @@ export class Collapse {
     this.padding = '0rem';
     this.opacity = '0';
     this.transition = 'all 0.2s ease-in-out';
+    this.isExpanded = false;
+    this.isCollapsed = true;
+    this.isCollapse = true;
   }
 
   toggle() {
@@ -64,7 +67,7 @@ export class Collapse {
       this.opacity = '0';
       this.isCollapse = true;
       this.isCollapsing = false;
-    }, 4);
+    }, 0);
   }
 
   show() {
@@ -80,6 +83,6 @@ export class Collapse {
 
       this.isCollapse = true;
       this.isCollapsing = false;
-    }, 4);
+    }, 0);
   }
 }

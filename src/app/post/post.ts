@@ -48,6 +48,10 @@ export class PostDetail implements OnInit {
     });
     this.comment = this.commentForm.controls['password'];
   }
+  
+  onSelectUser(id: number) {
+    this._router.navigate( ['UserDetail', { id: id }]);
+  }
 
   ngOnInit() {
     let id = this._routeParams.get('id');
@@ -63,8 +67,5 @@ export class PostDetail implements OnInit {
       err => console.log(err),
       () => console.log(this.comments)
     );
-  }
-  onSelectUser(id: number) {
-    this._router.navigate( ['UserDetail', { id: id }]);
   }
 }
