@@ -30,10 +30,10 @@ export class Signup {
   password_confirmation: AbstractControl;
 
   constructor(
-    fb: FormBuilder,
-    private authService: AuthService,
-    http: Http,
-    router: Router
+    private _fb: FormBuilder,
+    private _authService: AuthService,
+    private _http: Http,
+    private _router: Router
   ) {
     // TODO: refactor form validators to be global
     function emailValidator(control: Control): { [s: string]: boolean } {
@@ -50,7 +50,7 @@ export class Signup {
         }
       };
     }
-    this.signupForm = fb.group({
+    this.signupForm = _fb.group({
       'username': ['', Validators.compose([
         Validators.required, Validators.maxLength(24)])],
       'email': ['', Validators.compose([
@@ -64,6 +64,6 @@ export class Signup {
     this.email = this.signupForm.controls['email'];
     this.password = this.signupForm.controls['password'];
     this.password_confirmation = this.signupForm.controls['password_confirmation'];
-    this.authService = authService;
+    this._authService = _authService;
   }
 }
