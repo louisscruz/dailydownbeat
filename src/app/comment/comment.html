@@ -57,6 +57,6 @@
     </form>
   </div>
   <div *ngFor="#childComment of comment.comments | orderBy: ['-points']">
-    <comment [comment]="childComment" [collapse]="isCollapsed" [replyOpen]="replyOpen"></comment>
+    <comment [collapse]="isCollapsed" [comment]="childComment" [replyOpen]="replyOpen"></comment>
   </div>
 </div>

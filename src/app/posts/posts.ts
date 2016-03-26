@@ -4,6 +4,7 @@ import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Pager} from '../directives/pagination/pager';
 import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
+import {Pluralize} from '../directives/pluralize/pluralize';
 
 import {PostService} from '../services/posts/postsService';
 import {AuthService} from '../services/auth/authService';
@@ -15,14 +16,14 @@ import {TimeSincePipe} from '../pipes/timeSince.ts';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [Pager, CORE_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES],
+  directives: [Pager, CORE_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES, Pluralize],
   pipes: [TimeSincePipe],
   providers: [HTTP_PROVIDERS, PostService],
   styles: [require('./posts.scss')]
 })
 
 export class Posts implements OnInit {
-  private contentSelect: string = 'all';
+  private currentKind: string = 'all';
   private posts: Array<Post>;
   private totalItems: number = 100;
   private currentPage: number = 1;
@@ -37,17 +38,19 @@ export class Posts implements OnInit {
     private _authService: AuthService
   ) {}
 
-  setContentSelect(content: string) {
-    if (this.contentSelect !== content) {
-      this.contentSelect = content;
+  setContentSelect(kind: string) {
+    if (this.currentKind !== kind) {
+      this.getPosts(1, this.perPage, kind);
+      this.currentKind = kind;
+      this.currentPage = 1;
     }
   }
   setPageOffset(currentPage) {
     this.pageOffset = ((this.currentPage - 1) * this.perPage);
   }
-  getPosts(page, per_page) {
+  getPosts(page, per_page, kind='all') {
     this.loadingPosts = true;
-    this._postService.getPosts(page, per_page)
+    this._postService.getPosts(page, per_page, kind)
     .subscribe(
       res => {
         this.setPageOffset(this.currentPage);

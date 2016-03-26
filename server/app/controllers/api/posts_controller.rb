@@ -6,12 +6,13 @@ class Api::PostsController < ApplicationController
 
   # GET /posts
   def index
-    if params[:resource] == nil
-      @ordered_posts = Post.all.sort_by { |a, b| a.ranking }.reverse!
+    if params[:kind] == nil
+      @unordered_posts = Post.all
     else
-      #@ordere_posts = Post.where("type = ''").sort_by { |a, b| a.ranking }.reverse!
+      @unordered_posts = Post.where(kind: params[:kind])
     end
-    @posts = Kaminari.paginate_array(@ordered_posts).page(params[:page]).per(params[:per_page])
+    ordered_posts = @unordered_posts.sort_by { |a, b| a.ranking }.reverse!
+    @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
     #response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     #response.headers['X-Total-Count'] = 10
 
