@@ -35,7 +35,7 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
     end
     post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
     @post_user_id = rand(1..x)
-    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: post_user_id, kind: post_type)
+    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: @post_user_id, kind: post_type)
   end
   unless x < 20
     5.times do |z|
