@@ -69,6 +69,7 @@
     "./src/app/directives/dropdown/dropdown.directive.ts",
     "./src/app/directives/dropdown/dropdown.interfaces.ts",
     "./src/app/directives/dropdown/dropdown.service.ts",
+    "./src/app/directives/modal/modal.ts",
     "./src/app/directives/pagination/pager.ts",
     "./src/app/directives/pagination/pagination.ts",
     "./src/app/directives/pluralize/pluralize.ts",

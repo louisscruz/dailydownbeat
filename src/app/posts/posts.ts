@@ -8,6 +8,7 @@ import {Pluralize} from '../directives/pluralize/pluralize';
 
 import {PostService} from '../services/posts/postsService';
 import {AuthService} from '../services/auth/authService';
+import {ModalService} from '../services/modal/modalService';
 
 import {Post} from '../datatypes/post/post';
 
@@ -35,7 +36,8 @@ export class Posts implements OnInit {
   constructor(
     private _router: Router,
     private _postService: PostService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _modalService: ModalService
   ) {}
 
   setContentSelect(kind: string) {

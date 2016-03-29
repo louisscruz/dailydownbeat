@@ -199,6 +199,7 @@ module.exports = {
           'DropdownToggle',
           'Home',
           'Menu',
+          'Modal',
           'Navbar',
           'Footer',
           'OrderBy',

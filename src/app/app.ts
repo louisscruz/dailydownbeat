@@ -16,6 +16,7 @@ import {Dashboard} from './account/dashboard/dashboard';
 import {About} from './about/about';
 
 import {AuthService} from './services/auth/authService';
+import {Modal} from './directives/modal/modal';
 
 /*
  * App Component
@@ -27,6 +28,7 @@ import {AuthService} from './services/auth/authService';
   directives: [],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   template: `
+    <modal></modal>
     <header>
       <navbar></navbar>
     </header>

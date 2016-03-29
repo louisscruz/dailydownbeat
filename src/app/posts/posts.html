@@ -40,7 +40,7 @@
                   <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
                     <div class="dropdown-divider"></div>
                     <li role="menuitem">
-                      <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="_modalService.openModal()"><i class="fa fa-trash fa-fw"></i> Delete</a>
                     </li>
                   </template>
                 </ul>
@@ -50,6 +50,7 @@
         </div>
       </div>
       <div>
+        <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
         <pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage, currentKind)" [itemsPerPage]="perPage" [align]="true" [loading]="loadingPosts"></pager>
       </div>
     </div>
@@ -57,6 +58,18 @@
       <div class="card card-block">
         <p>The server is momentarily at intermission. Bookmark <i>DailyDownbeat</i> and come back later!</p>
       </div>
+    </div>
+  </div>
+  <div class="cta col-xs-12 col-xs-offset-0 col-lg-2 hidden-md-down">
+    <div class="card card-block affix">
+      <progress class="progress progress-warning" value="25" max="100">
+        <div class="progress progress-warning">
+          <span class="progress-bar" style="width: 25%;">25%</span>
+        </div>
+      </progress>
+      <h6 class="card-subtitle text-muted">25% Funded</h6>
+      <p class="card-text">Keep the Daily Downbeat servers alive!</p>
+      <a class="btn btn-block btn-primary"[routerLink]="['Donate']">Donate</a>
     </div>
   </div>
 </div>

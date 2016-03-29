@@ -1,6 +1,24 @@
 <div class="row">
-<div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
-  <h1 class="text-xs-center">Donate</h1>
-  <p>Form goes here.</p>
-</div>
+  <div class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
+    <h1 class="text-xs-center">Donate</h1>
+    <h4 class="text-xs-center"><i>Non-Functional Placeholder Form</i></h4>
+  </div>
+    <form class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3" [ngFormModel]="donateForm" (submit)="submit()">
+      <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
+        <label for="email" class="form-control-label">Email</label>
+        <input type="email" id="emailInput" placeholder="Email" [ngFormControl]="donateForm.controls['email']" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid">
+        <div *ngIf="email.touched">
+          <div *ngIf="email.hasError('required')" class="text-help">Email is required</div>
+          <div *ngIf="email.hasError('invalidEmail')" class="text-help">Email is invalid</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="number.valid && number.touched" [class.has-danger]="!number.valid && number.touched">
+        <label for="number" class="form-control-label">Card Number</label>
+        <input type="text" id="numberInput" placeholder="Card Number" [ngFormControl]="donateForm.controls['number']" class="form-control" [class.form-control-success]="number.valid" [class.form-control-danger]="!number.valid">
+        <div *ngIf="number.touched">
+          <div *ngIf="number.hasError('required')" class="text-help">Card number is required</div>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="!donateForm.valid">Donate</button>
+    </form>
 </div>
