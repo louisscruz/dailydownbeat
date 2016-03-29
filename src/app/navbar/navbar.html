@@ -52,7 +52,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="btn btn-primary-outline" [class.active]="_authService.adminMode" *ngIf="_authService.isAdmin" type="button" (click)="_authService.adminMode = !_authService.adminMode"><i class="fa fa-key"></i></a>
+          <a class="btn btn-primary-outline" [class.active]="_authService.adminMode" *ngIf="_authService.currentUser && _authService.currentUser.admin" type="button" (click)="_authService.adminMode = !_authService.adminMode"><i class="fa fa-key"></i></a>
         </li>
       </ul>
     </div>

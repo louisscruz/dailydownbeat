@@ -1,14 +1,6 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 # Seed users
 User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 'testtest', password_confirmation: 'testtest', confirmation_code: SecureRandom.hex)
-
+=begin
 300.times do |x|
   user_username = Faker::Internet.user_name(Faker::Book.author + x.to_s)
   user_email = Faker::Internet.safe_email('user' + x.to_s)
@@ -55,5 +47,73 @@ User.create(username: 'louisscruz', email: 'louisstephancruz@me.com', password: 
     end
   end
 end
+=end
+# Seed Users
+300.times do |x|
+  user_username = Faker::Internet.user_name(Faker::Book.author + x.to_s)
+  user_email = 'user' + x.to_s + '@gmail.com'
+  user_password = 'testtest'
+  user_bio = Faker::Hacker.say_something_smart
+  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, bio: user_bio)
+end
 
-p "#{User.count} users created"
+# Seed Posts
+users = User.all.order(id: :asc)
+user_count = users.count
+p "#{user_count} users created"
+
+users.each do |user|
+  3.times do |x|
+    post_title = ""
+    post_hash = {"post" => "", "ask" => "Ask DD: ", "show" => "Show DD: ", "job" => "Job: "}
+    post_type = post_hash.to_a.sample.flatten
+    post_title_prepend = post_type[1]
+
+    until post_title.length < 81 && post_title.length > 2
+      post_title = post_title_prepend + Faker::StarWars.quote
+    end
+    post_type = post_type[0]
+    post_url = Faker::Internet.url
+    if x < 2
+      post_created_at = Faker::Time.backward(2010, :all)
+    else
+      post_created_at = Faker::Time.between(12.hours.ago, Time.now, :all)
+    end
+    post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
+    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: user.id, kind: post_type)
+  end
+end
+
+post_count = Post.count
+
+p "#{post_count} posts created"
+
+slice_size = 20
+
+users.each do |user|
+  slice = [user_count - user.id, slice_size].max
+  comment_body = Faker::StarWars.quote
+  3.times do |x|
+    post = Post.order(points: :desc).offset(rand(user.id * x)).first
+    Comment.create(body: comment_body, user_id: user.id, commentable: post)
+  end
+  2.times do |x|
+    comment = Comment.offset(rand(user.id * x)).first
+    Comment.create(body: comment_body, user_id: user.id, commentable: comment)
+  end
+end
+
+p "#{Comment.count} comments created"
+
+users.each do |user|
+  5.times do |x|
+    post_slice = [post_count - user.id, slice_size].max
+    post = Post.where.not(user_id: user.id).order(points: :desc).offset(rand(user.id * (x / 2))).first
+    comment = Comment.where.not(user_id: user.id).order(points: :desc).offset(rand(user.id * (x / 2))).first
+    polarity = [-1, 1, 1][x % 3]
+    Vote.create(votable: post, user_id: user.id, polarity: polarity)
+    Vote.create(votable: comment, user_id: user.id, polarity: polarity)
+  end
+end
+
+p "#{Vote.count} votes created"

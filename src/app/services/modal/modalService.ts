@@ -8,13 +8,16 @@ export class ModalService {
     title: 'test',
     type: 'thing'
   };
-  public open: boolean = false;
+  public showModal: boolean = false;
   constructor() {}
   getAlerts() {
   };
   setModal(modal) {
   };
   openModal() {
-    this.open = true;
+    this.showModal = true;
   };
+  closeModal() {
+    this.showModal = false;
+  }
 }

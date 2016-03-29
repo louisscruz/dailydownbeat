@@ -78,6 +78,10 @@ import {AuthService} from './services/auth/authService';
     path: '/about',
     component: About,
     name: 'About'
+  }, {
+    path: '/donate',
+    name: 'Donate',
+    loader: () => require('es6-promise!./donate/donate')('Donate')
   }
 ])
 export class App implements OnInit {

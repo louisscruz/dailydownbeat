@@ -4,10 +4,10 @@
       <div class="text-xs-center">
         <div class="btn-group" role="group" aria-label="Set">
           <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('all')" [class.active]="currentKind === 'all'">All</a>
-          <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('post')" [class.active]="currentKind === 'post'">Posts</a>
-          <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('job')" [class.active]="currentKind === 'job'">Jobs</a>
+          <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('post')" [class.active]="currentKind === 'post'">News</a>
           <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('show')" [class.active]="currentKind === 'show'">Show DD</a>
           <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('ask')" [class.active]="currentKind === 'ask'">Ask DD</a>
+          <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('job')" [class.active]="currentKind === 'job'">Jobs</a>
         </div>
       </div>
       <div class="post card" *ngFor="#post of posts; #i = index">
@@ -21,7 +21,8 @@
           <span>
             <small>
               {{post.points}} points by
-              <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a> |
+              <a [routerLink]=" ['UserDetail', {id: post.user.id} ] ">{{post.user.username}}</a>
+              {{post.created_at | timeSince}} |
               <a [routerLink]=" ['PostDetail', {id: post.id} ] ">
                 <pluralize [count]="post.comment_count" [when]="{'one': '1 comment', 'other': '{} comments'}"></pluralize>
               </a>
