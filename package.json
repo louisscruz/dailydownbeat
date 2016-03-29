@@ -4,6 +4,7 @@
   "description": "The most relevant music news.",
   "author": "Louis Cruz <louisstephancruz@me.com>",
   "homepage": "https://github.com/louisscruz/dailydownbeat",
+  "license": "UNLICENSED",
   "scripts": {
     "clean": "npm cache clean && rimraf node_modules doc typings coverage dist",
     "clean:dist": "rimraf dist",
