@@ -32,7 +32,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
                   <li role="menuitem">
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-comments fa-fw"></i> Comments</a>
+                    <a class="dropdown-item" href="javascript:void(0)" [routerLink]=" ['PostDetail', {id: post.id} ]"><i class="fa fa-comment fa-fw"></i> Comment</a>
                   </li>
                   <li role="menuitem">
                     <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target=".modal" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
