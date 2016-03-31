@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter, HostBinding, OnInit} from 'angular2/core';
 
-import {ModalBackdrop} from './modalBackdrop';
 import {ModalService} from '../services/modal/modalService';
 
 @Component({
