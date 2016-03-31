@@ -11,6 +11,7 @@ import {AuthService} from '../services/auth/authService';
 import {ModalService} from '../services/modal/modalService';
 
 import {Post} from '../datatypes/post/post';
+import {Modal} from '../datatypes/modal/modal';
 
 import {TimeSincePipe} from '../pipes/timeSince.ts';
 
@@ -32,6 +33,7 @@ export class Posts implements OnInit {
   private perPage: number = 30;
   private loadingPosts: boolean = false;
   private serverDown: boolean = false;
+  private flagModal: Modal;
 
   constructor(
     private _router: Router,
@@ -70,6 +72,23 @@ export class Posts implements OnInit {
   }
   vote(polarity: number) {
     this._postService.vote(polarity);
+  }
+  //setFlagModal(title: string) {
+    //this.flagModal = {
+      //title: 'Are you sure?',
+      //body: 'Are you sure that you would like to flag ' + title + ' ?',
+      //confirmText: 'Flag',
+      //type: 'warning'
+    //}
+  //}
+  openFlagModal(post): void {
+    let modal = {
+      title: 'Are you sure?',
+      body: 'You may only flag posts that break the terms and conditions.<br><br>Are you sure that you would like to flag <b>' + post.title + '</b> by <b>' + post.user.username + '</b>?',
+      confirmText: 'Flag',
+      type: 'warning'
+    }
+    this._modalService.setAndOpenModal(modal);
   }
   ngOnInit() {
     this.getPosts(this.currentPage, this.perPage);

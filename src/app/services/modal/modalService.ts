@@ -4,20 +4,33 @@ import {Modal} from '../../datatypes/modal/modal';
 
 @Injectable()
 export class ModalService {
+  //public modal: Modal = {};
   public modal: Modal = {
-    title: 'test',
-    type: 'thing'
-  };
+    title: 'something',
+    body: 'Are you sure?',
+    confirmText: 'Confirm',
+    type: 'warning'
+  }
   public showModal: boolean = false;
   constructor() {}
-  getAlerts() {
+  getModal() {
+    return this.modal;
   };
-  setModal(modal) {
+  setModal(modal): void {
+    this.modal = modal;
+  };
+  destroyModal(): void {
+    this.modal = null;
   };
   openModal() {
     this.showModal = true;
   };
   closeModal() {
     this.showModal = false;
+    this.destroyModal();
+  };
+  setAndOpenModal(modal) {
+    this.setModal(modal);
+    this.showModal = true;
   }
 }

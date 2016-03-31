@@ -1,13 +1,13 @@
-import {Component, View, Input, Output, EventEmitter, OnInit} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, HostBinding, OnInit} from 'angular2/core';
 
+import {ModalBackdrop} from './modalBackdrop';
 import {ModalService} from '../services/modal/modalService';
 
 @Component({
   selector: 'modal',
-  providers: [ModalService]
-})
-@View({
-  template: require('./modal.html')
+  providers: [],
+  template: require('./modal.html'),
+  styles: [ require('./modal.scss') ]
 })
 export class Modal {
   constructor(

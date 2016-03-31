@@ -1,7 +1,7 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, provide, OnInit} from 'angular2/core';
+import {Component, provide, HostBinding, OnInit} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 
@@ -16,7 +16,8 @@ import {Dashboard} from './account/dashboard/dashboard';
 import {About} from './about/about';
 
 import {AuthService} from './services/auth/authService';
-import {Modal} from './directives/modal/modal';
+import {ModalService} from './services/modal/modalService';
+import {Modal} from './modal/modal';
 
 /*
  * App Component
@@ -87,9 +88,16 @@ import {Modal} from './directives/modal/modal';
   }
 ])
 export class App implements OnInit {
-  constructor(private _authService: AuthService) {}
+  constructor(
+    private _authService: AuthService,
+    private _modalService: ModalService
+  ) {}
 
   ngOnInit() {
     this._authService.isLoggedIn();
+  }
+  @HostBinding('class.modal-open')
+  public get isOpen() {
+    return this._modalService.showModal;
   }
 }

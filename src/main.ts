@@ -19,7 +19,7 @@ import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
  */
 import {App} from './app/app';
 import {RouterActive} from './app/directives/router-active';
-import {Modal} from './app/directives/modal/modal';
+import {Modal} from './app/modal/modal';
 import {Navbar} from './app/navbar/navbar';
 import {Alerts} from './app/alerts/alerts';
 import {Footer} from './app/footer/footer';
