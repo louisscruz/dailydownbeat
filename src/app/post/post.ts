@@ -34,6 +34,8 @@ export class PostDetail implements OnInit {
   private commentForm: ControlGroup;
   private comment: AbstractControl;
 
+  private loadingComments: boolean = false;
+
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
@@ -48,13 +50,14 @@ export class PostDetail implements OnInit {
     });
     this.comment = this.commentForm.controls['password'];
   }
-  
+
   onSelectUser(id: number) {
     this._router.navigate( ['UserDetail', { id: id }]);
   }
 
   ngOnInit() {
     let id = this._routeParams.get('id');
+    this.loadingComments = true;
     this._postsService.getPost(id)
     .subscribe(
       res => this.post = res,
@@ -65,7 +68,10 @@ export class PostDetail implements OnInit {
     .subscribe(
       res => this.comments = res,
       err => console.log(err),
-      () => console.log(this.comments)
+      () => {
+        console.log(this.comments);
+        this.loadingComments = false;
+      }
     );
   }
 }

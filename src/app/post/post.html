@@ -41,6 +41,7 @@
           </form>
         </div>
       </div>
+      <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
       <li *ngFor="#comment of comments | orderBy: ['-points']">
         <!--p>{{comment.body}}</p>
         <div>
