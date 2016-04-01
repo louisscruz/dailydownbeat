@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="col-xs-12">
+    <h1 class="text-xs-center">Contact</h1>
+  </div>
+  <div class="row">
+    <form class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3" [ngFormModel]="contactForm" (submit)="submit()">
+      <div class="alert alert-warning">We're currently wiring up this contact form. Feel free to email <b>lsc@juilliard.edu</b></div>
+      <fieldset class="form-group" [class.has-success]="name.valid && name.touched" [class.has-danger]="!name.valid && name.touched">
+        <label for="name" class="form-control-label">Name</label>
+        <input type="text" id="nameInput" placeholder="Name" [ngFormControl]="contactForm.controls['name']" class="form-control" [class.form-control-success]="name.valid" [class.form-control-danger]="!name.valid">
+        <div *ngIf="name.touched">
+          <div *ngIf="name.hasError('required')" class="text-help">Name is required</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
+        <label for="email" class="form-control-label">Email</label>
+        <input type="email" id="emailInput" placeholder="Email" [ngFormControl]="contactForm.controls['email']" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid">
+        <div *ngIf="email.touched">
+          <div *ngIf="email.hasError('required')" class="text-help">Email is required</div>
+          <div *ngIf="email.hasError('invalidEmail')" class="text-help">Email is invalid</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="purpose.valid && purpose.touched" [class.has-danger]="!purpose.valid && purpose.touched">
+        <label for="purpose" class="form-control-label">Purpose of Contact</label>
+        <select class="c-select form-control" id="purpose" [ngFormControl]="contactForm.controls['purpose']" [class.form-control-success]="purpose.valid" [class.form-control-danger]="!purpose.valid">
+          <!--option selected disabled hidden>Purpose</option-->
+          <option *ngFor="#purpose of purposes">{{purpose}}</option>
+        </select>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="body.valid && body.touched" [class.has-danger]="!body.valid && body.touched">
+        <label for="body" class="form-control-label">Message</label>
+        <textarea id="bodyInput" placeholder="Message" [ngFormControl]="contactForm.controls['body']" class="form-control" [class.form-control-success]="body.valid" [class.form-control-danger]="!body.valid"></textarea>
+        <div *ngIf="body.touched">
+          <div *ngIf="body.hasError('required')" class="text-help">Message is required</div>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="!contactForm.valid">Send Message</button>
+    </form>
+  </div>
+</div>

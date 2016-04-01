@@ -49,6 +49,8 @@
     "./src/app/app.ts",
     "./src/app/comment/comment.spec.ts",
     "./src/app/comment/comment.ts",
+    "./src/app/contact/contact.spec.ts",
+    "./src/app/contact/contact.ts",
     "./src/app/datatypes/alert/alertnotification.ts",
     "./src/app/datatypes/alert/mock-alerts.ts",
     "./src/app/datatypes/alert/seed-alerts.ts",

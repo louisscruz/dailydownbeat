@@ -85,6 +85,10 @@ import {Modal} from './modal/modal';
     path: '/donate',
     name: 'Donate',
     loader: () => require('es6-promise!./donate/donate')('Donate')
+  }, {
+    path: '/contact',
+    name: 'Contact',
+    loader: () => require('es6-promise!./contact/contact')('Contact')
   }
 ])
 export class App implements OnInit {
