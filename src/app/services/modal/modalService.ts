@@ -5,12 +5,7 @@ import {Modal} from '../../datatypes/modal/modal';
 @Injectable()
 export class ModalService {
   //public modal: Modal = {};
-  public modal: Modal = {
-    title: 'something',
-    body: 'Are you sure?',
-    confirmText: 'Confirm',
-    type: 'warning'
-  }
+  public modal: Modal;
   public showModal: boolean = false;
   constructor() {}
   getModal() {

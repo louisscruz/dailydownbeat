@@ -13,7 +13,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="_modalService.closeModal()">Close</button>
-          <button type="button" class="btn btn-primary">{{_modalService.modal.confirmText}}</button>
+          <button type="button" class="btn btn-primary" *ngIf="_modalService.modal.confirmText">{{_modalService.modal.confirmText}}</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
