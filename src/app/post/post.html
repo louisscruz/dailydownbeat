@@ -10,16 +10,16 @@
           <i class="fa fa-chevron-down fa-fw"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
-          <li>
-            <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+          <li *ngIf="!_authService.isSelf(post.user.id)">
+            <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post.title, post.user.username)"><i class="fa fa-flag fa-fw"></i> Flag</a>
           </li>
           <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
-            <div class="dropdown-divider" href="javascript:void(0)"></div>
+            <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
             <li>
               <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-pencil fa-fw"></i> Edit</a>
             </li>
             <li>
-              <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post.title, post.user.username)"><i class="fa fa-trash fa-fw"></i> Delete</a>
             </li>
           </template>
         </ul>

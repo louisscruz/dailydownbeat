@@ -18,11 +18,21 @@ import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
 import {OrderBy} from '../pipes/orderBy';
 
+import {
+  ModalDialogInstance,
+  ModalConfig,
+  Modal,
+  ICustomModal,
+  YesNoModalContent,
+  YesNoModal
+} from 'angular2-modal/angular2-modal';
+import {flagContent, deleteContent} from '../modal/modalPresets';
+
 @Component({
   selector: 'post-detail',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
   pipes: [OrderBy],
-  providers: [PostService, CommentService],
+  providers: [PostService, CommentService, Modal],
   styles: [ require('./post.scss') ],
   template: require('./post.html')
 })
@@ -42,7 +52,8 @@ export class PostDetail implements OnInit {
     private _authService: AuthService,
     private _postsService: PostService,
     private _commentService: CommentService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private modal: Modal
   ) {
     this.commentForm = _fb.group({
       'comment': ['', Validators.compose([
@@ -71,6 +82,36 @@ export class PostDetail implements OnInit {
 
   removeComment(id: number) {
     alert(id);
+  }
+
+  openFlagModal(title: string, username: string) {
+    let preset = flagContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          // Send http call
+          alert('woohoo')
+        },
+        () => console.log('error confirming modal')
+      )
+    });
+  }
+
+  openDeleteModal(title: string, username: string) {
+    let preset = deleteContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          // Send http call
+          alert('woohoo')
+        },
+        () => console.log('error confirming modal')
+      )
+    });
   }
 
   ngOnInit() {
