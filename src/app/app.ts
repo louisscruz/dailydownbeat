@@ -16,8 +16,8 @@ import {Dashboard} from './account/dashboard/dashboard';
 import {About} from './about/about';
 
 import {AuthService} from './services/auth/authService';
-import {ModalService} from './services/modal/modalService';
-import {Modal} from './modal/modal';
+//import {ModalService} from './services/modal/modalService';
+//import {Modal} from './modal/modal';
 
 /*
  * App Component
@@ -29,7 +29,7 @@ import {Modal} from './modal/modal';
   directives: [],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   template: `
-    <modal></modal>
+    <!--modal></modal-->
     <header>
       <navbar></navbar>
     </header>
@@ -93,15 +93,15 @@ import {Modal} from './modal/modal';
 ])
 export class App implements OnInit {
   constructor(
-    private _authService: AuthService,
-    private _modalService: ModalService
+    private _authService: AuthService
+    //private _modalService: ModalService
   ) {}
 
   ngOnInit() {
     this._authService.isLoggedIn();
   }
-  @HostBinding('class.modal-open')
-  public get isOpen() {
-    return this._modalService.showModal;
-  }
+  //@HostBinding('class.modal-open')
+  //public get isOpen() {
+    //return this._modalService.showModal;
+  //}
 }

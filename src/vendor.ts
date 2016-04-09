@@ -16,6 +16,8 @@ import 'rxjs/add/operator/mergeMap';
 // bootstrap-loader
 import 'bootstrap-loader';
 require('font-awesome-sass-loader');
+//require('angular2-modal')
+//import 'angular2-modal';
 
 if ('production' === ENV) {
   // Production

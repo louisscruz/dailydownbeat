@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, ElementRef} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
@@ -8,19 +8,29 @@ import {Pluralize} from '../directives/pluralize/pluralize';
 
 import {PostService} from '../services/posts/postsService';
 import {AuthService} from '../services/auth/authService';
-import {ModalService} from '../services/modal/modalService';
+//import {ModalService} from '../services/modal/modalService';
 
 import {Post} from '../datatypes/post/post';
-import {Modal} from '../datatypes/modal/modal';
+//import {Modal} from '../datatypes/modal/modal';
 
 import {TimeSincePipe} from '../pipes/timeSince.ts';
+
+import {
+  ModalDialogInstance,
+  ModalConfig,
+  Modal,
+  ICustomModal,
+  YesNoModalContent,
+  YesNoModal
+} from 'angular2-modal/angular2-modal';
+import {flagContent, deleteContent} from '../modal/modalPresets';
 
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
   directives: [Pager, CORE_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES, Pluralize],
   pipes: [TimeSincePipe],
-  providers: [HTTP_PROVIDERS, PostService],
+  providers: [HTTP_PROVIDERS, PostService, Modal],
   styles: [require('./posts.scss')]
 })
 
@@ -33,13 +43,16 @@ export class Posts implements OnInit {
   private perPage: number = 30;
   private loadingPosts: boolean = false;
   private serverDown: boolean = false;
-  private flagModal: Modal;
+  private flagModal;
+  public mySampleElement: ElementRef;
+  public lastModalResult: string;
+  //public buttons = BUTTONS;
 
   constructor(
     private _router: Router,
     private _postService: PostService,
     private _authService: AuthService,
-    private _modalService: ModalService
+    private modal: Modal
   ) {}
 
   setContentSelect(kind: string) {
@@ -73,23 +86,46 @@ export class Posts implements OnInit {
   vote(polarity: number) {
     this._postService.vote(polarity);
   }
-  //setFlagModal(title: string) {
-    //this.flagModal = {
-      //title: 'Are you sure?',
-      //body: 'Are you sure that you would like to flag ' + title + ' ?',
-      //confirmText: 'Flag',
-      //type: 'warning'
-    //}
-  //}
-  openFlagModal(post): void {
-    let modal = {
-      title: 'Are you sure?',
-      body: 'You may only flag posts that break the terms and conditions.<br><br>Are you sure that you would like to flag <b>' + post.title + '</b> by <b>' + post.user.username + '</b>?',
-      confirmText: 'Flag',
-      type: 'warning'
-    }
-    this._modalService.setAndOpenModal(modal);
+  /*processDialog(dialog: Promise<ModalDialogInstance>) {
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+        this.lastModalResult = result;
+      }, () => this.lastModalResult = 'Rejected!');
+    });
+  }*/
+
+  openFlagModal(title: string, username: string) {
+    let preset = flagContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          // Send http call
+          alert('woohoo')
+        },
+        () => console.log('error confirming modal')
+      )
+    });
   }
+
+  openDeleteModal(title: string, username: string) {
+    let preset = deleteContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          // Send http call
+          alert('woohoo')
+        },
+        () => console.log('error confirming modal')
+      )
+    });
+  }
+
   ngOnInit() {
     this.getPosts(this.currentPage, this.perPage);
   }

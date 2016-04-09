@@ -19,14 +19,15 @@ import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
  */
 import {App} from './app/app';
 import {RouterActive} from './app/directives/router-active';
-import {Modal} from './app/modal/modal';
+//import {Modal} from './app/modal/modal';
 import {Navbar} from './app/navbar/navbar';
 import {Alerts} from './app/alerts/alerts';
 import {Footer} from './app/footer/footer';
 import {AuthService} from './app/services/auth/authService';
 import {AlertService} from './app/services/alerts/alertsService';
-import {ModalService} from './app/services/modal/modalService';
+//import {ModalService} from './app/services/modal/modalService';
 //import {FooterContent} from './app/footer-content/footer-content';
+import {ModalConfig} from 'angular2-modal/angular2-modal';
 
 /*
  * Application Providers/Directives/Pipes
@@ -41,7 +42,8 @@ const APPLICATION_PROVIDERS = [
   AuthHttp,
   JwtHelper,
   AlertService,
-  ModalService,
+  ngCore.provide(ModalConfig, {useValue: new ModalConfig('lg', true, 81)}),
+  //ModalService,
   ngCore.provide(AuthConfig, {
     useValue: new AuthConfig({
       headerName: 'Authorization',
@@ -58,7 +60,7 @@ const APPLICATION_PROVIDERS = [
 const APPLICATION_DIRECTIVES = [
   ...ROUTER_DIRECTIVES,
   RouterActive,
-  Modal,
+  //Modal,
   Navbar,
   Alerts,
   Footer//,

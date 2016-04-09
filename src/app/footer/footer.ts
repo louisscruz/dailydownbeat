@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {ModalService} from '../services/modal/modalService';
+//import {ModalService} from '../services/modal/modalService';
 
 @Component({
   selector: 'footer-content',
@@ -13,7 +13,7 @@ import {ModalService} from '../services/modal/modalService';
 export class Footer {
   private terms: any;
   constructor(
-    private _modalService: ModalService
+    //private _modalService: ModalService
   ) {
     this.terms = `
 
@@ -160,7 +160,7 @@ We are committed to conducting our business in accordance with these principles 
       confirmText: null,
       type: 'primary'
     }
-    this._modalService.setAndOpenModal(modal);
+    //this._modalService.setAndOpenModal(modal);
   }
 
 }
