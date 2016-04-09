@@ -1,3 +1,5 @@
+require 'json_web_token'
+
 module SessionsHelper
   def create_session(user)
     session[:user_id] = user.id
@@ -7,8 +9,13 @@ module SessionsHelper
     auth_token = request.headers["Authorization"]
     if auth_token
       auth_token = auth_token.split(" ").last
+      begin
+        decoded_token = JsonWebToken.decode auth_token
+      rescue JWT::ExpiredSignature
+        return
+      end
+      @current_user ||= User.find_by(auth_token: auth_token)
     end
-    @current_user ||= User.find_by(auth_token: auth_token)
   end
 
   def log_out(user)

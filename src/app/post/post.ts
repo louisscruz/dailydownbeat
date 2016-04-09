@@ -55,6 +55,24 @@ export class PostDetail implements OnInit {
     this._router.navigate( ['UserDetail', { id: id }]);
   }
 
+  addComment(body: string, commentableType: string, commentableId: number) {
+    this._commentService.addComment(body, commentableType, commentableId, this._authService.currentUser.id)
+    .subscribe(
+      res => {
+        this.comments.push(res);
+      },
+      err => console.log(err),
+      () => {
+        this.isCollapsed = true;
+        (this.commentForm.controls['comment'] as Control).updateValue('');
+      }
+    )
+  }
+
+  removeComment(id: number) {
+    alert(id);
+  }
+
   ngOnInit() {
     let id = this._routeParams.get('id');
     this.loadingComments = true;

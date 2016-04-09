@@ -32,7 +32,7 @@
       </div>
       <div [collapse]="isCollapsed">
         <div class="well well-lg">
-          <form class="text-xs-right" [ngFormModel]="commentForm" (ngSubmit)="comment(commentForm.value)">
+          <form class="text-xs-right" [ngFormModel]="commentForm" (ngSubmit)="addComment(commentForm.controls['comment'].value, 'Post', post.id, 1)">
             <fieldset class="form-group">
               <textarea class="form-control" [ngFormControl]="commentForm.controls['comment']"></textarea>
             </fieldset>
@@ -42,35 +42,8 @@
         </div>
       </div>
       <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-      <li *ngFor="#comment of comments | orderBy: ['-points']">
-        <!--p>{{comment.body}}</p>
-        <div>
-          <a [routerLink]="['UserDetail', {id: comment.user.id}]">{{comment.user.username}}</a>
-          {{comment.comment_count}}
-          <span dropdown (on-toggle)="toggled($event)" class="text-xs-right" *ngIf="_authService.currentUser">
-            <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
-              <i class="fa fa-chevron-down fa-fw"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
-              <li>
-                <a class="dropdown-item"><i class="fa fa-flag fa-fw"></i> Flag</a>
-              </li>
-              <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
-                <div class="dropdown-divider"></div>
-                <li>
-                  <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
-                </li>
-                <li>
-                  <a class="dropdown-item"><i class="fa fa-trash fa-fw"></i> Delete</a>
-                </li>
-              </template>
-            </ul>
-          </span>
-          <div *ngFor="#c of comment.comments">
-            {{c}}
-          </div>
-        </div-->
-        <comment [comment]="comment" [replyOpen]="_commentService.replyOpen"></comment>
+      <li *ngFor="#comment of comments | orderBy: ['-points', '-created_at']">
+        <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment(comment.id)"></comment>
       </li>
     </ul>
   </div>

@@ -29,6 +29,7 @@ import {OrderBy} from '../pipes/orderBy';
 export class CommentDetail implements OnInit {
   @Input() comment;
   @Input() replyOpen;
+  @Output() deleteEvent = new EventEmitter();
   private isCollapsed: boolean = true;
   private replyCollapsed: boolean = true;
   private replyForm: ControlGroup;
@@ -48,6 +49,17 @@ export class CommentDetail implements OnInit {
     this.replyCollapsed = true;
     (<Control>this.replyForm.controls['reply']).updateValue('');
     (<Control>this.replyForm.controls['reply']).pristine = true;
+  }
+  deletePostComment(commentableId: number) {
+    this._commentService.deletePostComment(commentableId)
+    .subscribe(
+      res => {
+        this.deleteEvent.emit('event');
+      },
+      err => console.log(err),
+      () => {
+      }
+    )
   }
   ngOnInit() {
     this.isCollapsed = true;
