@@ -1,6 +1,10 @@
 import {Modal} from 'angular2-modal/angular2-modal';
 
 export function flagContent(modal: Modal, title: string, username: string) {
+  let name = title;
+  if (name.length > 80) {
+    name = name.slice(0, 77).concat('...');
+  }
   return modal.confirm()
   .size('md')
   .isBlocking(false)
@@ -9,7 +13,7 @@ export function flagContent(modal: Modal, title: string, username: string) {
   .title('Are you sure?')
   .body(`
     <p>Are you sure that you would like to flag <b>`
-    + title +
+    + name +
     `</b> by <b>`
     + username +
     `</b>?`

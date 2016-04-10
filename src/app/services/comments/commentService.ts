@@ -5,6 +5,7 @@ import {Http, Headers} from 'angular2/http';
 export class CommentService {
   private apiUrl: string = API_URL;
   private replyOpen: number;
+  public selectedRoute: any = [];
   constructor(private http: Http) {}
 
   toggleReplyOpen(id: number) {
@@ -31,7 +32,7 @@ export class CommentService {
     })
     .map(res => res.json());
   }
-  
+
   deletePostComment(commentableId: number) {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();

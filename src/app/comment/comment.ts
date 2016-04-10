@@ -16,12 +16,25 @@ import {AuthService} from '../services/auth/authService';
 import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
 import {Pluralize} from '../directives/pluralize/pluralize';
+import {TimeSincePipe} from '../pipes/timeSince.ts';
 import {OrderBy} from '../pipes/orderBy';
+
+
+import {
+  ModalDialogInstance,
+  ModalConfig,
+  Modal,
+  ICustomModal,
+  YesNoModalContent,
+  YesNoModal
+} from 'angular2-modal/angular2-modal';
+import {flagContent, deleteContent} from '../modal/modalPresets';
 
 @Component({
   selector: 'comment',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize],
-  pipes: [OrderBy],
+  providers: [Modal],
+  pipes: [OrderBy, TimeSincePipe],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')
 })
@@ -37,7 +50,8 @@ export class CommentDetail implements OnInit {
   constructor(
     private _authService: AuthService,
     private _commentService: CommentService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private modal: Modal
   ) {
     this.replyForm = _fb.group({
       'reply': ['', Validators.compose([
@@ -60,6 +74,43 @@ export class CommentDetail implements OnInit {
       () => {
       }
     )
+  }
+  indexComment(id: number) {
+    if (this._commentService.selectedRoute.length === 1) {
+      let index = this.comment.comments.indexOf()
+      this.comment.comments.splice(index, 1)
+    }
+    this._commentService.selectedRoute.unshift(id);
+    console.log('the current route is', this._commentService.selectedRoute);
+    this.deleteEvent.emit('event');
+  }
+  openFlagModal(title: string, username: string, id: number) {
+    let preset = flagContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          // Send http call
+          alert('woohoo')
+        },
+        () => console.log('error confirming modal')
+      )
+    });
+  }
+
+  openDeleteModal(title: string, username: string, id: number) {
+    let preset = deleteContent(this.modal, title, username);
+    let dialog: Promise<ModalDialogInstance> = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          this.indexComment(id);
+        },
+        () => console.log('error confirming modal')
+      )
+    });
   }
   ngOnInit() {
     this.isCollapsed = true;

@@ -8,10 +8,8 @@ import {Pluralize} from '../directives/pluralize/pluralize';
 
 import {PostService} from '../services/posts/postsService';
 import {AuthService} from '../services/auth/authService';
-//import {ModalService} from '../services/modal/modalService';
 
 import {Post} from '../datatypes/post/post';
-//import {Modal} from '../datatypes/modal/modal';
 
 import {TimeSincePipe} from '../pipes/timeSince.ts';
 
@@ -46,7 +44,6 @@ export class Posts implements OnInit {
   private flagModal;
   public mySampleElement: ElementRef;
   public lastModalResult: string;
-  //public buttons = BUTTONS;
 
   constructor(
     private _router: Router,
@@ -86,15 +83,6 @@ export class Posts implements OnInit {
   vote(polarity: number) {
     this._postService.vote(polarity);
   }
-  /*processDialog(dialog: Promise<ModalDialogInstance>) {
-    dialog.then((resultPromise) => {
-      return resultPromise.result
-      .then(
-        (res) => {
-        this.lastModalResult = result;
-      }, () => this.lastModalResult = 'Rejected!');
-    });
-  }*/
 
   openFlagModal(title: string, username: string) {
     let preset = flagContent(this.modal, title, username);

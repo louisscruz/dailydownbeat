@@ -81,7 +81,13 @@ export class PostDetail implements OnInit {
   }
 
   removeComment(id: number) {
-    alert(id);
+    /*alert(this._commentService.selectedRoute)
+    let route = this._commentService.selectedRoute;
+    let filtered = this.comments;
+    for (var i = 0; i < route.length; i++) {
+      console.log(filtered[filtered.indexOf(route[i])])
+    }*/
+
   }
 
   openFlagModal(title: string, username: string) {
