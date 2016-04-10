@@ -2,7 +2,7 @@ class Api::PostsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create]
   before_action :authenticate_as_self_or_admin!, only: [:update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy]
-  after_action only: [:index] { set_pagination_headers(:posts) }
+  #after_action only: [:index] { set_pagination_headers(:posts) }
 
   # GET /posts
   def index
@@ -13,8 +13,7 @@ class Api::PostsController < ApplicationController
     end
     ordered_posts = @unordered_posts.sort_by { |a, b| a.ranking }.reverse!
     @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
-    #response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
-    #response.headers['X-Total-Count'] = 10
+    response.headers['X-Total-Count'] = ordered_posts.length.to_s
 
     render json: @posts
   end

@@ -12,6 +12,7 @@ import {
 
 import {Post} from '../datatypes/post/post';
 import {CommentDetail} from '../comment/comment';
+import {AlertService} from '../services/alerts/alertsService';
 import {AuthService} from '../services/auth/authService';
 import {PostService} from '../services/posts/postsService';
 import {CommentService} from '../services/comments/commentService';
@@ -50,6 +51,7 @@ export class PostDetail implements OnInit {
   constructor(
     private _router: Router,
     private _routeParams: RouteParams,
+    private _alertService: AlertService,
     private _authService: AuthService,
     private _postsService: PostService,
     private _commentService: CommentService,
@@ -72,6 +74,13 @@ export class PostDetail implements OnInit {
     .subscribe(
       res => {
         this.comments.push(res);
+        let alert = {
+          message: 'Successfully added comment!',
+          type: 'success',
+          timeout: 80000,
+          dismissible: true
+        }
+        this._alertService.addAlert(alert);
       },
       err => console.log(err),
       () => {

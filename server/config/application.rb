@@ -39,10 +39,7 @@ module DailyDownbeat
     Kaminari.configure do |config|
       config.default_per_page = 30
     end
-    #ApiPaginationHeaders.configure do |config|
-      # Change total count header title (default: 'Total-Count')
-      #config.total_count_header = 'X-Total-Count'
-    #end
+    #config.action_dispatch.default_headers.merge!('X-Total-Count' => '0')
     #config.cache_store = :memory_store
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
@@ -53,11 +50,17 @@ module DailyDownbeat
       :user_name => "postmaster@mg.dailydownbeat.com",
       :password => ENV["EMAIL_MAILGUN_PASSWORD"]
     }
-    config.middleware.insert_before 0, "Rack::Cors" do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => :any
-      end
-    end
+    #config.action_dispatch
+    #config.action_dispatch.default_headers = {
+        #'Access-Control-Allow-Origin' => '*',
+        #'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
+        #'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept, x-total'
+    #}
+    #config.middleware.insert_before 0, "Rack::Cors" do
+      #allow do
+        #origins '*'
+        #resource '*', headers: :any, methods: [:get, :post, :options, :patch, :delete], expose: ['X-Total-Count']
+      #end
+    #end
   end
 end

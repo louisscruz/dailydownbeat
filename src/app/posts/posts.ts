@@ -35,7 +35,7 @@ import {flagContent, deleteContent} from '../modal/modalPresets';
 export class Posts implements OnInit {
   private currentKind: string = 'all';
   private posts: Array<Post>;
-  private totalItems: number = 100;
+  private totalItems: number;
   private currentPage: number = 1;
   private pageOffset: number = 0;
   private perPage: number = 30;
@@ -65,6 +65,19 @@ export class Posts implements OnInit {
   getPosts(page, per_page, kind='all') {
     this.loadingPosts = true;
     this._postService.getPosts(page, per_page, kind)
+    .map(res => {
+      this.totalItems = Number(res.headers.get('X-Total-Count'));
+      return res.json();
+    })
+    .map((posts: Array<any>) => {
+      let result: Array<Post> = [];
+      if (posts) {
+        posts.forEach((post: Post) => {
+          result.push(post);
+        });
+      }
+      return result;
+    })
     .subscribe(
       res => {
         this.setPageOffset(this.currentPage);
@@ -72,11 +85,9 @@ export class Posts implements OnInit {
       },
       err => {
         this.serverDown = true;
-        console.log(err);
       },
       () => {
         this.loadingPosts = false;
-        console.log('finished')
       }
     );
   }

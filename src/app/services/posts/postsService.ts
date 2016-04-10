@@ -20,7 +20,7 @@ export class PostService {
     return this.http.get(request, {
       headers: authHeader
     })
-    .map(res => res.json())
+    /*.map(res => res.json())
     .map((posts: Array<any>) => {
       let result: Array<Post> = [];
       if (posts) {
@@ -29,7 +29,8 @@ export class PostService {
         });
       }
       return result;
-    });
+    });*/
+    
   }
   getPost(id: number | string) {
     return this.http.get(this.apiUrl + '/api/posts/' + id)
