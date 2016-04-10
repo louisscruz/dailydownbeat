@@ -19,7 +19,7 @@
         <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
       </div>
       <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
-        <a href id="simple-btn-keyboard-nav" class="btn btn-secondary-outline btn-sm" dropdownToggle>
+        <a href id="simple-btn-keyboard-nav" class="btn btn-secondary btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">

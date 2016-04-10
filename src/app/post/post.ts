@@ -17,6 +17,7 @@ import {PostService} from '../services/posts/postsService';
 import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
 import {OrderBy} from '../pipes/orderBy';
+import {TimeSincePipe} from '../pipes/timeSince.ts';
 
 import {
   ModalDialogInstance,
@@ -31,7 +32,7 @@ import {flagContent, deleteContent} from '../modal/modalPresets';
 @Component({
   selector: 'post-detail',
   directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail],
-  pipes: [OrderBy],
+  pipes: [OrderBy, TimeSincePipe],
   providers: [PostService, CommentService, Modal],
   styles: [ require('./post.scss') ],
   template: require('./post.html')

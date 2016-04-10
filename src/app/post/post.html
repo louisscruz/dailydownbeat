@@ -4,7 +4,7 @@
       <a href="{{post.url}}">{{post.title}}</a>
     </h6>
     <div class="text-xs-center info">
-      <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a></small>
+      <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
       <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
         <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
