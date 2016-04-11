@@ -12,6 +12,7 @@ import {
 
 import {Post} from '../datatypes/post/post';
 //import {Comment} from '../datatypes/comment/comment';
+import {AlertService} from '../services/alerts/alertsService';
 import {AuthService} from '../services/auth/authService';
 import {CommentService} from '../services/comments/commentService';
 import {Collapse} from '../directives/collapse/collapse';
@@ -48,6 +49,7 @@ export class CommentDetail implements OnInit {
   private replyForm: ControlGroup;
   private reply: AbstractControl;
   constructor(
+    private _alertService: AlertService,
     private _authService: AuthService,
     private _commentService: CommentService,
     private _fb: FormBuilder,
@@ -63,6 +65,28 @@ export class CommentDetail implements OnInit {
     this.replyCollapsed = true;
     (<Control>this.replyForm.controls['reply']).updateValue('');
     (<Control>this.replyForm.controls['reply']).pristine = true;
+  }
+  addReply(body: string) {
+    let commentableType = 'Comment';
+    let commentableId = this.comment.id;
+    this._commentService.addComment(body, commentableType, commentableId, this._authService.currentUser.id)
+    .subscribe(
+      res => {
+        this.comment.comments.push(res);
+        let alert = {
+          message: 'Successfully added comment!',
+          type: 'success',
+          timeout: 8000,
+          dismissible: true
+        }
+        this._alertService.addAlert(alert);
+      },
+      err => console.log(err),
+      () => {
+        this.isCollapsed = true;
+        (this.replyForm.controls['reply'] as Control).updateValue('');
+      }
+    )
   }
   deletePostComment(commentableId: number) {
     this._commentService.deletePostComment(commentableId)

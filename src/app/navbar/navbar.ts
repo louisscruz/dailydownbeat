@@ -7,10 +7,11 @@ import {AuthService} from '../services/auth/authService';
 import {AlertService} from '../services/alerts/alertsService';
 
 import {RouterActive} from '../directives/router-active';
+import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
 
 @Component({
   selector: 'navbar',
-  directives: [ ROUTER_DIRECTIVES, RouterActive ],
+  directives: [ ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES, RouterActive ],
   //directives: [ROUTER_DIRECTIVES, Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox, RouterActive],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),

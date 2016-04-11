@@ -40,7 +40,7 @@
     </div>
   </span>
   <div class="well well-lg" [collapse]="replyOpen !== comment.id">
-    <form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="reply(replyForm.value)">
+    <form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="addReply(replyForm.controls['reply'].value)">
       <fieldset class="form-group">
         <textarea class="form-control" [ngFormControl]="replyForm.controls['reply']"></textarea>
       </fieldset>
