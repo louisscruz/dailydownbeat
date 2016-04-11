@@ -19,10 +19,8 @@
     "typings/browser.d.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
-    "useCache": true,
     "resolveGlobs": true,
-    "forkChecker": true,
-    "cacheDirectory": "node_modules/.awesome-typescript-loader-cache"
+    "forkChecker": true
   },
   "compileOnSave": false,
   "buildOnSave": false,
@@ -44,9 +42,10 @@
     "./src/app/addPost/addPost.ts",
     "./src/app/alerts/alerts.spec.ts",
     "./src/app/alerts/alerts.ts",
+    "./src/app/app.component.ts",
     "./src/app/app.e2e.ts",
+    "./src/app/app.service.ts",
     "./src/app/app.spec.ts",
-    "./src/app/app.ts",
     "./src/app/comment/comment.spec.ts",
     "./src/app/comment/comment.ts",
     "./src/app/contact/contact.spec.ts",
@@ -86,6 +85,7 @@
     "./src/app/footer/footer.ts",
     "./src/app/home/home.spec.ts",
     "./src/app/home/home.ts",
+    "./src/app/index.ts",
     "./src/app/modal/modalPresets.ts",
     "./src/app/navbar/navbar.spec.ts",
     "./src/app/navbar/navbar.ts",
@@ -103,7 +103,13 @@
     "./src/app/services/users/usersService.ts",
     "./src/app/user/user.ts",
     "./src/custom_typings.d.ts",
-    "./src/main.ts",
+    "./src/main.browser.ts",
+    "./src/platform/browser/angular2-material2/index.ts",
+    "./src/platform/browser/directives.ts",
+    "./src/platform/browser/index.ts",
+    "./src/platform/browser/pipes.ts",
+    "./src/platform/browser/providers.ts",
+    "./src/platform/environment.ts",
     "./src/polyfills.ts",
     "./src/vendor.ts",
     "typings/browser.d.ts"
