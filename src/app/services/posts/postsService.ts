@@ -7,7 +7,8 @@ import {Observable} from 'rxjs/Observable';
 export class PostService {
   private apiUrl: string = API_URL;
   constructor(private http: Http) {}
-  getPosts(page, per_page, kind) {
+  getPosts(page, per_page, kind): any {
+    console.log(page);
     var jwt = localStorage.getItem('auth_token');
     var authHeader = new Headers();
     if (jwt) {
@@ -20,17 +21,6 @@ export class PostService {
     return this.http.get(request, {
       headers: authHeader
     })
-    /*.map(res => res.json())
-    .map((posts: Array<any>) => {
-      let result: Array<Post> = [];
-      if (posts) {
-        posts.forEach((post: Post) => {
-          result.push(post);
-        });
-      }
-      return result;
-    });*/
-    
   }
   getPost(id: number | string) {
     return this.http.get(this.apiUrl + '/api/posts/' + id)

@@ -3,6 +3,7 @@ import {Router, RouterLink} from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Headers} from 'angular2/http';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Pager} from '../directives/pagination/pager';
+//import {Pagination} from '../directives/pagination/pagination';
 import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
 import {Pluralize} from '../directives/pluralize/pluralize';
 
@@ -126,6 +127,6 @@ export class Posts implements OnInit {
   }
 
   ngOnInit() {
-    this.getPosts(this.currentPage, this.perPage);
+    this.getPosts(this.currentPage, this.perPage, 'all');
   }
 }
