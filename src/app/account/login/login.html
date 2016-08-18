@@ -18,23 +18,4 @@
     </fieldset>
     <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>
   </form>
-  <!--form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-    <h1 class="text-xs-center">Login</h1>
-    <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
-      <label for="emailInput" class="form-control-label">Email</label>
-      <input type="text" id="emailInput" placeholder="Email Address" [ngFormControl]="loginForm.controls['email']" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid">
-      <div *ngIf="email.touched">
-        <div *ngIf="email.hasError('required')" class="text-help">Email Required</div>
-        <div *ngIf="email.hasError('invalidEmail')" class="text-help">Invalid Email</div>
-      </div>
-    </fieldset>
-    <fieldset class="form-group" [class.has-success]="password.valid && password.touched" [class.has-danger]="!password.valid && password.touched">
-      <label for="passwordInput" class="form-control-label">Password</label>
-      <input type="password" id="passwordInput" placeholder="Password" [ngFormControl]="loginForm.controls['password']" class="form-control" [class.form-control-success]="password.valid" [class.form-control-danger]="!password.valid">
-      <div *ngIf="password.touched">
-        <div *ngIf="password.hasError('required')" class="text-help">Password Required</div>
-      </div>
-    </fieldset>
-    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>
-  </form-->
 </div>

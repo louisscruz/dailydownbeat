@@ -3,9 +3,10 @@
  */
 
 // Angular 2
+import { provide } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Angular 2 Http
-import { HTTP_PROVIDERS } from '@angular/http';
+import { HTTP_PROVIDERS, Http } from '@angular/http';
 // Angular 2 Router
 import { provideRouter } from '@angular/router';
 // Angular 2 forms
@@ -20,6 +21,9 @@ import { APP_RESOLVER_PROVIDERS } from '../app/app.resolver';
 
 // Other
 import { MODAL_BROWSER_PROVIDERS } from 'angular2-modal/platform-browser';
+
+// AuthHttp
+import { AuthHttp, JwtHelper, AuthConfig, AUTH_PROVIDERS } from 'angular2-jwt';
 
 /*
 * Application Providers/Directives/Pipes
@@ -39,7 +43,36 @@ export const APPLICATION_PROVIDERS = [
 
   ...HTTP_PROVIDERS,
 
-  { provide: LocationStrategy, useClass: HashLocationStrategy }
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
+
+  //AuthService,
+  AuthHttp,
+  JwtHelper,
+  //AlertService,
+  //ModalService,
+  /*ngCore.provide(AuthConfig, {
+    useValue: new AuthConfig({
+      headerName: 'Authorization',
+      headerPrefix: 'Bearer',
+      tokenName: 'auth_token',
+      tokenGetter: () => localStorage.getItem('auth_token'),
+      noJwtError: true
+    })
+  }),*/
+  provide(AuthHttp, {
+    useFactory: (http) => {
+      return new AuthHttp(new AuthConfig({
+        headerName: 'Authorization',
+        headerPrefix: 'Bearer',
+        tokenName: 'auth_token',
+        tokenGetter: () => localStorage.getItem('auth_token'),
+        globalHeaders: [{'Content-Type': 'application/json'}],
+        noJwtError: true,
+        noTokenScheme: true
+      }), http);
+    },
+    deps: [Http]
+  })
 ];
 
 export const PROVIDERS = [

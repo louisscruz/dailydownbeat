@@ -10,9 +10,8 @@ export class PostService {
   constructor(private http: Http) {}
 
   getPosts(page, per_page, kind): any {
-    console.log(page);
-    var jwt = localStorage.getItem('auth_token');
-    var authHeader = new Headers();
+    let jwt = localStorage.getItem('auth_token');
+    let authHeader = new Headers();
     if (jwt) {
       authHeader.append('Authorization', jwt);
     }

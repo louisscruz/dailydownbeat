@@ -18,15 +18,19 @@ export class AuthService {
     private authHttp: AuthHttp,
     private _jwtHelper: JwtHelper
   ) {}
+
   saveJwt(jwt) {
     localStorage.setItem('auth_token', jwt);
-  };
+  }
+
   deleteJwt() {
     localStorage.removeItem('auth_token');
-  };
+  }
+
   setCurrentUser(user: User) {
     this.currentUser = user;
-  };
+  }
+
   isLoggedIn(): boolean {
     let token = localStorage.getItem('auth_token');
     if (token) {
@@ -52,14 +56,19 @@ export class AuthService {
     }
     return false;
   }
+
   login(user) {
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
       headers: header
     })
-    .map(res => res.json());
+    .map(res => {
+      alert('mapping')
+      res.json()
+    });
   }
+
   logout() {
     this.currentUser = null;
     this.adminMode = false;
@@ -72,6 +81,7 @@ export class AuthService {
       headers: header
     });
   }
+
   isSelf(id: number): boolean {
     if (this.currentUser) {
       return id === this.currentUser.id;
