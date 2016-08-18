@@ -22,10 +22,12 @@ import {AuthService} from '../../services/auth/authService';
 import {AlertService} from '../../services/alerts/alertsService';
 import {User} from '../../datatypes/user/user';
 
+import { EmailValidator } from '../../directives/emailValidator/email.validator';
+
 @Component({
   selector: 'login',
   template: require('./login.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES ],
+  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator ],
   providers: [ AlertService ]
 })
 

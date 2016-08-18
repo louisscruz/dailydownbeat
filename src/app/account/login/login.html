@@ -3,7 +3,7 @@
     <h1 class="text-xs-center">Login</h1>
     <fieldset class="form-group">
       <label for="emailInput" class="form-control-label">Email</label>
-      <input type="text" id="emailInput" placeholder="Email Address" [formControl]="loginForm.controls['email']" class="form-control" required>
+      <input type="text" id="emailInput" placeholder="Email Address" [formControl]="loginForm.controls['email']" class="form-control" required validateEmail>
       <!--div *ngIf="email.touched">
         <div *ngIf="email.hasError('required')" class="text-help">Email Required</div>
         <div *ngIf="email.hasError('invalidEmail')" class="text-help">Invalid Email</div>
