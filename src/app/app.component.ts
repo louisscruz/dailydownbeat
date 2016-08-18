@@ -27,7 +27,7 @@ import { Footer } from './footer';
       <navbar></navbar>
     </header>
 
-    <alerts class="alerts"></alerts>
+    <alerts></alerts>
 
     <main class="container">
       <router-outlet></router-outlet>
