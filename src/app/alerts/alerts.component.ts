@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Alert} from '../directives/alert/alert';
-import {AlertNotification} from '../datatypes/alert/alertnotification';
-import {AlertService} from '../services/alerts/alertsService.ts';
+import { Component } from '@angular/core';
+import { Alert } from '../directives/alert/alert';
+import { AlertNotification } from '../datatypes/alert/alertnotification';
+import { AlertService } from '../services/alerts/alertsService.ts';
 
 @Component({
   selector: 'alerts',
-  directives: [Alert],
+  directives: [ Alert ],
   styles: [ require('./alerts.scss') ],
   template: require('./alerts.html'),
   providers: []
@@ -23,10 +23,10 @@ import {AlertService} from '../services/alerts/alertsService.ts';
   }
 }*/
 
-export class Alerts implements OnInit {
+export class Alerts {
   public alerts: AlertNotification[];
 
-  constructor(private _alertService: AlertService) { }
+  constructor(private _alertService: AlertService) {}
 
   getAlerts() {
     this._alertService.getAlerts().then(alerts => this.alerts = alerts);

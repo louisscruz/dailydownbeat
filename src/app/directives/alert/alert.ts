@@ -1,28 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgIf, NgClass } from '@angular/common';
 
-const ALERT_TEMPLATE = `
-  <div class="alert" role="alert" [ngClass]="classes" *ngIf="!closed">
-    <button *ngIf="dismissible" type="button" class="close" (click)="onClose()" (touch)="onClose()">
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
-    </button>
-    <ng-content></ng-content>
-  </div>
-  `;
-
-// TODO: templateUrl
 @Component({
   selector: 'alert',
   directives: [NgIf, NgClass],
-  template: ALERT_TEMPLATE
+  styles: [ require('./alert.style.scss') ],
+  template: require('./alert.template.html')
 })
-export class Alert implements OnInit {
+export class Alert {
   @Input() public type: string = 'warning';
   @Input() public dismissible: boolean;
   @Input() public dismissOnTimeout: number;
 
-  @Output() public close: EventEmitter<Alert> = new EventEmitter();
+  @Output() public close = new EventEmitter();
 
   private closed: boolean;
   private classes: Array<string> = [];
@@ -37,7 +27,11 @@ export class Alert implements OnInit {
       this.classes.length = 1;
     }
 
-    if (this.dismissOnTimeout) {
+    this.setDismissTimeout();
+  }
+
+  setDismissTimeout(): void {
+    if (this.dismissOnTimeout && this.dismissOnTimeout != 0) {
       setTimeout(() => this.onClose(), this.dismissOnTimeout);
     }
   }

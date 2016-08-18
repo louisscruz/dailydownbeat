@@ -1,0 +1,8 @@
+.alert {
+  opacity: 0.85;
+  transition: all 0.25s ease-in-out;
+  margin-bottom: 0rem;
+  &:hover {
+    opacity: 1;
+  }
+}

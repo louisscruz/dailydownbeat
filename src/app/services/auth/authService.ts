@@ -63,10 +63,7 @@ export class AuthService {
     return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
       headers: header
     })
-    .map(res => {
-      alert('mapping')
-      res.json()
-    });
+    .map(res => res.json());
   }
 
   logout() {

@@ -1,9 +1,7 @@
-<div class="container notifications">
+<div class="container">
   <div class="row">
-    <div class="col-xs-12">
-      <div class="fixed">
-    <alert *ngFor="#alert of alerts" class="alert" [type]="alert.type" dismissible="true" dismissOnTimeout="{{alert.timeout}}">{{alert.message}}</alert>
-  </div>
-  </div>
+    <div class="col-xs-12 col-lg-10 col-lg-offset-1">
+      <alert *ngFor="let alert of _alertService.alerts" class="alert" [type]="alert.type" dismissible="true" dismissOnTimeout="{{alert.timeout}}">{{alert.message}}</alert>
+    </div>
   </div>
 </div>

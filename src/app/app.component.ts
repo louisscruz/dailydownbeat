@@ -9,6 +9,7 @@ import { AuthService } from './services/auth/authService';
 import { AuthHttp, AuthConfig, AUTH_PROVIDERS, JwtHelper } from 'angular2-jwt';
 import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
 import { Navbar } from './navbar';
+import { Alerts } from './alerts';
 import { Footer } from './footer';
 /*
  * App Component
@@ -16,8 +17,8 @@ import { Footer } from './footer';
  */
 @Component({
   selector: 'app',
-  providers: [AuthService, AUTH_PROVIDERS, JwtHelper],
-  directives: [ Navbar, Footer ],
+  providers: [ AuthService, AUTH_PROVIDERS, JwtHelper ],
+  directives: [ Navbar, Alerts, Footer ],
   viewProviders: [ ...BS_MODAL_PROVIDERS ],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   encapsulation: ViewEncapsulation.None,
@@ -25,6 +26,7 @@ import { Footer } from './footer';
     <header>
       <navbar></navbar>
     </header>
+
     <alerts class="alerts"></alerts>
 
     <main class="container">

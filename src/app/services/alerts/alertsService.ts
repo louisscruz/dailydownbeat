@@ -1,16 +1,19 @@
-import {Injectable, EventEmitter} from '@angular/core';
-import {AlertNotification} from '../../datatypes/alert/alertnotification';
-import {AlertNotifications} from '../../datatypes/alert/mock-alerts';
+import { Injectable } from '@angular/core';
+import { AlertNotification } from '../../datatypes/alert/alertnotification';
+import { AlertNotifications } from '../../datatypes/alert/mock-alerts';
 
 @Injectable()
 export class AlertService {
   public alerts: AlertNotification[];
+
   constructor() {
     this.alerts = AlertNotifications;
   }
+
   getAlerts() {
     return Promise.resolve(this.alerts);
-  };
+  }
+
   addAlert(alert: AlertNotification) {
     this.alerts.push({
       'message': alert.message,
@@ -18,5 +21,5 @@ export class AlertService {
       'timeout': alert.timeout || 8000,
       'dismissible': alert.dismissible || true
     });
-  };
+  }
 }

@@ -25,6 +25,9 @@ import { MODAL_BROWSER_PROVIDERS } from 'angular2-modal/platform-browser';
 // AuthHttp
 import { AuthHttp, JwtHelper, AuthConfig, AUTH_PROVIDERS } from 'angular2-jwt';
 
+// Services
+import { AlertService } from '../app/services/alerts/alertsService';
+
 /*
 * Application Providers/Directives/Pipes
 * providers/directives/pipes that only live in our browser environment
@@ -48,7 +51,7 @@ export const APPLICATION_PROVIDERS = [
   //AuthService,
   AuthHttp,
   JwtHelper,
-  //AlertService,
+  AlertService,
   //ModalService,
   /*ngCore.provide(AuthConfig, {
     useValue: new AuthConfig({
