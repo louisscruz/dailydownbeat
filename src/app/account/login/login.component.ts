@@ -56,7 +56,7 @@ export class Login {
         (<FormControl>this.loginForm.find('email')).updateValue('');
         (<FormControl>this.loginForm.find('password')).updateValue('');
         //(<FormControl>this.loginForm.find('password')).pristine = true;
-        let alert = new AlertNotification('test', 'danger');
+        let alert = new AlertNotification('Email address or password is invalid.', 'danger');
         this._alertService.addAlert(alert);
       },
       () => {

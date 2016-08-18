@@ -17,9 +17,9 @@ export class AlertService {
   addAlert(alert: AlertNotification) {
     this.alerts.push({
       'message': alert.message,
-      'type': alert.type || 'warning',
-      'timeout': alert.timeout || 8000,
-      'dismissible': alert.dismissible || true
+      'type': alert.type,
+      'timeout': alert.timeout,
+      'dismissible': alert.dismissible
     });
   }
 }
