@@ -1,11 +1,11 @@
-import {Input, OnInit, Component} from '@angular/core';
+import {Input, Component} from '@angular/core';
 
 @Component({
   selector: 'pluralize',
   template: `<span>{{content}}</span>`
 })
 
-export class Pluralize implements OnInit {
+export class Pluralize {
   @Input() count: number;
   @Input() when: any;
   @Input() offset: number;

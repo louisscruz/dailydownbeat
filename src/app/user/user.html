@@ -9,11 +9,44 @@
       <tab heading="Bio">
         <p>{{user.bio}}</p>
       </tab>
-      <tab heading="Posts">
-        <div class="card">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let post of posts">{{post.title}}</li>
-          </ul>
+      <tab heading="Posts" class="posts">
+        <div class="post card" *ngFor="let post of posts | orderBy: ['-created_at']">
+          <div class="vote-block">
+            <a *ngIf="!_authService.isSelf(userId)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+            <a href="#" *ngIf="!_authService.isSelf(userId) && (_authService.currentUser && _authService.currentUser.points > 49)" (click)="vote(-1)"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+          </div>
+          <div class="info-block">
+            <p *ngIf="post.url"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
+            <p *ngIf="!post.url"><a [routerLink]=" ['../../post', post.id] ">{{post.title}}</a></p>
+            <span>
+              <small>
+                <pluralize [count]="post.points" [when]="{'one': '1 point', 'other': '{} points'}"></pluralize> |
+                {{post.created_at | timeSince}} |
+                <a [routerLink]=" ['../../post', post.id ] ">
+                  <pluralize [count]="post.comment_count" [when]="{'one': '1 comment', 'other': '{} comments'}"></pluralize>
+                </a>
+                <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
+                  <a href="javascript:void(0)" id="simple-btn-keyboard-nav" class="btn btn-secondary-outline btn-sm" dropdownToggle>
+                    <i class="fa fa-chevron-down fa-fw"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                    <li role="menuitem">
+                      <a class="dropdown-item" href="javascript:void(0)" [routerLink]=" ['../../post', post.id ]"><i class="fa fa-comment fa-fw"></i> Comment</a>
+                    </li>
+                    <li role="menuitem">
+                      <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target=".modal" (click)="openFlagModal(post.title, post.user.username)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+                    </li>
+                    <template [ngIf]="_authService.adminMode || _authService.isSelf(userId)">
+                      <div class="dropdown-divider"></div>
+                      <li role="menuitem">
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post.title, post.user.username)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                      </li>
+                    </template>
+                  </ul>
+                </span>
+              </small>
+            </span>
+          </div>
         </div>
       </tab>
       <tab heading="Comments">

@@ -1,0 +1,43 @@
+.posts {
+  .btn-link {
+    &.active {
+      color: black;
+      &:hover {
+        text-decoration: none;
+        cursor: default;
+      }
+    }
+  }
+  .post {
+    //transition: background-color 0.1s ease;
+    display: flex;
+    align-items: center;
+    .dropdown-toggle {
+      //display: none;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      padding: 0rem;
+      &:after {
+        content: none;
+        border: none;
+      }
+    }
+    &:hover {
+      background-color: lighten(gray, 47.5%);
+    }
+    .vote-block {
+      width: 27px;
+    }
+    .info-block {
+      flex-grow: 1;
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 0rem;
+      }
+    }
+  }
+}
+
+.tab-pane.active {
+  margin-top: 24px;
+}

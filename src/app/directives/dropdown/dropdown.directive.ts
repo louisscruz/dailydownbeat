@@ -1,6 +1,6 @@
 import {
   Directive,
-  OnInit, OnDestroy, Input, Output, HostBinding,
+  Input, Output, HostBinding,
   EventEmitter, ElementRef, ContentChildren,
   Query, QueryList
 } from '@angular/core';
@@ -8,7 +8,7 @@ import {
 import {dropdownService, NONINPUT} from './dropdown.service';
 
 @Directive({selector: '[dropdown]'})
-export class Dropdown implements OnInit, OnDestroy {
+export class Dropdown {
   @HostBinding('class.open')
   @Input() public get isOpen(): boolean {
     return this._isOpen;
