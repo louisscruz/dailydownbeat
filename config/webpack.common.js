@@ -1,31 +1,33 @@
 /**
- * @author: @AngularClass
- */
+* @author: @AngularClass
+*/
 
-var webpack = require('webpack');
-var helpers = require('./helpers');
-
-/**
- * Webpack Plugins
- */
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const webpack = require('webpack');
+const helpers = require('./helpers');
 
 /**
- * Webpack Constants
- */
+* Webpack Plugins
+*/
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const HtmlElementsPlugin = require('./html-elements-plugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+
+/**
+* Webpack Constants
+*/
 const METADATA = {
   title: 'Daily Downbeat',
-  baseUrl: '/'
+  baseUrl: '/',
+  isDevServer: helpers.isWebpackDevServer()
 };
 
 /**
- * Webpack configuration
- *
- * See: http://webpack.github.io/docs/configuration.html#cli
- */
+* Webpack configuration
+*
+* See: http://webpack.github.io/docs/configuration.html#cli
+*/
 module.exports = {
 
   // Static metadata for index.html
@@ -46,8 +48,8 @@ module.exports = {
   // See: http://webpack.github.io/docs/configuration.html#entry
   entry: {
 
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
+    'polyfills': './src/polyfills.browser.ts',
+    'vendor': './src/vendor.browser.ts',
     'main': './src/main.browser.ts',
 
   },
@@ -95,7 +97,9 @@ module.exports = {
         exclude: [
           // these packages have problems with their sourcemaps
           helpers.root('node_modules/rxjs'),
-          helpers.root('node_modules/@angular2-material')
+          helpers.root('node_modules/@angular'),
+          helpers.root('node_modules/@ngrx'),
+          helpers.root('node_modules/@angular2-material'),
         ]
       }
 
@@ -114,7 +118,7 @@ module.exports = {
       // See: https://github.com/s-panferov/awesome-typescript-loader
       {
         test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
+        loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
         exclude: [/\.(spec|e2e)\.ts$/]
       },
 
@@ -132,7 +136,7 @@ module.exports = {
       // See: https://github.com/webpack/raw-loader
       {
         test: /\.css$/,
-        loader: 'raw-loader'
+        loaders: ['to-string-loader', 'css-loader']
       },
 
       // Raw loader support for *.html
@@ -145,108 +149,148 @@ module.exports = {
         exclude: [helpers.root('src/index.html')]
       },
 
+      {
+        test: /\.(jpg|png|gif)$/,
+        loader: 'file'
+      },
+
       // Support SCSS
       {
         test: /.scss$/,
         exclude: /node_modules/,
         loaders: ['raw-loader','sass-loader']
       },
-
       // Bootstrap 4
       {
         test: /\.(woff2?|ttf|eot|svg)$/,
         loader: 'url?limit=10000'
       },
 
-      {
-        test: /bootstrap\/dist\/js\/umd\//,
-        loader: 'imports?jQuery=jquery'
-      },
+      /*{
+      test: /bootstrap\/dist\/js\/umd\//,
+      loader: 'imports?jQuery=jquery'
+    },*/
 
-      // Load font awesome
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
-      },
+    // Load font awesome
+    {
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: "url-loader?limit=10000&mimetype=application/font-woff"
+    },
 
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
-      }
+    {
+      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: "file-loader"
+    }
 
 
-    ]
+  ]
 
-  },
+},
 
-  // Add additional plugins to the compiler.
-  //
-  // See: http://webpack.github.io/docs/configuration.html#plugins
-  plugins: [
+// Add additional plugins to the compiler.
+//
+// See: http://webpack.github.io/docs/configuration.html#plugins
+plugins: [
 
-    // Plugin: ForkCheckerPlugin
-    // Description: Do type checking in a separate process, so webpack don't need to wait.
-    //
-    // See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
-    new ForkCheckerPlugin(),
+  /*
+  * Plugin: ForkCheckerPlugin
+  * Description: Do type checking in a separate process, so webpack don't need to wait.
+  *
+  * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
+  */
+  new ForkCheckerPlugin(),
 
-    // Plugin: OccurenceOrderPlugin
-    // Description: Varies the distribution of the ids to get the smallest id length
-    // for often used ids.
-    //
-    // See: https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
-    // See: https://github.com/webpack/docs/wiki/optimization#minimize
-    new webpack.optimize.OccurenceOrderPlugin(true),
+  /*
+  * Plugin: OccurenceOrderPlugin
+  * Description: Varies the distribution of the ids to get the smallest id length
+  * for often used ids.
+  *
+  * See: https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
+  * See: https://github.com/webpack/docs/wiki/optimization#minimize
+  */
+  new webpack.optimize.OccurenceOrderPlugin(true),
 
-    // Plugin: CommonsChunkPlugin
-    // Description: Shares common code between the pages.
-    // It identifies common modules and put them into a commons chunk.
-    //
-    // See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
-    // See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
-    new webpack.optimize.CommonsChunkPlugin({
-      name: helpers.reverse(['polyfills', 'vendor', 'main']),
-      minChunks: Infinity
-    }),
+  /*
+  * Plugin: CommonsChunkPlugin
+  * Description: Shares common code between the pages.
+  * It identifies common modules and put them into a commons chunk.
+  *
+  * See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
+  * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
+  */
+  new webpack.optimize.CommonsChunkPlugin({
+    name: ['polyfills', 'vendor'].reverse()
+  }),
 
-    // Plugin: CopyWebpackPlugin
-    // Description: Copy files and directories in webpack.
-    //
-    // Copies project static assets.
-    //
-    // See: https://www.npmjs.com/package/copy-webpack-plugin
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
+  /*
+  * Plugin: CopyWebpackPlugin
+  * Description: Copy files and directories in webpack.
+  *
+  * Copies project static assets.
+  *
+  * See: https://www.npmjs.com/package/copy-webpack-plugin
+  */
+  new CopyWebpackPlugin([{
+    from: 'src/assets',
+    to: 'assets'
+  }]),
 
-    // Plugin: HtmlWebpackPlugin
-    // Description: Simplifies creation of HTML files to serve your webpack bundles.
-    // This is especially useful for webpack bundles that include a hash in the filename
-    // which changes every compilation.
-    //
-    // See: https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      chunksSortMode: helpers.packageSort(['polyfills', 'vendor', 'main'])
-    }),
+  /*
+  * Plugin: HtmlWebpackPlugin
+  * Description: Simplifies creation of HTML files to serve your webpack bundles.
+  * This is especially useful for webpack bundles that include a hash in the filename
+  * which changes every compilation.
+  *
+  * See: https://github.com/ampedandwired/html-webpack-plugin
+  */
+  new HtmlWebpackPlugin({
+    template: 'src/index.html',
+    chunksSortMode: 'dependency'
+  }),
 
-    new ProvidePlugin({
-      "Tether": 'tether',
-      "window.Tether": "tether"
-    })
+  /*
+  * Plugin: HtmlHeadConfigPlugin
+  * Description: Generate html tags based on javascript maps.
+  *
+  * If a publicPath is set in the webpack output configuration, it will be automatically added to
+  * href attributes, you can disable that by adding a "=href": false property.
+  * You can also enable it to other attribute by settings "=attName": true.
+  *
+  * The configuration supplied is map between a location (key) and an element definition object (value)
+  * The location (key) is then exported to the template under then htmlElements property in webpack configuration.
+  *
+  * Example:
+  *  Adding this plugin configuration
+  *  new HtmlElementsPlugin({
+  *    headTags: { ... }
+  *  })
+  *
+  *  Means we can use it in the template like this:
+  *  <%= webpackConfig.htmlElements.headTags %>
+  *
+  * Dependencies: HtmlWebpackPlugin
+  */
+  new HtmlElementsPlugin({
+    headTags: require('./head-config.common')
+  }),
 
-  ],
+  new ProvidePlugin({
+    //"Tether": 'tether',
+    //"window.Tether": "tether"
+  })
 
-  // Include polyfills or mocks for various node stuff
-  // Description: Node configuration
-  //
-  // See: https://webpack.github.io/docs/configuration.html#node
-  node: {
-    global: 'window',
-    crypto: 'empty',
-    module: false,
-    clearImmediate: false,
-    setImmediate: false
-  },
+],
+
+// Include polyfills or mocks for various node stuff
+// Description: Node configuration
+//
+// See: https://webpack.github.io/docs/configuration.html#node
+node: {
+  global: 'window',
+  crypto: 'empty',
+  process: true,
+  module: false,
+  clearImmediate: false,
+  setImmediate: false
+}
 };

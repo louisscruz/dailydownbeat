@@ -40,15 +40,15 @@
     </div>
   </span>
   <div class="well well-lg" [collapse]="replyOpen !== comment.id">
-    <form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="addReply(replyForm.controls['reply'].value)">
+    <!--form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="addReply(replyForm.controls['reply'].value)">
       <fieldset class="form-group">
         <textarea class="form-control" [ngFormControl]="replyForm.controls['reply']"></textarea>
       </fieldset>
       <button class="btn btn-secondary" (click)="_commentService.toggleReplyOpen(comment.id)">Cancel</button>
       <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">Reply</button>
-    </form>
+    </form-->
   </div>
-  <div *ngFor="#childComment of comment.comments | orderBy: ['-points']">
+  <div *ngFor="let childComment of comment.comments | orderBy: ['-points']">
     <comment [collapse]="isCollapsed" [comment]="childComment" [replyOpen]="replyOpen" (deleteEvent)="indexComment(comment.id)"></comment>
   </div>
 </div>

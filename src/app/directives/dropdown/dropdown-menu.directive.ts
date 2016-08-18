@@ -1,7 +1,7 @@
 import {
   Directive, ElementRef, Host,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {Dropdown} from './dropdown.directive';
 

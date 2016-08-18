@@ -1,4 +1,4 @@
-import {Input, OnInit, Component} from 'angular2/core';
+import {Input, OnInit, Component} from '@angular/core';
 
 @Component({
   selector: 'pluralize',

@@ -1,5 +1,25 @@
 <div class="row">
-  <form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+    <h1 class="text-xs-center">Login</h1>
+    <fieldset class="form-group">
+      <label for="emailInput" class="form-control-label">Email</label>
+      <input type="text" id="emailInput" placeholder="Email Address" [formControl]="loginForm.controls['email']" class="form-control" required>
+      <!--div *ngIf="email.touched">
+        <div *ngIf="email.hasError('required')" class="text-help">Email Required</div>
+        <div *ngIf="email.hasError('invalidEmail')" class="text-help">Invalid Email</div>
+      </div-->
+      <!--div *ngIf="loginForm.email.touched()">
+        test
+      </div>
+      {{loginForm.value | json}}-->
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="passwordInput" class="form-control-label">Password</label>
+      <input type="password" id="passwordInput" placeholder="Password" [formControl]="loginForm.controls['password']" class="form-control" required>
+    </fieldset>
+    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>
+  </form>
+  <!--form [ngFormModel]="loginForm" (ngSubmit)="login(loginForm.value)" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
     <h1 class="text-xs-center">Login</h1>
     <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
       <label for="emailInput" class="form-control-label">Email</label>
@@ -17,5 +37,5 @@
       </div>
     </fieldset>
     <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>
-  </form>
+  </form-->
 </div>

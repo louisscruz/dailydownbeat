@@ -1,12 +1,14 @@
-import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {Post} from '../../datatypes/post/post';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class PostService {
   private apiUrl: string = API_URL;
+
   constructor(private http: Http) {}
+
   getPosts(page, per_page, kind): any {
     console.log(page);
     var jwt = localStorage.getItem('auth_token');
@@ -22,14 +24,17 @@ export class PostService {
       headers: authHeader
     })
   }
+
   getPost(id: number | string) {
     return this.http.get(this.apiUrl + '/api/posts/' + id)
     .map(res => res.json());
   }
+
   getPostComments(id: number | string) {
     return this.http.get(this.apiUrl + '/api/posts/' + id + '/comments')
     .map(res => res.json());
   }
+
   addPost(post: any) {
     let token = localStorage.getItem('auth_token');
     let header = new Headers();
@@ -40,10 +45,14 @@ export class PostService {
     })
     .map(res => res.json());
   }
+
   vote(polarity: number) {
     alert(polarity);
   }
+
   addVote() {}
+
   editVote() {}
+
   deleteVote() {}
 }

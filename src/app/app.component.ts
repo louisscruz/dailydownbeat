@@ -1,31 +1,26 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, provide, HostBinding, OnInit} from 'angular2/core';
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {HTTP_PROVIDERS, Http} from 'angular2/http';
-
-import {Home} from './home/home';
-import {Login} from './account/login/login';
-import {Signup} from './account/signup/signup';
-import {Confirm} from './account/confirm/confirm';
-import {PostDetail} from './post/post';
-import {AddPost} from './addPost/addPost';
-import {UserDetail} from './user/user';
-import {Dashboard} from './account/dashboard/dashboard';
-import {About} from './about/about';
-
-import {AuthService} from './services/auth/authService';
-
+import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
+//import {Component, provide, HostBinding, OnInit} from 'angular2/core';
+//import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+//import {HTTP_PROVIDERS, Http} from 'angular2/http';
+import { AuthService } from './services/auth/authService';
+import { AuthHttp, AuthConfig, AUTH_PROVIDERS, JwtHelper } from 'angular2-jwt';
+import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
+import { Navbar } from './navbar';
+import { Footer } from './footer';
 /*
  * App Component
  * Top Level Component
  */
 @Component({
   selector: 'app',
-  providers: [],
-  directives: [],
+  providers: [AuthService, AUTH_PROVIDERS, JwtHelper],
+  directives: [ Navbar, Footer ],
+  viewProviders: [ ...BS_MODAL_PROVIDERS ],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <header>
       <navbar></navbar>
@@ -36,62 +31,17 @@ import {AuthService} from './services/auth/authService';
       <router-outlet></router-outlet>
     </main>
 
-    <footer class="container">
-      <footer-content></footer-content>
-    </footer>
+    <footer></footer>
   `
 })
-@RouteConfig([
-  { path: '/',
-    component: Home,
-    name: 'Home',
-    useAsDefault: true
-  }, {
-    path: '/login',
-    component: Login,
-    name: 'Login'
-  }, {
-    path: '/signup',
-    component: Signup,
-    name: 'Signup'
-  }, {
-    path: '/post/:id',
-    name: 'PostDetail',
-    loader: () => require('es6-promise!./post/post')('PostDetail')
-  }, {
-    path: '/post',
-    component: AddPost,
-    name: 'AddPost'
-  }, {
-    path: '/user/:id',
-    component: UserDetail,
-    name: 'UserDetail'
-  }, {
-    path: '/user/:id/confirm/:confirmation_code',
-    name: 'Confirm',
-    loader: () => require('es6-promise!./account/confirm/confirm')('Confirm')
-  }, {
-    path: '/user/:id/dashboard',
-    name: 'Dashboard',
-    loader: () => require('es6-promise!./account/dashboard/dashboard')('Dashboard')
-  }, {
-    path: '/about',
-    component: About,
-    name: 'About'
-  }, {
-    path: '/donate',
-    name: 'Donate',
-    loader: () => require('es6-promise!./donate/donate')('Donate')
-  }, {
-    path: '/contact',
-    name: 'Contact',
-    loader: () => require('es6-promise!./contact/contact')('Contact')
-  }
-])
-export class App implements OnInit {
+export class App {
   constructor(
-    private _authService: AuthService
-  ) {}
+    private _authService: AuthService,
+    public modal: Modal,
+    //private viewContainer: ViewContainerRef
+  ) {
+    //modal.defaultViewContainer = viewContainer;
+  }
 
   ngOnInit() {
     this._authService.isLoggedIn();

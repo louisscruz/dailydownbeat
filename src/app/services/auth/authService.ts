@@ -1,6 +1,6 @@
-import {Http, Headers} from 'angular2/http';
-import {Router} from 'angular2/router';
-import {Injectable, OnInit} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Router} from '@angular/router';
+import {Injectable, OnInit} from '@angular/core';
 import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';

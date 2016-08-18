@@ -4,7 +4,7 @@
       <a href="{{post.url}}">{{post.title}}</a>
     </h6>
     <div class="text-xs-center info">
-      <small>posted by <a class="text-xs-center" [routerLink]="['UserDetail', {id: post.user.id}]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
+      <small>posted by <a class="text-xs-center" [routerLink]="[ '../../user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
       <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
         <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
@@ -32,17 +32,17 @@
       </div>
       <div [collapse]="isCollapsed">
         <div class="well well-lg">
-          <form class="text-xs-right" [ngFormModel]="commentForm" (ngSubmit)="addComment(commentForm.controls['comment'].value, 'Post', post.id, 1)">
+          <!--form class="text-xs-right" [ngFormModel]="commentForm" (ngSubmit)="addComment(commentForm.controls['comment'].value, 'Post', post.id, 1)">
             <fieldset class="form-group">
               <textarea class="form-control" [ngFormControl]="commentForm.controls['comment']"></textarea>
             </fieldset>
             <button class="btn btn-secondary" (click)="isCollapsed = !isCollapsed">Cancel</button>
             <button class="btn btn-primary" type="submit" [disabled]="!commentForm.valid">Comment</button>
-          </form>
+          </form-->
         </div>
       </div>
       <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-      <li *ngFor="#comment of comments | orderBy: ['-points', '-created_at']">
+      <li *ngFor="let comment of comments | orderBy: ['-points', '-created_at']">
         <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment(comment.id)"></comment>
       </li>
     </ul>

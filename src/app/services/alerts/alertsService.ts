@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from 'angular2/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {AlertNotification} from '../../datatypes/alert/alertnotification';
 import {AlertNotifications} from '../../datatypes/alert/mock-alerts';
 

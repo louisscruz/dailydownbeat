@@ -3,7 +3,7 @@ import {
   OnInit, OnDestroy, Input, Output, HostBinding,
   EventEmitter, ElementRef, ContentChildren,
   Query, QueryList
-} from 'angular2/core';
+} from '@angular/core';
 
 import {dropdownService, NONINPUT} from './dropdown.service';
 
@@ -19,8 +19,8 @@ export class Dropdown implements OnInit, OnDestroy {
   // enum string: ['always', 'outsideClick', 'disabled']
   @Input() public appendToBody: boolean;
 
-  @Output() public onToggle: EventEmitter<boolean> = new EventEmitter();
-  @Output() public isOpenChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() public onToggle = new EventEmitter();
+  @Output() public isOpenChange = new EventEmitter();
   // index of selected element
   public selectedOption: number;
   // drop menu html

@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform, ChangeDetectorRef, OnDestroy} from 'angular2/core';
+import {Pipe, PipeTransform, ChangeDetectorRef, OnDestroy} from '@angular/core';
 
 @Pipe({name: 'prefixTitle'})
 

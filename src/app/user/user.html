@@ -12,14 +12,14 @@
       <tab heading="Posts">
         <div class="card">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="#post of posts">{{post.title}}</li>
+            <li class="list-group-item" *ngFor="let post of posts">{{post.title}}</li>
           </ul>
         </div>
       </tab>
       <tab heading="Comments">
         <div class="card">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="#comment of comments">{{comment}}: {{comment.body}}</li>
+            <li class="list-group-item" *ngFor="let comment of comments">{{comment}}: {{comment.body}}</li>
           </ul>
         </div>
       </tab>

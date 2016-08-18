@@ -1,4 +1,4 @@
-import {Directive, Input, HostBinding} from 'angular2/core';
+import {Directive, Input, HostBinding} from '@angular/core';
 
 // todo: add animate
 // todo: add init and on change

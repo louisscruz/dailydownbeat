@@ -1,4 +1,4 @@
-import {Modal} from 'angular2-modal/angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 export function flagContent(modal: Modal, title: string, username: string) {
   let name = title;

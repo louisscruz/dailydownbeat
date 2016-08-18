@@ -2,22 +2,24 @@
  * @author: @AngularClass
  */
 
-var helpers = require('./helpers');
-var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
-var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
+const helpers = require('./helpers');
+const webpackMerge = require('webpack-merge'); //Used to merge webpack configs
+const commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
 
 /**
  * Webpack Plugins
  */
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 /**
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
+const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig.metadata, {
-  host: 'localhost',
+  host: HOST,
   port: 9000,
   ENV: ENV,
   HMR: HMR,
@@ -30,6 +32,15 @@ const METADATA = webpackMerge(commonConfig.metadata, {
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 module.exports = webpackMerge(commonConfig, {
+
+
+  /**
+   * Merged metadata from webpack.common.js for index.html
+   *
+   * See: (custom attribute)
+   */
+  metadata: METADATA,
+
   // Switch loaders to debug mode.
   //
   // See: http://webpack.github.io/docs/configuration.html#debug
@@ -67,8 +78,10 @@ module.exports = webpackMerge(commonConfig, {
     // inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].chunk.js',
 
+    library: 'ac_[name]',
+    libraryTarget: 'var',
   },
 
   plugins: [
@@ -115,9 +128,16 @@ module.exports = webpackMerge(commonConfig, {
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
-    }
+    },
+    outputPath: helpers.root('dist')
   },
 
+  /*
+   * Include polyfills or mocks for various node stuff
+   * Description: Node configuration
+   *
+   * See: https://webpack.github.io/docs/configuration.html#node
+   */
   node: {
     global: 'window',
     crypto: 'empty',

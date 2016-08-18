@@ -3,7 +3,7 @@
     <h1 class="text-xs-center">Contact</h1>
   </div>
   <div class="row">
-    <form class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3" [ngFormModel]="contactForm" (submit)="submit()">
+    <!--form class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3" [ngFormModel]="contactForm" (submit)="submit()">
       <div class="alert alert-warning">We're currently wiring up this contact form. Feel free to email <b>lsc@juilliard.edu</b></div>
       <fieldset class="form-group" [class.has-success]="name.valid && name.touched" [class.has-danger]="!name.valid && name.touched">
         <label for="name" class="form-control-label">Name</label>
@@ -23,7 +23,7 @@
       <fieldset class="form-group" [class.has-success]="purpose.valid && purpose.touched" [class.has-danger]="!purpose.valid && purpose.touched">
         <label for="purpose" class="form-control-label">Purpose of Contact</label>
         <select class="c-select form-control" id="purpose" [ngFormControl]="contactForm.controls['purpose']" [class.form-control-success]="purpose.valid" [class.form-control-danger]="!purpose.valid">
-          <!--option selected disabled hidden>Purpose</option-->
+          <option selected disabled hidden>Purpose</option>
           <option *ngFor="#purpose of purposes">{{purpose}}</option>
         </select>
       </fieldset>
@@ -35,6 +35,6 @@
         </div>
       </fieldset>
       <button type="submit" class="btn btn-primary btn-block" [disabled]="!contactForm.valid">Send Message</button>
-    </form>
+    </form-->
   </div>
 </div>
