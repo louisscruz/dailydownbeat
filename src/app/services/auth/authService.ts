@@ -11,6 +11,7 @@ export class AuthService {
   public currentUser: User;
   public isAdmin: boolean = false;
   private apiUrl: string = API_URL;
+  public redirectUrl: string;
 
   constructor(
     private http: Http,

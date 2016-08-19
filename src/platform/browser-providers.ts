@@ -30,6 +30,8 @@ import { AlertService } from '../app/services/alerts/alertsService';
 import { AuthService } from '../app/services/auth/authService';
 import { UserService } from '../app/services/users/usersService';
 
+import { AuthGuard } from '../app/guards/auth-guard.service';
+
 /*
 * Application Providers/Directives/Pipes
 * providers/directives/pipes that only live in our browser environment
@@ -50,22 +52,13 @@ export const APPLICATION_PROVIDERS = [
 
   { provide: LocationStrategy, useClass: HashLocationStrategy },
 
-  //AuthService,
+  AlertService,
   AuthService,
   UserService,
+  AuthGuard,
   AuthHttp,
   JwtHelper,
-  AlertService,
-  //ModalService,
-  /*ngCore.provide(AuthConfig, {
-    useValue: new AuthConfig({
-      headerName: 'Authorization',
-      headerPrefix: 'Bearer',
-      tokenName: 'auth_token',
-      tokenGetter: () => localStorage.getItem('auth_token'),
-      noJwtError: true
-    })
-  }),*/
+
   provide(AuthConfig, {
     useValue: new AuthConfig({
       headerName: 'Authorization',

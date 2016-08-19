@@ -1,19 +1,19 @@
-import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {HTTP_PROVIDERS, Http, ConnectionBackend} from '@angular/http';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
+import { HTTP_PROVIDERS, Http, ConnectionBackend } from '@angular/http';
 //import {Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox} from 'ng2-bootstrap/ng2-bootstrap';
 
-import {AuthService} from '../services/auth/authService';
-import {AlertService} from '../services/alerts/alertsService';
+import { AuthService } from '../services/auth/authService';
+import { AlertService } from '../services/alerts/alertsService';
 
-import {DROPDOWN_DIRECTIVES} from '../directives/dropdown';
+import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
 
 @Component({
   selector: 'navbar',
   directives: [ ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES ],
   styles: [ require('../global-variables.scss'), require('./navbar.scss') ],
   template: require('./navbar.html'),
-  providers: [Http, ConnectionBackend, HTTP_PROVIDERS]
+  providers: [ Http, ConnectionBackend, HTTP_PROVIDERS ]
 })
 export class Navbar {
   private isCollapsed: boolean = true;
@@ -42,13 +42,5 @@ export class Navbar {
         this._router.navigate(['./']);
       }
     );
-  }
-
-  addPost() {
-    if (this._authService.currentUser) {
-      this._router.navigate(['./add_post']);
-    } else {
-      this._router.navigate(['./login']);
-    }
   }
 }

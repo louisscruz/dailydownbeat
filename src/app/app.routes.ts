@@ -8,6 +8,8 @@ import { Signup } from './account/signup';
 
 import { DataResolver } from './app.resolver';
 
+import { AuthGuard } from './guards/auth-guard.service';
+
 export const routes: RouterConfig = [
 
   { path: '',
@@ -26,7 +28,8 @@ export const routes: RouterConfig = [
     component: 'PostDetail'
   }, {
     path: 'add_post',
-    component: 'AddPost'
+    component: 'AddPost',
+    canActivate: [ AuthGuard ]
   }, {
     path: 'user/:id',
     component: 'UserDetail',
