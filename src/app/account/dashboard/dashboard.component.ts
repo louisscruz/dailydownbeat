@@ -1,25 +1,26 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-/*import {
+import { Router, ActivatedRoute, ROUTER_DIRECTIVES, CanActivate } from '@angular/router';
+import {
   FORM_DIRECTIVES,
-  FormBuilder,
-  ControlGroup,
-  Validators,
-  AbstractControl,
-  Control
-} from 'angular2/common';*/
+  REACTIVE_FORM_DIRECTIVES,
+  FormGroup,
+  FormControl,
+  AbstractControl
+} from '@angular/forms';
 
 //import {TAB_DIRECTIVES, ButtonRadio} from 'ng2-bootstrap';
 
-import {AlertService} from '../../services/alerts/alertsService';
-import {UserService} from '../../services/users/usersService';
+import { AlertService } from '../../services/alerts/alertsService';
+import { UserService } from '../../services/users/usersService';
+import { EmailValidator } from '../../directives/emailValidator/email.validator';
+
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Component({
   selector: 'dashboard',
-  //directives: [TAB_DIRECTIVES, ButtonRadio],
   styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
-  providers: [AlertService, UserService, ActivatedRoute]
+  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator ]
 })
 export class Dashboard {
   private user: any;
@@ -59,6 +60,10 @@ export class Dashboard {
       };
     }*/
 
+  }
+
+  canActivate() {
+    return tokenNotExpired('auth_token');
   }
 
   removeEditStatus(): void {
@@ -119,18 +124,20 @@ export class Dashboard {
   }*/
 
   ngOnInit(): void {
-    let id = this._activatedRoute.params['id'];
-    this._userService.getUser(id)
-    .subscribe(
-      res => this.user = res
-    );
-    this._userService.getUserPosts(id)
-    .subscribe(
-      res => this.posts = res
-    );
-    this._userService.getUserComments(id)
-    .subscribe(
-      res => this.comments = res
-    );
+    this._activatedRoute.params.subscribe(params => {
+      let id: number = +params['id'];
+      this._userService.getUser(id)
+      .subscribe(
+        res => this.user = res
+      );
+      this._userService.getUserPosts(id)
+      .subscribe(
+        res => this.posts = res
+      );
+      this._userService.getUserComments(id)
+      .subscribe(
+        res => this.comments = res
+      );
+    });
   }
 }

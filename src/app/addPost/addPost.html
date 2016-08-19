@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
     <h1 class="text-xs-center">Add a Post</h1>
-    <form [ngFormModel]="addPostForm" (ngSubmit)="addPost()">
+    <form [formGroup]="addPostForm" (ngSubmit)="addPost()">
       <fieldset class="form-group text-xs-center">
         <div>
           <label class="form-control-label">Type of Post:</label>
@@ -19,10 +19,10 @@
       </fieldset>
       <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
         <label for="titleInput" class="form-control-label">Title</label>
-        <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [ngFormControl]="addPostForm.controls['title']" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid">
+        <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
         <div class="input-group" *ngIf="type !== 'Post'">
           <div class="input-group-addon">{{type}}:</div>
-          <input type="text" id="titleInput" placeholder="Title" [ngFormControl]="addPostForm.controls['title']" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid">
+          <input type="text" id="titleInput" placeholder="Title" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
         </div>
         <div *ngIf="title.touched">
           <div *ngIf="title.hasError('required')" class="text-help">Title Required</div>
@@ -30,10 +30,11 @@
       </fieldset>
       <fieldset class="form-group" [class.has-success]="url.valid && url.touched" [class.has-danger]="!url.valid && url.touched">
         <label for="urlInput" class="form-control-label">Link</label>
-        <input type="url" id="urlInput" placeholder="Link" [ngFormControl]="addPostForm.controls['url']" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid">
-        <div *ngIf="url.touched">
-          <div *ngIf="url.hasError('required')" class="text-help">Link Required</div>
-          <div *ngIf="url.hasError('invalidUrl')" class="text-help">Link Invalid</div>
+        <input type="url" id="urlInput" placeholder="Link" [formControl]="addPostForm.find('url')" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid" validateUrl required>
+        <div *ngIf="url.touched" class="text-help">
+          <div *ngIf="url.hasError('required')">Link Required</div>
+          <div *ngIf="url.hasError('invalidUrl')">Link Invalid</div>
+          <div *ngIf="url.value.slice(0, 4) !== 'http'"><i>(Valid links begin with 'http://' or 'https://')</i></div>
         </div>
       </fieldset>
       <button type="submit" [disabled]="!addPostForm.valid" class="btn btn-block btn-primary">Add Post</button>

@@ -43,10 +43,10 @@
             </ul>
             <ul class="dropdown-menu" aria-labelledby="account-dropdown">
               <li>
-                <a class="dropdown-item" [routerLink]="['./user', _authService.currentUser.id]"><i class="fa fa-user fa-fw"></i> Profile</a>
+                <a class="dropdown-item" [routerLink]="[ '/user', _authService.currentUser.id ]"><i class="fa fa-user fa-fw"></i> Profile</a>
               </li>
               <li>
-                <a class="dropdown-item" [routerLink]="['./dashboard', _authService.currentUser.id]"><i class="fa fa-cogs fa-fw"></i> Account</a>
+                <a class="dropdown-item" [routerLink]="[ '/dashboard', _authService.currentUser.id ]"><i class="fa fa-cogs fa-fw"></i> Account</a>
               </li>
             </ul>
           </div>

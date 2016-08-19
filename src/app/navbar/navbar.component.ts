@@ -46,7 +46,7 @@ export class Navbar {
 
   addPost() {
     if (this._authService.currentUser) {
-      this._router.navigate(['./post']);
+      this._router.navigate(['./add_post']);
     } else {
       this._router.navigate(['./login']);
     }

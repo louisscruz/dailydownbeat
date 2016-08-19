@@ -28,6 +28,7 @@ import { AuthHttp, JwtHelper, AuthConfig, AUTH_PROVIDERS } from 'angular2-jwt';
 // Services
 import { AlertService } from '../app/services/alerts/alertsService';
 import { AuthService } from '../app/services/auth/authService';
+import { UserService } from '../app/services/users/usersService';
 
 /*
 * Application Providers/Directives/Pipes
@@ -51,6 +52,7 @@ export const APPLICATION_PROVIDERS = [
 
   //AuthService,
   AuthService,
+  UserService,
   AuthHttp,
   JwtHelper,
   AlertService,

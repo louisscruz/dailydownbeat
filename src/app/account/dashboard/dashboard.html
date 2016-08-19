@@ -1,39 +1,8 @@
+<div class="row">
 <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
   <h1 class="text-xs-center">{{user.username}}</h1>
   <h3 class="text-xs-center">Manage Account</h3>
   <tabset>
-    <tab heading="Activity" (select)="removeEditStatus()">
-      <div class="text-xs-center">
-        <div class="btn-group text-xs-center">
-          <!--label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="All">All</label-->
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Posts"><i class="fa fa-newspaper-o"></i> Posts</label>
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Comments"><i class="fa fa-comments"></i> Comments</label>
-          <label class="btn btn-primary btn-sm" [(ngModel)]="activitySelect" btnRadio="Votes"><i class="fa fa-arrows-v"></i> Votes</label>
-        </div>
-      </div>
-      <!--ul *ngIf="activitySelect === 'All'">
-        <li *ngFor="#post of posts">
-          <div class="card card-block">{{post.title}}</div>
-        </li>
-      </ul-->
-      <ul *ngIf="activitySelect === 'Posts'">
-        <li *ngFor="#post of posts">
-          <div class="card card-block">{{post.title}}</div>
-        </li>
-      </ul>
-      <ul *ngIf="activitySelect === 'Comments'">
-        <li *ngFor="#comment of comments">
-          <div class="card card-block">
-            {{comment.body}}
-          </div>
-        </li>
-      </ul>
-      <ul *ngIf="activitySelect === 'Votes'">
-        <li *ngFor="#post of posts">
-          <div class="card card-block">{{post.title}}</div>
-        </li>
-      </ul>
-    </tab>
     <tab heading="Account Details" (select)="removeEditStatus()">
       <div class="card card-block text-xs-center">
         <div *ngIf="editing !== 'email'">
@@ -43,7 +12,7 @@
         </div>
         <div *ngIf="editing === 'email'">
           <h5>Update Email</h5>
-          <form [ngFormModel]="emailForm" (ngSubmit)="updateEmail()">
+          <!--form [ngFormModel]="emailForm" (ngSubmit)="updateEmail()">
             <fieldset class="form-group" [class.has-success]="newEmail.valid && newEmail.touched" [class.has-danger]="!newEmail.valid && newEmail.touched">
               <label for="newEmailInput" class="form-control-label">New Email</label>
               <input type="text" id="newEmailInput" placeholder="New Email" [ngFormControl]="emailForm.controls['newEmail']" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid">
@@ -69,7 +38,7 @@
             </fieldset>
             <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Email</button>
             <button type="reset" class="btn btn-secondary" (click)="removeEditStatus()">Cancel</button>
-          </form>
+          </form-->
         </div>
       </div>
       <div class="card card-block text-xs-center">
@@ -80,7 +49,7 @@
         <div *ngIf="editing === 'password'">
           <!-- TODO: reset form values and set pristine on 'editing' change! -->
           <h5>Update Password</h5>
-          <form [ngFormModel]="passwordForm" (ngSubmit)="updatePassword()">
+          <!--form [ngFormModel]="passwordForm" (ngSubmit)="updatePassword()">
             <fieldset class="form-group" [class.has-success]="oldPassword.valid && oldPassword.touched" [class.has-danger]="!oldPassword.valid && oldPassword.touched">
               <label for="oldPasswordInput" class="form-control-label">Old Password</label>
               <input type="password" id="oldPasswordInput" placeholder="Old Password" [ngFormControl]="passwordForm.controls['oldPassword']" class="form-control" [class.form-control-success]="oldPassword.valid" [class.form-control-danger]="!oldPassword.valid">
@@ -107,9 +76,10 @@
             </fieldset>
             <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">Update Password</button>
             <button type="reset" class="btn btn-secondary" (click)="removeEditStatus()">Cancel</button>
-          </form>
+          </form-->
         </div>
       </div>
     </tab>
   </tabset>
+</div>
 </div>

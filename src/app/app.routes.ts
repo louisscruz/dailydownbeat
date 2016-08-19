@@ -25,10 +25,13 @@ export const routes: RouterConfig = [
     path: 'post/:id',
     component: 'PostDetail'
   }, {
-    path: 'user/:id',
-    component: 'UserDetail'
+    path: 'add_post',
+    component: 'AddPost'
   }, {
-    path: 'user/:id/dashboard',
+    path: 'user/:id',
+    component: 'UserDetail',
+  }, {
+    path: 'dashboard/:id',
     component: 'Dashboard'
   }, {
     path: 'user/:id/confirm/:confirmation_code',
@@ -93,6 +96,7 @@ export const asyncRoutes: AsyncRoutes = {
   // we have to use the alternative syntax for es6-promise-loader to grab the routes
   'About': require('es6-promise-loader!./about'),
   'PostDetail': require('es6-promise-loader!./post'),
+  'AddPost': require('es6-promise-loader!./addPost'),
   'UserDetail': require('es6-promise-loader!./user'),
   'Dashboard': require('es6-promise-loader!./account/dashboard'),
   'Confirm': require('es6-promise-loader!./account/confirm'),

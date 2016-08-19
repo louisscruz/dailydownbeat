@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12 col-lg-8 col-lg-offset-2 post" *ngIf="post">
     <h6 class="text-xs-center">
-      <a href="{{post.url}}">{{post.title}}</a>
+      <a href="{{post.url}}" target="_blank">{{post.title}}</a>
     </h6>
     <div class="text-xs-center info">
       <small>posted by <a class="text-xs-center" [routerLink]="[ '../../user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
