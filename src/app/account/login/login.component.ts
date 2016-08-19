@@ -1,12 +1,4 @@
-import {Component} from '@angular/core';
-/*import {
-FORM_DIRECTIVES,
-FormBuilder,
-ControlGroup,
-Validators,
-AbstractControl,
-Control
-} from '@angular/common';*/
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FORM_DIRECTIVES,
@@ -50,10 +42,11 @@ export class Login {
     this._authService.login(user)
     .subscribe(
       res => {
-        //this._authService.currentUser = res;
-        //this._authService.saveJwt(res.auth_token);
+        this._authService.currentUser = res;
+        this._authService.saveJwt(res.auth_token);
       },
       err => {
+        console.log(err);
         (<FormControl>this.loginForm.find('email')).updateValue('');
         this.loginForm.controls['email']['_touched'] = false;
         (<FormControl>this.loginForm.find('password')).updateValue('');

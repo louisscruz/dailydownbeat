@@ -27,6 +27,7 @@ import { AuthHttp, JwtHelper, AuthConfig, AUTH_PROVIDERS } from 'angular2-jwt';
 
 // Services
 import { AlertService } from '../app/services/alerts/alertsService';
+import { AuthService } from '../app/services/auth/authService';
 
 /*
 * Application Providers/Directives/Pipes
@@ -49,6 +50,7 @@ export const APPLICATION_PROVIDERS = [
   { provide: LocationStrategy, useClass: HashLocationStrategy },
 
   //AuthService,
+  AuthService,
   AuthHttp,
   JwtHelper,
   AlertService,
@@ -62,20 +64,15 @@ export const APPLICATION_PROVIDERS = [
       noJwtError: true
     })
   }),*/
-  provide(AuthHttp, {
-    useFactory: (http) => {
-      return new AuthHttp(new AuthConfig({
-        headerName: 'Authorization',
-        headerPrefix: 'Bearer',
-        tokenName: 'auth_token',
-        tokenGetter: () => localStorage.getItem('auth_token'),
-        globalHeaders: [{'Content-Type': 'application/json'}],
-        noJwtError: true,
-        noTokenScheme: true
-      }), http);
-    },
-    deps: [Http]
-  })
+  provide(AuthConfig, {
+    useValue: new AuthConfig({
+      headerName: 'Authorization',
+      headerPrefix: 'Bearer',
+      tokenName: 'auth_token',
+      tokenGetter: () => localStorage.getItem('auth_token'),
+      noJwtError: true
+    })
+  }),
 ];
 
 export const PROVIDERS = [

@@ -17,7 +17,6 @@ import { Footer } from './footer';
  */
 @Component({
   selector: 'app',
-  providers: [ AuthService, AUTH_PROVIDERS, JwtHelper ],
   directives: [ Navbar, Alerts, Footer ],
   viewProviders: [ ...BS_MODAL_PROVIDERS ],
   styles: [ require('./app.scss'), require('./global-variables.scss') ],

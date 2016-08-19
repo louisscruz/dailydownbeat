@@ -1,7 +1,7 @@
-import {Http, Headers} from '@angular/http';
-import {Router} from '@angular/router';
-import {Injectable, OnInit} from '@angular/core';
-import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
+import { Http, Headers } from '@angular/http';
+import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { AuthHttp, tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';
 
@@ -27,7 +27,7 @@ export class AuthService {
     localStorage.removeItem('auth_token');
   }
 
-  setCurrentUser(user: User) {
+  setCurrentUser(user: User): void {
     this.currentUser = user;
   }
 
@@ -58,6 +58,7 @@ export class AuthService {
   }
 
   login(user) {
+    console.log(this.authHttp)
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
