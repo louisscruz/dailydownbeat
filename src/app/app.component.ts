@@ -36,12 +36,13 @@ import { Footer } from './footer';
   `
 })
 export class App {
+  
   constructor(
     private _authService: AuthService,
-    public modal: Modal,
-    //private viewContainer: ViewContainerRef
+    private modal: Modal,
+    private viewContainer: ViewContainerRef
   ) {
-    //modal.defaultViewContainer = viewContainer;
+    modal.defaultViewContainer = viewContainer;
   }
 
   ngOnInit() {

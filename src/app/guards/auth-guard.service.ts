@@ -4,8 +4,8 @@ import {
   Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  NavigationExtras
 } from '@angular/router';
+import { NavigationExtras } from '@angular/router/src/router.d';
 
 import { AuthService } from '../services/auth/authService';
 
