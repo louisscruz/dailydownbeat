@@ -31,6 +31,7 @@ import { AuthService } from '../app/services/auth/authService';
 import { UserService } from '../app/services/users/usersService';
 
 import { AuthGuard } from '../app/guards/auth-guard.service';
+import { CorrectUserGuard } from '../app/guards/correct-user-guard.service';
 
 /*
 * Application Providers/Directives/Pipes
@@ -55,7 +56,10 @@ export const APPLICATION_PROVIDERS = [
   AlertService,
   AuthService,
   UserService,
+
   AuthGuard,
+  CorrectUserGuard,
+
   AuthHttp,
   JwtHelper,
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   FORM_DIRECTIVES,
   REACTIVE_FORM_DIRECTIVES,
@@ -7,6 +7,7 @@ import {
   FormControl,
   AbstractControl
 } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 import { AuthHttp, JwtHelper, AuthConfig } from 'angular2-jwt';
 
@@ -26,11 +27,13 @@ import { EmailValidator } from '../../directives/emailValidator/email.validator'
 
 export class Login {
   private loginForm: FormGroup;
+  private redirect: Observable<string>;
 
   constructor(
     private _authService: AuthService,
     private _alertService: AlertService,
-    private _router: Router
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl(''),
@@ -55,7 +58,12 @@ export class Login {
         this._alertService.addAlert(alert);
       },
       () => {
-        this._router.navigate([ './' ]);
+        let redirect = (<any>this._router.routerState.queryParams).value['session_redirect'];
+        if (redirect === undefined) {
+          this._router.navigate([ './' ]);
+        } else {
+          this._router.navigateByUrl(redirect);
+        }
       }
     )
   }

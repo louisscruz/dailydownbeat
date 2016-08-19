@@ -9,6 +9,7 @@ import { Signup } from './account/signup';
 import { DataResolver } from './app.resolver';
 
 import { AuthGuard } from './guards/auth-guard.service';
+import { CorrectUserGuard } from './guards/correct-user-guard.service';
 
 export const routes: RouterConfig = [
 
@@ -35,7 +36,8 @@ export const routes: RouterConfig = [
     component: 'UserDetail',
   }, {
     path: 'dashboard/:id',
-    component: 'Dashboard'
+    component: 'Dashboard',
+    canActivate: [ CorrectUserGuard ]
   }, {
     path: 'user/:id/confirm/:confirmation_code',
     component: 'Confirm'

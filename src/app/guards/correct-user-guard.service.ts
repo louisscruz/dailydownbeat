@@ -3,29 +3,25 @@ import {
   CanActivate,
   Router,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  NavigationExtras
+  RouterStateSnapshot
 } from '@angular/router';
 
 import { AuthService } from '../services/auth/authService';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class CorrectUserGuard implements CanActivate {
 
   constructor(private _authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this._authService.currentUser) { return true; }
+    let id = +route.params['id'];
+    if (!!this._authService.currentUser && this._authService.currentUser.id === id) {
+      return true;
+    }
 
     this._authService.redirectUrl = state.url;
 
-    let sessionRedirect = '/add_post';
-
-    let navigationExtras: NavigationExtras = {
-      queryParams: { 'session_redirect': sessionRedirect }
-    }
-
-    this.router.navigate([ '/login' ], navigationExtras);
+    this.router.navigate([ '/login' ]);
     return false;
   }
 }
