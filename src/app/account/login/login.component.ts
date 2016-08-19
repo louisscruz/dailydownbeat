@@ -12,7 +12,8 @@ import {
   FORM_DIRECTIVES,
   REACTIVE_FORM_DIRECTIVES,
   FormGroup,
-  FormControl
+  FormControl,
+  AbstractControl
 } from '@angular/forms';
 
 import { AuthHttp, JwtHelper, AuthConfig } from 'angular2-jwt';
@@ -54,8 +55,9 @@ export class Login {
       },
       err => {
         (<FormControl>this.loginForm.find('email')).updateValue('');
+        this.loginForm.controls['email']['_touched'] = false;
         (<FormControl>this.loginForm.find('password')).updateValue('');
-        //(<FormControl>this.loginForm.find('password')).pristine = true;
+        this.loginForm.controls['password']['_touched'] = false;
         let alert = new AlertNotification('Email address or password is invalid.', 'danger');
         this._alertService.addAlert(alert);
       },
