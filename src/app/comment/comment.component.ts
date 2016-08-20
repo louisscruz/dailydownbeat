@@ -1,49 +1,46 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
-/*import {
-  FORM_DIRECTIVES,
-  FormBuilder,
-  ControlGroup,
-  Validators,
-  AbstractControl,
-  Control
-} from '@angular/common';*/
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { Post } from '../datatypes/post/post';
-//import {Comment} from '../datatypes/comment/comment';
+import { Comment } from '../datatypes/comment/comment';
+import { AlertNotification } from '../datatypes/alert/alertnotification';
+import { flagCommentContent, deleteCommentContent } from '../modal/modalPresets';
+
+import { Collapse } from '../directives/collapse/collapse';
+import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
+import { Pluralize } from '../directives/pluralize/pluralize';
+
 import { AlertService } from '../services/alerts/alertsService';
 import { AuthService } from '../services/auth/authService';
 import { CommentService } from '../services/comments/commentService';
-import { Collapse } from '../directives/collapse/collapse';
-import { Pluralize } from '../directives/pluralize/pluralize';
+import { PostService } from '../services/posts/postsService';
+
 import { TimeSincePipe } from '../pipes/timeSince.ts';
 import { OrderBy } from '../pipes/orderBy';
 
-import {flagContent, deleteContent} from '../modal/modalPresets';
-
 @Component({
   selector: 'comment',
-  directives: [RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize],
-  providers: [],
-  pipes: [OrderBy, TimeSincePipe],
+  directives: [ RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize ],
+  pipes: [ OrderBy, TimeSincePipe ],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')
 })
 
-export class CommentDetail implements OnInit {
+export class CommentDetail {
   @Input() comment;
   @Input() replyOpen;
   @Output() deleteEvent = new EventEmitter();
   private isCollapsed: boolean = true;
   private replyCollapsed: boolean = true;
-  /*private replyForm: ControlGroup;
-  private reply: AbstractControl;*/
+
   constructor(
+    private _activatedRoute: ActivatedRoute,
     private _alertService: AlertService,
     private _authService: AuthService,
     private _commentService: CommentService,
-    private _activatedRoute: ActivatedRoute,
+    private _postService: PostService,
+    private modal: Modal
     /*private _fb: FormBuilder,
     private modal: Modal*/
   ) {
@@ -105,36 +102,55 @@ export class CommentDetail implements OnInit {
     this.deleteEvent.emit('event');
   }*/
 
-  /*openFlagModal(title: string, username: string, id: number) {
-    let preset = flagContent(this.modal, title, username);
-    let dialog: Promise<ModalDialogInstance> = preset.open();
+  openFlagModal(comment: any) {
+    let preset = flagCommentContent(this.modal, comment);
+    let dialog = preset.open();
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
         (res) => {
-          // Send http call
-          alert('woohoo')
-        },
-        () => console.log('error confirming modal')
-      )
-    });
-  }*/
+          this._commentService.flagComment(comment).subscribe(
+            res => {
+              // Reload comments
+            }, err => {
+              let message: string = 'There was an error flagging the post.';
+              let alert = new AlertNotification(message, 'danger');
+              this._alertService.addAlert(alert);
+            }
+          )
+        }, () => {
 
-  /*openDeleteModal(title: string, username: string, id: number) {
-    let preset = deleteContent(this.modal, title, username);
-    let dialog: Promise<ModalDialogInstance> = preset.open();
+        }
+      )
+    });
+  }
+
+  openDeleteModal(comment: any) {
+    let preset = deleteCommentContent(this.modal);
+    let dialog = preset.open();
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
         (res) => {
-          this.indexComment(id);
-        },
-        () => console.log('error confirming modal')
+          this._commentService.deletePostComment(comment).subscribe(
+            res => {
+              // Reload comments
+              let alert = new AlertNotification('Successfully deleted comment!', 'success');
+              this._alertService.addAlert(alert);
+              // Send deleteEvent to bubble up to postDetail
+            }, err => {
+              let message: string = 'There was an error flagging the post.';
+              let alert = new AlertNotification(message, 'danger');
+              this._alertService.addAlert(alert);
+            }
+          )
+        }, () => {
+
+        }
       )
     });
-  }*/
-  
+  }
+
   ngOnInit() {
-    this.isCollapsed = true;
   }
 }

@@ -1,5 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
+
+import { Comment } from '../../datatypes/comment/comment';
 
 @Injectable()
 export class CommentService {
@@ -16,11 +18,18 @@ export class CommentService {
     }
   }
 
+  getToken(): string {
+    return localStorage.getItem('auth_token');
+  }
+
+  generateHeaders(): Headers {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.getToken());
+    return headers;
+  }
+
   addComment(body: string, commentableType: string, commentableId: number, userId: number) {
-    let token = localStorage.getItem('auth_token');
-    let header = new Headers();
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', token);
     let comment = {
       body: body,
       commentable_type: commentableType,
@@ -28,18 +37,21 @@ export class CommentService {
       user_id: userId
     }
     return this.http.post(this.apiUrl + '/api/comments/', JSON.stringify(comment), {
-      headers: header
+      headers: this.generateHeaders()
     })
     .map(res => res.json());
   }
 
-  deletePostComment(commentableId: number) {
-    let token = localStorage.getItem('auth_token');
-    let header = new Headers();
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', token);
-    return this.http.delete(this.apiUrl + '/api/comments/' + commentableId, {
-      headers: header
+  deletePostComment(comment: Comment) {
+    return this.http.delete(this.apiUrl + '/api/comments/' + comment.id, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
+  }
+
+  flagComment(comment: Comment) {
+    return this.http.post(this.apiUrl + '/api/comments/' + comment.id + '/flag', {
+      headers: this.generateHeaders()
     })
     .map(res => res.json());
   }

@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import {
+  FORM_DIRECTIVES,
+  REACTIVE_FORM_DIRECTIVES,
+  FormGroup,
+  FormControl,
+  AbstractControl
+} from '@angular/forms';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
@@ -12,24 +19,26 @@ import { flagContent, deleteContent } from '../modal/modalPresets';
 
 import { AlertService } from '../services/alerts/alertsService';
 import { AuthService } from '../services/auth/authService';
-import { PostService } from '../services/posts/postsService';
 import { CommentService } from '../services/comments/commentService';
+import { PostService } from '../services/posts/postsService';
 
 import { OrderBy } from '../pipes/orderBy';
 import { TimeSincePipe } from '../pipes/timeSince';
 
 @Component({
   selector: 'post-detail',
-  directives: [ RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail ],
+  directives: [ RouterLink, DROPDOWN_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, Collapse, CommentDetail ],
   pipes: [ OrderBy, TimeSincePipe ],
-  providers: [ PostService, CommentService, AlertService ],
+  providers: [ CommentService ],
   styles: [ require('./post.scss') ],
   template: require('./post.html')
 })
 
 export class PostDetail {
+  private addCommentForm: FormGroup;
   public isCollapsed: boolean = true;
   private post: Post;
+  private comment: AbstractControl;
   private comments: Array<any>;
   private loadingComments: boolean = false;
 
@@ -41,10 +50,20 @@ export class PostDetail {
     private _postService: PostService,
     private _commentService: CommentService,
     private modal: Modal
-  ) {}
+  ) {
+    this.addCommentForm = new FormGroup({
+      comment: new FormControl()
+    });
+    this.comment = this.addCommentForm.find('comment');
+  }
 
   onSelectUser(id: number) {
     this._router.navigate( ['UserDetail', { id: id }]);
+  }
+
+  closeCommentForm(): void {
+    this.isCollapsed = true;
+    (<FormControl>this.addCommentForm.find('comment')).updateValue('');
   }
 
   addComment(body: string, commentableType: string, commentableId: number) {
@@ -52,18 +71,13 @@ export class PostDetail {
     .subscribe(
       res => {
         this.comments.push(res);
-        let alert = {
-          message: 'Successfully added comment!',
-          type: 'success',
-          timeout: 80000,
-          dismissible: true
-        }
+        let alert = new AlertNotification('Successfully added your comment!', 'success');
         this._alertService.addAlert(alert);
       },
       err => console.log(err),
       () => {
         this.isCollapsed = true;
-        /*(this.commentForm.controls['comment'] as Control).updateValue('');*/
+        (<FormControl>this.addCommentForm.find('comment')).updateValue('');
       }
     )
   }
@@ -132,14 +146,13 @@ export class PostDetail {
       .subscribe(
         res => this.post = res,
         err => console.log(err),
-        () => console.log(this.post)
+        () => {}
       );
       this._postService.getPostComments(id)
       .subscribe(
         res => this.comments = res,
         err => console.log(err),
         () => {
-          console.log(this.comments);
           this.loadingComments = false;
         }
       );

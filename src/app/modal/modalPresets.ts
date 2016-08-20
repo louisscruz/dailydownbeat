@@ -23,6 +23,23 @@ export function flagContent(modal: Modal, title: string, username: string) {
   .cancelBtnClass('btn btn-secondary');
 }
 
+export function flagCommentContent(modal: Modal, comment) {
+  return modal.confirm()
+  .size('md')
+  .isBlocking(false)
+  .keyboard(27)
+  .headerClass('modal-header bg-warning')
+  .title('Are you sure?')
+  .body(`
+    <p>Are you sure that you would like to flag <b>`
+    + comment.user.username +
+    `</b>'s comment'?`
+  )
+  .okBtn('Flag')
+  .okBtnClass('btn btn-warning')
+  .cancelBtnClass('btn btn-secondary');
+}
+
 export function deleteContent(modal: Modal, title: string, username: string) {
   return modal.confirm()
   .size('md')
@@ -34,6 +51,21 @@ export function deleteContent(modal: Modal, title: string, username: string) {
     <p>Are you sure that you would like to delete the post <b>`
     + title +
     `</b>?`
+  )
+  .okBtn('Delete')
+  .okBtnClass('btn btn-danger')
+  .cancelBtnClass('btn btn-secondary');
+}
+
+export function deleteCommentContent(modal: Modal) {
+  return modal.confirm()
+  .size('md')
+  .isBlocking(false)
+  .keyboard(27)
+  .headerClass('modal-header bg-danger')
+  .title('Are you sure?')
+  .body(`
+    <p>Are you sure that you would like to delete this comment?</p>`
   )
   .okBtn('Delete')
   .okBtnClass('btn btn-danger')
