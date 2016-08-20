@@ -47,6 +47,9 @@ export const routes: RouterConfig = [
   }, {
     path: 'contact',
     component: 'Contact'
+  }, {
+    path: '**',
+    component: 'NoContent'
   }/* {
     path: '/post',
     component: AddPost,
@@ -106,7 +109,8 @@ export const asyncRoutes: AsyncRoutes = {
   'Dashboard': require('es6-promise-loader!./account/dashboard'),
   'Confirm': require('es6-promise-loader!./account/confirm'),
   'Donate': require('es6-promise-loader!./donate'),
-  'Contact': require('es6-promise-loader!./contact')
+  'Contact': require('es6-promise-loader!./contact'),
+  'NoContent': require('es6-promise-loader!./noContent')
   //'Detail': require('es6-promise-loader!./+detail'),
   //'Index': require('es6-promise-loader!./+detail'), // must be exported with detail/index.ts
 };

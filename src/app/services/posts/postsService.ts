@@ -1,7 +1,8 @@
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { Post } from '../../datatypes/post/post';
 import { Observable } from 'rxjs/Observable';
+
+import { Post } from '../../datatypes/post/post';
 
 @Injectable()
 export class PostService {
