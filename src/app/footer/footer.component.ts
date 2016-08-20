@@ -1,33 +1,24 @@
-import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
 
-/*import {
-  ModalDialogInstance,
-  ModalConfig,
-  Modal,
-  ICustomModal,
-  YesNoModalContent,
-  YesNoModal
-} from 'angular2-modal/angular2-modal';*/
-import {terms} from '../modal/modalPresets';
+import { terms } from '../modal/modalPresets';
 
 @Component({
   selector: 'footer',
   styles: [ require('./footer.scss') ],
-  directives: [ROUTER_DIRECTIVES],
-  providers: [],
+  directives: [ ROUTER_DIRECTIVES ],
   template: require('./footer.html')
 })
 
 export class Footer {
   private terms: any;
-  constructor(
-    /*private modal: Modal*/
-    //private _modalService: ModalService
-  ) {}
+
+  constructor(private modal: Modal) {}
+
   openTermsModal() {
-    /*let preset = terms(this.modal);
-    let dialog: Promise<ModalDialogInstance> = preset.open();
+    let preset = terms(this.modal);
+    let dialog = preset.open();
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
@@ -36,7 +27,6 @@ export class Footer {
         },
         () => console.log('Error initiating terms modal')
       )
-    })*/
+    });
   }
-
 }

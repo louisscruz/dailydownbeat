@@ -1,7 +1,7 @@
-import {Http, Headers} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {Post} from '../../datatypes/post/post';
-import {Observable} from 'rxjs/Observable';
+import { Http, Headers } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Post } from '../../datatypes/post/post';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PostService {
@@ -9,8 +9,19 @@ export class PostService {
 
   constructor(private http: Http) {}
 
+  getToken(): string {
+    return localStorage.getItem('auth_token');
+  }
+
+  generateHeaders(): Headers {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.getToken());
+    return headers;
+  }
+
   getPosts(page, per_page, kind): any {
-    let jwt = localStorage.getItem('auth_token');
+    let jwt = this.getToken();
     let authHeader = new Headers();
     if (jwt) {
       authHeader.append('Authorization', jwt);
@@ -35,12 +46,22 @@ export class PostService {
   }
 
   addPost(post: any) {
-    let token = localStorage.getItem('auth_token');
-    let header = new Headers();
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', token);
     return this.http.post(this.apiUrl + '/api/posts/', JSON.stringify(post), {
-      headers: header
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
+  }
+
+  deletePost(post: Post) {
+    return this.http.delete(this.apiUrl + '/api/posts/' + post.id, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
+  }
+
+  flagPost(post: Post) {
+    return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/flag', {
+      headers: this.generateHeaders()
     })
     .map(res => res.json());
   }

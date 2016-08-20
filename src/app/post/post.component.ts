@@ -1,34 +1,22 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
+
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
-/*import {
-  FORM_DIRECTIVES,
-  FormBuilder,
-  ControlGroup,
-  Validators,
-  AbstractControl,
-  Control
-} from '@angular/common';*/
+import { Collapse } from '../directives/collapse/collapse';
 
 import { Post } from '../datatypes/post/post';
+import { AlertNotification } from '../datatypes/alert/alertnotification';
 import { CommentDetail } from '../comment';
+import { flagContent, deleteContent } from '../modal/modalPresets';
+
 import { AlertService } from '../services/alerts/alertsService';
 import { AuthService } from '../services/auth/authService';
 import { PostService } from '../services/posts/postsService';
 import { CommentService } from '../services/comments/commentService';
-import { Collapse } from '../directives/collapse/collapse';
+
 import { OrderBy } from '../pipes/orderBy';
 import { TimeSincePipe } from '../pipes/timeSince';
-
-/*import {
-  ModalDialogInstance,
-  ModalConfig,
-  Modal,
-  ICustomModal,
-  YesNoModalContent,
-  YesNoModal
-} from 'angular2-modal/angular2-modal';*/
-import {flagContent, deleteContent} from '../modal/modalPresets';
 
 @Component({
   selector: 'post-detail',
@@ -43,9 +31,6 @@ export class PostDetail {
   public isCollapsed: boolean = true;
   private post: Post;
   private comments: Array<any>;
-  /*private commentForm: ControlGroup;
-  private comment: AbstractControl;*/
-
   private loadingComments: boolean = false;
 
   constructor(
@@ -53,17 +38,10 @@ export class PostDetail {
     private _activatedRoute: ActivatedRoute,
     private _alertService: AlertService,
     private _authService: AuthService,
-    private _postsService: PostService,
+    private _postService: PostService,
     private _commentService: CommentService,
-    /*private _fb: FormBuilder,
-    private modal: Modal*/
-  ) {
-    /*this.commentForm = _fb.group({
-      'comment': ['', Validators.compose([
-        Validators.required])]
-    });
-    this.comment = this.commentForm.controls['password'];*/
-  }
+    private modal: Modal
+  ) {}
 
   onSelectUser(id: number) {
     this._router.navigate( ['UserDetail', { id: id }]);
@@ -100,47 +78,63 @@ export class PostDetail {
 
   }
 
-  /*openFlagModal(title: string, username: string) {
-    let preset = flagContent(this.modal, title, username);
-    let dialog: Promise<ModalDialogInstance> = preset.open();
+  openFlagModal(post: Post) {
+    let preset = flagContent(this.modal, post.title, (<any>post.user).username);
+    let dialog = preset.open();
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
         (res) => {
-          // Send http call
-          alert('woohoo')
-        },
-        () => console.log('error confirming modal')
+          this._postService.flagPost(post).subscribe(
+            res => {
+              // Reload posts
+            }, err => {
+              let message: string = 'There was an error flagging the post.';
+              let alert = new AlertNotification(message, 'danger');
+              this._alertService.addAlert(alert);
+            }
+          )
+        }, () => console.log('error confirming modal')
       )
     });
-  }*/
+  }
 
-  /*openDeleteModal(title: string, username: string) {
-    let preset = deleteContent(this.modal, title, username);
-    let dialog: Promise<ModalDialogInstance> = preset.open();
+  openDeleteModal(post: Post) {
+    let preset = deleteContent(this.modal, post.title, (<any>post.user).username);
+    let dialog = preset.open();
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
         (res) => {
-          // Send http call
-          alert('woohoo')
+          this._postService.deletePost(post).subscribe(
+            res => {
+              alert('success');
+              // Reload posts
+            }, err => {
+              let message = 'There was an error deleting that post.';
+              let alert = new AlertNotification(message, 'danger')
+              this._alertService.addAlert(alert);
+            }, () => {
+
+            }
+          )
         },
         () => console.log('error confirming modal')
       )
     });
-  }*/
+  }
 
   ngOnInit() {
     this.loadingComments = true;
     this._activatedRoute.params.subscribe(params => {
       let id = +params['id'];
-      this._postsService.getPost(id)
+      this._postService.getPost(id)
       .subscribe(
         res => this.post = res,
         err => console.log(err),
         () => console.log(this.post)
       );
-      this._postsService.getPostComments(id)
+      this._postService.getPostComments(id)
       .subscribe(
         res => this.comments = res,
         err => console.log(err),

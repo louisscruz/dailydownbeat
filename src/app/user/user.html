@@ -17,12 +17,12 @@
           </div>
           <div class="info-block">
             <p *ngIf="post.url"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
-            <p *ngIf="!post.url"><a [routerLink]=" ['../../post', post.id] ">{{post.title}}</a></p>
+            <p *ngIf="!post.url"><a [routerLink]=" ['/post', post.id] ">{{post.title}}</a></p>
             <span>
               <small>
                 <pluralize [count]="post.points" [when]="{'one': '1 point', 'other': '{} points'}"></pluralize> |
                 {{post.created_at | timeSince}} |
-                <a [routerLink]=" ['../../post', post.id ] ">
+                <a [routerLink]=" ['/post', post.id ] ">
                   <pluralize [count]="post.comment_count" [when]="{'one': '1 comment', 'other': '{} comments'}"></pluralize>
                 </a>
                 <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
@@ -31,15 +31,15 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
                     <li role="menuitem">
-                      <a class="dropdown-item" href="javascript:void(0)" [routerLink]=" ['../../post', post.id ]"><i class="fa fa-comment fa-fw"></i> Comment</a>
+                      <a class="dropdown-item" href="javascript:void(0)" [routerLink]=" ['/post', post.id ]"><i class="fa fa-comment fa-fw"></i> Comment</a>
                     </li>
                     <li role="menuitem">
-                      <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target=".modal" (click)="openFlagModal(post.title, post.user.username)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
                     </li>
                     <template [ngIf]="_authService.adminMode || _authService.isSelf(userId)">
                       <div class="dropdown-divider"></div>
                       <li role="menuitem">
-                        <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post.title, post.user.username)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
                       </li>
                     </template>
                   </ul>

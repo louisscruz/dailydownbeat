@@ -8,6 +8,7 @@ import {
   FormControl,
   AbstractControl
 } from '@angular/forms';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { AlertService } from '../services/alerts/alertsService';
 import { AuthService } from '../services/auth/authService';
@@ -15,6 +16,7 @@ import { PostService } from '../services/posts/postsService';
 
 import { Post } from '../datatypes/post/post';
 import { AlertNotification } from '../datatypes/alert/alertnotification';
+import { flagContent, deleteContent } from '../modal/modalPresets';
 
 import { PrefixTitlePipe } from '../pipes/prefixTitle';
 
@@ -24,8 +26,7 @@ import { UrlValidator } from '../directives/urlValidator/url.validator';
   selector: 'add-post',
   template: require('./addPost.html'),
   directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, UrlValidator ],
-  pipes: [ PrefixTitlePipe ],
-  providers: [ PostService ]
+  pipes: [ PrefixTitlePipe ]
 })
 
 export class AddPost {
@@ -38,14 +39,9 @@ export class AddPost {
     private _alertService: AlertService,
     private _authService: AuthService,
     private _postService: PostService,
-    private _router: Router
+    private _router: Router,
+    private modal: Modal
   ) {
-    /*function urlValidator(control: Control): { [s: string]: boolean } {
-      let regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-      if (control.value.length > 0 && !control.value.match(regex)) {
-        return {invalidUrl: true};
-      }
-    }*/
     this.addPostForm = new FormGroup({
       'title': new FormControl(''),
       'url': new FormControl('')
@@ -56,7 +52,6 @@ export class AddPost {
 
   addPost() {
     let id = this._authService.currentUser.id;
-    console.log(id);
     this._postService.addPost({
       title: this.title.value,
       url: this.url.value,
@@ -88,6 +83,52 @@ export class AddPost {
         this._router.navigate([ '/' ]);
       }
     );
+  }
+
+  openFlagModal(post: Post) {
+    let preset = flagContent(this.modal, post.title, (<any>post.user).username);
+    let dialog = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          this._postService.flagPost(post).subscribe(
+            res => {
+              // Reload posts
+            }, err => {
+              let message: string = 'There was an error flagging the post.';
+              let alert = new AlertNotification(message, 'danger');
+              this._alertService.addAlert(alert);
+            }
+          )
+        }, () => console.log('error confirming modal')
+      )
+    });
+  }
+
+  openDeleteModal(post: Post) {
+    let preset = deleteContent(this.modal, post.title, (<any>post.user).username);
+    let dialog = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        (res) => {
+          this._postService.deletePost(post).subscribe(
+            res => {
+              alert('success');
+              // Reload posts
+            }, err => {
+              let message = 'There was an error deleting that post.';
+              let alert = new AlertNotification(message, 'danger')
+              this._alertService.addAlert(alert);
+            }, () => {
+
+            }
+          )
+        },
+        () => console.log('error confirming modal')
+      )
+    });
   }
 
   ngOnInit() {

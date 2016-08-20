@@ -21,8 +21,8 @@ export class EmailValidator {
 
   validator: Function;
 
-  constructor(/*emailBlacklist: EmailBlackList*/) {
-    this.validator = validateEmailFactory(/*emailBlackList*/);
+  constructor() {
+    this.validator = validateEmailFactory();
   }
 
   validate(c: FormControl) {

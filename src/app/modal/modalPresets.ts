@@ -31,10 +31,8 @@ export function deleteContent(modal: Modal, title: string, username: string) {
   .headerClass('modal-header bg-danger')
   .title('Are you sure?')
   .body(`
-    <p>Are you sure that you would like to delete <b>`
+    <p>Are you sure that you would like to delete the post <b>`
     + title +
-    `</b> by <b>`
-    + username +
     `</b>?`
   )
   .okBtn('Delete')
@@ -67,6 +65,7 @@ export function terms(modal: Modal) {
   .size('md')
   .isBlocking(false)
   .keyboard(27)
+  .headerClass('modal-header bg-primary')
   .title('Terms and Conditions')
   .body(`
     <div class="col-xs-12">
@@ -204,7 +203,7 @@ export function terms(modal: Modal) {
     </p>
     </div>
   `)
-  .okBtn('Close')
-  .okBtnClass('btn btn-secondary')
+  .okBtn('Accept')
+  .okBtnClass('btn btn-primary')
 
 }
