@@ -82,14 +82,22 @@ export class PostDetail {
     )
   }
 
-  removeComment(id: number) {
-    /*alert(this._commentService.selectedRoute)
-    let route = this._commentService.selectedRoute;
-    let filtered = this.comments;
-    for (var i = 0; i < route.length; i++) {
-      console.log(filtered[filtered.indexOf(route[i])])
-    }*/
+  removeComment(comment): void {
+    // Binary Search: This assumes that the comments are in descending order by ID
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.comments.length - 1;
 
+    while (maximumIndex > minimumIndex) {
+      let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.comments[currentIndex].id < comment.id) {
+        maximumIndex = currentIndex - 1;
+      } else if (this.comments[currentIndex].id > comment.id) {
+        minimumIndex = currentIndex + 1;
+      } else {
+        this.comments.splice(currentIndex, 1);
+      }
+    }
   }
 
   openFlagModal(post: Post) {

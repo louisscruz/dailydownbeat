@@ -42,8 +42,8 @@
         </div>
       </div>
       <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-      <li *ngFor="let comment of comments | orderBy: ['-points', '-created_at']">
-        <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment(comment.id)"></comment>
+      <li *ngFor="let comment of comments | orderBy: ['-created_at']">
+        <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment($event)"></comment>
       </li>
     </ul>
   </div>

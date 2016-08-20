@@ -134,10 +134,9 @@ export class CommentDetail {
         (res) => {
           this._commentService.deletePostComment(comment).subscribe(
             res => {
-              // Reload comments
+              this.deleteEvent.emit(comment);
               let alert = new AlertNotification('Successfully deleted comment!', 'success');
               this._alertService.addAlert(alert);
-              // Send deleteEvent to bubble up to postDetail
             }, err => {
               let message: string = 'There was an error flagging the post.';
               let alert = new AlertNotification(message, 'danger');
