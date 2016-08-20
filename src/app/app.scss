@@ -12,6 +12,12 @@ html {
   //-webkit-backface-visibility: hidden;
 }
 
+#content {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 main {
   margin-top: 60px;
   //min-height: 100vh;
@@ -19,6 +25,7 @@ main {
   width: 100%;
   margin-left: 0px;
   margin-right: 0px;
+  flex: 1;
 }
 
 .ng-valid.ng-touched {

@@ -22,21 +22,23 @@ import { Footer } from './footer';
   styles: [ require('./app.scss'), require('./global-variables.scss') ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <header>
-      <navbar></navbar>
-    </header>
+    <div id="content">
+      <header>
+        <navbar></navbar>
+      </header>
 
-    <alerts></alerts>
+      <alerts></alerts>
 
-    <main class="container">
-      <router-outlet></router-outlet>
-    </main>
+      <main class="container">
+        <router-outlet></router-outlet>
+      </main>
 
-    <footer></footer>
+      <footer></footer>
+    </div>
   `
 })
 export class App {
-  
+
   constructor(
     private _authService: AuthService,
     private modal: Modal,
