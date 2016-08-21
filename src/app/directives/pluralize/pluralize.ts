@@ -1,8 +1,8 @@
-import {Input, Component} from '@angular/core';
+import { Input, Component } from '@angular/core';
 
 @Component({
   selector: 'pluralize',
-  template: `<span>{{content}}</span>`
+  template: `<span>{{content}}</span>`,
 })
 
 export class Pluralize {
@@ -11,7 +11,7 @@ export class Pluralize {
   @Input() offset: number;
   private content: string;
 
-  ngOnInit() {
+  setContent(): void {
     let when = this.when;
     let count = this.count;
     let oneOffset = this.offset ? this.offset + 1 : 1;
@@ -29,5 +29,13 @@ export class Pluralize {
       content = content.replace('{}', remainingOffset);
     }
     this.content = content;
+  }
+
+  ngOnInit() {
+    this.setContent();
+  }
+
+  ngOnChanges(changes) {
+    this.setContent();
   }
 }

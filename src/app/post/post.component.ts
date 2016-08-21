@@ -14,6 +14,7 @@ import { Collapse } from '../directives/collapse/collapse';
 
 import { Post } from '../datatypes/post/post';
 import { AlertNotification } from '../datatypes/alert/alertnotification';
+import { Comment } from '../datatypes/comment/comment';
 import { CommentDetail } from '../comment';
 import { flagContent, deleteContent } from '../modal/modalPresets';
 
@@ -70,7 +71,7 @@ export class PostDetail {
     this._commentService.addComment(body, commentableType, commentableId, this._authService.currentUser.id)
     .subscribe(
       res => {
-        this.comments.push(res);
+        this.insertComment(res);
         let alert = new AlertNotification('Successfully added your comment!', 'success');
         this._alertService.addAlert(alert);
       },
@@ -80,6 +81,24 @@ export class PostDetail {
         (<FormControl>this.addCommentForm.find('comment')).updateValue('');
       }
     )
+  }
+
+  insertComment(comment: Comment): void {
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.comments.length - 1;
+    let currentIndex: number;
+
+    while (maximumIndex > minimumIndex) {
+      currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.comments[currentIndex].id < comment.id) {
+        maximumIndex = currentIndex - 1;
+      } else {
+        minimumIndex = currentIndex + 1;
+      }
+    }
+
+    this.comments.splice(currentIndex, 0, comment);
   }
 
   removeComment(comment): void {

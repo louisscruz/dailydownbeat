@@ -1,5 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import {
+  FORM_DIRECTIVES,
+  REACTIVE_FORM_DIRECTIVES,
+  FormGroup,
+  FormControl,
+  AbstractControl
+} from '@angular/forms';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { Post } from '../datatypes/post/post';
@@ -21,7 +28,7 @@ import { OrderBy } from '../pipes/orderBy';
 
 @Component({
   selector: 'comment',
-  directives: [ RouterLink, DROPDOWN_DIRECTIVES, Collapse, CommentDetail, Pluralize ],
+  directives: [ RouterLink, DROPDOWN_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, Collapse, CommentDetail, Pluralize ],
   pipes: [ OrderBy, TimeSincePipe ],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')
@@ -31,8 +38,11 @@ export class CommentDetail {
   @Input() comment;
   @Input() replyOpen;
   @Output() deleteEvent = new EventEmitter();
+  private replyForm: FormGroup;
+  private reply: AbstractControl;
   private isCollapsed: boolean = true;
   private replyCollapsed: boolean = true;
+  private replySending: boolean = false;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -40,67 +50,45 @@ export class CommentDetail {
     private _authService: AuthService,
     private _commentService: CommentService,
     private _postService: PostService,
+    private cd: ChangeDetectorRef,
     private modal: Modal
-    /*private _fb: FormBuilder,
-    private modal: Modal*/
   ) {
-    /*this.replyForm = _fb.group({
-      'reply': ['', Validators.compose([
-        Validators.required])]
+    this.replyForm = new FormGroup({
+      reply: new FormControl()
     });
-    this.reply = this.replyForm.controls['reply'];*/
+    this.reply = this.replyForm.find('reply');
   }
 
-  /*cancelReply() {
-    this.replyCollapsed = true;
-    (<Control>this.replyForm.controls['reply']).updateValue('');
-    (<Control>this.replyForm.controls['reply']).pristine = true;
-  }*/
+  closeReplyForm(): void {
+    this._commentService.toggleReplyOpen(this.comment.id)
+  }
 
-  /*addReply(body: string) {
+  resetReplyForm(): void {
+    (<FormControl>this.replyForm.find('reply')).updateValue('');
+  }
+
+  addReply(body: string): void {
     let commentableType = 'Comment';
     let commentableId = this.comment.id;
+    this.replySending = true;
     this._commentService.addComment(body, commentableType, commentableId, this._authService.currentUser.id)
     .subscribe(
       res => {
-        this.comment.comments.push(res);
-        let alert = {
-          message: 'Successfully added comment!',
-          type: 'success',
-          timeout: 8000,
-          dismissible: true
-        }
+        this.insertComment(res);
+        // Perform binary insert based on id value
+        !!this.comment.comment_count ? this.comment.comment_count++ : this.comment.comment_count = 1;
+        this.resetReplyForm();
+        this.closeReplyForm();
+        let alert = new AlertNotification('Successfully added comment!', 'success');
         this._alertService.addAlert(alert);
-      },
-      err => console.log(err),
-      () => {
-        this.isCollapsed = true;
-        (this.replyForm.controls['reply'] as Control).updateValue('');
+      }, err => {
+        let alert = new AlertNotification('There was an error adding that comment.', 'danger');
+        this._alertService.addAlert(alert);
+      }, () => {
+        this.replySending = false;
       }
     )
-  }*/
-
-  /*deletePostComment(commentableId: number) {
-    this._commentService.deletePostComment(commentableId)
-    .subscribe(
-      res => {
-        this.deleteEvent.emit('event');
-      },
-      err => console.log(err),
-      () => {
-      }
-    )
-  }*/
-
-  /*indexComment(id: number) {
-    if (this._commentService.selectedRoute.length === 1) {
-      let index = this.comment.comments.indexOf()
-      this.comment.comments.splice(index, 1)
-    }
-    this._commentService.selectedRoute.unshift(id);
-    console.log('the current route is', this._commentService.selectedRoute);
-    this.deleteEvent.emit('event');
-  }*/
+  }
 
   openFlagModal(comment: any) {
     let preset = flagCommentContent(this.modal, comment);
@@ -138,7 +126,7 @@ export class CommentDetail {
               let alert = new AlertNotification('Successfully deleted comment!', 'success');
               this._alertService.addAlert(alert);
             }, err => {
-              let message: string = 'There was an error flagging the post.';
+              let message: string = 'There was an error deleting the post.';
               let alert = new AlertNotification(message, 'danger');
               this._alertService.addAlert(alert);
             }
@@ -148,6 +136,44 @@ export class CommentDetail {
         }
       )
     });
+  }
+
+  insertComment(comment: Comment): void {
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.comment.comments.length - 1;
+    let currentIndex: number;
+
+    while (maximumIndex > minimumIndex) {
+      currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.comment.comments[currentIndex].id < comment.id) {
+        maximumIndex = currentIndex - 1;
+      } else {
+        minimumIndex = currentIndex + 1;
+      }
+    }
+
+    this.comment.comments.splice(currentIndex, 0, comment);
+  }
+
+  removeComment(comment): void {
+    console.log('getting to work');
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.comment.comments.length - 1;
+    console.log(this.comment.comments)
+
+    while (maximumIndex >= minimumIndex) {
+      let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.comment.comments[currentIndex].id < comment.id) {
+        maximumIndex = currentIndex - 1;
+      } else if (this.comment.comments[currentIndex].id > comment.id) {
+        minimumIndex = currentIndex + 1;
+      } else {
+        alert('snagged it')
+        this.comment.comments.splice(currentIndex, 1);
+      }
+    }
   }
 
   ngOnInit() {

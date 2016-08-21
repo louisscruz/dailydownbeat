@@ -15,9 +15,9 @@
       <small>
         <a class="btn btn-link btn-sm" (click)="_commentService.toggleReplyOpen(comment.id)"><i class="fa fa-reply fa-fw"></i> Reply</a>
       </small>
-      <div *ngIf="comment.comment_count">
+      <span *ngIf="comment.comment_count">
         <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
-      </div>
+      </span>
       <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
         <a href id="simple-btn-keyboard-nav" class="btn btn-secondary btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
@@ -40,15 +40,18 @@
     </div>
   </span>
   <div class="well well-lg" [collapse]="replyOpen !== comment.id">
-    <!--form class="text-xs-right" [ngFormModel]="replyForm" (ngSubmit)="addReply(replyForm.controls['reply'].value)">
+    <form class="text-xs-right" [formGroup]="replyForm" (ngSubmit)="addReply(reply.value)">
       <fieldset class="form-group">
-        <textarea class="form-control" [ngFormControl]="replyForm.controls['reply']"></textarea>
+        <textarea class="form-control" [formControl]="replyForm.find('reply')"></textarea>
       </fieldset>
-      <button class="btn btn-secondary" (click)="_commentService.toggleReplyOpen(comment.id)">Cancel</button>
-      <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">Reply</button>
-    </form-->
+      <button class="btn btn-secondary" type="button" (click)="closeReplyForm()">Cancel</button>
+      <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">
+        Reply
+        <i *ngIf="replySending" class="fa fa-circle-o-notch fa-spin"></i>
+      </button>
+    </form>
   </div>
-  <div *ngFor="let childComment of comment.comments | orderBy: ['-points']">
-    <comment [collapse]="isCollapsed" [comment]="childComment" [replyOpen]="replyOpen" (deleteEvent)="indexComment(comment.id)"></comment>
+  <div *ngFor="let childComment of comment.comments | orderBy: ['-created_at']">
+    <comment [collapse]="isCollapsed" [comment]="childComment" [replyOpen]="replyOpen" (deleteEvent)="removeComment($event)"></comment>
   </div>
 </div>
