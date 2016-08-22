@@ -13,6 +13,7 @@ import {
 import { AlertService } from '../../services/alerts/alertsService';
 import { UserService } from '../../services/users/usersService';
 import { EmailValidator } from '../../directives/emailValidator/email.validator';
+import { EqualsValidator } from '../../directives/equalsValidator/equals.validator';
 
 import { tokenNotExpired } from 'angular2-jwt';
 
@@ -20,7 +21,7 @@ import { tokenNotExpired } from 'angular2-jwt';
   selector: 'dashboard',
   styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator ]
+  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator, EqualsValidator ]
 })
 export class Dashboard {
   private user: any;
@@ -28,46 +29,53 @@ export class Dashboard {
   private comments: any;
   private activitySelect: string = 'Posts';
   private editing: string;
-  /*private emailForm: ControlGroup;
+  private emailForm: FormGroup;
+  private passwordForm: FormGroup;
   private newEmail: AbstractControl;
   private newEmailConfirm: AbstractControl;
   private newEmailPassword: AbstractControl;
-  private passwordForm: ControlGroup;
   private oldPassword: AbstractControl;
   private newPassword: AbstractControl;
-  private newPasswordConfirm: AbstractControl;*/
+  private confirmPassword: AbstractControl;
 
   constructor(
-    /*private _fb: FormBuilder,
-    private _router: Router,
-    private _routeParams: RouteParams,*/
     private _alertService: AlertService,
     private _userService: UserService,
     private _activatedRoute: ActivatedRoute
   ) {
-    /*function emailValidator(control: Control): { [s: string]: boolean } {
-      if (!control.value.match(/.+@.+\..+/i) && control.value.length > 0) {
-        return {invalidEmail: true};
-      }
+    this.emailForm = new FormGroup({
+      email: new FormControl(''),
+      confirm: new FormControl(''),
+      password: new FormControl('')
+    });
+    this.newEmail = this.emailForm.find('email');
+    this.newEmailConfirm = this.emailForm.find('confirm');
+    this.newEmailPassword = this.emailForm.find('password');
+
+    this.passwordForm = new FormGroup({
+      oldPassword: new FormControl(),
+      newPassword: new FormControl(),
+      confirmPassword: new FormControl()
+    });
+    this.oldPassword = this.passwordForm.find('oldPassword');
+    this.newPassword = this.passwordForm.find('newPassword');
+    this.confirmPassword = this.passwordForm.find('confirmPassword');
+  }
+
+  resetForm(form: FormGroup): void {
+    console.log(this.emailForm)
+    for (let key in form.controls) {
+      //form.controls[key];
     }
-    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string): any {
-      return (group: ControlGroup) => {
-        let passwordInput = group.controls[passwordKey];
-        let passwordConfirmationInput = group.controls[passwordConfirmationKey];
-        if (passwordInput.value !== passwordConfirmationInput.value) {
-          return passwordConfirmationInput.setErrors({notEquivalent: true});
-        }
-      };
-    }*/
-
   }
 
-  canActivate() {
-    return tokenNotExpired('auth_token');
-  }
-
-  removeEditStatus(): void {
-    this.editing = '';
+  setEdit(editing: string): void {
+    if (editing === '' && this.editing === 'email') {
+      this.resetForm(this.emailForm);
+    } else if (editing === '' && this.editing === 'password') {
+      this.resetForm(this.passwordForm);
+    }
+    this.editing = editing;
   }
 
   /*updateEmail(): void {

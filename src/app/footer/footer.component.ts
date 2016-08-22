@@ -12,8 +12,6 @@ import { terms } from '../modal/modalPresets';
 })
 
 export class Footer {
-  private terms: any;
-
   constructor(private modal: Modal) {}
 
   openTermsModal() {
@@ -22,10 +20,8 @@ export class Footer {
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
-        (res) => {
-          console.log('Terms read')
-        },
-        () => console.log('Error initiating terms modal')
+        res => {},
+        err => {}
       )
     });
   }
