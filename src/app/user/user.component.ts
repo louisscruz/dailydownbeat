@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
+//import { PaginationComponent } from '../directives/pagination/pagination.component';
 import { TabDirective } from '../directives/tabs/tab.directive';
 import { TabsetComponent } from '../directives/tabs/tabset.component';
 import { Pluralize } from '../directives/pluralize/pluralize';
@@ -35,6 +36,8 @@ export class UserDetail {
   private posts: Post[];
   private comments: Comment[];
   private userId: number;
+  private postsCurrentPage: number = 1;
+  private totalPosts: number;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -106,7 +109,9 @@ export class UserDetail {
   getUserPosts(id: number) {
     this._userService.getUserPosts(id)
     .subscribe(
-      res => this.posts = res
+      res => {
+        this.posts = res
+      }
     );
   }
 
@@ -115,6 +120,13 @@ export class UserDetail {
     .subscribe(
       res => this.comments = res
     );
+  }
+
+  postsPageChanged(event): void {
+    this._activatedRoute.params.subscribe(params => {
+      let id = +params['id'];
+      this.getUserPosts(id);
+    });
   }
 
   ngOnInit(): void {

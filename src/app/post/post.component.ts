@@ -42,6 +42,7 @@ export class PostDetail {
   private comment: AbstractControl;
   private comments: Array<any>;
   private loadingComments: boolean = false;
+  private addingComment: boolean = false;
 
   constructor(
     private _router: Router,
@@ -68,6 +69,7 @@ export class PostDetail {
   }
 
   addComment(body: string, commentableType: string, commentableId: number) {
+    this.addingComment = true;
     this._commentService.addComment(body, commentableType, commentableId, this._authService.currentUser.id)
     .subscribe(
       res => {
@@ -77,6 +79,7 @@ export class PostDetail {
       },
       err => console.log(err),
       () => {
+        this.addingComment = false;
         this.isCollapsed = true;
         (<FormControl>this.addCommentForm.find('comment')).updateValue('');
       }
@@ -165,8 +168,12 @@ export class PostDetail {
     });
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.loadingComments = true;
+  }
+
+  ngOnInit() {
+    //this.loadingComments = true;
     this._activatedRoute.params.subscribe(params => {
       let id = +params['id'];
       this._postService.getPost(id)

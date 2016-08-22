@@ -1,8 +1,8 @@
 <div class="comment card card-block">
   <span class="content">
     <div class="vote-block">
-      <a href="#"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
-      <a href="#" *ngIf="_authService.currentUser && _authService.currentUser.points > 49"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
+      <a href="#" *ngIf="!_authService.isSelf(comment.user.id)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
+      <a href="#" *ngIf="!_authService.isSelf(comment.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
     </div>
     <div class="info-block">
       <p>{{comment.body}}</p>

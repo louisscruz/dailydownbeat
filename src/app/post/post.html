@@ -37,11 +37,14 @@
               <textarea class="form-control" [formControl]="addCommentForm.find('comment')"></textarea>
             </fieldset>
             <button class="btn btn-secondary" type="button" (click)="closeCommentForm()">Cancel</button>
-            <button class="btn btn-primary" type="submit" [disabled]="!addCommentForm.valid">Comment</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!addCommentForm.valid">
+              Comment
+              <i *ngIf="addingComment" class="fa fa-circle-o-notch fa-spin"></i>
+            </button>
           </form>
         </div>
       </div>
-      <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+      <div class="text-xs-center" *ngIf="loadingComments"><i class="fa fa-circle-o-notch fa-spin"></i></div>
       <li *ngFor="let comment of comments | orderBy: ['-created_at']">
         <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment($event)"></comment>
       </li>

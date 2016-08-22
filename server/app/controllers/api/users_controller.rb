@@ -64,6 +64,11 @@ class Api::UsersController < ApplicationController
 
   def posts
     @posts = @user.posts
+    ordered_posts = @posts.sort_by { |a, b| a.ranking }.reverse!
+    if (params[:page] && params[:per_page])
+      @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])
+    end
+    response.headers['X-Total-Count'] = ordered_posts.length.to_s
 
     render json: @posts, each_serializer: UserPostsSerializer
   end

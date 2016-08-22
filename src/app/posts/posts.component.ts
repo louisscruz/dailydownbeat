@@ -1,11 +1,11 @@
 import { Component, ElementRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HTTP_PROVIDERS, Http, Headers } from '@angular/http';
-import { CORE_DIRECTIVES, NgModel } from '@angular/common';
+import { CORE_DIRECTIVES } from '@angular/common';
 import { FORM_DIRECTIVES } from '@angular/forms';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
-import { PagerComponent } from '../directives/pagination/pager.component';
+import { PagerComponent } from '../directives/pager/pager.component';
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
 import { Pluralize } from '../directives/pluralize/pluralize';
 
@@ -23,7 +23,7 @@ import { flagContent, deleteContent } from '../modal/modalPresets';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [ PagerComponent, CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES, Pluralize, NgModel ],
+  directives: [ PagerComponent, CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES, Pluralize ],
   pipes: [ TimeSincePipe ],
   styles: [ require('./posts.scss') ]
 })
@@ -136,6 +136,11 @@ export class Posts {
         () => console.log('error confirming modal')
       )
     });
+  }
+
+  pageChanged(event) {
+    this.currentPage = event.page;
+    this.getPosts(this.currentPage, this.perPage, this.currentKind);
   }
 
   ngOnInit() {

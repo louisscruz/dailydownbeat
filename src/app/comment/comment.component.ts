@@ -160,7 +160,6 @@ export class CommentDetail {
     console.log('getting to work');
     let minimumIndex: number = 0;
     let maximumIndex: number = this.comment.comments.length - 1;
-    console.log(this.comment.comments)
 
     while (maximumIndex >= minimumIndex) {
       let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
@@ -170,12 +169,8 @@ export class CommentDetail {
       } else if (this.comment.comments[currentIndex].id > comment.id) {
         minimumIndex = currentIndex + 1;
       } else {
-        alert('snagged it')
         this.comment.comments.splice(currentIndex, 1);
       }
     }
-  }
-
-  ngOnInit() {
   }
 }

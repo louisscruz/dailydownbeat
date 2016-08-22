@@ -40,8 +40,8 @@ import { CorrectUserGuard } from '../app/guards/correct-user-guard.service';
 */
 export const APPLICATION_PROVIDERS = [
   // new Angular 2 forms
-  disableDeprecatedForms(),
   provideForms(),
+  disableDeprecatedForms(),
 
   ...APP_RESOLVER_PROVIDERS,
   ...MODAL_BROWSER_PROVIDERS,

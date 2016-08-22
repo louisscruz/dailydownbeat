@@ -10,7 +10,7 @@
           <a type="button" class="btn btn-link btn-xs" (click)="setContentSelect('job')" [class.active]="currentKind === 'job'">Jobs</a>
         </div>
       </div>
-      <div class="post card" *ngFor="let post of posts; let i = index">
+      <div class="post card" *ngFor="let post of posts; let i = index" [hidden]="loadingPosts">
         <div class="vote-block">
           <a *ngIf="!_authService.isSelf(post.user.id)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
           <a href="#" *ngIf="!_authService.isSelf(post.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)" (click)="vote(-1)"><i class="fa fa-angle-down fa-fw fa-lg"></i></a>
@@ -51,7 +51,8 @@
       </div>
       <div>
         <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-        <!--pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="getPosts($event.page, perPage, currentKind)" [itemsPerPage]="perPage" [align]="true" [disabled]="loadingPosts"></pager-->
+        <!--pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [itemsPerPage]="perPage" [align]="true" disabled="loadingPosts"></pager-->
+        <pager [currentPage]="currentPage" (pageChanged)="pageChanged($event)"></pager>
       </div>
     </div>
     <div *ngSwitchCase="true">
