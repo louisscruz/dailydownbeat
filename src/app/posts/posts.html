@@ -52,7 +52,7 @@
       <div>
         <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
         <!--pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [itemsPerPage]="perPage" [align]="true" disabled="loadingPosts"></pager-->
-        <pager [currentPage]="currentPage" (pageChanged)="pageChanged($event)"></pager>
+        <pager [currentPage]="currentPage" [perPage]="perPage" [totalItems]="totalItems" (pageChanged)="pageChanged($event)"></pager>
       </div>
     </div>
     <div *ngSwitchCase="true">
