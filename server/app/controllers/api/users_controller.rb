@@ -91,6 +91,15 @@ class Api::UsersController < ApplicationController
     render json: @downvotes, each_serializer: VotesSerializer
   end
 
+  def validate_email
+    response = { is_valid: true }
+    if User.exists?(:email => params[:email])
+      response[:is_valid] = false
+    end
+
+    render json: response
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

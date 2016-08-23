@@ -59,6 +59,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_not @user.confirmed
   end
+
+  test "invalid email validation should return invalid" do
+    get "/api/address/validate", params: { email: @user.email }
+    body = JSON.parse(response.body)
+    assert_equal body["is_valid"], false
+  end
+
+  test "valid email validation should return valid" do
+    get "/api/address/validate", params: { email: "newvalid@me.com" }
+    body = JSON.parse(response.body)
+    assert_equal body["is_valid"], true
+  end
 =begin
   test "should successfully update valid email" do
     old = @user.dup

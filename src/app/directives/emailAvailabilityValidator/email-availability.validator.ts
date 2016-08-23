@@ -5,17 +5,37 @@ import { AuthService } from '../../services/auth/authService';
 @Directive({
   selector: '[validateEmailAvailability][formControlName], [validateEmailAvailability][formControl], [validateEmailAvailability][ngModel]',
   providers: [
-    provide(NG_VALIDATORS, { useExisting: forwardRef(() => EmailAvailableValidator), multi: true })
+    provide(NG_VALIDATORS, { useExisting: forwardRef(() => EmailAvailabilityValidator), multi: true })
   ]
 })
 
-export class EmailAvailableValidator implements Validator {
+export class EmailAvailabilityValidator implements Validator {
+  private emailTimeout;
+
   constructor(
-    @Attribute('validateEmailAvailability') public validateEmailAvailability: string
+    @Attribute('validateEmailAvailability') public validateEmailAvailability: string,
+    private _authService: AuthService
   ) {}
 
   validate(control: AbstractControl): { [key: string]: any } {
+    /*control.valueChanges.debounceTime(1000).subscribe(newValue => {
+      let email = newValue;
+      this._authService.checkEmailAvailability(email);
 
+    });
+    return null;*/
+    if (!control.errors) {
+      clearTimeout(this.emailTimeout);
+      return new Promise((resolve, reject) => {
+        this.emailTimeout = setTimeout(() => {
+          let email = control.value;
+          this._authService.checkEmailAvailability(email)//.subscribe(
+            //res => {},
+            //err => {}
+          //)
+        }, 1000)
+      });
+    }
     return null;
   }
 

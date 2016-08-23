@@ -12,6 +12,7 @@ import {
 
 import { AlertService } from '../../services/alerts/alertsService';
 import { UserService } from '../../services/users/usersService';
+import { EmailAvailabilityValidator } from '../../directives/emailAvailabilityValidator/email-availability.validator';
 import { EmailValidator } from '../../directives/emailValidator/email.validator';
 import { EqualsValidator } from '../../directives/equalsValidator/equals.validator';
 
@@ -21,7 +22,7 @@ import { tokenNotExpired } from 'angular2-jwt';
   selector: 'dashboard',
   styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator, EqualsValidator ]
+  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailAvailabilityValidator, EmailValidator, EqualsValidator ]
 })
 export class Dashboard {
   private user: any;

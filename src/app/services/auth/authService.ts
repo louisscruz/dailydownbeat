@@ -1,6 +1,7 @@
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { AuthHttp, tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';
@@ -19,6 +20,18 @@ export class AuthService {
     private authHttp: AuthHttp,
     private _jwtHelper: JwtHelper
   ) {}
+
+  generateHeaders(): Headers {
+    let headers = new Headers();
+    let token = this.getToken();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return headers;
+  }
+
+  getToken(): string {
+    return localStorage.getItem('auth_token');
+  }
 
   saveJwt(jwt) {
     localStorage.setItem('auth_token', jwt);
@@ -86,5 +99,13 @@ export class AuthService {
       return id === this.currentUser.id;
     }
     return false;
+  }
+
+  checkEmailAvailability(email: string): Observable<Response> {
+    console.log(email);
+    let headers = this.generateHeaders();
+    return this.authHttp.get(this.apiUrl + '/api/address/validate/' + email, {
+      headers: headers
+    });
   }
 }
