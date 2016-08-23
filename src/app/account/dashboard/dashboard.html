@@ -13,17 +13,18 @@
         <div *ngIf="editing === 'email'" class="text-xs-left">
           <form [formGroup]="emailForm" (ngSubmit)="updateEmail()">
             <fieldset class="form-group" [class.has-success]="newEmail.valid && newEmail.touched" [class.has-danger]="!newEmail.valid && newEmail.touched">
-              <label for="newEmail" class="form-control-label">New Email</label>
-              <input type="text" id="newEmail" placeholder="New Email" [formControl]="emailForm.find('email')" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid" validateEmail validateEmailAvailability validateEquals="confirm" reverse="true" maxlength="254" required>
+              <label for="newEmail" class="form-control-label">New Email <i *ngIf="validatingEmail" class="fa fa-spinner fa-pulse fa-fw"></i></label>
+              <input type="text" id="newEmail" placeholder="New Email" [formControl]="emailForm.find('email')" class="form-control" [class.form-control-success]="newEmail.valid" [class.form-control-danger]="!newEmail.valid" validateEmail validateEmailAvailability (startValidatingEmail)="toggleValidatingEmail()" (stopValidatingEmail)="toggleValidatingEmail()" validateEquals="confirm" reverse="true" maxlength="254" required>
               <div *ngIf="newEmail.touched" class="text-help">
                 <div *ngIf="newEmail.hasError('required')">New Email Required</div>
                 <div *ngIf="newEmail.hasError('invalidEmail')">Invalid Email</div>
                 <div *ngIf="newEmail.hasError('validateEquals')">Does Not Match Email Confirmation</div>
+                <div *ngIf="newEmail.hasError('validateEmailAvailability')">Email Already In Use</div>
               </div>
             </fieldset>
             <fieldset class="form-group" [class.has-success]="newEmailConfirm.valid && newEmailConfirm.touched" [class.has-danger]="!newEmailConfirm.valid && newEmailConfirm.touched">
               <label for="newEmailConfirm" class="form-control-label">Confirm New Email</label>
-              <input type="text" id="newEmailConfirm" placeholder="Confirm New Email" [formControl]="emailForm.find('confirm')" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid" validateEmail validateEmailAvailability="email" validateEquals="email" maxlength="254" required>
+              <input type="text" id="newEmailConfirm" placeholder="Confirm New Email" [formControl]="emailForm.find('confirm')" class="form-control" [class.form-control-success]="newEmailConfirm.valid" [class.form-control-danger]="!newEmailConfirm.valid" validateEmail validateEquals="email" maxlength="254" required>
               <div *ngIf="newEmailConfirm.touched" class="text-help">
                 <div *ngIf="newEmailConfirm.hasError('required')">Email Confirmation Required</div>
                 <div *ngIf="newEmailConfirm.hasError('invalidEmail')">Invalid Email</div>
@@ -32,7 +33,7 @@
             </fieldset>
             <fieldset class="form-group">
               <label for="password" class="form-control-label">Password</label>
-              <input type="password" id="password" placeholder="password" [formControl]="emailForm.find('password')" class="form-control" required>
+              <input type="password" id="password" placeholder="Password" [formControl]="emailForm.find('password')" class="form-control" required>
             </fieldset>
             <button type="reset" class="btn btn-secondary" (click)="setEdit('')">Cancel</button>
             <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Email</button>

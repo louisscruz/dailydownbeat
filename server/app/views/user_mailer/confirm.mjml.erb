@@ -1,0 +1,29 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Open Sans" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+  </mj-head>
+  <mj-body>
+    <mj-container>
+      <mj-section>
+        <mj-column>
+          <mj-text font-family="Open Sans, helvetica" font-size="30" color="#505050">Daily Downbeat</mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#0275d8">
+        <mj-column>
+          <mj-text font-size="20px" color="#FFF" font-family="Open Sans, helvetica" align="center">Please Confirm Your Account</mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section background-color="#F0F0F0">
+        <mj-column>
+          <mj-text font-size="16px" color="#505050" font-family="Open Sans, helvetica">In order to use your new Daily Downbeat account, you will first need to confirm it with us. Click the button below to confirm your account.</mj-text>
+          <mj-button href="<%= @url %>">
+            Confirm
+          </mj-button>
+          <mj-divider border-color="#505050"></mj-divider>
+          <mj-text font-size="12px" color="#505050" font-family="Open Sans, helvetica">If you did not initiate the creation of a Daily Downbeat account for <%= @user.email %>, please <a href="http://www.dailydownbeat.com/#/contact" target="_blank">contact us</a> as soon as possible.</mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-container>
+  </mj-body>
+</mjml>

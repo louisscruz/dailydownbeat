@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, ROUTER_DIRECTIVES, CanActivate } from '@angular/router';
 import {
   FORM_DIRECTIVES,
@@ -7,16 +7,16 @@ import {
   FormControl,
   AbstractControl
 } from '@angular/forms';
+import { tokenNotExpired } from 'angular2-jwt';
 
-//import {TAB_DIRECTIVES, ButtonRadio} from 'ng2-bootstrap';
+import { AlertNotification } from '../../datatypes/alert/alertnotification';
 
-import { AlertService } from '../../services/alerts/alertsService';
-import { UserService } from '../../services/users/usersService';
 import { EmailAvailabilityValidator } from '../../directives/emailAvailabilityValidator/email-availability.validator';
 import { EmailValidator } from '../../directives/emailValidator/email.validator';
 import { EqualsValidator } from '../../directives/equalsValidator/equals.validator';
 
-import { tokenNotExpired } from 'angular2-jwt';
+import { AlertService } from '../../services/alerts/alertsService';
+import { UserService } from '../../services/users/usersService';
 
 @Component({
   selector: 'dashboard',
@@ -38,11 +38,14 @@ export class Dashboard {
   private oldPassword: AbstractControl;
   private newPassword: AbstractControl;
   private confirmPassword: AbstractControl;
+  private validatingEmail: boolean = false;
 
   constructor(
     private _alertService: AlertService,
+    private _activatedRoute: ActivatedRoute,
+    private _cd: ChangeDetectorRef,
     private _userService: UserService,
-    private _activatedRoute: ActivatedRoute
+    private router: Router
   ) {
     this.emailForm = new FormGroup({
       email: new FormControl(''),
@@ -64,10 +67,10 @@ export class Dashboard {
   }
 
   resetForm(form: FormGroup): void {
-    console.log(this.emailForm)
-    for (let key in form.controls) {
-      //form.controls[key];
-    }
+    // Reset the form (manually until RC5)
+    //for (let key in form.controls) {
+      //form.controls[key].updateValueAndValidity('');
+    //}
   }
 
   setEdit(editing: string): void {
@@ -77,6 +80,7 @@ export class Dashboard {
       this.resetForm(this.passwordForm);
     }
     this.editing = editing;
+    this._cd.detectChanges()
   }
 
   /*updateEmail(): void {
@@ -131,6 +135,31 @@ export class Dashboard {
       }
     );
   }*/
+
+  toggleValidatingEmail(): void {
+    this.validatingEmail = !this.validatingEmail;
+  }
+
+  updateEmail(): void {
+    this._userService.updateEmail(this.newEmail.value, this.newEmailPassword.value)
+    .subscribe(
+      res => {
+        let alert = new AlertNotification('Email successfully changed! Contact us if you don\'t receive an email confirming this in the next ten minutes.', 'success');
+        this._alertService.addAlert(alert);
+      }, err => {
+        let body = JSON.parse(err._body);
+        let alert = new AlertNotification('Error changing email.', 'danger');
+        if (body['current_password'][0] === 'is invalid') {
+          alert.message = 'Invalid password';
+        }
+        console.log(err)
+        this._alertService.addAlert(alert);
+        this.setEdit('');
+      }, () => {
+        this.router.navigate(['/']);
+      }
+    );
+  }
 
   ngOnInit(): void {
     this._activatedRoute.params.subscribe(params => {

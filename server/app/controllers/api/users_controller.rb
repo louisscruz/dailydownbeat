@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   before_action :authenticate_with_token!, only: [:update, :destroy]
   before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts, :comments, :upvotes, :downvotes]
-  wrap_parameters :user, include: [:username, :email, :password, :password_confirmation]
+  wrap_parameters :user, include: [:username, :email, :password, :password_confirmation, :current_password]
 
   # GET /users
   def index
@@ -35,7 +35,9 @@ class Api::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    old_user = @user.dup
+    if @user.update_with_password(user_params)
+      UserMailer.changed_email(@user, old_user.email).deliver_now if user_params[:email].present?
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -108,6 +110,9 @@ class Api::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed)
+      user_params = params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed, :current_password)
+      user_params.delete(:password) unless user_params[:password].present?
+      user_params.delete(:password_confirmation) unless user_params[:password_confirmation]
+      user_params
     end
 end

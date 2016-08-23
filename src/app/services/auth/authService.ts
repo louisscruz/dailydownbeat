@@ -6,6 +6,10 @@ import { AuthHttp, tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 import {User} from '../../datatypes/user/user';
 
+interface ValidationResult {
+  [key: string]: boolean;
+}
+
 @Injectable()
 export class AuthService {
   public adminMode: boolean = false;
@@ -103,9 +107,10 @@ export class AuthService {
 
   checkEmailAvailability(email: string): Observable<Response> {
     console.log(email);
-    let headers = this.generateHeaders();
-    return this.authHttp.get(this.apiUrl + '/api/address/validate/' + email, {
-      headers: headers
-    });
+      let headers = this.generateHeaders();
+      return this.authHttp.get(this.apiUrl + '/api/address/validate?email=' + email, {
+        headers: headers
+      })
+      .map(res => res.json());
   }
 }

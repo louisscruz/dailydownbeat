@@ -18,4 +18,13 @@ class UserMailer < ApplicationMailer
          template_path: "user_mailer",
          template_name: "confirm")
   end
+
+  def changed_email(user, old_email)
+    @user = user
+    @old_email = old_email
+    mail(to: [user.email, old_email],
+         subject: 'Daily Downbeat: Email Address Changed',
+         template_path: 'user_mailer',
+         template_name: 'changed_email')
+  end
 end

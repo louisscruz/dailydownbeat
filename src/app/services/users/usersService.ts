@@ -15,6 +15,18 @@ export class UserService {
     private _jwtHelper: JwtHelper
   ) {}
 
+  generateHeaders(): Headers {
+    let headers = new Headers();
+    let token = this.getToken();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return headers;
+  }
+
+  getToken(): string {
+    return localStorage.getItem('auth_token');
+  }
+
   postUser(user) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -51,28 +63,24 @@ export class UserService {
   };
 
   updateEmail(email: string, password: string): any {
-    let token = localStorage.getItem('auth_token');
-    let header = new Headers();
-    let id = this._jwtHelper.decodeToken(token).id;
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', token);
+    let headers = this.generateHeaders();
+    let id = this._jwtHelper.decodeToken(this.getToken()).id;
     let call = this.apiUrl + '/api/users/' + id;
-    return this._http.put(call, JSON.stringify({email, password}), {
-      headers: header
+    console.log(password);
+    let user = { email: email, current_password: password };
+    return this._http.put(call, JSON.stringify(user), {
+      headers: headers
     })
     .map(res => res.json());
   };
 
   updatePassword(password: string, new_password: string, new_password_confirmation: string): any {
-    let token = localStorage.getItem('auth_token');
-    let header = new Headers();
-    let id = this._jwtHelper.decodeToken(token).id;
-    header.append('Content-Type', 'application/json');
-    header.append('Authorization', token);
+    let headers = this.generateHeaders();
+    let id = this._jwtHelper.decodeToken(this.getToken()).id;
     let call = this.apiUrl + '/api/users/' + id + '/update_password';
     return this._http
     .patch(call, JSON.stringify({password, new_password, new_password_confirmation}), {
-      headers: header
+      headers: headers
     })
     .map(res => res.json());
   };

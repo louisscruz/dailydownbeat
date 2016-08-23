@@ -1,6 +1,8 @@
 require 'json_web_token'
 
 class User < ApplicationRecord
+  attr_reader :current_password
+
   before_save { email.downcase! }
   before_create :generate_authentication_token!
   before_update :reset_confirmed!, :if => :email_changed?
@@ -34,5 +36,17 @@ class User < ApplicationRecord
 
   def downvotes
     self.votes.where(polarity: -1)
+  end
+
+  def update_with_password(user_params)
+    current_password = user_params.delete(:current_password)
+    user_params[:password] = current_password if user_params[:password].nil?
+
+    if self.authenticate(current_password)
+      self.update(user_params)
+    else
+      self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+      false
+    end
   end
 end

@@ -1,63 +1,48 @@
-import { Directive, forwardRef, provide, Attribute } from '@angular/core';
-import { Validator, AbstractControl, NG_VALIDATORS} from '@angular/forms';
+import { Directive, forwardRef, provide, Attribute, Output, EventEmitter } from '@angular/core';
+import { Validator, AbstractControl, NG_ASYNC_VALIDATORS} from '@angular/forms';
 import { AuthService } from '../../services/auth/authService';
 
 @Directive({
   selector: '[validateEmailAvailability][formControlName], [validateEmailAvailability][formControl], [validateEmailAvailability][ngModel]',
   providers: [
-    provide(NG_VALIDATORS, { useExisting: forwardRef(() => EmailAvailabilityValidator), multi: true })
+    provide(NG_ASYNC_VALIDATORS, { useExisting: forwardRef(() => EmailAvailabilityValidator), multi: true })
   ]
 })
 
 export class EmailAvailabilityValidator implements Validator {
   private emailTimeout;
 
+  @Output() startValidatingEmail = new EventEmitter();
+  @Output() stopValidatingEmail = new EventEmitter();
+
   constructor(
-    @Attribute('validateEmailAvailability') public validateEmailAvailability: string,
     private _authService: AuthService
   ) {}
 
-  validate(control: AbstractControl): { [key: string]: any } {
-    /*control.valueChanges.debounceTime(1000).subscribe(newValue => {
-      let email = newValue;
-      this._authService.checkEmailAvailability(email);
+  validate(control: AbstractControl): Promise<{ [key: string]: any }> {
+    this.startValidatingEmail.emit(control);
+    clearTimeout(this.emailTimeout);
 
-    });
-    return null;*/
-    if (!control.errors) {
+    return new Promise((resolve, reject) => {
       clearTimeout(this.emailTimeout);
-      return new Promise((resolve, reject) => {
+      if (control.value !== '' && !control.errors) {
         this.emailTimeout = setTimeout(() => {
           let email = control.value;
-          this._authService.checkEmailAvailability(email)//.subscribe(
-            //res => {},
-            //err => {}
-          //)
-        }, 1000)
-      });
-    }
-    return null;
-  }
-
-  /*private get isReverse(): boolean {
-    if (!this.reverse) return false;
-    return this.reverse === 'true' ? true: false;
-  }
-
-  validate(control: AbstractControl): { [key: string]: any } {
-    let value = control.value;
-    let comparator = control.root.find(this.validateEquals);
-    if (!comparator) return null;
-
-    if (value !== comparator.value) {
-      if (!this.isReverse) {
-        return { validateEquals: false }
+          this._authService.checkEmailAvailability(email).subscribe(
+            res => {
+              if (res["is_valid"] === false) {
+                resolve({ validateEmailAvailability: false });
+              } else {
+                resolve(null);
+              }
+              this.stopValidatingEmail.emit(control);
+            }, err => {}
+          )
+        }, 1000);
       } else {
-        comparator.setErrors({ validateEquals: false });
+        this.stopValidatingEmail.emit(control);
+        resolve(null);
       }
-    } else if (comparator.errors && comparator.hasError('validateEquals')) {
-      comparator.errors['validateEquals'] = null;
-      if (Object.keys(comparator.errors).length == 1) comparator.setErrors(null);
-    }
-  }*/
+    });
+  }
 }
