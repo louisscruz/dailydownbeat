@@ -44,6 +44,7 @@ export class Signup {
   private password: AbstractControl;
   private passwordConfirmation: AbstractControl;
   private terms: AbstractControl;
+  private processing: boolean = false;
 
   constructor(
     private _alertService: AlertService,
@@ -80,6 +81,7 @@ export class Signup {
   }
 
   postUser(): void {
+    this.processing = true;
     let user = {
       username: this.username.value,
       email: this.email.value,
@@ -91,7 +93,7 @@ export class Signup {
         let body = JSON.parse(res._body);
         this._authService.currentUser = body;
         this._authService.saveJwt(body.auth_token);
-        let alert = new AlertNotification('Congratulations! Your account has been created!', 'success');
+        let alert = new AlertNotification('Congratulations! Your account has been created! You\'ll just have to confirm your account before making posts.', 'success');
         this._alertService.addAlert(alert);
         this._router.navigate([ '/' ]);
       }, err => {
@@ -100,7 +102,13 @@ export class Signup {
         this._alertService.addAlert(alert);
         this._router.navigate([ '/' ]);
       }, () => {
-
+        let redirect = (<any>this._router.routerState.queryParams).value['session_redirect'];
+        this.processing = false;
+        if (redirect === undefined) {
+          this._router.navigate([ '/' ]);
+        } else {
+          this._router.navigateByUrl(redirect);
+        }
       }
     )
   }

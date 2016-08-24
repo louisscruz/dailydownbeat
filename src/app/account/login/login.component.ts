@@ -32,6 +32,7 @@ import { EmailValidator } from '../../directives/emailValidator/email.validator'
 export class Login {
   private loginForm: FormGroup;
   private redirect: Observable<string>;
+  private processing: boolean = false;
 
   constructor(
     private _authService: AuthService,
@@ -46,6 +47,7 @@ export class Login {
   }
 
   login(user) {
+    this.processing = true;
     this._authService.login(user)
     .subscribe(
       res => {
@@ -63,6 +65,7 @@ export class Login {
       },
       () => {
         let redirect = (<any>this._router.routerState.queryParams).value['session_redirect'];
+        this.processing = false;
         if (redirect === undefined) {
           this._router.navigate([ './' ]);
         } else {

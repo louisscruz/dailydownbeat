@@ -20,7 +20,9 @@
           <div *ngIf="loginForm.find('password').hasError('required')" class="text-help">Password Required</div>
         </div>
       </fieldset>
-      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">Login</button>
+      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-block btn-primary">
+        Login <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i>
+      </button>
     </form>
   </div>
 </div>

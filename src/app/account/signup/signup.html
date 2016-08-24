@@ -48,8 +48,8 @@
         </label>
         <a class="btn-link" (click)="openTermsModal()">terms and conditions</a>.
       </fieldset>
-      <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid">
-        <span>Sign Up</span>
+      <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid || processing">
+        <span>Sign Up <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i></span>
       </button>
     </form>
   </div>
