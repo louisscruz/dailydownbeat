@@ -35,12 +35,12 @@ export const routes: RouterConfig = [
     path: 'user/:id',
     component: 'UserDetail',
   }, {
+    path: 'user/:id/confirm/:confirmation_code',
+    component: 'Confirm'
+  }, {
     path: 'dashboard/:id',
     component: 'Dashboard',
     canActivate: [ CorrectUserGuard ]
-  }, {
-    path: 'user/:id/confirm/:confirmation_code',
-    component: 'Confirm'
   }, {
     path: 'donate',
     component: 'Donate'

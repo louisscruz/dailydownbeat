@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp, tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
-import {User} from '../../datatypes/user/user';
+import { User } from '../../datatypes/user/user';
 
 interface ValidationResult {
   [key: string]: boolean;
@@ -75,12 +75,17 @@ export class AuthService {
     return false;
   }
 
+  isSelf(id: number): boolean {
+    if (this.currentUser) {
+      return id === this.currentUser.id;
+    }
+    return false;
+  }
+
   login(user) {
-    console.log(this.authHttp)
-    let header = new Headers();
-    header.append('Content-Type', 'application/json');
+    let headers = this.generateHeaders();
     return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
-      headers: header
+      headers: headers
     })
     .map(res => res.json());
   }
@@ -98,19 +103,19 @@ export class AuthService {
     });
   }
 
-  isSelf(id: number): boolean {
-    if (this.currentUser) {
-      return id === this.currentUser.id;
-    }
-    return false;
+  checkEmailAvailability(email: string): Observable<Response> {
+    let headers = this.generateHeaders();
+    return this.authHttp.get(this.apiUrl + '/api/address/validate?email=' + email, {
+      headers: headers
+    })
+    .map(res => res.json());
   }
 
-  checkEmailAvailability(email: string): Observable<Response> {
-    console.log(email);
-      let headers = this.generateHeaders();
-      return this.authHttp.get(this.apiUrl + '/api/address/validate?email=' + email, {
-        headers: headers
-      })
-      .map(res => res.json());
+  checkUsernameAvailability(username: string): Observable<Response> {
+    let headers = this.generateHeaders();
+    return this.authHttp.get(this.apiUrl + '/api/username/validate?username=' + username, {
+      headers: headers
+    })
+    .map(res => res.json())
   }
 }

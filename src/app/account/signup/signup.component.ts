@@ -1,56 +1,47 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FORM_DIRECTIVES,
-  //FORM_BINDINGS,
-  FormBuilder,
-  ControlGroup,
-  Control,
-  Validators,
+  REACTIVE_FORM_DIRECTIVES,
+  FormGroup,
+  FormControl,
   AbstractControl
-} from '@angular/common';
-import {Http, Headers} from '@angular/http';
-import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth/authService';
-import {User} from '../../datatypes/user/user';
-//import {ButtonRadio} from 'ng2-bootstrap/ng2-bootstrap';
+} from '@angular/forms';
+import { Http, Headers } from '@angular/http';
+import { Router } from '@angular/router';
+
+import { AlertNotification } from '../../datatypes/alert/alertnotification';
+import { User } from '../../datatypes/user/user';
+
+import { EmailAvailabilityValidator } from '../../directives/emailAvailabilityValidator/email-availability.validator';
+import { EmailValidator } from '../../directives/emailValidator/email.validator';
+import { EqualsValidator } from '../../directives/equalsValidator/equals.validator';
+import { UsernameAvailabilityValidator } from '../../directives/username-availability-validator/username-availability.validator';
+
+import { AlertService } from '../../services/alerts/alertsService';
+import { AuthService } from '../../services/auth/authService';
+import { UserService } from '../../services/users/usersService';
 
 @Component({
   selector: 'signup',
   template: require('./signup.html'),
-  directives: [ FORM_DIRECTIVES ],
-  providers: [AuthService]
+  directives: [ FORM_DIRECTIVES, EmailValidator, EmailAvailabilityValidator, EqualsValidator, UsernameAvailabilityValidator ]
 })
 
 export class Signup {
-  signupForm: ControlGroup;
-  user: User;
-  username: AbstractControl;
-  email: AbstractControl;
-  password: AbstractControl;
-  password_confirmation: AbstractControl;
+  private signupForm: FormGroup;
+  private username: AbstractControl;
+  private email: AbstractControl;
+  private password: AbstractControl;
+  private passwordConfirmation: AbstractControl;
 
   constructor(
-    private _fb: FormBuilder,
+    private _alertService: AlertService,
     private _authService: AuthService,
     private _http: Http,
-    private _router: Router
+    private _router: Router,
+    private _userService: UserService
   ) {
-    // TODO: refactor form validators to be global
-    function emailValidator(control: Control): { [s: string]: boolean } {
-      if (!control.value.match(/.+@.+\..+/i)) {
-        return {invalidEmail: true};
-      }
-    }
-    function confirmationEquivalent(passwordKey: string, passwordConfirmationKey: string): any {
-      return (group: ControlGroup) => {
-        let passwordInput = group.controls[passwordKey];
-        let passwordConfirmationInput = group.controls[passwordConfirmationKey];
-        if (passwordInput.value !== passwordConfirmationInput.value) {
-          return passwordConfirmationInput.setErrors({notEquivalent: true});
-        }
-      };
-    }
-    this.signupForm = _fb.group({
+    /*this.signupForm = _fb.group({
       'username': ['', Validators.compose([
         Validators.required, Validators.maxLength(24)])],
       'email': ['', Validators.compose([
@@ -64,6 +55,35 @@ export class Signup {
     this.email = this.signupForm.controls['email'];
     this.password = this.signupForm.controls['password'];
     this.password_confirmation = this.signupForm.controls['password_confirmation'];
-    this._authService = _authService;
+    this._authService = _authService;*/
+    this.signupForm = new FormGroup({
+      username: new FormControl(''),
+      email: new FormControl(''),
+      password: new FormControl(''),
+      passwordConfirmation: new FormControl('')
+    });
+    this.username = this.signupForm.find('username');
+    this.email = this.signupForm.find('email');
+    this.password = this.signupForm.find('password');
+    this.passwordConfirmation = this.signupForm.find('passwordConfirmation');
+  }
+
+  postUser(): void {
+    this._userService.postUser(this.signupForm.value).subscribe(
+      res => {
+        let alert = new AlertNotification('Congratulations! Your account has been created!', 'success');
+        this._alertService.addAlert(alert);
+        this._router.navigate([ '/' ]);
+        console.log(res);
+        console.log(res.headers)
+      }, err => {
+        let alert = new AlertNotification('There was an error while creating your account. Try logging in. If that doesn\'t work, try creating your account again. If that doesn\'t work, contact us.', 'danger', 0);
+        console.log(err)
+        this._alertService.addAlert(alert);
+        this._router.navigate([ '/' ]);
+      }, () => {
+
+      }
+    )
   }
 }

@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   namespace :api do
-    get    'login'  => 'sessions#new'
-    post   'login'  => 'sessions#create'
-    delete 'logout' => 'sessions#destroy'
-    get    'address/validate' => 'users#validate_email'
+    get    'login'             => 'sessions#new'
+    post   'login'             => 'sessions#create'
+    delete 'logout'            => 'sessions#destroy'
+    get    'address/validate'  => 'users#validate_email'
+    get    'username/validate' => 'users#validate_username'
 
     concern :commentable do
       resources :comments

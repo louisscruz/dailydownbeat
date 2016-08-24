@@ -27,7 +27,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       UserMailer.welcome(@user).deliver_now
       UserMailer.confirm(@user).deliver_now
-      render json: @user, status: :created, location: @user
+      head :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -94,10 +94,13 @@ class Api::UsersController < ApplicationController
   end
 
   def validate_email
-    response = { is_valid: true }
-    if User.exists?(:email => params[:email])
-      response[:is_valid] = false
-    end
+    response = attribute_validation_response(:email)
+
+    render json: response
+  end
+
+  def validate_username
+    response = attribute_validation_response(:username)
 
     render json: response
   end
@@ -114,5 +117,13 @@ class Api::UsersController < ApplicationController
       user_params.delete(:password) unless user_params[:password].present?
       user_params.delete(:password_confirmation) unless user_params[:password_confirmation]
       user_params
+    end
+
+    def attribute_validation_response(param)
+      if User.exists?(param => params[param])
+        { is_valid: false }
+      else
+        { is_valid: true }
+      end
     end
 end

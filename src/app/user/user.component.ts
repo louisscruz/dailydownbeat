@@ -102,7 +102,7 @@ export class UserDetail {
   getUser(id: number) {
     this._userService.getUser(id)
     .subscribe(
-      res => this.user = res
+      res => this.user = (<User>res)
     );
   }
 
