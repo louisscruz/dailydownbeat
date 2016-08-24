@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import {
   FORM_DIRECTIVES,
   REACTIVE_FORM_DIRECTIVES,
@@ -21,8 +21,12 @@ import { EmailValidator } from '../../directives/emailValidator/email.validator'
 @Component({
   selector: 'login',
   template: require('./login.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailValidator ],
-  providers: []
+  directives: [
+    FORM_DIRECTIVES,
+    REACTIVE_FORM_DIRECTIVES,
+    EmailValidator,
+    RouterLink
+  ]
 })
 
 export class Login {

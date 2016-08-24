@@ -27,6 +27,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       UserMailer.welcome(@user).deliver_now
       UserMailer.confirm(@user).deliver_now
+      log_in @user
       render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity

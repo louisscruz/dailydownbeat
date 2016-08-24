@@ -18,6 +18,10 @@ html {
   flex-direction: column;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 main {
   margin-top: 60px;
   //min-height: 100vh;

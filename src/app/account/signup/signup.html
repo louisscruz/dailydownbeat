@@ -1,43 +1,56 @@
 <div class="row">
-  <form [formGroup]="signupForm" (submit)="postUser()" class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-    <h1 class="text-xs-center">Sign Up</h1>
-    <fieldset class="form-group" [class.has-success]="username.valid && username.touched" [class.has-danger]="!username.valid && username.touched">
-      <label for="username" class="form-control-label">Username</label>
-      <input [formControl]="signupForm.find('username')" name="username" class="form-control" [class.form-control-success]="username.valid" [class.form-control-danger]="!username.valid" maxlength="24" validateUsernameAvailability required>
-      <div *ngIf="username.touched" class="text-help">
-        <div *ngIf="username.hasError('required')">Username Required</div>
-        <div *ngIf="username.hasError('maxlength')">24 Character Maximum</div>
-        <div *ngIf="username.hasError('validateUsernameAvailability')">Username Taken</div>
-      </div>
-    </fieldset>
-    <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
-      <label for="email" class="form-control-label">Email</label>
-      <input [formControl]="signupForm.find('email')" name="email" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid" validateEmail validateEmailAvailability required>
-      <div *ngIf="email.touched" class="text-help">
-        <div *ngIf="email.hasError('required')">Email Required</div>
-        <div *ngIf="email.hasError('invalidEmail')">Invalid Email</div>
-        <div *ngIf="email.hasError('validateEmailAvailability')">Email In Use</div>
-      </div>
-    </fieldset>
-    <fieldset class="form-group" [class.has-success]="password.valid && password.touched" [class.has-danger]="!password.valid && password.touched">
-      <label for="password" class="form-control-label">Password</label>
-      <input [formControl]="signupForm.find('password')" type="password" name="password" class="form-control" [class.form-control-success]="password.valid" [class.form-control-danger]="!password.valid" minlength="8" validateEquals="passwordConfirmation" reverse="true" required>
-      <div *ngIf="password.touched" class="text-help">
-        <div *ngIf="password.hasError('required')">Password Required</div>
-        <div *ngIf="password.hasError('minlength')">8 Character Minimum</div>
-      </div>
-    </fieldset>
-    <fieldset class="form-group" [class.has-success]="passwordConfirmation.valid && passwordConfirmation.touched" [class.has-danger]="!passwordConfirmation.valid && passwordConfirmation.touched">
-      <label for="passwordConfirmation" class="form-control-label">Password Confirmation</label>
-      <input [formControl]="signupForm.find('passwordConfirmation')" type="password" name="passwordConfirmation" class="form-control" [class.form-control-success]="passwordConfirmation.valid" [class.form-control-danger]="!passwordConfirmation.valid" minlength="8" validateEquals="password" required>
-      <div *ngIf="passwordConfirmation.touched" class="text-help">
-        <div *ngIf="passwordConfirmation.hasError('required')">Confirmation Required</div>
-        <div *ngIf="passwordConfirmation.hasError('minlength')">8 Character Minimum</div>
-        <div *ngIf="passwordConfirmation.hasError('validateEquals')">Confirmation Does Not Match</div>
-      </div>
-    </fieldset>
-    <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid">
-      <span>Sign Up</span>
-    </button>
-  </form>
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+    <div class="text-xs-center">
+      <h1>Sign Up</h1>
+      <p><i>Already have an account? <a [routerLink]="[ '/login' ]">Log in</a>.</i></p>
+    </div>
+    <form [formGroup]="signupForm" (submit)="postUser()">
+      <fieldset class="form-group" [class.has-success]="username.valid && username.touched" [class.has-danger]="!username.valid && username.touched">
+        <label for="username" class="form-control-label">Username</label>
+        <input [formControl]="signupForm.find('username')" name="username" class="form-control" [class.form-control-success]="username.valid" [class.form-control-danger]="!username.valid" maxlength="24" validateUsernameAvailability required>
+        <div *ngIf="username.touched" class="text-help">
+          <div *ngIf="username.hasError('required')">Username Required</div>
+          <div *ngIf="username.hasError('maxlength')">24 Character Maximum</div>
+          <div *ngIf="username.hasError('validateUsernameAvailability')">Username Taken</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="email.valid && email.touched" [class.has-danger]="!email.valid && email.touched">
+        <label for="email" class="form-control-label">Email</label>
+        <input [formControl]="signupForm.find('email')" name="email" class="form-control" [class.form-control-success]="email.valid" [class.form-control-danger]="!email.valid" validateEmail validateEmailAvailability required>
+        <div *ngIf="email.touched" class="text-help">
+          <div *ngIf="email.hasError('required')">Email Required</div>
+          <div *ngIf="email.hasError('invalidEmail')">Invalid Email</div>
+          <div *ngIf="email.hasError('validateEmailAvailability')">Email In Use</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="password.valid && password.touched" [class.has-danger]="!password.valid && password.touched">
+        <label for="password" class="form-control-label">Password</label>
+        <input [formControl]="signupForm.find('password')" type="password" name="password" class="form-control" [class.form-control-success]="password.valid" [class.form-control-danger]="!password.valid" minlength="8" validateEquals="passwordConfirmation" reverse="true" required>
+        <div *ngIf="password.touched" class="text-help">
+          <div *ngIf="password.hasError('required')">Password Required</div>
+          <div *ngIf="password.hasError('minlength')">8 Character Minimum</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" [class.has-success]="passwordConfirmation.valid && passwordConfirmation.touched" [class.has-danger]="!passwordConfirmation.valid && passwordConfirmation.touched">
+        <label for="passwordConfirmation" class="form-control-label">Password Confirmation</label>
+        <input [formControl]="signupForm.find('passwordConfirmation')" type="password" name="passwordConfirmation" class="form-control" [class.form-control-success]="passwordConfirmation.valid" [class.form-control-danger]="!passwordConfirmation.valid" minlength="8" validateEquals="password" required>
+        <div *ngIf="passwordConfirmation.touched" class="text-help">
+          <div *ngIf="passwordConfirmation.hasError('required')">Confirmation Required</div>
+          <div *ngIf="passwordConfirmation.hasError('minlength')">8 Character Minimum</div>
+          <div *ngIf="passwordConfirmation.hasError('validateEquals')">Confirmation Does Not Match</div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group text-xs-center">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [formControl]="signupForm.find('terms')" requireCheck>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">I agree to the </span>
+        </label>
+        <a class="btn-link" (click)="openTermsModal()">terms and conditions</a>.
+      </fieldset>
+      <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid">
+        <span>Sign Up</span>
+      </button>
+    </form>
+  </div>
 </div>
