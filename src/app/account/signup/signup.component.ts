@@ -41,21 +41,6 @@ export class Signup {
     private _router: Router,
     private _userService: UserService
   ) {
-    /*this.signupForm = _fb.group({
-      'username': ['', Validators.compose([
-        Validators.required, Validators.maxLength(24)])],
-      'email': ['', Validators.compose([
-        Validators.required, emailValidator])],
-      'password': ['', Validators.compose([
-        Validators.required, Validators.minLength(8)])],
-      'password_confirmation': ['', Validators.compose([
-        Validators.required])]
-    }, {validator: confirmationEquivalent('password', 'password_confirmation')});
-    this.username = this.signupForm.controls['username'];
-    this.email = this.signupForm.controls['email'];
-    this.password = this.signupForm.controls['password'];
-    this.password_confirmation = this.signupForm.controls['password_confirmation'];
-    this._authService = _authService;*/
     this.signupForm = new FormGroup({
       username: new FormControl(''),
       email: new FormControl(''),

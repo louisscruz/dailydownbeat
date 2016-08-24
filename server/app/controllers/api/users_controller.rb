@@ -27,7 +27,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       UserMailer.welcome(@user).deliver_now
       UserMailer.confirm(@user).deliver_now
-      head :created
+      render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -113,10 +113,7 @@ class Api::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      user_params = params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed, :current_password)
-      user_params.delete(:password) unless user_params[:password].present?
-      user_params.delete(:password_confirmation) unless user_params[:password_confirmation]
-      user_params
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed, :current_password)
     end
 
     def attribute_validation_response(param)

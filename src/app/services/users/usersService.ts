@@ -72,8 +72,13 @@ export class UserService {
     let headers = this.generateHeaders();
     let id = this._jwtHelper.decodeToken(this.getToken()).id;
     let call = this.apiUrl + '/api/users/' + id + '/update_password';
-    return this._http
-    .patch(call, JSON.stringify({password, new_password, new_password_confirmation}), {
+    let user = {
+      current_password: password,
+      password: new_password,
+      password_confirmation: new_password_confirmation
+    };
+    console.log(headers);
+    return this._http.patch(call, JSON.stringify(user), {
       headers: headers
     })
     .map(res => res.json());

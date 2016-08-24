@@ -22,7 +22,13 @@ import { UserService } from '../../services/users/usersService';
   selector: 'dashboard',
   styles: [ require('./dashboard.scss') ],
   template: require('./dashboard.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, EmailAvailabilityValidator, EmailValidator, EqualsValidator ]
+  directives: [
+    FORM_DIRECTIVES,
+    REACTIVE_FORM_DIRECTIVES,
+    EmailAvailabilityValidator,
+    EmailValidator,
+    EqualsValidator
+  ]
 })
 export class Dashboard {
   private user: any;
@@ -37,7 +43,7 @@ export class Dashboard {
   private newEmailPassword: AbstractControl;
   private oldPassword: AbstractControl;
   private newPassword: AbstractControl;
-  private confirmPassword: AbstractControl;
+  private newPasswordConfirmation: AbstractControl;
   private validatingEmail: boolean = false;
 
   constructor(
@@ -59,11 +65,11 @@ export class Dashboard {
     this.passwordForm = new FormGroup({
       oldPassword: new FormControl(),
       newPassword: new FormControl(),
-      confirmPassword: new FormControl()
+      newPasswordConfirmation: new FormControl()
     });
     this.oldPassword = this.passwordForm.find('oldPassword');
     this.newPassword = this.passwordForm.find('newPassword');
-    this.confirmPassword = this.passwordForm.find('confirmPassword');
+    this.newPasswordConfirmation = this.passwordForm.find('newPasswordConfirmation');
   }
 
   resetForm(form: FormGroup): void {
@@ -82,59 +88,6 @@ export class Dashboard {
     this.editing = editing;
     this._cd.detectChanges()
   }
-
-  /*updateEmail(): void {
-    this._userService.updateEmail(this.newEmail.value, this.newEmailPassword.value)
-    .subscribe(
-      res => {
-        this._alertService.addAlert({
-          'message': 'Email successfully changed!',
-          'type': 'success',
-          'timeout': 8000,
-          'dismissible': true
-        });
-      }, err => {
-
-      }, () => {
-        this.removeEditStatus();
-      }
-    );
-  }*/
-
-  /*updatePassword(): void {
-    this._userService.updatePassword(
-      this.oldPassword.value,
-      this.newPassword.value,
-      this.newPasswordConfirm.value)
-    .subscribe(
-      res => {
-        this._alertService.addAlert({
-          'message': 'Password updated! An email has been sent to revalidate your account.',
-          'type': 'success',
-          'timeout': 20000,
-          'dismissible': true
-        });
-      }, err => {
-        if (err.status === 401) {
-          this._alertService.addAlert({
-            'message': 'Incorrect password!',
-            'type': 'danger',
-            'timeout': 8000,
-            'dismissible': false
-          });
-        } else if (err.status === 422) {
-          this._alertService.addAlert({
-            'message': 'Password must be new!',
-            'type': 'danger',
-            'timeout': 8000,
-            'dismissible': false
-          });
-        }
-      }, () => {
-        this.removeEditStatus();
-      }
-    );
-  }*/
 
   toggleValidatingEmail(): void {
     this.validatingEmail = !this.validatingEmail;
@@ -159,6 +112,30 @@ export class Dashboard {
         this.router.navigate(['/']);
       }
     );
+  }
+
+  updatePassword(): void {
+    this._userService.updatePassword(
+      this.oldPassword.value,
+      this.newPassword.value,
+      this.newPasswordConfirmation.value
+    ).subscribe(
+      res => {
+        let alert = new AlertNotification('Password succcessfully changed!', 'success');
+        this._alertService.addAlert(alert);
+      }, err => {
+        let body = JSON.parse(err._body);
+        let alert = new AlertNotification('Error changing email.', 'danger');
+        //if (body['password'][0] === 'is invalid') {
+          //alert.message = 'Invalid current password.';
+        //}
+        console.log(err)
+        this._alertService.addAlert(alert);
+        this.setEdit('');
+      }, () => {
+        this.router.navigate([ '/' ]);
+      }
+    )
   }
 
   ngOnInit(): void {

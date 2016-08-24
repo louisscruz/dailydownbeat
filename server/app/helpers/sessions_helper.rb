@@ -5,7 +5,8 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
-  def current_user
+  #current_user is taken by active_model_serializers
+  def this_user
     auth_token = request.headers["Authorization"]
     if auth_token
       auth_token = auth_token.split(" ").last
@@ -14,7 +15,7 @@ module SessionsHelper
       rescue JWT::ExpiredSignature
         return
       end
-      @current_user ||= User.find_by(auth_token: auth_token)
+      @this_user ||= User.find_by(auth_token: auth_token)
     end
   end
 
@@ -25,7 +26,7 @@ module SessionsHelper
   end
 
   def logged_in?
-    current_user.present?
+    this_user.present?
   end
 
   def authenticate_with_token!
@@ -50,8 +51,8 @@ module SessionsHelper
   end
 
   def is_admin?
-    if logged_in? && current_user.authenticate(params[:password])
-      current_user.admin
+    if logged_in? && this_user.authenticate(params[:password])
+      this_user.admin
     end
   end
 end

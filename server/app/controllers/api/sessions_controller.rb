@@ -15,7 +15,7 @@ class Api::SessionsController < ApplicationController
   end
 
   def destroy
-    log_out current_user
+    log_out this_user
     render status: 204
   end
 end
