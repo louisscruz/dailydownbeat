@@ -2,7 +2,8 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   def setup
-    @user = User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
+    @user = User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @unconfirmed_user = User.create(id: 2, username: "test2", email: "test2@me.com", password: "testtest", password_confirmation: "testtest", confirmed: false)
     @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1)
     @user.reload
   end
@@ -14,6 +15,12 @@ class PostTest < ActiveSupport::TestCase
   test "title should be present" do
     @post.title = "    "
     assert_not @post.valid?
+  end
+
+  test "should only be valid when posted by a confirmed user" do
+    assert_not @unconfirmed_user.confirmed
+    post = Post.new(title: "test post", url: "http://www.test.com", user_id: 2)
+    assert_not post.valid?
   end
 
   test "url should be present for non-ask posts" do

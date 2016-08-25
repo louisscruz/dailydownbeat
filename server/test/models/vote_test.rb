@@ -2,9 +2,9 @@ require 'test_helper'
 
 class VoteTest < ActiveSupport::TestCase
   def setup
-    @first_user = User.create(id: 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest")
-    @second_user = User.create(id: 2, username: "johndoe2", email: "a@b4.com", password: "testtest", password_confirmation: "testtest")
-    @third_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest")
+    @first_user = User.create(id: 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @second_user = User.create(id: 2, username: "johndoe2", email: "a@b4.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @third_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
     @first_post = Post.create(title: "testtest", user_id: 1, url: "http://www.google.com")
     @second_post = Post.create(title: "testtest", user_id: 2, url: "http://www.google.com")
     @third_post = Post.create(title: "testtest", user_id: 3, url: "http://www.google.com")
@@ -22,6 +22,24 @@ class VoteTest < ActiveSupport::TestCase
     @first_user.reload
     @second_user.reload
     @third_user.reload
+  end
+
+  test "only a confirmed user should be allowed to vote on posts" do
+    @first_user.update_attribute(:confirmed, false)
+    @first_user.reload
+    upvote = Vote.create(votable: @third_post, user_id: @first_user.id, polarity: 1)
+    assert_not upvote.valid?
+    downvote = Vote.create(votable: @third_post, user_id: @first_user.id, polarity: -1)
+    assert_not upvote.valid?
+  end
+
+  test "only a confirmed user should be allowed to vote on comments" do
+    @first_user.update_attribute(:confirmed, false)
+    @first_user.reload
+    upvote = Vote.create(votable: @third_comment, user_id: @first_user.id, polarity: 1)
+    assert_not upvote.valid?
+    downvote = Vote.create(votable: @third_comment, user_id: @first_user.id, polarity: -1)
+    assert_not upvote.valid?
   end
 
   test "upvote should be valid" do

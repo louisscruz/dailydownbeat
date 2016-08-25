@@ -21,6 +21,22 @@ class CommentTest < ActiveSupport::TestCase
     assert_not @comment.valid?
   end
 
+  test "should only allow confirmed users to create comments on posts" do
+    user = User.first
+    user.update_attribute(:confirmed, false)
+    user.reload
+    comment = Comment.create(commentable: Post.first, user_id: user.id, body: "testing")
+    assert_not comment.valid?
+  end
+
+  test "should only allow confirmed users to create comments on comments" do
+    user = User.first
+    user.update_attribute(:confirmed, false)
+    user.reload
+    comment = Comment.create(commentable: @comment, user_id: user.id, body: "testing")
+    assert_not comment.valid?
+  end
+
   test "should have a default comment_count of zero" do
     assert_equal 0, @comment.comment_count
   end

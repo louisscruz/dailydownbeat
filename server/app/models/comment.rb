@@ -7,6 +7,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   has_many :comments, :as => :commentable, :dependent => :destroy
   validates_presence_of :body
+  validate :user_confirmed
 
   private
 
@@ -20,6 +21,12 @@ class Comment < ApplicationRecord
       end
       parent_value = parent.comment_count
       parent.update_attribute :comment_count, parent_value + v
+    end
+  end
+
+  def user_confirmed
+    unless self.user && self.user.confirmed == true
+      errors.add(:user, "must be confirmed to make posts.")
     end
   end
 end

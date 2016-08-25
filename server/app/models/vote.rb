@@ -8,6 +8,7 @@ class Vote < ApplicationRecord
   validates_presence_of :user_id
   validates :user_id, uniqueness: { scope: [:votable_type, :votable_id] }
   validate :may_not_vote_for_self
+  validate :user_confirmed
 
   private
 
@@ -22,6 +23,12 @@ class Vote < ApplicationRecord
       user = resource.user
       resource.update_attribute :points, resource.points + (self.polarity * i)
       user.update_attribute :points, user.points + (self.polarity * i)
+    end
+  end
+
+  def user_confirmed
+    unless self.user && self.user.confirmed == true
+      errors.add(:user, "must be confirmed to make posts.")
     end
   end
 end

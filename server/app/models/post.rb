@@ -12,13 +12,14 @@ class Post < ApplicationRecord
   validates_format_of :url, with: URI::regexp(%w(http https)), :unless => :ask_post?
   validates :user_id, presence: true
   validates_length_of :title, :minimum => 3, :maximum => 80
+  validate :user_confirmed
 
   private
 
   def title_prepend
     prepends = ["show dd", "job", "ask dd"]
     if kind == "post" && prepends.any? { |w| title.downcase =~ /#{w}/ }
-      errors.add(:title, 'Regular posts may not have prepends')
+      errors.add(:title, "Regular posts may not have prepends")
     elsif kind == "show" && title[0, 9] != "Show DD: "
       errors.add(:title, "Show DD posts must begin with 'Show DD: '")
     elsif kind == "job" && title[0, 5] != "Job: "
@@ -42,5 +43,11 @@ class Post < ApplicationRecord
 
   def filter_url
     self.url = nil if self.kind == "ask"
+  end
+
+  def user_confirmed
+    unless self.user && self.user.confirmed == true
+      errors.add(:user, "must be confirmed to make posts.")
+    end
   end
 end

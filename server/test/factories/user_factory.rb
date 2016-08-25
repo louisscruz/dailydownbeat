@@ -6,6 +6,6 @@ FactoryGirl.define do
     password "testtest"
     password_confirmation "testtest"
     confirmation_code SecureRandom.hex
-    confirmed false
+    confirmed true
   end
 end

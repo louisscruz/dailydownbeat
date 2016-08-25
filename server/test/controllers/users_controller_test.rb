@@ -3,7 +3,8 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
-    @user2 = User.create(id: 2, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest")
+    @user2 = User.create(id: 2, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @unconfirmed_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
     @credentials = { email: @user.email, password: "testtest"}
     FactoryGirl.create_list(:post, 2)
     @post = Post.create(title: "testing", user_id: 2, url: "http://www.test.com")
@@ -13,46 +14,43 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "confirm method should set the user to confirmed" do
-    assert_not @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
-    @user.reload
-    assert @user.confirmed
+    assert_not @unconfirmed_user.confirmed
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/" + @unconfirmed_user.confirmation_code, params: { confirmation_code: @unconfirmed_user.confirmation_code }
+    @unconfirmed_user.reload
+    assert @unconfirmed_user.confirmed
   end
 
   test "confirm method should deny incorrect confirmation codes" do
-    assert_not @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/incorrect_code", params: { confirmation_code: "incorrect_code" }
-    @user.reload
-    assert_not @user.confirmed
+    assert_not @unconfirmed_user.confirmed
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/incorrect_code", params: { confirmation_code: "incorrect_code" }
+    @unconfirmed_user.reload
+    assert_not @unconfirmed_user.confirmed
   end
 
   test "confirm method should not allow redundant requests" do
-    assert_not @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
-    @user.reload
-    assert @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
+    assert_not @unconfirmed_user.confirmed
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/" + @unconfirmed_user.confirmation_code, params: { confirmation_code: @unconfirmed_user.confirmation_code }
+    @unconfirmed_user.reload
+    assert @unconfirmed_user.confirmed
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/" + @unconfirmed_user.confirmation_code, params: { confirmation_code: @unconfirmed_user.confirmation_code }
     assert_response 403
   end
 
   test "successful confirmation should result in successful login" do
-    assert_not @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
-    assert_equal session[:user_id], @user.id
+    assert_not @unconfirmed_user.confirmed
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/" + @unconfirmed_user.confirmation_code, params: { confirmation_code: @unconfirmed_user.confirmation_code }
+    assert_equal session[:user_id], @unconfirmed_user.id
   end
 
   test "successful confirmation should return a new/appropriate auth token" do
-    assert_not @user.confirmed
-    old_auth = @user.auth_token
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
-    @user.reload
-    assert_not_equal @user.auth_token, old_auth
+    assert_not @unconfirmed_user.confirmed
+    old_auth = @unconfirmed_user.auth_token
+    post "/api/users/" + @unconfirmed_user.id.to_s + "/confirm/" + @unconfirmed_user.confirmation_code, params: { confirmation_code: @unconfirmed_user.confirmation_code }
+    @unconfirmed_user.reload
+    assert_not_equal @unconfirmed_user.auth_token, old_auth
   end
 
   test "updated email should result in need for reconfirmation" do
-    assert_not @user.confirmed
-    post "/api/users/" + @user.id.to_s + "/confirm/" + @user.confirmation_code, params: { confirmation_code: @user.confirmation_code }
-    @user.reload
     assert @user.confirmed
     @user.email = "new@address.com"
     @user.save

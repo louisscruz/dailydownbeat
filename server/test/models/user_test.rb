@@ -2,7 +2,8 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test", confirmation_code: SecureRandom.hex )
+    @user = User.new(username: "johndoe", email: "test@me.com", password: "foobar22", password_confirmation: "foobar22", auth_token: "test", confirmation_code: SecureRandom.hex, confirmed: true )
+    @other_user = User.new(username: "johndoe2", email: "test2@me.com", password: "foobar222", password_confirmation: "foobar222" )
   end
 
   test "should be valid" do
@@ -20,8 +21,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "confirmed is automatically false" do
-    @user.save
-    assert_equal @user.confirmed, false
+    @other_user.save
+    assert_equal @other_user.confirmed, false
   end
 
   test "admin is automatically false" do
@@ -110,6 +111,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "confirmation should default to false" do
-    assert_equal @user.confirmed, false
+    assert_equal @other_user.confirmed, false
   end
 end
