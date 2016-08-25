@@ -51,13 +51,12 @@
       </div>
       <div>
         <div class="text-xs-center" *ngIf="loadingPosts"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-        <!--pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [itemsPerPage]="perPage" [align]="true" disabled="loadingPosts"></pager-->
         <pager [currentPage]="currentPage" [perPage]="perPage" [totalItems]="totalItems" (pageChanged)="pageChanged($event)"></pager>
       </div>
     </div>
     <div *ngSwitchCase="true">
       <div class="card card-block">
-        <p>The server is momentarily at intermission. Bookmark <i>DailyDownbeat</i> and come back later!</p>
+        <p>The server is momentarily at intermission. Bookmark <i>Daily Downbeat</i> and come back later!</p>
       </div>
     </div>
   </div>
