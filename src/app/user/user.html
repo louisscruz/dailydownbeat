@@ -11,6 +11,7 @@
         <p *ngIf="!user.bio">{{user.username}} does not yet have a bio.</p>
       </tab>
       <tab heading="Posts" class="posts">
+        <p *ngIf="!posts">{{user.username}} does not yet have any posts.</p>
         <div class="post card" *ngFor="let post of posts | orderBy: ['-created_at']">
           <div class="vote-block">
             <a *ngIf="!_authService.isSelf(userId)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
@@ -49,13 +50,50 @@
             </span>
           </div>
         </div>
-        <!--pagination [currentPage]="postsCurrentPage" (pageChanged)="postsPageChanged($event)"></pagination-->
       </tab>
       <tab heading="Comments">
-        <div class="card">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let comment of comments">{{comment}}: {{comment.body}}</li>
-          </ul>
+        <p *ngIf="!user.comments">{{user.username}} does not yet have any comments.</p>
+        <div *ngFor="let comment of comments" class="card card-block">
+          <div class="info-block">
+            <p>{{comment.body}}</p>
+            <small>
+              on
+              <!--span *ngIf="comment.commentable_type === 'Comment'">
+                a comment found on this
+              </span-->
+              <span *ngIf="comment.commentable_type === 'Post'">
+                <a [routerLink]="[ '/post', comment.commentable_id ]">a post</a>
+              </span>
+              <span *ngIf="comment.commentable_type === 'Comment'">
+                a comment
+              </span>
+              by
+              <a [routerLink]="[ '/user', comment.commentable_user.id ]">{{comment.commentable_user.username}}</a>
+              | <pluralize [count]="comment.points" [when]="{'-1': '-1 point', 'one': '1 point', 'other': '{} points'}"></pluralize>
+            </small>
+            <span *ngIf="comment.comment_count">
+              <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
+            </span>
+            <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
+              <a href id="simple-btn-keyboard-nav" class="btn btn-secondary btn-sm" dropdownToggle>
+                <i class="fa fa-chevron-down fa-fw"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="openFlagModal(comment)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+                </li>
+                <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
+                  <div class="dropdown-divider"></div>
+                  <li>
+                    <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" (click)="openDeleteModal(comment)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                  </li>
+                </template>
+              </ul>
+            </span>
+          </div>
         </div>
       </tab>
     </tabset>

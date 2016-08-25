@@ -40,14 +40,20 @@ module SessionsHelper
   end
 
   def authenticate_as_self_or_admin!
+    # FIX THIS!
     render json: { errors: "Not authorized" }, status: :unauthorized unless is_self? || is_admin?
   end
 
   def is_self?
-    user = User.find(params[:id])
-    auth_token = request.headers["Authorization"]
-    auth_token = auth_token.split(" ").last if auth_token
-    user.auth_token != auth_token
+    p user
+    # FIX THIS!!!
+    #p super.id
+    #user = User.find(Post.findparams[:id]) if params["post"]
+    #decoded_token = JsonWebToken.decode(request.headers["Authorization"])
+    #user = User.find(decoded_token.id)
+    #auth_token = request.headers["Authorization"]
+    #auth_token = auth_token.split(" ").last if auth_token
+    #user.auth_token != auth_token
   end
 
   def is_admin?

@@ -34,7 +34,7 @@ import { OrderBy } from '../pipes/orderBy';
 export class UserDetail {
   private user: User;
   private posts: Post[];
-  private comments: Comment[];
+  private comments: any;
   private userId: number;
   private postsCurrentPage: number = 1;
   private totalPosts: number;
@@ -118,7 +118,11 @@ export class UserDetail {
   getUserComments(id: number) {
     this._userService.getUserComments(id)
     .subscribe(
-      res => this.comments = res
+      res => {
+        console.log(res);
+        this.comments = res;
+        console.log(this.comments)
+      }
     );
   }
 
