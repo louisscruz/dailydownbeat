@@ -21,7 +21,7 @@
         <label for="titleInput" class="form-control-label">Title</label>
         <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
         <div class="input-group" *ngIf="type !== 'Post'">
-          <div class="input-group-addon">{{type}}:</div>
+          <div class="input-group-addon" id="prefix">{{type}}:</div>
           <input type="text" id="titleInput" placeholder="Title" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
         </div>
         <div *ngIf="title.touched">
@@ -37,7 +37,9 @@
           <div *ngIf="url.value.slice(0, 4) !== 'http'"><i>(Valid links begin with 'http://' or 'https://')</i></div>
         </div>
       </fieldset>
-      <button type="submit" [disabled]="!addPostForm.valid" class="btn btn-block btn-primary">Add Post</button>
+      <button type="submit" [disabled]="!addPostForm.valid" class="btn btn-block btn-primary">
+        Add Post <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i>
+      </button>
     </form>
   </div>
 </div>

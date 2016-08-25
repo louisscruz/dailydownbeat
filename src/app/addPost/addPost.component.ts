@@ -25,7 +25,12 @@ import { UrlValidator } from '../directives/urlValidator/url.validator';
 @Component({
   selector: 'add-post',
   template: require('./addPost.html'),
-  directives: [ FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, UrlValidator ],
+  styles: [ require('./addPost.scss') ],
+  directives: [
+    FORM_DIRECTIVES,
+    REACTIVE_FORM_DIRECTIVES,
+    UrlValidator
+  ],
   pipes: [ PrefixTitlePipe ]
 })
 
@@ -34,6 +39,7 @@ export class AddPost {
   private type: string = 'Post';
   private title: AbstractControl;
   private url: AbstractControl;
+  private processing: boolean;
 
   constructor(
     private _alertService: AlertService,
@@ -51,6 +57,7 @@ export class AddPost {
   }
 
   addPost() {
+    this.processing = true;
     let id = this._authService.currentUser.id;
     this._postService.addPost({
       title: this.title.value,
@@ -64,22 +71,23 @@ export class AddPost {
       },
       err => {
         console.log(err);
-        let error = 'There was an error adding your post.';
-        /*let body = JSON.parse(JSON.stringify(err._body));
-        console.log(body)
-        console.log(body['title'])
+        let body = JSON.parse(err._body);
         let error = '';
-        if (body.url !== undefined) {
-          error = 'There was an error adding the url of your post.';
-        } else if (body.title !== undefined) {
-          error = 'There was an error adding the title of your post.'
+        if (body['user']) {
+          error = 'Your account has to be confirmed before creating a post.';
+        } else if (body['title']) {
+          error = 'There was an issue with the title of your post';
+        } else if (body['url']) {
+          error = 'There was an issue with the link of the post.';
         } else {
           error = 'There was an error adding your post.'
-        }*/
+        }
         let alert = new AlertNotification(error, 'danger');
         this._alertService.addAlert(alert)
+        this.processing = false;
       },
       () => {
+        this.processing = false;
         this._router.navigate([ '/' ]);
       }
     );

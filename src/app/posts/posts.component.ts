@@ -125,6 +125,7 @@ export class Posts {
               alert('success');
               // Reload posts
             }, err => {
+              console.log(err);
               let message = 'There was an error deleting that post.';
               let alert = new AlertNotification(message, 'danger')
               this._alertService.addAlert(alert);
