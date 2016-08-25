@@ -35,7 +35,9 @@
           </fieldset>
           <div class="text-xs-right">
             <button type="reset" class="btn btn-secondary" (click)="setEdit('')">Cancel</button>
-            <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">Update Email</button>
+            <button type="submit" [disabled]="!emailForm.valid" class="btn btn-primary">
+              Update Email <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i>
+            </button>
           </div>
         </form>
       </div>
@@ -73,7 +75,9 @@
           </fieldset>
           <div class="text-xs-right">
             <button type="reset" class="btn btn-secondary" (click)="setEdit('')">Cancel</button>
-            <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">Update Password</button>
+            <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">
+              Update Password <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i>
+            </button>
           </div>
         </form>
       </div>

@@ -39,6 +39,7 @@ class User < ApplicationRecord
   end
 
   def update_with_password(user_params)
+    p user_params
     current_password = user_params.delete(:current_password)
     user_params[:password] = current_password if user_params[:password].nil?
 

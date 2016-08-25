@@ -45,6 +45,7 @@ export class Dashboard {
   private newPassword: AbstractControl;
   private newPasswordConfirmation: AbstractControl;
   private validatingEmail: boolean = false;
+  private processing: boolean = false;
 
   constructor(
     private _alertService: AlertService,
@@ -94,6 +95,7 @@ export class Dashboard {
   }
 
   updateEmail(): void {
+    this.processing = true;
     this._userService.updateEmail(this.newEmail.value, this.newEmailPassword.value)
     .subscribe(
       res => {
@@ -105,16 +107,17 @@ export class Dashboard {
         if (body['current_password'][0] === 'is invalid') {
           alert.message = 'Invalid password';
         }
-        console.log(err)
         this._alertService.addAlert(alert);
         this.setEdit('');
       }, () => {
+        this.processing = false;
         this.router.navigate(['/']);
       }
     );
   }
 
   updatePassword(): void {
+    this.processing = true;
     this._userService.updatePassword(
       this.oldPassword.value,
       this.newPassword.value,
@@ -126,13 +129,13 @@ export class Dashboard {
       }, err => {
         let body = JSON.parse(err._body);
         let alert = new AlertNotification('Error changing email.', 'danger');
-        //if (body['password'][0] === 'is invalid') {
-          //alert.message = 'Invalid current password.';
-        //}
-        console.log(err)
+        if (body['current_password'][0] === 'is invalid') {
+          alert.message = 'Invalid current password.';
+        }
         this._alertService.addAlert(alert);
         this.setEdit('');
       }, () => {
+        this.processing = false;
         this.router.navigate([ '/' ]);
       }
     )

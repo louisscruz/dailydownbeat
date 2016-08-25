@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         post 'confirm/:confirmation_code' => 'users#confirm'
         get  'posts' => 'users#posts'
         get  'comments' => 'users#comments'
-        patch 'update_password' => 'passwords#update'
+        patch 'update_password' => 'users#update'
         get 'upvotes' => 'users#upvotes'
         get 'downvotes' => 'users#downvotes'
       end
