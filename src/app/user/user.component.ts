@@ -69,7 +69,7 @@ export class UserDetail {
               this._alertService.addAlert(alert);
             }
           )
-        }, () => console.log('error confirming modal')
+        }, () => {}
       )
     });
   }
@@ -83,20 +83,36 @@ export class UserDetail {
         (res) => {
           this._postService.deletePost(post).subscribe(
             res => {
-              alert('success');
-              // Reload posts
+              this.removePost(post);
+              let alert = new AlertNotification('Successfully deleted post.', 'success');
+              this._alertService.addAlert(alert);
             }, err => {
               let message = 'There was an error deleting that post.';
               let alert = new AlertNotification(message, 'danger')
               this._alertService.addAlert(alert);
-            }, () => {
-
-            }
+            }, () => {}
           )
         },
-        () => console.log('error confirming modal')
+        () => {}
       )
     });
+  }
+
+  removePost(post: Post): void {
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.posts.length - 1;
+
+    while (minimumIndex <= maximumIndex) {
+      let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.posts[currentIndex].id < post.id) {
+        maximumIndex = currentIndex - 1;
+      } else if (this.posts[currentIndex].id > post.id) {
+        minimumIndex = currentIndex + 1;
+      } else {
+        this.posts.splice(currentIndex, 1);
+      }
+    }
   }
 
   getUser(id: number) {
@@ -119,9 +135,7 @@ export class UserDetail {
     this._userService.getUserComments(id)
     .subscribe(
       res => {
-        console.log(res);
         this.comments = res;
-        console.log(this.comments)
       }
     );
   }

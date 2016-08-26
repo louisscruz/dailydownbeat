@@ -11,7 +11,7 @@
         <p *ngIf="!user.bio">{{user.username}} does not yet have a bio.</p>
       </tab>
       <tab heading="Posts" class="posts">
-        <p *ngIf="!posts">{{user.username}} does not yet have any posts.</p>
+        <p *ngIf="!posts || posts.length === 0">{{user.username}} does not yet have any posts.</p>
         <div class="post card" *ngFor="let post of posts | orderBy: ['-created_at']">
           <div class="vote-block">
             <a *ngIf="!_authService.isSelf(userId)" (click)="vote(1)"><i class="fa fa-angle-up fa-fw fa-lg"></i></a>
@@ -58,9 +58,6 @@
             <p>{{comment.body}}</p>
             <small>
               on
-              <!--span *ngIf="comment.commentable_type === 'Comment'">
-                a comment found on this
-              </span-->
               <span *ngIf="comment.commentable_type === 'Post'">
                 <a [routerLink]="[ '/post', comment.commentable_id ]">a post</a>
               </span>
