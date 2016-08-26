@@ -157,7 +157,6 @@ export class CommentDetail {
   }
 
   removeComment(comment): void {
-    console.log('getting to work');
     let minimumIndex: number = 0;
     let maximumIndex: number = this.comment.comments.length - 1;
 

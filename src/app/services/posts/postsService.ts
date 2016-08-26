@@ -56,8 +56,7 @@ export class PostService {
   deletePost(post: Post) {
     return this.http.delete(this.apiUrl + '/api/posts/' + post.id, {
       headers: this.generateHeaders()
-    })
-    .map(res => res.json());
+    });
   }
 
   flagPost(post: Post) {

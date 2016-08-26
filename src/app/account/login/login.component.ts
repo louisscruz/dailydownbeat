@@ -60,6 +60,7 @@ export class Login {
         this.loginForm.controls['email']['_touched'] = false;
         (<FormControl>this.loginForm.find('password')).updateValue('');
         this.loginForm.controls['password']['_touched'] = false;
+        this.processing = false;
         let alert = new AlertNotification('Email address or password is invalid.', 'danger');
         this._alertService.addAlert(alert);
       },

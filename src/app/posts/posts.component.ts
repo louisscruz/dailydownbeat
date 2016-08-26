@@ -122,6 +122,7 @@ export class Posts {
         res => {
           this._postService.deletePost(post).subscribe(
             res => {
+              this.removePost(post);
               let alert = new AlertNotification('Successfully deleted post.', 'success');
               this._alertService.addAlert(alert);
               //alert('success');
@@ -139,6 +140,23 @@ export class Posts {
         () => {}
       )
     });
+  }
+
+  removePost(post: Post): void {
+    let minimumIndex: number = 0;
+    let maximumIndex: number = this.posts.length - 1;
+
+    while (minimumIndex <= maximumIndex) {
+      let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
+
+      if (this.posts[currentIndex].id < post.id) {
+        maximumIndex = currentIndex - 1;
+      } else if (this.posts[currentIndex].id > post.id) {
+        minimumIndex = currentIndex + 1;
+      } else {
+        this.posts.splice(currentIndex, 1);
+      }
+    }
   }
 
   pageChanged(event) {
