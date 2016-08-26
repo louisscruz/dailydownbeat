@@ -10,8 +10,9 @@ module SessionsHelper
     auth_token = request.headers["Authorization"]
     if auth_token
       auth_token = auth_token.split(" ").last
+      user = User.find_by(email: "test@woohoo.com")
       begin
-        decoded_token = JsonWebToken.decode auth_token
+        decoded_token = JsonWebToken.decode(auth_token)
       rescue JWT::ExpiredSignature
         return
       end
@@ -40,25 +41,20 @@ module SessionsHelper
   end
 
   def authenticate_as_self_or_admin!
-    # FIX THIS!
-    render json: { errors: "Not authorized" }, status: :unauthorized unless is_self? || is_admin?
+    unless logged_in? && (is_self? || is_admin?)
+      render json: { errors: "Not authorized" }, status: :unauthorized
+    end
   end
 
   def is_self?
-    p user
-    # FIX THIS!!!
-    #p super.id
-    #user = User.find(Post.findparams[:id]) if params["post"]
-    #decoded_token = JsonWebToken.decode(request.headers["Authorization"])
-    #user = User.find(decoded_token.id)
-    #auth_token = request.headers["Authorization"]
-    #auth_token = auth_token.split(" ").last if auth_token
-    #user.auth_token != auth_token
+    uri = request.parameters["controller"]
+    resource = uri.split("/")[1].chomp('s').camelize.constantize
+    user = resource.find(params[:id]).user
+
+    user.id == @this_user.id
   end
 
   def is_admin?
-    if logged_in? && this_user.authenticate(params[:password])
-      this_user.admin
-    end
+    @this_user.admin
   end
 end

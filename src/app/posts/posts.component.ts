@@ -119,10 +119,12 @@ export class Posts {
     dialog.then((resultPromise) => {
       return resultPromise.result
       .then(
-        (res) => {
+        res => {
           this._postService.deletePost(post).subscribe(
             res => {
-              alert('success');
+              let alert = new AlertNotification('Successfully deleted post.', 'success');
+              this._alertService.addAlert(alert);
+              //alert('success');
               // Reload posts
             }, err => {
               console.log(err);
@@ -134,7 +136,7 @@ export class Posts {
             }
           )
         },
-        () => console.log('error confirming modal')
+        () => {}
       )
     });
   }

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UsersControllerTest < ActionDispatch::IntegrationTest
+class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
     @user2 = User.create(id: 2, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
@@ -101,5 +101,44 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     body = JSON.parse(response.body)
     assert_equal @post2.id, body[0]["votable_id"]
+  end
+
+  # Password
+
+  test "should update password with valid input" do
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    password_params = { current_password: "testtest", password: "newpassword", password_confirmation: "newpassword" }
+    patch "/api/users/" + @user.id.to_s + "/update_password", params: { user: password_params }, headers: { "Authorization" => @user.auth_token }
+    @user.reload
+    assert @user.authenticate("newpassword")
+  end
+
+  test "should not update password of the same value" do
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    password_params = { current_password: "testtest", password: "testtest", password_confirmation: "testtest" }
+    patch "/api/users/" + @user.id.to_s + "/update_password", params: { user: password_params }, headers: { "Authorization" => @user.auth_token }
+    assert_response 422
+  end
+
+  test "should not update password to invalid values" do
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    password_params = { current_password: "testtest", password: "testttt", password_confirmation: "testttt" }
+    patch "/api/users/" + @user.id.to_s + "/update_password", params: { user: password_params }, headers: { "Authorization" => @user.auth_token }
+    assert_response 422
+  end
+
+  test "should not update password if confirmation mismatch" do
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    password_params = { current_password: "testtest", password: "newpassword", password_confirmation: "newpassword2" }
+    patch "/api/users/" + @user.id.to_s + "/update_password", params: { user: password_params }, headers: { "Authorization" => @user.auth_token }
+    assert_response 422
   end
 end

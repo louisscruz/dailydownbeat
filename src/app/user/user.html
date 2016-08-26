@@ -52,7 +52,7 @@
         </div>
       </tab>
       <tab heading="Comments">
-        <p *ngIf="!user.comments">{{user.username}} does not yet have any comments.</p>
+        <p *ngIf="!comments || comments.length === 0">{{user.username}} does not yet have any comments.</p>
         <div *ngFor="let comment of comments" class="card card-block">
           <div class="info-block">
             <p>{{comment.body}}</p>

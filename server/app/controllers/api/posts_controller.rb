@@ -2,7 +2,6 @@ class Api::PostsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create]
   before_action :authenticate_as_self_or_admin!, only: [:update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy]
-  #after_action only: [:index] { set_pagination_headers(:posts) }
 
   # GET /posts
   def index
