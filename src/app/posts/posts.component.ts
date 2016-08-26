@@ -125,8 +125,6 @@ export class Posts {
               this.removePost(post);
               let alert = new AlertNotification('Successfully deleted post.', 'success');
               this._alertService.addAlert(alert);
-              //alert('success');
-              // Reload posts
             }, err => {
               console.log(err);
               let message = 'There was an error deleting that post.';
