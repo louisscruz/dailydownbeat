@@ -3,6 +3,32 @@
     <h1 class="text-xs-center">{{user.username}}</h1>
     <h3 class="text-xs-center">Manage Account</h3>
     <div class="card card-block text-xs-center">
+      <h5>Bio:</h5>
+      <div *ngIf="editing !== 'bio'">
+        <p *ngIf="!user.bio"><i>(You currently do not have a bio.)</i></p>
+        <p *ngIf="user.bio">{{user.bio}}</p>
+        <button class="btn btn-primary" *ngIf="!user.bio" (click)="setEdit('bio')">Add Bio</button>
+        <button class="btn btn-success" *ngIf="user.bio" (click)="setEdit('bio')">Change Bio</button>
+      </div>
+      <div *ngIf="editing === 'bio'" class="text-xs-left">
+        <form [formGroup]="bioForm" (ngSubmit)="updateBio">
+          <fieldset class="form-group" [class.has-success]="newBio.valid && newEmail.touched" [class.has-danger]="!newBio.valid && newBio.touched">
+            <label for="newBio" class="form-control-label">Bio</label>
+            <textarea type="text" id="newBio" placeholder="New Bio" [formControl]="bioForm.find('newBio')" class="form-control" [class.form-control-success]="newBio.valid" required></textarea>
+            <div *ngIf="newBio.touched" class="text-help">
+              <div *ngIf="newBio.hasError('required')">Bio Required</div>
+            </div>
+          </fieldset>
+          <div class="text-xs-right">
+            <button type="reset" class="btn btn-secondary" (click)="setEdit('')">Cancel</button>
+            <button type="submit" [disabled]="!bioForm.valid" class="btn btn-primary">
+              Update Bio <i *ngIf="processing" class="fa fa-circle-o-notch fa-spin"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card card-block text-xs-center">
       <h5>Email:</h5>
       <div *ngIf="editing !== 'email'">
         <p>{{user.email}}</p>

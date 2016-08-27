@@ -36,8 +36,10 @@ export class Dashboard {
   private comments: any;
   private activitySelect: string = 'Posts';
   private editing: string;
+  private bioForm: FormGroup;
   private emailForm: FormGroup;
   private passwordForm: FormGroup;
+  private newBio: AbstractControl;
   private newEmail: AbstractControl;
   private newEmailConfirm: AbstractControl;
   private newEmailPassword: AbstractControl;
@@ -54,6 +56,11 @@ export class Dashboard {
     private _userService: UserService,
     private router: Router
   ) {
+    this.bioForm = new FormGroup({
+      newBio: new FormControl('')
+    });
+    this.newBio = this.bioForm.find('newBio');
+
     this.emailForm = new FormGroup({
       email: new FormControl(''),
       confirm: new FormControl(''),
@@ -81,7 +88,9 @@ export class Dashboard {
   }
 
   setEdit(editing: string): void {
-    if (editing === '' && this.editing === 'email') {
+    if (editing === '' && this.editing === 'bio') {
+      this.resetForm(this.bioForm);
+    } else if (editing === '' && this.editing === 'email') {
       this.resetForm(this.emailForm);
     } else if (editing === '' && this.editing === 'password') {
       this.resetForm(this.passwordForm);
@@ -92,6 +101,25 @@ export class Dashboard {
 
   toggleValidatingEmail(): void {
     this.validatingEmail = !this.validatingEmail;
+  }
+
+  updateBio(): void {
+    this.processing = true;
+    this._userService.updateBio(this.newBio.value)
+    .subscribe(
+      res => {
+        let alert = new AlertNotification('Bio successuflly changed!', 'success');
+        this._alertService.addAlert(alert);
+      }, err => {
+        let body = JSON.parse(err._body);
+        let alert = new AlertNotification('Error changing bio', 'danger');
+        this._alertService.addAlert(alert);
+        this.setEdit('');
+      }, () => {
+        this.processing = false;
+        this.router.navigate(['/']);
+      }
+    );
   }
 
   updateEmail(): void {
@@ -146,7 +174,10 @@ export class Dashboard {
       let id: number = +params['id'];
       this._userService.getUser(id)
       .subscribe(
-        res => this.user = res
+        res => {
+          this.user = res
+          if (this.user.bio) { (<FormControl>this.newBio).updateValue(this.user.bio) }
+        }
       );
       this._userService.getUserPosts(id)
       .subscribe(

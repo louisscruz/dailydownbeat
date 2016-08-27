@@ -57,6 +57,17 @@ export class UserService {
     .map(res => res.json());
   };
 
+  updateBio(bio: string): Observable<any> {
+    let headers = this.generateHeaders();
+    let id = this._jwtHelper.decodeToken(this.getToken()).id;
+    let call = this.apiUrl + '/api/users/' + id;
+    let user = { bio: bio };
+    return this._http.put(call, JSON.stringify(user), {
+      headers: headers
+    })
+    .map(res => res.json());
+  }
+
   updateEmail(email: string, password: string): Observable<any> {
     let headers = this.generateHeaders();
     let id = this._jwtHelper.decodeToken(this.getToken()).id;

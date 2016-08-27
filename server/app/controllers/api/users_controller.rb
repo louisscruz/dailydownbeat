@@ -37,11 +37,19 @@ class Api::UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     old_user = @user.dup
-    if @user.update_with_password(user_params)
-      UserMailer.changed_email(@user, old_user.email).deliver_now if user_params[:email].present?
-      render json: @user
+    if requires_password_validation
+      if @user.update_with_password(user_params)
+        UserMailer.changed_email(@user, old_user.email).deliver_now if user_params[:email].present?
+        render json: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     else
-      render json: @user.errors, status: :unprocessable_entity
+      if @user.update(user_params)
+        render json: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
   end
 
