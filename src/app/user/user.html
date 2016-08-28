@@ -7,7 +7,9 @@
     </div>
     <tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
       <tab heading="Bio">
-        <p *ngIf="user.bio">{{user.bio}}</p>
+        <blockquote class="blockquote"*ngIf="user.bio">
+          <p class="m-b-0">{{user.bio}}</p>
+        </blockquote>
         <p *ngIf="!user.bio">{{user.username}} does not yet have a bio.</p>
       </tab>
       <tab heading="Posts" class="posts">
