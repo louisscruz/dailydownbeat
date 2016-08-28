@@ -34,7 +34,7 @@
         <div class="well well-lg">
           <form class="text-xs-right" [formGroup]="addCommentForm" (ngSubmit)="addComment(comment.value, 'Post', post.id, 1)">
             <fieldset class="form-group" [class.has-danger]="!comment.valid && comment.touched">
-              <textarea class="form-control" [formControl]="addCommentForm.find('comment')" minlength="5" required></textarea>
+              <textarea class="form-control" [formControl]="addCommentForm.find('comment')" minlength="5" maxlength="8000" required></textarea>
               <div *ngIf="comment.touched" class="text-help">
                 <div *ngIf="comment.hasError('required')">Comment Body Required</div>
                 <div *ngIf="comment.hasError('minlength')">

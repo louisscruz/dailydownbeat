@@ -28,7 +28,15 @@ import { OrderBy } from '../pipes/orderBy';
 
 @Component({
   selector: 'comment',
-  directives: [ RouterLink, DROPDOWN_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, Collapse, CommentDetail, Pluralize ],
+  directives: [
+    RouterLink,
+    DROPDOWN_DIRECTIVES,
+    FORM_DIRECTIVES,
+    REACTIVE_FORM_DIRECTIVES,
+    Collapse,
+    CommentDetail,
+    Pluralize
+  ],
   pipes: [ OrderBy, TimeSincePipe ],
   styles: [ require('./comment.scss') ],
   template: require('./comment.html')
@@ -169,6 +177,7 @@ export class CommentDetail {
         minimumIndex = currentIndex + 1;
       } else {
         this.comment.comments.splice(currentIndex, 1);
+        this.comment.comment_count--;
       }
     }
   }

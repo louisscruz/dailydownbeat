@@ -41,8 +41,15 @@
   </span>
   <div class="well well-lg" [collapse]="replyOpen !== comment.id">
     <form class="text-xs-right" [formGroup]="replyForm" (ngSubmit)="addReply(reply.value)">
-      <fieldset class="form-group">
-        <textarea class="form-control" [formControl]="replyForm.find('reply')"></textarea>
+      <fieldset class="form-group" [class.has-danger]="!reply.valid && reply.touched">
+        <textarea class="form-control" [formControl]="replyForm.find('reply')" minlength="5" maxlength="8000" required></textarea>
+        <div *ngIf="reply.touched" class="text-help">
+          <div *ngIf="reply.hasError('required')">Reply Required</div>
+          <div *ngIf="reply.hasError('minlength')">
+            <pluralize [count]="5 - reply.value.length" [when]="{'one': '1 More Character', 'other': '{} More Characters'}"></pluralize>
+            Required
+          </div>
+        </div>
       </fieldset>
       <button class="btn btn-secondary" type="button" (click)="closeReplyForm()">Cancel</button>
       <button class="btn btn-primary" type="submit" [disabled]="!replyForm.valid">
