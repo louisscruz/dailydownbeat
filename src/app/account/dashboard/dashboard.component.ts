@@ -112,12 +112,13 @@ export class Dashboard {
         this._alertService.addAlert(alert);
       }, err => {
         let body = JSON.parse(err._body);
+        this.processing = false;
         let alert = new AlertNotification('Error changing bio', 'danger');
         this._alertService.addAlert(alert);
         this.setEdit('');
       }, () => {
         this.processing = false;
-        this.router.navigate(['/']);
+        this.router.navigate([ '/user', this.user.id ]);
       }
     );
   }
@@ -139,7 +140,7 @@ export class Dashboard {
         this.setEdit('');
       }, () => {
         this.processing = false;
-        this.router.navigate(['/']);
+        this.router.navigate([ '/' ]);
       }
     );
   }

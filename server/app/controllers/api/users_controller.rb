@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   before_action :authenticate_with_token!, only: [:update, :destroy]
   before_action :set_user, only: [:show, :update, :destroy, :confirm, :posts, :comments, :upvotes, :downvotes]
-  wrap_parameters :user, include: [:username, :email, :password, :password_confirmation, :current_password]
+  wrap_parameters :user, include: [:username, :email, :password, :password_confirmation, :current_password, :bio]
 
   # GET /users
   def index

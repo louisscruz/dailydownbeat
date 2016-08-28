@@ -113,4 +113,13 @@ class UserTest < ActiveSupport::TestCase
   test "confirmation should default to false" do
     assert_equal @other_user.confirmed, false
   end
+
+  test "bio should be equal to or less than 5000 characters" do
+    invalid_bio = "a" * 5001
+    @user.bio = invalid_bio
+    assert_not @user.valid?
+    valid_bio = "a" * 5000
+    @user.bio = valid_bio
+    assert @user.valid?
+  end
 end

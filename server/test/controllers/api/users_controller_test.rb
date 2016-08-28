@@ -2,8 +2,9 @@ require "test_helper"
 
 class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = FactoryGirl.create :user
-    @user2 = User.create(username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    #@user = FactoryGirl.create :user
+    @user = User.create(id: User.count + 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @user2 = User.create(id: User.count + 1, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
     @unconfirmed_user = User.create(username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
     @credentials = { email: @user.email, password: "testtest"}
     #FactoryGirl.create_list(:post, 2)
@@ -15,6 +16,8 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     @vote = Vote.create(votable: @post, user_id: @user.id, polarity: 1)
     @downvote = Vote.create(votable: @post2, user_id: @user.id, polarity: -1)
   end
+
+  # Confirmations
 
   test "confirm method should set the user to confirmed" do
     assert_not @unconfirmed_user.confirmed
@@ -53,6 +56,8 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal @unconfirmed_user.auth_token, old_auth
   end
 
+  # Email
+
   test "updated email should result in need for reconfirmation" do
     assert @user.confirmed
     @user.email = "new@address.com"
@@ -72,26 +77,9 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_equal body["is_valid"], true
   end
-=begin
-  test "should successfully update valid email" do
-    old = @user.dup
-    post '/api/login', params: { session: @credentials }
-    @user.reload
-    assert_not_equal old.auth_token, @user.auth_token
-    @request.headers["Authorization"] = @user.auth_token
-    put api_user_path(@user), params: { user: { id: @user.id, email: "new@me.com", password: "testtest" }}, headers: @request.headers
-    assert_response 201
-    assert_equal "new@me.com", User.find(@user.id).email
-  end
 
-  test "should not update invalid email" do
-    post api_login_url, params: { session: @credentials }
-    @request.headers["Authorization"] = @user.auth_token
-    email = "foo@bar..com"
-    put "/api/users/" + @user.id.to_s, params: { email: email, password: "testtest", password_confirmation: "testtest" }, headers: @request.headers
-    assert_not_equal email, @user.email
-  end
-=end
+  # Votes
+
   test "should return correct upvotes" do
     get upvotes_api_user_url(@user)
     assert_response 200
@@ -105,6 +93,8 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_equal @post2.id, body[0]["votable_id"]
   end
+
+  # Update Bio
 
   test "should update bio with valid input" do
     @credentials = { email: @user.email, password: "testtest"}

@@ -6,18 +6,17 @@
       <h5>Bio:</h5>
       <div *ngIf="editing !== 'bio'">
         <p *ngIf="!user.bio"><i>(You currently do not have a bio.)</i></p>
-        <p *ngIf="user.bio">{{user.bio}}</p>
+        <blockquote class="blockquote"*ngIf="user.bio">
+          <p class="m-b-0">{{user.bio}}</p>
+        </blockquote>
         <button class="btn btn-primary" *ngIf="!user.bio" (click)="setEdit('bio')">Add Bio</button>
         <button class="btn btn-success" *ngIf="user.bio" (click)="setEdit('bio')">Change Bio</button>
       </div>
       <div *ngIf="editing === 'bio'" class="text-xs-left">
-        <form [formGroup]="bioForm" (ngSubmit)="updateBio">
+        <form [formGroup]="bioForm" (ngSubmit)="updateBio()">
           <fieldset class="form-group" [class.has-success]="newBio.valid && newEmail.touched" [class.has-danger]="!newBio.valid && newBio.touched">
             <label for="newBio" class="form-control-label">Bio</label>
-            <textarea type="text" id="newBio" placeholder="New Bio" [formControl]="bioForm.find('newBio')" class="form-control" [class.form-control-success]="newBio.valid" required></textarea>
-            <div *ngIf="newBio.touched" class="text-help">
-              <div *ngIf="newBio.hasError('required')">Bio Required</div>
-            </div>
+            <textarea type="text" id="newBio" placeholder="New Bio" [formControl]="bioForm.find('newBio')" class="form-control" [class.form-control-success]="newBio.valid" maxlength="5000"></textarea>
           </fieldset>
           <div class="text-xs-right">
             <button type="reset" class="btn btn-secondary" (click)="setEdit('')">Cancel</button>
