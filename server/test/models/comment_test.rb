@@ -24,6 +24,24 @@ class CommentTest < ActiveSupport::TestCase
     assert_not @comment.valid?
   end
 
+  test "should have a minimum body length of 5 characters" do
+    invalid_comment = "a" * 4
+    @comment.body = invalid_comment
+    assert_not @comment.valid?
+    valid_comment = "a" * 5
+    @comment.body = valid_comment
+    assert @comment.valid?
+  end
+
+  test "should only allow comment length to be 8000 character in length" do
+    invalid_comment = "a" * 8001
+    @comment.body = invalid_comment
+    assert_not @comment.valid?
+    valid_comment = "a" * 8000
+    @comment.body = valid_comment
+    assert @comment.valid?
+  end
+
   test "should only allow confirmed users to create comments on posts" do
     user = User.first
     user.update_attribute(:confirmed, false)
