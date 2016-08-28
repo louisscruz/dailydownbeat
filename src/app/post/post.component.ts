@@ -11,6 +11,7 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
 import { Collapse } from '../directives/collapse/collapse';
+import { Pluralize } from '../directives/pluralize/pluralize';
 
 import { Post } from '../datatypes/post/post';
 import { AlertNotification } from '../datatypes/alert/alertnotification';
@@ -28,7 +29,15 @@ import { TimeSincePipe } from '../pipes/timeSince';
 
 @Component({
   selector: 'post-detail',
-  directives: [ RouterLink, DROPDOWN_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, Collapse, CommentDetail ],
+  directives: [
+    RouterLink,
+    DROPDOWN_DIRECTIVES,
+    FORM_DIRECTIVES,
+    REACTIVE_FORM_DIRECTIVES,
+    Collapse,
+    CommentDetail,
+    Pluralize
+  ],
   pipes: [ OrderBy, TimeSincePipe ],
   providers: [ CommentService ],
   styles: [ require('./post.scss') ],
@@ -77,7 +86,16 @@ export class PostDetail {
         let alert = new AlertNotification('Successfully added your comment!', 'success');
         this._alertService.addAlert(alert);
       },
-      err => console.log(err),
+      err => {
+        console.log(err);
+        this.addingComment = false;
+        let body = JSON.parse(err._body);
+        let alert = new AlertNotification('There was an error posting your comment.', 'danger');
+        if (body['user'] !== null) {
+          alert.message = 'You must confirm your account before making comments.'
+        }
+        this._alertService.addAlert(alert);
+      },
       () => {
         this.addingComment = false;
         this.isCollapsed = true;
@@ -109,7 +127,7 @@ export class PostDetail {
     let minimumIndex: number = 0;
     let maximumIndex: number = this.comments.length - 1;
 
-    while (maximumIndex > minimumIndex) {
+    while (maximumIndex >= minimumIndex) {
       let currentIndex = (minimumIndex + maximumIndex) / 2 | 0;
 
       if (this.comments[currentIndex].id < comment.id) {

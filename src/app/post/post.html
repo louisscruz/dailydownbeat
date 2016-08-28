@@ -4,7 +4,7 @@
       <a href="{{post.url}}" target="_blank">{{post.title}}</a>
     </h6>
     <div class="text-xs-center info">
-      <small>posted by <a class="text-xs-center" [routerLink]="[ '../../user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
+      <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
       <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
         <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
@@ -33,8 +33,15 @@
       <div [collapse]="isCollapsed">
         <div class="well well-lg">
           <form class="text-xs-right" [formGroup]="addCommentForm" (ngSubmit)="addComment(comment.value, 'Post', post.id, 1)">
-            <fieldset class="form-group">
-              <textarea class="form-control" [formControl]="addCommentForm.find('comment')"></textarea>
+            <fieldset class="form-group" [class.has-danger]="!comment.valid && comment.touched">
+              <textarea class="form-control" [formControl]="addCommentForm.find('comment')" minlength="5" required></textarea>
+              <div *ngIf="comment.touched" class="text-help">
+                <div *ngIf="comment.hasError('required')">Comment Body Required</div>
+                <div *ngIf="comment.hasError('minlength')">
+                  <pluralize [count]="5 - comment.value.length" [when]="{'one': '1 More Character', 'other': '{} More Characters'}"></pluralize>
+                  Required
+                </div>
+              </div>
             </fieldset>
             <button class="btn btn-secondary" type="button" (click)="closeCommentForm()">Cancel</button>
             <button class="btn btn-primary" type="submit" [disabled]="!addCommentForm.valid">
