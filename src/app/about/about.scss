@@ -1,0 +1,32 @@
+:host {
+  //width: 100%;
+  //position: absolute;
+  //left: 0px;
+  //margin: -16px;
+  margin-top: -60px;
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+  flex: 1;
+}
+
+section {
+  //background-color: #0275d8;
+  background: #0275d8; /* For browsers that do not support gradients */
+  color: white;
+  flex: 1;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  &.fade-in {
+
+  }
+  &.green-background {
+    background-color: #5cb85c;
+  }
+  &.white-background {
+    background-color: white;
+    color: #505050;
+  }
+}

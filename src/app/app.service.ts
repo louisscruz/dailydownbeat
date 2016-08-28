@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HmrState } from 'angular2-hmr';
+//import { HmrState } from 'angular2-hmr';
 
 @Injectable()
 export class AppState {
+  public removeContainer: boolean = false;
+
+  /*
   // @HmrState() is used by HMR to track the state of any object during HMR (hot module replacement)
   @HmrState() _state = { };
 
@@ -35,5 +38,7 @@ export class AppState {
   _clone(object) {
     // simple object clone
     return JSON.parse(JSON.stringify( object ));
-  }
+  }*/
+
+
 }
