@@ -140,6 +140,10 @@ export class AddPost {
   }
 
   ngOnInit() {
-
+    if (!this._authService.currentUser.confirmed) {
+      console.log(this._authService.currentUser)
+      let alert = new AlertNotification('You must first confirm your account before making posts. We\'ve sent you an email with a link to take care of this.');
+      this._alertService.addAlert(alert);
+    }
   }
 }
