@@ -3,12 +3,15 @@ require "test_helper"
 class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = FactoryGirl.create :user
-    @user2 = User.create(id: 2, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @unconfirmed_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
+    @user2 = User.create(username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @unconfirmed_user = User.create(username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
     @credentials = { email: @user.email, password: "testtest"}
-    FactoryGirl.create_list(:post, 2)
-    @post = Post.create(title: "testing", user_id: 2, url: "http://www.test.com")
-    @post2 = Post.create(title: "testing2", user_id: 2, url: "http://www.test.com")
+    #FactoryGirl.create_list(:post, 2)
+    2.times do
+      Post.create(title: "testing", url: "http://www.google.com", user_id: 1)
+    end
+    @post = Post.create(title: "testing", user_id: @user2.id, url: "http://www.test.com")
+    @post2 = Post.create(title: "testing2", user_id: @user2.id, url: "http://www.test.com")
     @vote = Vote.create(votable: @post, user_id: @user.id, polarity: 1)
     @downvote = Vote.create(votable: @post2, user_id: @user.id, polarity: -1)
   end
@@ -101,6 +104,18 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     body = JSON.parse(response.body)
     assert_equal @post2.id, body[0]["votable_id"]
+  end
+
+  test "should update bio with valid input" do
+    @credentials = { email: @user.email, password: "testtest"}
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    new_bio = "This is my new bio."
+    update_params = { bio: new_bio }
+    patch "/api/users/" + @user.id.to_s, params: { user: update_params }, headers: { "Authorization" => @user.auth_token }
+    @user.reload
+    assert_response 200
+    assert_equal @user.bio, new_bio
   end
 
   # Password

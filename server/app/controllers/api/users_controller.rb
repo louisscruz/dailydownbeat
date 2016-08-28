@@ -122,7 +122,7 @@ class Api::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmation_code, :confirmed, :current_password)
+      params.require(:user).permit(:username, :email, :bio, :password, :password_confirmation, :confirmation_code, :confirmed, :current_password)
     end
 
     def attribute_validation_response(param)
@@ -131,5 +131,10 @@ class Api::UsersController < ApplicationController
       else
         { is_valid: true }
       end
+    end
+
+    def requires_password_validation
+      unsafe_params = [:current_password, :password, :password_confirmation, :email]
+      unsafe_params.any? { |param| params[:user].key?(param) }
     end
 end

@@ -54,7 +54,7 @@ end
   user_email = 'user' + x.to_s + '@gmail.com'
   user_password = 'testtest'
   user_bio = Faker::Hacker.say_something_smart
-  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, bio: user_bio)
+  User.create(username: user_username, email: user_email, password: user_password, password_confirmation: user_password, bio: user_bio, confirmed: true)
 end
 
 # Seed Posts

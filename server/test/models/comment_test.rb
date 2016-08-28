@@ -2,8 +2,11 @@ require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
   def setup
-    FactoryGirl.create(:user)
-    FactoryGirl.create(:post)
+    #FactoryGirl.create(:user)
+    #FactoryGirl.create(:post)
+    #@user = User.create(username: "testing", email: "test@me.com", password: "testtest", password_confirmation: "testtest")
+    @user = User.create(username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @post = Post.create(title: "testing", user_id: @user.id, url: "http://www.test.com")
     @comment = Comment.create(commentable: Post.first, user_id: User.first.id, body: "testing")
   end
 
