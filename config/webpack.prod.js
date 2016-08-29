@@ -29,7 +29,7 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   port: PORT,
   ENV: ENV,
   HMR: false,
-  apiUrl: 'http://198.211.116.68'
+  apiUrl: 'https://dailydownbeat.com'
 });
 
 module.exports = webpackMerge(commonConfig, {
@@ -154,9 +154,9 @@ module.exports = webpackMerge(commonConfig, {
       helpers.root('config/modules/angular2-hmr-prod.js')
     ),
 
-    //new CopyWebpackPlugin([
-      //{ from: '' }
-    //])
+    new CopyWebpackPlugin([
+      { from: helpers.root('config/ssl') }
+    ])
 
   ],
 
