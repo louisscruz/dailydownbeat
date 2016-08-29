@@ -27,7 +27,7 @@
     }
     .vote-block {
       width: 27px;
-      a.disabled {
+      &.disabled a {
         color: gray;
       }
       a.active {

@@ -75,14 +75,20 @@ export class PostService {
   }
 
   upvote(post: Post) {
-    return this.vote(post, 1);
+    return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/upvote', {}, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
   }
 
   downvote(post: Post) {
-    return this.vote(post, -1);
+    return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/downvote', {}, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
   }
 
-  deleteVote(post: Post) {
+  unvote(post: Post) {
     return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/unvote', {}, {
       headers: this.generateHeaders()
     });

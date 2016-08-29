@@ -17,7 +17,16 @@ module Votable
   def upvoted
     this_user = find_this_user
     if this_user
-      this_user.votes.any? { |user_vote| user_vote.votable_id == self.id }
+      this_user.votes.any? { |user_vote| user_vote.polarity == 1 && user_vote.votable_id == self.id }
+    else
+      false
+    end
+  end
+
+  def downvoted
+    this_user = find_this_user
+    if this_user
+      this_user.votes.any? { |user_vote| user_vote.polarity == -1 && user_vote.votable_id == self.id }
     else
       false
     end

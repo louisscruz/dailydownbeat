@@ -67,10 +67,15 @@ class VoteTest < ActiveSupport::TestCase
     assert_not downvote.valid?
   end
 
-  test "should not allow multiple votes by one user on the same post" do
+  test "should not allow multiple votes by one user on the same post if of same polarity" do
+    duplicate_vote = @upvote.dup
+    assert_not duplicate_vote.valid?
+  end
+
+  test "should allow opposite vote by one user on the same post if of opposite polarity" do
     duplicate_vote = @upvote.dup
     duplicate_vote.polarity = -1
-    assert_not duplicate_vote.valid?
+    assert duplicate_vote.valid?
   end
 
   test "should not allow user to upvote own post" do
@@ -116,6 +121,26 @@ class VoteTest < ActiveSupport::TestCase
     @downvote.update_attribute(:polarity, 1)
     @second_post.reload
     assert_equal old_points + 2, @downvote.votable.points
+  end
+
+  test "should delete old upvote when user makes new downvote on same votable" do
+    old_points = @first_post.points
+    old_number_of_votes = @second_user.votes.count
+    new_downvote = Vote.create(votable: @first_post, user_id: @second_user.id, polarity: -1)
+    @second_user.reload
+    @first_post.reload
+    assert_equal old_number_of_votes, @second_user.votes.count
+    assert_equal old_points - 2, @first_post.points
+  end
+
+  test "should delete old downvote when user makes new upvote on same votable" do
+    old_points = @second_post.points
+    old_number_of_votes = @first_user.votes.count
+    new_downvote = Vote.create(votable: @second_post, user_id: @first_user.id, polarity: 1)
+    @first_user.reload
+    @second_post.reload
+    assert_equal old_number_of_votes, @first_user.votes.count
+    assert_equal old_points + 2, @second_post.points
   end
 
   test "upvote on post should increment poster's points" do

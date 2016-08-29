@@ -2,6 +2,7 @@ class Vote < ApplicationRecord
   after_destroy { update_points!(-1)}
   after_create :update_points!
   after_update { update_points!(2) }
+  before_validation :remove_opposite_vote
   belongs_to :votable, polymorphic: true
   belongs_to :user
   validates_presence_of :votable
@@ -37,5 +38,14 @@ class Vote < ApplicationRecord
     if self.polarity == -1 && (self.user.present? && self.user.points < 50)
       errors.add(:user, "must have more than 50 points to downvote")
     end
+  end
+
+  def remove_opposite_vote
+    return if self.votable.nil?
+    votable_votes = self.votable.votes
+    opposite_vote = votable_votes.find do |vote|
+      self.polarity != vote.polarity && vote.user_id == self.user_id
+    end
+    opposite_vote.destroy if opposite_vote
   end
 end
