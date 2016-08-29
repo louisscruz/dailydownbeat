@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get 'downvotes' => 'users#downvotes'
       end
     end
+
     resources :posts, concerns: :commentable do
       member do
         post 'upvote' => 'posts#upvote'
@@ -27,8 +28,13 @@ Rails.application.routes.draw do
         post 'unvote' => 'posts#unvote'
       end
     end
-    resources :comments do
-      resources :comments
+
+    resources :comments, concerns: :commentable do
+      member do
+        post 'upvote' => 'comments#upvote'
+        post 'downvote' => 'comments#downvote'
+        post 'unvote' => 'comments#unvote'
+      end
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

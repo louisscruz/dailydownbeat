@@ -1,6 +1,8 @@
 class Api::CommentsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
   before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :set_vote, only: [:unvote]
+  wrap_parameters :comment, include: [:body, :commentable_id, :commentable_type, :user_id]
   #wrap_parameters :user, include: [:username, :email, :password, :password_confirmation]
 
   # GET ../comments
@@ -41,6 +43,28 @@ class Api::CommentsController < ApplicationController
     end
   end
 
+  def vote(polarity)
+    vote = Vote.new(votable: @comment, user_id: this_user.id, polarity: polarity)
+
+    if vote.save
+      render json: vote
+    else
+      render json: vote.errors, status: :unprocessable_entity
+    end
+  end
+
+  def upvote
+    vote(1)
+  end
+
+  def downvote
+    vote(-1)
+  end
+
+  def unvote
+    @vote.destroy
+  end
+
   private
 
     def set_comment
@@ -58,5 +82,9 @@ class Api::CommentsController < ApplicationController
         end
       end
       nil
+    end
+
+    def set_vote
+      @vote = Vote.find_by(votable_id: params[:id], user_id: this_user.id)
     end
 end
