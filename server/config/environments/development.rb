@@ -45,10 +45,10 @@ Rails.application.configure do
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Configure CORS
-  config.middleware.insert_before 0, "Rack::Cors" do
-    allow do
-      origins '*'
-      resource '*', :headers => :any, :methods => :any
-    end
-  end
+  #config.middleware.insert_before 0, "Rack::Cors" do
+    #allow do
+      #origins '*'
+      #resource '*', :headers => :any, :methods => :any
+    #end
+  #end
 end

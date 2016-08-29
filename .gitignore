@@ -64,3 +64,8 @@ Thumbs.db
 
 # Server secrets
 /server/config/email_config.yml
+
+# SSL
+5ABD3AC80502B5534DD1BBB204091EBB.txt
+*.crt
+*.csr
