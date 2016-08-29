@@ -6,6 +6,7 @@ export class Post {
     public created_at: number,
     public user: Array<any>,
     public comment_count: number,
-    public points: number
+    public points: number,
+    public upvoted: boolean = false
   ) { }
 }

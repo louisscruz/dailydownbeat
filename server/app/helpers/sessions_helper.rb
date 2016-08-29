@@ -10,7 +10,6 @@ module SessionsHelper
     auth_token = request.headers["Authorization"]
     if auth_token
       auth_token = auth_token.split(" ").last
-      user = User.find_by(email: "test@woohoo.com")
       begin
         decoded_token = JsonWebToken.decode(auth_token)
       rescue JWT::ExpiredSignature

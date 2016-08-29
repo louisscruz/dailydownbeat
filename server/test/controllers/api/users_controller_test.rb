@@ -2,12 +2,10 @@ require "test_helper"
 
 class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
-    #@user = FactoryGirl.create :user
-    @user = User.create(id: User.count + 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @user2 = User.create(id: User.count + 1, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @unconfirmed_user = User.create(username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
+    @user = User.create(id: User.count + 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
+    @user2 = User.create(id: User.count + 1, username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
+    @unconfirmed_user = User.create(id: User.count + 1, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmation_code: SecureRandom.hex)
     @credentials = { email: @user.email, password: "testtest"}
-    #FactoryGirl.create_list(:post, 2)
     2.times do
       Post.create(title: "testing", url: "http://www.google.com", user_id: 1)
     end
@@ -97,7 +95,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   # Update Bio
 
   test "should update bio with valid input" do
-    @credentials = { email: @user.email, password: "testtest"}
     post api_login_url, params: { session: @credentials }
     @user.reload
     new_bio = "This is my new bio."
@@ -111,7 +108,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   # Password
 
   test "should update password with valid input" do
-    @credentials = { email: @user.email, password: "testtest"}
     post api_login_url, params: { session: @credentials }
     @user.reload
     password_params = { current_password: "testtest", password: "newpassword", password_confirmation: "newpassword" }
@@ -121,7 +117,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update password of the same value" do
-    @credentials = { email: @user.email, password: "testtest"}
     post api_login_url, params: { session: @credentials }
     @user.reload
     password_params = { current_password: "testtest", password: "testtest", password_confirmation: "testtest" }
@@ -130,7 +125,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update password to invalid values" do
-    @credentials = { email: @user.email, password: "testtest"}
     post api_login_url, params: { session: @credentials }
     @user.reload
     password_params = { current_password: "testtest", password: "testttt", password_confirmation: "testttt" }
@@ -139,7 +133,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update password if confirmation mismatch" do
-    @credentials = { email: @user.email, password: "testtest"}
     post api_login_url, params: { session: @credentials }
     @user.reload
     password_params = { current_password: "testtest", password: "newpassword", password_confirmation: "newpassword2" }

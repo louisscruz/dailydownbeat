@@ -18,6 +18,7 @@ export class PostService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.getToken());
+    console.log(headers);
     return headers;
   }
 
@@ -66,13 +67,24 @@ export class PostService {
     .map(res => res.json());
   }
 
-  vote(polarity: number) {
-    alert(polarity);
+  vote(post: Post, polarity: number) {
+    return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/upvote', {}, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
   }
 
-  addVote() {}
+  upvote(post: Post) {
+    return this.vote(post, 1);
+  }
 
-  editVote() {}
+  downvote(post: Post) {
+    return this.vote(post, -1);
+  }
 
-  deleteVote() {}
+  deleteVote(post: Post) {
+    return this.http.post(this.apiUrl + '/api/posts/' + post.id + '/unvote', {}, {
+      headers: this.generateHeaders()
+    });
+  }
 }

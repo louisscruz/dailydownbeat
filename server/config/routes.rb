@@ -20,7 +20,13 @@ Rails.application.routes.draw do
         get 'downvotes' => 'users#downvotes'
       end
     end
-    resources :posts, concerns: :commentable
+    resources :posts, concerns: :commentable do
+      member do
+        post 'upvote' => 'posts#upvote'
+        post 'downvote' => 'posts#downvote'
+        post 'unvote' => 'posts#unvote'
+      end
+    end
     resources :comments do
       resources :comments
     end

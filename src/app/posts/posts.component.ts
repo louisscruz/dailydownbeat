@@ -37,6 +37,7 @@ export class Posts {
   private perPage: number = 30;
   private loadingPosts: boolean = false;
   private serverDown: boolean = false;
+  private sendingVote: number;
 
   constructor(
     private _router: Router,
@@ -88,8 +89,48 @@ export class Posts {
     );
   }
 
-  vote(polarity: number) {
-    this._postService.vote(polarity);
+  handleUpvote(post: Post) {
+    return post.upvoted ? this.deleteVote(post) : this.upvote(post);
+  }
+
+  upvote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.upvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully upvoted post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.points++;
+        post.upvoted = true;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        console.log(body['user'])
+        if (body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  deleteVote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.deleteVote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Vote successfully updated!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.points--;
+        post.upvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    )
   }
 
   openFlagModal(post: Post) {

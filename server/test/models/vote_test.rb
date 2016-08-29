@@ -2,9 +2,9 @@ require 'test_helper'
 
 class VoteTest < ActiveSupport::TestCase
   def setup
-    @first_user = User.create(id: 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @second_user = User.create(id: 2, username: "johndoe2", email: "a@b4.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @third_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
+    @first_user = User.create(id: 1, username: "johndoe", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
+    @second_user = User.create(id: 2, username: "johndoe2", email: "a@b4.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
+    @third_user = User.create(id: 3, username: "johndoe3", email: "a@b3.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
     @first_post = Post.create(title: "testtest", user_id: 1, url: "http://www.google.com")
     @second_post = Post.create(title: "testtest", user_id: 2, url: "http://www.google.com")
     @third_post = Post.create(title: "testtest", user_id: 3, url: "http://www.google.com")
@@ -58,6 +58,13 @@ class VoteTest < ActiveSupport::TestCase
   test "should have a user_id" do
     @upvote.user_id = nil
     assert_not @upvote.valid?
+  end
+
+  test "should only allow users with 50 points to downvote" do
+    @first_user.update_attribute(:points, 49)
+    @first_user.reload
+    downvote = Vote.new(votable: @third_post, user_id: @first_user.id, polarity: -1)
+    assert_not downvote.valid?
   end
 
   test "should not allow multiple votes by one user on the same post" do

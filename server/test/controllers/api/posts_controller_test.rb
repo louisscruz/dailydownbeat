@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Api::PostsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = User.create(username: "testingtest", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
-    @admin_user = User.create(username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true, admin: true)
+    @user = User.create(username: "testingtest", email: "a@b.com", password: "testtest", password_confirmation: "testtest", confirmed: true, points: 50)
+    @admin_user = User.create(username: "johndoe2", email: "a@b2.com", password: "testtest", password_confirmation: "testtest", confirmed: true, admin: true, points: 50)
     44.times do |i|
       Post.create(id: i, title: "#{i} post", user_id: @user.id, url: "http://www.google.com", created_at: Faker::Time.backward(1950, :all))
     end
@@ -59,5 +59,43 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     @admin_user.reload
     delete "/api/posts/" + @user_post.id.to_s, headers: { "Authorization" => @admin_user.auth_token }
     assert_response 204
+  end
+
+  test "should successfully save a valid upvote" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    post "/api/posts/" + @admin_post.id.to_s + "/upvote", params: {}, headers: { "Authorization" => @user.auth_token }
+    assert_response 200
+    assert_equal 1, @admin_post.votes.count
+  end
+
+  test "should successfully save a valid downvote" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    post "/api/posts/" + @admin_post.id.to_s + "/downvote", headers: { "Authorization" => @user.auth_token }
+    assert_response 200
+    assert_equal 1, @admin_post.votes.count
+  end
+
+  test "should successfully destroy an upvote" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    post "/api/posts/" + @admin_post.id.to_s + "/upvote", headers: { "Authorization" => @user.auth_token }
+    assert_response 200
+    assert_equal 1, @admin_post.votes.count
+    post "/api/posts/" + @admin_post.id.to_s + "/unvote", headers: { "Authorization" => @user.auth_token }
+    assert_response 204
+    assert_equal 0, @admin_post.votes.count
+  end
+
+  test "should successfully destroy a downvote" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    post "/api/posts/" + @admin_post.id.to_s + "/downvote", headers: { "Authorization" => @user.auth_token }
+    assert_response 200
+    assert_equal 1, @admin_post.votes.count
+    post "/api/posts/" + @admin_post.id.to_s + "/unvote", headers: { "Authorization" => @user.auth_token }
+    assert_response 204
+    assert_equal 0, @admin_post.votes.count
   end
 end

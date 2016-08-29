@@ -75,6 +75,7 @@ GEM
     builder (3.2.2)
     byebug (8.2.2)
     concurrent-ruby (1.0.2)
+    debug_inspector (0.0.2)
     domain_name (0.5.20160128)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
@@ -157,6 +158,7 @@ DEPENDENCIES
   active_model_serializers!
   bcrypt
   byebug
+  debug_inspector
   factory_girl
   faker
   jwt

@@ -1,7 +1,8 @@
 class Api::PostsController < ApplicationController
-  before_action :authenticate_with_token!, only: [:create]
+  before_action :authenticate_with_token!, only: [:create, :upvote, :downvote, :unvote]
   before_action :authenticate_as_self_or_admin!, only: [:update, :destroy]
-  before_action :set_post, only: [:show, :update, :destroy]
+  before_action :set_post, only: [:show, :update, :destroy, :upvote, :downvote]
+  before_action :set_vote, only: [:unvote]
 
   # GET /posts
   def index
@@ -47,6 +48,28 @@ class Api::PostsController < ApplicationController
     @post.destroy
   end
 
+  def vote(polarity)
+    vote = Vote.new(votable: @post, user_id: this_user.id, polarity: polarity)
+
+    if vote.save
+      render json: vote
+    else
+      render json: vote.errors, status: :unprocessable_entity
+    end
+  end
+
+  def upvote
+    vote(1)
+  end
+
+  def downvote
+    vote(-1)
+  end
+
+  def unvote
+    @vote.destroy
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -56,5 +79,9 @@ class Api::PostsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def post_params
       params.require(:post).permit(:title, :url, :user_id)
+    end
+
+    def set_vote
+      @vote = Vote.find_by(votable_id: params[:id], user_id: this_user.id)
     end
 end

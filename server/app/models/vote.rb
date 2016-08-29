@@ -9,6 +9,7 @@ class Vote < ApplicationRecord
   validates :user_id, uniqueness: { scope: [:votable_type, :votable_id] }
   validate :may_not_vote_for_self
   validate :user_confirmed
+  validate :user_allowed_downvote
 
   private
 
@@ -29,6 +30,12 @@ class Vote < ApplicationRecord
   def user_confirmed
     unless self.user && self.user.confirmed == true
       errors.add(:user, "must be confirmed to make posts.")
+    end
+  end
+
+  def user_allowed_downvote
+    if self.polarity == -1 && (self.user.present? && self.user.points < 50)
+      errors.add(:user, "must have more than 50 points to downvote")
     end
   end
 end
