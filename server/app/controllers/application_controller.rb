@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
   include SessionsHelper
+  before_filter :add_allow_credentials_headers
   protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
 
   protected
@@ -23,5 +24,10 @@ class ApplicationController < ActionController::API
       pagination_links << "<#{url_without_params}?#{new_request_hash.to_param}>; rel=\"#{k}\""
     end
     headers["Link"] = pagination_links.join(", ")
+  end
+
+  def add_allow_credentials_headers
+    response.headers['Access-Control-Allow-Origin'] = request.headers['Origin'] || '*'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
 end
