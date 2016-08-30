@@ -8,7 +8,7 @@ module SessionsHelper
   #current_user is taken by active_model_serializers
   def this_user
     auth_token = request.headers["Authorization"]
-    if auth_token
+    if auth_token && !auth_token.empty?
       auth_token = auth_token.split(" ").last
       begin
         decoded_token = JsonWebToken.decode(auth_token)
@@ -16,6 +16,8 @@ module SessionsHelper
         return
       end
       @this_user ||= User.find_by(auth_token: auth_token)
+    else
+      false
     end
   end
 
