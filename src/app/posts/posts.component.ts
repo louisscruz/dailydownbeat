@@ -94,7 +94,6 @@ export class Posts {
   }
 
   handleDownvote(post: Post) {
-    console.log('INSIDE')
     return post.downvoted ? this.unvote(post, -1) : this.downvote(post);
   }
 
@@ -143,7 +142,7 @@ export class Posts {
         this._alertService.addAlert(alert);
         this.sendingVote = null;
       }
-    )
+    );
   }
 
   unvote(post: Post, polarity: number) {
@@ -161,7 +160,7 @@ export class Posts {
         this._alertService.addAlert(alert);
         this.sendingVote = null;
       }
-    )
+    );
   }
 
   openFlagModal(post: Post) {

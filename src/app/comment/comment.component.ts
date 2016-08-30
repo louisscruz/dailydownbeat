@@ -51,6 +51,7 @@ export class CommentDetail {
   private isCollapsed: boolean = true;
   private replyCollapsed: boolean = true;
   private replySending: boolean = false;
+  private sendingVote: number = null;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -180,5 +181,78 @@ export class CommentDetail {
         this.comment.comment_count--;
       }
     }
+  }
+
+  handleUpvote(comment: Comment) {
+    return comment.upvoted ? this.unvote(comment, 1) : this.upvote(comment);
+  }
+
+  handleDownvote(comment: Comment) {
+    return comment.downvoted ? this.unvote(comment, -1) : this.downvote(comment);
+  }
+
+  upvote(comment: Comment) {
+    this.sendingVote = comment.id;
+    this._commentService.upvote(comment).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully upvoted comment!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        comment.downvoted ? comment.points += 2 : comment.points++;
+        comment.upvoted = true;
+        comment.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        if (body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  downvote(comment: Comment) {
+    this.sendingVote = comment.id;
+    this._postService.downvote(comment).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully downvoted comment!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        comment.upvoted ? comment.points -= 2 : comment.points--;
+        comment.downvoted = true;
+        comment.upvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        console.log(body['user'])
+        //if (body['user'][0] === 'must be confirmed to make posts.') {
+          //alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        //}
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  unvote(comment: Comment, polarity: number) {
+    this.sendingVote = comment.id;
+    this._commentService.unvote(comment).subscribe(
+      res => {
+        let alert = new AlertNotification('Vote successfully updated!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        comment.points -= polarity;
+        comment.upvoted = false;
+        comment.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
   }
 }
