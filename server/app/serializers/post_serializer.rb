@@ -19,7 +19,6 @@ class PostSerializer < ActiveModel::Serializer
 
   def downvoted
     if scope
-      p "D"
       user_downvotes = Vote.where(user_id: this_user.id, polarity: -1)
       user_downvotes.any? { |user_vote| user_vote.votable_id == self.id }
     else
