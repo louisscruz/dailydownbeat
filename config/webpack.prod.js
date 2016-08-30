@@ -29,7 +29,7 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   port: PORT,
   ENV: ENV,
   HMR: false,
-  apiUrl: 'https://198.211.116.68'
+  apiUrl: 'https://dailydownbeat.com'
 });
 
 module.exports = webpackMerge(commonConfig, {
