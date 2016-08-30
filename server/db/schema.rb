@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,63 +10,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324135039) do
+ActiveRecord::Schema.define(version: 20160830181030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
-    t.string   "commentable_type"
-    t.integer  "commentable_id"
-    t.integer  "user_id"
-    t.text     "body"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "points",           default: 0
-    t.integer  "comment_count",    default: 0
+    t.string "commentable_type"
+    t.integer "commentable_id"
+    t.integer "user_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "points", default: 0
+    t.integer "comment_count", default: 0
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   end
-
-  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "url"
-    t.integer  "user_id"
-    t.integer  "points",        default: 0
-    t.integer  "comment_count", default: 0
-    t.string   "kind",          default: "post"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.integer "user_id"
+    t.integer "points", default: 0
+    t.integer "comment_count", default: 0
+    t.string "kind", default: "post"
+    t.index ["kind"], name: "index_posts_on_kind", using: :btree
+    t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
-
-  add_index "posts", ["kind"], name: "index_posts_on_kind", using: :btree
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "username"
-    t.string   "email"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "password_digest"
-    t.string   "auth_token",        default: ""
-    t.string   "confirmation_code"
-    t.boolean  "confirmed",         default: false
-    t.text     "bio"
-    t.boolean  "admin",             default: false
-    t.integer  "points",            default: 0
+    t.string "username"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.string "auth_token", default: ""
+    t.string "confirmation_code"
+    t.boolean "confirmed", default: false
+    t.text "bio"
+    t.boolean "admin", default: false
+    t.integer "points", default: 0
+    t.index ["email", "auth_token"], name: "index_users_on_email_and_auth_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email", "auth_token"], name: "index_users_on_email_and_auth_token", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
-    t.string   "votable_type"
-    t.integer  "votable_id"
-    t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "polarity"
+    t.string "votable_type"
+    t.integer "votable_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "polarity"
+    t.index ["user_id", "polarity"], name: "index_votes_on_user_id_and_polarity", using: :btree
+    t.index ["user_id"], name: "index_votes_on_user_id", using: :btree
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id", using: :btree
   end
-
-  add_index "votes", ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id", using: :btree
 
 end

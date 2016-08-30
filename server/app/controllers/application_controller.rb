@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
   include SessionsHelper
+  serialization_scope :this_user
   before_filter :add_allow_credentials_headers
   protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
 

@@ -3,6 +3,7 @@ class Api::PostsController < ApplicationController
   before_action :authenticate_as_self_or_admin!, only: [:update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy, :upvote, :downvote]
   before_action :set_vote, only: [:unvote]
+  #serialization_scope :this_user
 
   # GET /posts
   def index
@@ -83,5 +84,12 @@ class Api::PostsController < ApplicationController
 
     def set_vote
       @vote = Vote.find_by(votable_id: params[:id], user_id: this_user.id)
+    end
+
+    def add_voting_history
+      @post.each do |post|
+        post.upvoted = false
+        post.downvoted = false
+      end
     end
 end
