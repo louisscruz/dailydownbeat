@@ -25,8 +25,8 @@ class Api::UsersController < ApplicationController
     @user.confirmation_code = SecureRandom.hex
 
     if @user.save
-      UserMailer.welcome(@user).deliver_later!(wait: 5.minutes)
       UserMailer.confirm(@user).deliver_now
+      UserMailer.welcome(@user).deliver_later!(wait: 5.minutes)
       log_in @user
       render json: @user, status: :created
     else
