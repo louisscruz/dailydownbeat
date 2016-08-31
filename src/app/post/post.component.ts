@@ -52,6 +52,7 @@ export class PostDetail {
   private comments: Array<any>;
   private loadingComments: boolean = false;
   private addingComment: boolean = false;
+  private sendingVote: number = null;
 
   constructor(
     private _router: Router,
@@ -184,6 +185,85 @@ export class PostDetail {
         () => console.log('error confirming modal')
       )
     });
+  }
+
+  handleUpvote(post: Post) {
+    return post.upvoted ? this.unvote(post, 1) : this.upvote(post);
+  }
+
+  handleDownvote(post: Post) {
+    return post.downvoted ? this.unvote(post, -1) : this.downvote(post);
+  }
+
+  upvote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.upvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully upvoted post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.downvoted ? post.points += 2 : post.points++;
+        post.upvoted = true;
+        post.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        console.log(body['user'])
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status === 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  downvote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.downvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully downvoted post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.upvoted ? post.points -= 2 : post.points--;
+        post.downvoted = true;
+        post.upvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status == 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  unvote(post: Post, polarity: number) {
+    this.sendingVote = post.id;
+    this._postService.unvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Vote successfully updated!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.points -= polarity;
+        post.upvoted = false;
+        post.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
   }
 
   ngOnChanges() {

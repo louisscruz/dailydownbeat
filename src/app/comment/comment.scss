@@ -19,6 +19,13 @@
     align-items: center;
     .vote-block {
       width: 27px;
+      text-align: center;
+      &.disabled a {
+        color: gray;
+      }
+      a.active {
+        color: #f0ad4e;
+      }
     }
     .info-block {
       flex-grow: 1;

@@ -1,6 +1,6 @@
 class Api::CommentsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
-  before_action :set_comment, only: [:show, :update, :destroy]
+  before_action :set_comment, only: [:show, :update, :destroy, :upvote, :downvote, :unvote]
   before_action :set_vote, only: [:unvote]
   wrap_parameters :comment, include: [:body, :commentable_id, :commentable_type, :user_id]
   #wrap_parameters :user, include: [:username, :email, :password, :password_confirmation]

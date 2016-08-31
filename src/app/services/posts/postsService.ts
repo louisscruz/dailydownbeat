@@ -38,12 +38,16 @@ export class PostService {
   }
 
   getPost(id: number | string) {
-    return this.http.get(this.apiUrl + '/api/posts/' + id)
+    return this.http.get(this.apiUrl + '/api/posts/' + id, {
+      headers: this.generateHeaders()
+    })
     .map(res => res.json());
   }
 
   getPostComments(id: number | string) {
-    return this.http.get(this.apiUrl + '/api/posts/' + id + '/comments')
+    return this.http.get(this.apiUrl + '/api/posts/' + id + '/comments', {
+      headers: this.generateHeaders()
+    })
     .map(res => res.json());
   }
 

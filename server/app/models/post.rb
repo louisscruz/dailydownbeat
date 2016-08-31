@@ -34,9 +34,6 @@ class Post < ApplicationRecord
     user.update_attribute :points, new_points
   end
 
-  #def default_ask_url
-    #self.url = "http://dailydownbeat.com/posts/" + self.id.to_s if self.kind == "ask"
-  #end
   def ask_post?
     self.kind == "ask"
   end

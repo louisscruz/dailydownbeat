@@ -57,21 +57,21 @@ export class CommentService {
   }
 
   upvote(comment: Comment) {
-    return this.http.post(this.apiUrl + '/api/posts/' + comment.id + '/upvote', {}, {
+    return this.http.post(this.apiUrl + '/api/comments/' + comment.id + '/upvote', {}, {
       headers: this.generateHeaders()
     })
     .map(res => res.json());
   }
 
   downvote(comment: Comment) {
-    return this.http.post(this.apiUrl + '/api/posts/' + comment.id + '/downvote', {}, {
+    return this.http.post(this.apiUrl + '/api/comments/' + comment.id + '/downvote', {}, {
       headers: this.generateHeaders()
     })
     .map(res => res.json());
   }
 
   unvote(comment: Comment) {
-    return this.http.post(this.apiUrl + '/api/posts/' + comment.id + '/unvote', {}, {
+    return this.http.post(this.apiUrl + '/api/comments/' + comment.id + '/unvote', {}, {
       headers: this.generateHeaders()
     });
   }

@@ -112,8 +112,11 @@ export class Posts {
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
         let body = JSON.parse(err._body);
         console.log(body['user'])
-        if (body['user'][0] === 'must be confirmed to make posts.') {
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
           alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status === 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
         }
         this._alertService.addAlert(alert);
         this.sendingVote = null;
@@ -135,10 +138,12 @@ export class Posts {
         console.log(err);
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
         let body = JSON.parse(err._body);
-        console.log(body['user'])
-        //if (body['user'][0] === 'must be confirmed to make posts.') {
-          //alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
-        //}
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status == 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
+        }
         this._alertService.addAlert(alert);
         this.sendingVote = null;
       }

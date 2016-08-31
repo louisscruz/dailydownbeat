@@ -7,6 +7,7 @@
       <a *ngIf="!_authService.isSelf(comment.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)" (click)="handleDownvote(comment)" [class.active]="_authService.currentUser && comment.downvoted">
         <i class="fa fa-angle-down fa-fw fa-lg"></i>
       </a>
+      <i *ngIf="_authService.isSelf(comment.user.id)" class="fa fa-arrow-circle-right fa-fw"></i>
     </div>
     <div class="info-block">
       <p>{{comment.body}}</p>
