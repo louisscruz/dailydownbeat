@@ -90,11 +90,21 @@ export class Posts {
   }
 
   handleUpvote(post: Post) {
-    return post.upvoted ? this.unvote(post, 1) : this.upvote(post);
+    if (this._authService.currentUser) {
+      post.upvoted ? this.unvote(post, 1) : this.upvote(post);
+    } else {
+      let alert = new AlertNotification('You have to be logged in to vote!', 'warning');
+      this._alertService.addAlert(alert);
+    }
   }
 
   handleDownvote(post: Post) {
-    return post.downvoted ? this.unvote(post, -1) : this.downvote(post);
+    if (this._authService.currentUser) {
+      post.downvoted ? this.unvote(post, -1) : this.downvote(post);
+    } else {
+      let alert = new AlertNotification('You have to be logged in to vote!', 'warning');
+      this._alertService.addAlert(alert);
+    }
   }
 
   upvote(post: Post) {

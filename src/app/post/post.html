@@ -7,7 +7,7 @@
       <button class="btn btn-secondary btn-sm" [class.active]="_authService.currentUser && post.upvoted" (click)="handleUpvote(post)">
         <i class="fa fa-chevron-up fa-fw"></i>
       </button>
-      <button class="btn btn-secondary btn-sm" [class.active]="_authService.currentUser && post.downvoted" *ngIf="_authService.currentUser.points > 49" (click)="handleDownvote(post)">
+      <button class="btn btn-secondary btn-sm" [class.active]="_authService.currentUser && post.downvoted" *ngIf="_authService.currentUser && _authService.currentUser.points > 49" (click)="handleDownvote(post)">
         <i class="fa fa-chevron-down fa-fw"></i>
       </button>
     </div>
@@ -46,18 +46,12 @@
               <i class="fa fa-gear fa-fw"></i>
             </a>
             <ul *ngIf="_authService.currentUser" class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
-              <li *ngIf="!_authService.isSelf(post.user.id)">
-                <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+              <li>
+                <a class="dropdown-item" (click)="toggleEdit()"><i class="fa fa-pencil fa-fw"></i> Edit</a>
               </li>
-              <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
-                <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
-                <li>
-                  <a class="dropdown-item" (click)="toggleEdit()"><i class="fa fa-pencil fa-fw"></i> Edit</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
-                </li>
-              </template>
+              <li>
+                <a class="dropdown-item" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+              </li>
             </ul>
           </span>
           <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" *ngIf="_authService.currentUser && !_authService.isSelf(post.user.id)">
@@ -68,15 +62,6 @@
               <li *ngIf="!_authService.isSelf(post.user.id)">
                 <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
               </li>
-              <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
-                <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
-                <li>
-                  <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-pencil fa-fw"></i> Edit</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
-                </li>
-              </template>
             </ul>
           </span>
         </div>

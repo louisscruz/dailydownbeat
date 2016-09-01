@@ -67,6 +67,16 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal update_params[:url], @user_post.url
   end
 
+  test "should succesfully put a valid edit post by admin user" do
+    post api_login_url, params: { session: @credentials }
+    @admin_user.reload
+    update_params = { title: "new title", url: "http://www.google2.com" }
+    put "/api/posts/" + @user_post.id.to_s, params: { post: update_params }, headers: { "Authorization" => @admin_user.auth_token }
+    @user_post.reload
+    assert_equal update_params[:title], @user_post.title
+    assert_equal update_params[:url], @user_post.url
+  end
+
   test "should not put a valid edit post by an improper user" do
     post api_login_url, params: { session: @credentials }
     @user.reload
