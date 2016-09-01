@@ -39,7 +39,10 @@
         <li class="nav-item">
           <div dropdown (on-toggle)="toggled($event)" *ngIf="_authService.currentUser">
             <ul class="nav navbar-nav">
-              <a href id="account-dropdown" class="nav-link" dropdownToggle><i class="fa fa-user"></i> {{_authService.currentUser.username}}</a>
+              <a href id="account-dropdown" class="nav-link" dropdownToggle><i class="fa fa-user"></i>
+                {{_authService.currentUser.username}}
+                <i class="fa fa-caret-down"></i>
+              </a>
             </ul>
             <ul class="dropdown-menu" aria-labelledby="account-dropdown">
               <li>

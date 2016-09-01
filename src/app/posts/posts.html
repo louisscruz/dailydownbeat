@@ -21,8 +21,13 @@
           <i *ngIf="_authService.isSelf(post.user.id)" class="fa fa-arrow-circle-right fa-fw"></i>
         </div>
         <div class="info-block">
-          <p *ngIf="post.url"><a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a></p>
-          <p *ngIf="!post.url"><a [routerLink]=" ['./post', post.id] ">{{post.title}}</a></p>
+          <p *ngIf="post.url">
+            <a href="{{post.url}}" target="_blank" class="title">{{post.title}}</a>
+            <small><hostname [url]="post.url"></hostname></small>
+          </p>
+          <p *ngIf="!post.url">
+            <a [routerLink]=" ['./post', post.id] ">{{post.title}}</a>
+          </p>
           <span>
             <small>
               {{post.points}} points by

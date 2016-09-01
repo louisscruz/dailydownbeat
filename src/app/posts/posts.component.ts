@@ -5,8 +5,9 @@ import { CORE_DIRECTIVES } from '@angular/common';
 import { FORM_DIRECTIVES } from '@angular/forms';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
-import { PagerComponent } from '../directives/pager/pager.component';
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
+import { Hostname } from '../directives/hostname/hostname.component';
+import { PagerComponent } from '../directives/pager/pager.component';
 import { Pluralize } from '../directives/pluralize/pluralize';
 
 import { AlertService } from '../services/alerts/alertsService';
@@ -23,7 +24,15 @@ import { flagContent, deleteContent } from '../modal/modalPresets';
 @Component({
   selector: 'posts',
   template: require('./posts.html'),
-  directives: [ PagerComponent, CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink, DROPDOWN_DIRECTIVES, Pluralize ],
+  directives: [
+    PagerComponent,
+    CORE_DIRECTIVES,
+    FORM_DIRECTIVES,
+    RouterLink,
+    DROPDOWN_DIRECTIVES,
+    Hostname,
+    Pluralize
+  ],
   pipes: [ TimeSincePipe ],
   styles: [ require('./posts.scss') ]
 })

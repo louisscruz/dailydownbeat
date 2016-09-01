@@ -30,6 +30,22 @@ ul {
   list-style-type: none;
 }
 
+.hostname {
+  color: #808080;
+  font-size: 0.8rem;
+}
+
+.fa-arrow-circle-right {
+  color: #5cb85c;
+}
+
+.dropdown-toggle {
+  &:after {
+    content: none;
+    border: none;
+  }
+}
+
 main {
   margin-top: 60px;
   //min-height: 100vh;

@@ -11,6 +11,7 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { DROPDOWN_DIRECTIVES } from '../directives/dropdown';
 import { Collapse } from '../directives/collapse/collapse';
+import { Hostname } from '../directives/hostname/hostname.component';
 import { Pluralize } from '../directives/pluralize/pluralize';
 
 import { Post } from '../datatypes/post/post';
@@ -36,6 +37,7 @@ import { TimeSincePipe } from '../pipes/timeSince';
     REACTIVE_FORM_DIRECTIVES,
     Collapse,
     CommentDetail,
+    Hostname,
     Pluralize
   ],
   pipes: [ OrderBy, TimeSincePipe ],
