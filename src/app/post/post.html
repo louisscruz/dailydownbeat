@@ -13,53 +13,104 @@
     </div>
     <div class="text-xs-center info">
       <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
-      <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.currentUser">
-        <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <ul *ngIf="_authService.currentUser" class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
-          <li *ngIf="!_authService.isSelf(post.user.id)">
-            <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
-          </li>
-          <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
-            <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
-            <li>
-              <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-pencil fa-fw"></i> Edit</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
-            </li>
-          </template>
-        </ul>
-      </span>
     </div>
-    <ul class="comments">
-      <h5 class="text-xs-center">Comments</h5>
-      <div class="add-comment text-xs-center">
-        <a type="button" class="btn btn-success-outline btn-sm" [class.active]="!isCollapsed" (click)="isCollapsed = !isCollapsed"><i class="fa fa-plus fa-fw"></i> Add Comment</a>
+  </div>
+  <form class="col-xs-12 col-lg-8 col-lg-offset-2" *ngIf="editing" [formGroup]="editPostForm" (ngSubmit)="updatePost()">
+    <h3 class="text-xs-center">Edit Post</h3>
+    <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
+      <label for="title" class="form-control-label">Title</label>
+      <input type="text" id="title" placeholder="Title" [formControl]="editPostForm.controls['title']" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" minlength="5" maxlength="80" required>
+      <div *ngIf="editPostForm.find('title').touched" class="text-help">
+        <div *ngIf="title.hasError('required')">Title Required</div>
+        <div *ngIf="title.hasError('minlength')">5 Characters Required</div>
       </div>
-      <div [collapse]="isCollapsed">
-        <div class="well well-lg">
-          <form class="text-xs-right" [formGroup]="addCommentForm" (ngSubmit)="addComment(comment.value, 'Post', post.id, 1)">
-            <fieldset class="form-group" [class.has-danger]="!comment.valid && comment.touched">
-              <textarea class="form-control" [formControl]="addCommentForm.find('comment')" minlength="5" maxlength="8000" required></textarea>
-              <div *ngIf="comment.touched" class="text-help">
-                <div *ngIf="comment.hasError('required')">Comment Body Required</div>
-                <div *ngIf="comment.hasError('minlength')">
-                  <pluralize [count]="5 - comment.value.length" [when]="{'one': '1 More Character', 'other': '{} More Characters'}"></pluralize>
-                  Required
-                </div>
-              </div>
-            </fieldset>
-            <button class="btn btn-secondary" type="button" (click)="closeCommentForm()">Cancel</button>
-            <button class="btn btn-primary" type="submit" [disabled]="!addCommentForm.valid">
-              Comment
-              <i *ngIf="addingComment" class="fa fa-circle-o-notch fa-spin"></i>
-            </button>
-          </form>
+    </fieldset>
+    <fieldset class="form-group" [class.has-success]="url.valid && url.touched" [class.has-danger]="!url.valid && url.touched">
+      <label for="url" class="form-control-label">Link</label>
+      <input type="text" id="url" placeholder="Link" [formControl]="editPostForm.controls['url']" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid" minlength="5" maxlength="80" required>
+      <div *ngIf="url.touched" class="text-help">
+        <div *ngIf="url.hasError('required')">Title Required</div>
+      </div>
+    </fieldset>
+    <div class="pull-sm-right">
+      <button type="reset" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!editPostForm.valid || (post.title === title.value && post.url === url.value)">Save</button>
+    </div>
+  </form>
+  <div class="col-xs-12 col-lg-8 col-lg-offset-2" *ngIf="post && !editing">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="pull-xs-right">
+          <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" *ngIf="_authService.isSelf(post.user.id) || _authService.adminMode">
+            <a id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
+              <i class="fa fa-gear fa-fw"></i>
+            </a>
+            <ul *ngIf="_authService.currentUser" class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+              <li *ngIf="!_authService.isSelf(post.user.id)">
+                <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+              </li>
+              <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
+                <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
+                <li>
+                  <a class="dropdown-item" (click)="toggleEdit()"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                </li>
+              </template>
+            </ul>
+          </span>
+          <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" *ngIf="_authService.currentUser && !_authService.isSelf(post.user.id)">
+            <a href id="options-dropdown" class="btn btn-secondary btn-sm" dropdownToggle>
+              <i class="fa fa-chevron-down fa-fw"></i>
+            </a>
+            <ul *ngIf="_authService.currentUser" class="dropdown-menu dropdown-menu-right" aria-labelledby="edit-dropdown">
+              <li *ngIf="!_authService.isSelf(post.user.id)">
+                <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
+              </li>
+              <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
+                <div *ngIf="!_authService.isSelf(post.user.id)" class="dropdown-divider"></div>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(post)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+                </li>
+              </template>
+            </ul>
+          </span>
         </div>
       </div>
-      <div class="text-xs-center" *ngIf="loadingComments"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-lg-8 col-lg-offset-2" *ngIf="post">
+    <h5 class="text-xs-center">Comments</h5>
+    <div class="add-comment text-xs-center">
+      <a type="button" class="btn btn-success-outline btn-sm" [class.active]="!isCollapsed" (click)="isCollapsed = !isCollapsed"><i class="fa fa-plus fa-fw"></i> Add Comment</a>
+    </div>
+    <div [collapse]="isCollapsed">
+      <div class="well well-lg">
+        <form class="text-xs-right" [formGroup]="addCommentForm" (ngSubmit)="addComment(comment.value, 'Post', post.id, 1)">
+          <fieldset class="form-group" [class.has-danger]="!comment.valid && comment.touched">
+            <textarea class="form-control" [formControl]="addCommentForm.find('comment')" minlength="5" maxlength="8000" required></textarea>
+            <div *ngIf="comment.touched" class="text-help">
+              <div *ngIf="comment.hasError('required')">Comment Body Required</div>
+              <div *ngIf="comment.hasError('minlength')">
+                <pluralize [count]="5 - comment.value.length" [when]="{'one': '1 More Character', 'other': '{} More Characters'}"></pluralize>
+                Required
+              </div>
+            </div>
+          </fieldset>
+          <button class="btn btn-secondary" type="button" (click)="closeCommentForm()">Cancel</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!addCommentForm.valid">
+            Comment
+            <i *ngIf="addingComment" class="fa fa-circle-o-notch fa-spin"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="text-xs-center" *ngIf="loadingComments"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+    <ul>
       <li *ngFor="let comment of comments | orderBy: ['-created_at']">
         <comment [comment]="comment" [replyOpen]="_commentService.replyOpen" (deleteEvent)="removeComment($event)"></comment>
       </li>

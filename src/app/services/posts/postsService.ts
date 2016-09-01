@@ -58,6 +58,13 @@ export class PostService {
     .map(res => res.json());
   }
 
+  updatePost(post: { id: number | string, title: string, url: string }) {
+    return this.http.put(this.apiUrl + '/api/posts/' + post.id, post, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
+  }
+
   deletePost(post: Post) {
     return this.http.delete(this.apiUrl + '/api/posts/' + post.id, {
       headers: this.generateHeaders()

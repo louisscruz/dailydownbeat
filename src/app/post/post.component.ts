@@ -45,6 +45,9 @@ import { TimeSincePipe } from '../pipes/timeSince';
 })
 
 export class PostDetail {
+  private editPostForm: FormGroup;
+  private title: AbstractControl;
+  private url: AbstractControl;
   private addCommentForm: FormGroup;
   public isCollapsed: boolean = true;
   private post: Post;
@@ -53,6 +56,8 @@ export class PostDetail {
   private loadingComments: boolean = false;
   private addingComment: boolean = false;
   private sendingVote: number = null;
+  private sendingEdit: boolean = false;
+  private editing: boolean = false;
 
   constructor(
     private _router: Router,
@@ -63,6 +68,12 @@ export class PostDetail {
     private _commentService: CommentService,
     private modal: Modal
   ) {
+    this.editPostForm = new FormGroup({
+      title: new FormControl(),
+      url: new FormControl()
+    });
+    this.title = this.editPostForm.find('title');
+    this.url = this.editPostForm.find('url');
     this.addCommentForm = new FormGroup({
       comment: new FormControl()
     });
@@ -266,12 +277,39 @@ export class PostDetail {
     );
   }
 
-  ngOnChanges() {
-    this.loadingComments = true;
+  toggleEdit(): void {
+    if (!this.editing) {
+      (<FormControl>this.editPostForm.find('title')).updateValue(this.post.title);
+      (<FormControl>this.editPostForm.find('url')).updateValue(this.post.url);
+    }
+    this.editing = !this.editing;
+  }
+
+  updatePost() {
+    this.sendingEdit = true;
+    let updatedPost = { id: this.post.id, title: this.title.value, url: this.url.value };
+    this._postService.updatePost(updatedPost).subscribe(
+      res => {
+        this.post = res;
+        let alert = new AlertNotification('Succesfully updated post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        this.resetEditForm();
+        this.sendingEdit = false;
+      }, err => {
+        let alert = new AlertNotification('There was an error updating your post.', 'danger');
+        this._alertService.addAlert(alert);
+        this.sendingEdit = false;
+      }
+    )
+  }
+
+  resetEditForm() {
+    this.editing = false;
+    (<FormControl>this.title).updateValue('');
+    (<FormControl>this.url).updateValue('');
   }
 
   ngOnInit() {
-    //this.loadingComments = true;
     this._activatedRoute.params.subscribe(params => {
       let id = +params['id'];
       this._postService.getPost(id)

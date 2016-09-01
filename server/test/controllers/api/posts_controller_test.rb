@@ -19,6 +19,8 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     post api_login_url, params: { session: @credentials }
   end
 
+  # Get
+
   test "should default to first page" do
     get api_posts_url
     assert_response :success
@@ -40,6 +42,51 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @remainder, body.length
   end
 
+  # Post
+
+  test "should succesfully post a valid post" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    post_params = { title: "new title", url: "http://www.google2.com" }
+    put "/api/posts/" + @user_post.id.to_s, params: { post: post_params }, headers: { "Authorization" => @user.auth_token }
+    returned_post = JSON.parse(response.body)
+    assert_equal post_params[:title], returned_post["title"]
+    assert_equal post_params[:url], returned_post["url"]
+  end
+
+
+  # Put
+
+  test "should succesfully put a valid edit post by proper user" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    update_params = { title: "new title", url: "http://www.google2.com" }
+    put "/api/posts/" + @user_post.id.to_s, params: { post: update_params }, headers: { "Authorization" => @user.auth_token }
+    @user_post.reload
+    assert_equal update_params[:title], @user_post.title
+    assert_equal update_params[:url], @user_post.url
+  end
+
+  test "should not put a valid edit post by an improper user" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    update_params = { title: "new title", url: "http://www.google2.com" }
+    put "/api/posts/" + @admin_post.id.to_s, params: { post: update_params }, headers: { "Authorization" => @user.auth_token }
+    @admin_post.reload
+    assert_response 401
+  end
+
+  test "should not put an invalid edit post by proper user" do
+    post api_login_url, params: { session: @credentials }
+    @user.reload
+    update_params = { title: "new title", url: "http" }
+    put "/api/posts/" + @user_post.id.to_s, params: { post: update_params }, headers: { "Authorization" => @user.auth_token }
+    @user_post.reload
+    assert_response 422
+  end
+
+  # Delete
+
   test "should not allow a non-admin user to delete other peoples' posts" do
     post api_login_url, params: { session: @credentials }
     @user.reload
@@ -60,6 +107,8 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
     delete "/api/posts/" + @user_post.id.to_s, headers: { "Authorization" => @admin_user.auth_token }
     assert_response 204
   end
+
+  # Votes
 
   test "should successfully save a valid upvote" do
     post api_login_url, params: { session: @credentials }
