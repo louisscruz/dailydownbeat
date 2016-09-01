@@ -33,6 +33,9 @@
     }
   }
   .dropdown-toggle {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    padding: 0rem;
     &:after {
       content: none;
       border: none;
