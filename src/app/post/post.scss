@@ -1,6 +1,27 @@
 .post {
-  .info {
-    margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .expander {
+    flex: 1;
+  }
+  .voting-block {
+    width: 27px;
+    text-align: center;
+    margin: 1rem;
+    a.active {
+      color: #f0ad4e;
+    }
+    p {
+      margin-bottom: 0rem;
+    }
+  }
+  .info-block {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .comments {
     padding-left: 0px;
@@ -17,4 +38,8 @@
       border: none;
     }
   }
+}
+
+.add-comment {
+  margin-bottom: 1rem;
 }

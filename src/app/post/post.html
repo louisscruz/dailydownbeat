@@ -1,20 +1,27 @@
 <div class="row">
   <div class="col-xs-12 col-lg-8 col-lg-offset-2 post" *ngIf="post">
-    <h6 class="text-xs-center">
-      <a href="{{post.url}}" target="_blank">{{post.title}}</a>
-    </h6>
+    <div class="expander"></div>
     <div class="voting-block" *ngIf="!_authService.isSelf(post.user.id)">
-      <button class="btn btn-secondary btn-sm" [class.active]="_authService.currentUser && post.upvoted" (click)="handleUpvote(post)">
+      <a [class.active]="_authService.currentUser && post.upvoted" (click)="handleUpvote(post)">
         <i class="fa fa-chevron-up fa-fw"></i>
-      </button>
-      <button class="btn btn-secondary btn-sm" [class.active]="_authService.currentUser && post.downvoted" *ngIf="_authService.currentUser && _authService.currentUser.points > 49" (click)="handleDownvote(post)">
+      </a>
+      <p>{{post.points}}</p>
+      <a [class.active]="_authService.currentUser && post.downvoted" *ngIf="_authService.currentUser && _authService.currentUser.points > 49" (click)="handleDownvote(post)">
         <i class="fa fa-chevron-down fa-fw"></i>
-      </button>
+      </a>
     </div>
-    <div class="text-xs-center info">
+    <div class="info-block">
+      <h5 class="text-xs-center">
+        <a href="{{post.url}}" target="_blank">{{post.title}}</a>
+        <!--small>test</small-->
+      </h5>
       <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
     </div>
+    <div class="expander"></div>
   </div>
+</div>
+
+<div class="row">
   <form class="col-xs-12 col-lg-8 col-lg-offset-2" *ngIf="editing" [formGroup]="editPostForm" (ngSubmit)="updatePost()">
     <h3 class="text-xs-center">Edit Post</h3>
     <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
