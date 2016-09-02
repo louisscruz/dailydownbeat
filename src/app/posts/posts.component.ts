@@ -187,7 +187,7 @@ export class Posts {
     );
   }
 
-  openFlagModal(post: Post) {
+  /*openFlagModal(post: Post) {
     let preset = flagContent(this.modal, post.title, (<any>post.user).username);
     let dialog = preset.open();
     dialog.then((resultPromise) => {
@@ -206,7 +206,7 @@ export class Posts {
         }, () => console.log('error confirming modal')
       )
     });
-  }
+  }*/
 
   openDeleteModal(post: Post) {
     let preset = deleteContent(this.modal, post.title, (<any>post.user).username);

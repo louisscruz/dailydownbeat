@@ -44,9 +44,9 @@
                   <li role="menuitem">
                     <a class="dropdown-item" [routerLink]=" ['/post', post.id ]"><i class="fa fa-comment fa-fw"></i> Comment</a>
                   </li>
-                  <li *ngIf="_authService.currentUser" role="menuitem">
+                  <!--li *ngIf="_authService.currentUser" role="menuitem">
                     <a class="dropdown-item" (click)="openFlagModal(post)"><i class="fa fa-flag fa-fw"></i> Flag</a>
-                  </li>
+                  </li-->
                   <template [ngIf]="_authService.adminMode || _authService.isSelf(post.user.id)">
                     <div class="dropdown-divider"></div>
                     <li role="menuitem">

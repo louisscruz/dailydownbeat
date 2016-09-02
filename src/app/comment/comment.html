@@ -45,11 +45,11 @@
           <i class="fa fa-chevron-down fa-fw"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
-          <li role="menuitem">
+          <!--li role="menuitem">
             <a class="dropdown-item" href="javascript:void(0)" (click)="openFlagModal(comment)"><i class="fa fa-flag fa-fw"></i> Flag</a>
-          </li>
+          </li-->
           <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
-            <div class="dropdown-divider"></div>
+            <!--div class="dropdown-divider"></div-->
             <li>
               <a class="dropdown-item" (click)="toggleEdit()"><i class="fa fa-pencil fa-fw"></i> Edit</a>
             </li>
