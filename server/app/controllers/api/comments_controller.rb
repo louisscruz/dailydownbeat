@@ -1,5 +1,6 @@
 class Api::CommentsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
+  before_action :authenticate_as_self_or_admin!, only: [:update, :destroy]
   before_action :set_comment, only: [:show, :update, :destroy, :upvote, :downvote, :unvote]
   before_action :set_vote, only: [:unvote]
   wrap_parameters :comment, include: [:body, :commentable_id, :commentable_type, :user_id]
@@ -37,10 +38,17 @@ class Api::CommentsController < ApplicationController
     end
   end
 
-  def destroy
-    if @comment.destroy
-      render status: :ok, json: @comment
+  # PUT/PATCH ../comments/1
+  def update
+    if @comment.update(comment_params)
+      render json: @comment
+    else
+      render json: @comment.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @comment.destroy
   end
 
   def vote(polarity)
