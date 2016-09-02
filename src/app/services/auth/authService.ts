@@ -84,7 +84,6 @@ export class AuthService {
 
   login(user) {
     let headers = this.generateHeaders();
-    console.log(headers);
     return this.authHttp.post(this.apiUrl + '/api/login', JSON.stringify(user), {
       headers: headers
     })
