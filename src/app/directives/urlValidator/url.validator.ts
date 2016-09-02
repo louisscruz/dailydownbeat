@@ -1,15 +1,5 @@
 import { Directive, forwardRef } from '@angular/core';
-import { NG_VALIDATORS, FormControl } from '@angular/forms';
-
-function validateUrlFactory(/*emailBlackList: EmailBlackList*/) {
-  return (c: FormControl) => {
-    let URL_REGEXP = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-
-    if (c.value.length > 0 && !URL_REGEXP.test(c.value)) {
-      return { invalidUrl: true }
-    }
-  }
-}
+import { NG_VALIDATORS, FormControl, AbstractControl } from '@angular/forms';
 
 @Directive({
   selector: '[validateUrl][ngModel], [validateUrl][formControl]',
@@ -19,13 +9,10 @@ function validateUrlFactory(/*emailBlackList: EmailBlackList*/) {
 })
 export class UrlValidator {
 
-  validator: Function;
-
-  constructor(/*emailBlacklist: EmailBlackList*/) {
-    this.validator = validateUrlFactory(/*emailBlackList*/);
-  }
-
-  validate(c: FormControl) {
-    return this.validator(c);
+  validate(control: AbstractControl): { [key: string]: any } {
+    let URL_REGEXP = /^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    if ((control.value && control.value.length > 0) && !URL_REGEXP.test(control.value)) {
+      return { invalidUrl: true }
+    }
   }
 }
