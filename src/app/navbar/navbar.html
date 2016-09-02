@@ -78,7 +78,7 @@
           <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
         </li>
         <li class="nav-item" *ngIf="_authService.currentUser" (click)="collapse()" >
-          <a class="nav-link" (click)="addPost()"><i class="fa fa-pencil fa-fw"></i> Add Post</a>
+          <a class="nav-link" [routerLink]=" ['./add_post'] "><i class="fa fa-pencil fa-fw"></i> Add Post</a>
         </li>
       </ul>
     </div>
