@@ -42,6 +42,13 @@ export class CommentService {
     .map(res => res.json());
   }
 
+  updateComment(comment: { id: number | string, body: string }) {
+    return this.http.put(this.apiUrl + '/api/comments/' + comment.id, comment, {
+      headers: this.generateHeaders()
+    })
+    .map(res => res.json());
+  }
+
   deletePostComment(comment: Comment) {
     return this.http.delete(this.apiUrl + '/api/comments/' + comment.id, {
       headers: this.generateHeaders()

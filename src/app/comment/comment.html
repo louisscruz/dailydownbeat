@@ -10,7 +10,24 @@
       <i *ngIf="_authService.isSelf(comment.user.id)" class="fa fa-arrow-circle-right fa-fw"></i>
     </div>
     <div class="info-block">
-      <p>{{comment.body}}</p>
+      <div>
+        <div *ngIf="!editing">
+          <p>{{comment.body}}</p>
+        </div>
+        <form *ngIf="editing" [formGroup]="commentEditForm" (submit)="updateComment()">
+          <fieldset class="form-group" [class.has-success]="commentEditForm.find('body').valid && commentEditForm.find('body').touched" [class.has-danger]="!commentEditForm.find('body').valid && commentEditForm.find('body').touched">
+            <textarea type="text" placeholder="Comment Body" [formControl]="commentEditForm.controls['body']" class="form-control" [class.form-control-success]="commentEditForm.find('body').valid" [class.form-control-danger]="!commentEditForm.find('body').valid" minlength="5" maxlength="8000" required></textarea>
+            <div *ngIf="body.touched" class="text-help">
+              <div *ngIf="body.hasError('required')">Comment Body Required</div>
+              <div *ngIf="body.hasError('minlength')">5 Characters Required</div>
+            </div>
+          </fieldset>
+          <div class="text-xs-right">
+            <button class="btn btn-secondary btn-sm" type="reset" (click)="toggleEdit()">Cancel</button>
+            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!commentEditForm.valid">Save</button>
+          </div>
+        </form>
+      </div>
       <small>
         <pluralize [count]="comment.points" [when]="{'-1': '-1 point', 'one': '1 point', 'other': '{} points'}"></pluralize>
         by
@@ -34,10 +51,10 @@
           <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
             <div class="dropdown-divider"></div>
             <li>
-              <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+              <a class="dropdown-item" (click)="toggleEdit()"><i class="fa fa-pencil fa-fw"></i> Edit</a>
             </li>
             <li>
-              <a class="dropdown-item" href="javascript:void(0)" (click)="openDeleteModal(comment)"><i class="fa fa-trash fa-fw"></i> Delete</a>
+              <a class="dropdown-item" (click)="openDeleteModal(comment)"><i class="fa fa-trash fa-fw"></i> Delete</a>
             </li>
           </template>
         </ul>

@@ -46,12 +46,15 @@ export class CommentDetail {
   @Input() comment;
   @Input() replyOpen;
   @Output() deleteEvent = new EventEmitter();
+  private commentEditForm: FormGroup;
+  private body: AbstractControl;
   private replyForm: FormGroup;
   private reply: AbstractControl;
   private isCollapsed: boolean = true;
   private replyCollapsed: boolean = true;
   private replySending: boolean = false;
   private sendingVote: number = null;
+  private editing: boolean = false;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -62,6 +65,11 @@ export class CommentDetail {
     private cd: ChangeDetectorRef,
     private modal: Modal
   ) {
+    this.commentEditForm = new FormGroup({
+      body: new FormControl()
+    });
+    this.body = this.commentEditForm.find('body');
+
     this.replyForm = new FormGroup({
       reply: new FormControl()
     });
@@ -259,5 +267,31 @@ export class CommentDetail {
         this.sendingVote = null;
       }
     );
+  }
+
+  toggleEdit(): void {
+    if (!this.editing) {
+      (<FormControl>this.body).updateValue(this.comment.body);
+    }
+    this.editing = !this.editing;
+  }
+
+  updateComment() {
+    let comment = {
+      id: this.comment.id,
+      body: this.body.value
+    }
+    this._commentService.updateComment(comment).subscribe(
+      res => {
+        this.comment = res;
+        this.editing = false;
+        let alert = new AlertNotification('Comment successfully updated!', 'success', 3000);
+        this._alertService.addAlert(alert);
+      }, err => {
+        this.editing = false;
+        let alert = new AlertNotification('There was an error updating that comment.', 'danger');
+        this._alertService.addAlert(alert);
+      }
+    )
   }
 }
