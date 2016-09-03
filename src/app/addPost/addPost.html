@@ -7,10 +7,10 @@
           <label class="form-control-label">Type of Post:</label>
         </div>
         <div class="btn-group">
-          <label class="btn btn-success" [class.active]="type === 'Post'" (click)="type = 'Post'">Post</label>
-          <label class="btn btn-success" [class.active]="type === 'Show DD'" (click)="type = 'Show DD'">Show</label>
-          <label class="btn btn-success" [class.active]="type === 'Ask DD'" (click)="type = 'Ask DD'">Ask</label>
-          <label class="btn btn-success" [class.active]="type === 'Job'" (click)="type = 'Job'">Job</label>
+          <label class="btn btn-success" [class.active]="type === 'Post'" (click)="setType('Post')">Post</label>
+          <label class="btn btn-success" [class.active]="type === 'Show DD'" (click)="setType('Show DD')">Show</label>
+          <label class="btn btn-success" [class.active]="type === 'Ask DD'" (click)="setType('Ask DD')">Ask</label>
+          <label class="btn btn-success" [class.active]="type === 'Job'" (click)="setType('Job')">Job</label>
         </div>
         <p class="card card-block" *ngIf="type === 'Post'">Regular posts are for sharing links with the Daily Downbeat community.</p>
         <p class="card card-block" *ngIf="type === 'Show DD'">Show posts are for promoting and sharing content (e.g. compositions, performances) with the Daily Downbeat community.</p>
@@ -35,6 +35,14 @@
           <div *ngIf="url.hasError('required')">Link Required</div>
           <div *ngIf="url.hasError('invalidUrl')">Link Invalid</div>
           <div *ngIf="url.value.slice(0, 4) !== 'http'"><i>(Valid links begin with 'http://' or 'https://')</i></div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group" *ngIf="type !== 'Post'" [class.has-success]="body.valid && body.touched" [class.has-danger]="!body.valid && body.touched">
+        <label for="bodyInput" class="form-control-label">{{bodyLabel}} <small>(<i>Optional</i>)</small></label>
+        <textarea id="bodyInput" [placeholder]="bodyLabel" [formControl]="addPostForm.find('body')" class="form-control" [class.form-control-success]="body.valid" [class.form-control-danger]="!body.valid" maxlength="8000">
+        </textarea>
+        <div *ngIf="body.touched" class="text-help">
+          <div *ngIf="body.hasError('maxlength')">8000 Character Maximum</div>
         </div>
       </fieldset>
       <button type="submit" [disabled]="!addPostForm.valid" class="btn btn-block btn-primary">

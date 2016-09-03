@@ -39,6 +39,9 @@ export class AddPost {
   private type: string = 'Post';
   private title: AbstractControl;
   private url: AbstractControl;
+  private kind: AbstractControl;
+  private body: AbstractControl;
+  private bodyLabel: string;
   private processing: boolean;
 
   constructor(
@@ -50,10 +53,25 @@ export class AddPost {
   ) {
     this.addPostForm = new FormGroup({
       'title': new FormControl(''),
-      'url': new FormControl('')
+      'url': new FormControl(''),
+      'kind': new FormControl(''),
+      'body': new FormControl('')
     });
-    this.title = this.addPostForm.controls['title'];
-    this.url = this.addPostForm.controls['url'];
+    this.title = this.addPostForm.find('title');
+    this.url = this.addPostForm.find('url');
+    this.kind = this.addPostForm.find('kind');
+    this.body = this.addPostForm.find('body');
+  }
+
+  setType(type: string): void {
+    this.type = type;
+    if (type === 'Show DD') {
+      this.bodyLabel = 'Summary';
+    } else if (type === 'Ask DD') {
+      this.bodyLabel = 'Prompt';
+    } else if (type === 'Job') {
+      this.bodyLabel = 'Description';
+    }
   }
 
   addPost() {
@@ -61,7 +79,9 @@ export class AddPost {
     let id = this._authService.currentUser.id;
     this._postService.addPost({
       title: this.title.value,
-      url: this.url.value,
+      url: this.url.value || null,
+      kind: this.type.split(' ')[0].toLowerCase(),
+      body: this.body.value || null,
       user_id: id
     })
     .subscribe(
@@ -93,7 +113,7 @@ export class AddPost {
     );
   }
 
-  openFlagModal(post: Post) {
+  /*openFlagModal(post: Post) {
     let preset = flagContent(this.modal, post.title, (<any>post.user).username);
     let dialog = preset.open();
     dialog.then((resultPromise) => {
@@ -112,7 +132,7 @@ export class AddPost {
         }, () => console.log('error confirming modal')
       )
     });
-  }
+  }*/
 
   openDeleteModal(post: Post) {
     let preset = deleteContent(this.modal, post.title, (<any>post.user).username);
@@ -134,14 +154,13 @@ export class AddPost {
             }
           )
         },
-        () => console.log('error confirming modal')
+        () => {}
       )
     });
   }
 
   ngOnInit() {
     if (!this._authService.currentUser.confirmed) {
-      console.log(this._authService.currentUser)
       let alert = new AlertNotification('You must first confirm your account before making posts. We\'ve sent you an email with a link to take care of this.');
       this._alertService.addAlert(alert);
     }
