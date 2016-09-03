@@ -31,7 +31,7 @@
           <span>
             <small>
               {{post.points}} points by
-              <a [routerLink]=" ['./user', post.user.id ] ">{{post.user.username}}</a>
+              <a [routerLink]=" ['./user', post.user.username ] ">{{post.user.username}}</a>
               {{post.created_at | timeSince}} |
               <a [routerLink]=" ['./post', post.id ] ">
                 <pluralize [count]="post.comment_count" [when]="{'one': '1 comment', 'other': '{} comments'}"></pluralize>

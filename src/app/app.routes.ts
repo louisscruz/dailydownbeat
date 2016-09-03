@@ -32,13 +32,13 @@ export const routes: RouterConfig = [
     component: 'AddPost',
     canActivate: [ AuthGuard ]
   }, {
-    path: 'user/:id',
+    path: 'user/:username',
     component: 'UserDetail',
   }, {
-    path: 'user/:id/confirm/:confirmation_code',
+    path: 'user/:username/confirm/:confirmation_code',
     component: 'Confirm'
   }, {
-    path: 'dashboard/:id',
+    path: 'dashboard/:username',
     component: 'Dashboard',
     canActivate: [ CorrectUserGuard ]
   }, {

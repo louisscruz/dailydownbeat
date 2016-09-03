@@ -67,29 +67,29 @@
                 a comment
               </span>
               by
-              <a [routerLink]="[ '/user', comment.commentable_user.id ]">{{comment.commentable_user.username}}</a>
+              <a [routerLink]="[ '/user', comment.commentable_user.username ]">{{comment.commentable_user.username}}</a>
               | <pluralize [count]="comment.points" [when]="{'-1': '-1 point', 'one': '1 point', 'other': '{} points'}"></pluralize>
             </small>
             <span *ngIf="comment.comment_count">
               <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
             </span>
-            <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
+            <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.adminMode || _authService.isSelf(comment.user.id)">
               <a href id="simple-btn-keyboard-nav" class="btn btn-secondary btn-sm" dropdownToggle>
                 <i class="fa fa-chevron-down fa-fw"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="simple-btn-keyboard-nav">
-                <li role="menuitem">
+                <!--li role="menuitem">
                   <a class="dropdown-item" (click)="openFlagModal(comment)"><i class="fa fa-flag fa-fw"></i> Flag</a>
-                </li>
-                <template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
-                  <div class="dropdown-divider"></div>
+                </li-->
+                <!--template [ngIf]="_authService.adminMode || _authService.isSelf(comment.user.id)">
+                  <div class="dropdown-divider"></div-->
                   <li>
                     <a class="dropdown-item"><i class="fa fa-pencil fa-fw"></i> Edit</a>
                   </li>
                   <li>
                     <a class="dropdown-item" (click)="openDeleteModal(comment)"><i class="fa fa-trash fa-fw"></i> Delete</a>
                   </li>
-                </template>
+                <!--/template-->
               </ul>
             </span>
           </div>

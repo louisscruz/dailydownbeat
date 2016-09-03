@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
   def confirm(user)
     @user = user
-    @url = URLS_CONFIG['base_url'] + '/#/user/' + @user.id.to_s + '/confirm/' + @user.confirmation_code
+    @url = URLS_CONFIG['base_url'] + '/#/user/' + @user.username.to_s + '/confirm/' + @user.confirmation_code
     mail(to: user.email,
          subject: 'Daily Downbeat: Account Confirmation',
          template_path: 'user_mailer',

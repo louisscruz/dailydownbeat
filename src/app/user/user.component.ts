@@ -115,15 +115,15 @@ export class UserDetail {
     }
   }
 
-  getUser(id: number) {
-    this._userService.getUser(id)
+  getUser(username: string) {
+    this._userService.getUser(username)
     .subscribe(
       res => this.user = (<User>res)
     );
   }
 
-  getUserPosts(id: number) {
-    this._userService.getUserPosts(id)
+  getUserPosts(username: string) {
+    this._userService.getUserPosts(username)
     .subscribe(
       res => {
         this.posts = res
@@ -131,8 +131,8 @@ export class UserDetail {
     );
   }
 
-  getUserComments(id: number) {
-    this._userService.getUserComments(id)
+  getUserComments(username: string) {
+    this._userService.getUserComments(username)
     .subscribe(
       res => {
         this.comments = res;
@@ -142,17 +142,17 @@ export class UserDetail {
 
   postsPageChanged(event): void {
     this._activatedRoute.params.subscribe(params => {
-      let id = +params['id'];
-      this.getUserPosts(id);
+      let username = params['username'];
+      this.getUserPosts(username);
     });
   }
 
   ngOnInit(): void {
     this._activatedRoute.params.subscribe(params => {
-      let id = +params['id'];
-      this.getUser(id);
-      this.getUserPosts(id);
-      this.getUserComments(id);
+      let username = params['username'];
+      this.getUser(username);
+      this.getUserPosts(username);
+      this.getUserComments(username);
     });
   }
 }

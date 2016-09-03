@@ -107,7 +107,7 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
   test "should allow a non-admin user to delete his own posts" do
     post api_login_url, params: { session: @credentials }
     @user.reload
-    delete "/api/posts/" + @user.id.to_s, headers: { "Authorization" => @user.auth_token }
+    delete "/api/posts/" + @user_post.id.to_s, headers: { "Authorization" => @user.auth_token }
     assert_response 204
   end
 

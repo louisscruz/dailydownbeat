@@ -118,7 +118,7 @@ export class Dashboard {
         this.setEdit('');
       }, () => {
         this.processing = false;
-        this.router.navigate([ '/user', this.user.id ]);
+        this.router.navigate([ '/user', this.user.username ]);
       }
     );
   }
@@ -172,19 +172,19 @@ export class Dashboard {
 
   ngOnInit(): void {
     this._activatedRoute.params.subscribe(params => {
-      let id: number = +params['id'];
-      this._userService.getUser(id)
+      let username: string = params['username'];
+      this._userService.getUser(username)
       .subscribe(
         res => {
           this.user = res
           if (this.user.bio) { (<FormControl>this.newBio).updateValue(this.user.bio) }
         }
       );
-      this._userService.getUserPosts(id)
+      this._userService.getUserPosts(username)
       .subscribe(
         res => this.posts = res
       );
-      this._userService.getUserComments(id)
+      this._userService.getUserComments(username)
       .subscribe(
         res => this.comments = res
       );

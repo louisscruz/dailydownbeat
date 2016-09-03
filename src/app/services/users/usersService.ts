@@ -36,24 +36,24 @@ export class UserService {
     //.map(res => res.json());
   };
 
-  getUser(id: number | string): Observable<any> {
-    return this._http.get(this.apiUrl + '/api/users/' + id)
+  getUser(username: string): Observable<any> {
+    return this._http.get(this.apiUrl + '/api/users/' + username)
     .map(res => res.json());
   };
 
-  confirmUser(id: number | string, confirmationCode: string): Observable<any> {
-    let call = this.apiUrl + '/api/users/' + id + '/confirm/' + confirmationCode;
+  confirmUser(username: string, confirmationCode: string): Observable<any> {
+    let call = this.apiUrl + '/api/users/' + username + '/confirm/' + confirmationCode;
     return this._http.post(call, confirmationCode)
     .map(res => res.json());
   };
 
-  getUserPosts(id: number | string): Observable<any> {
-    return this._http.get(this.apiUrl + '/api/users/' + id + '/posts')
+  getUserPosts(username: string): Observable<any> {
+    return this._http.get(this.apiUrl + '/api/users/' + username + '/posts')
     .map(res => res.json());
   };
 
-  getUserComments(id: number | string): Observable<any> {
-    return this._http.get(this.apiUrl + '/api/users/' + id + '/comments')
+  getUserComments(username: string): Observable<any> {
+    return this._http.get(this.apiUrl + '/api/users/' + username + '/comments')
     .map(res => res.json());
   };
 
@@ -81,8 +81,8 @@ export class UserService {
 
   updatePassword(password: string, new_password: string, new_password_confirmation: string): Observable<any> {
     let headers = this.generateHeaders();
-    let id = this._jwtHelper.decodeToken(this.getToken()).id;
-    let call = this.apiUrl + '/api/users/' + id + '/update_password';
+    let username = this._jwtHelper.decodeToken(this.getToken()).username;
+    let call = this.apiUrl + '/api/users/' + username + '/update_password';
     let user = {
       current_password: password,
       password: new_password,
