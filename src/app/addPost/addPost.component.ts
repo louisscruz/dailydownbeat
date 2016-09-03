@@ -74,11 +74,23 @@ export class AddPost {
     }
   }
 
+  generateTitle(title: string): string {
+    if (this.type === 'Post') {
+      return title;
+    } else if (this.type === 'Show DD') {
+      return 'Show DD: ' + title;
+    } else if (this.type === 'Ask DD') {
+      return 'Ask DD: ' + title;
+    } else if (this.type === 'Job') {
+      return 'Job: ' + title;
+    }
+  }
+
   addPost() {
     this.processing = true;
     let id = this._authService.currentUser.id;
     this._postService.addPost({
-      title: this.title.value,
+      title: this.generateTitle(this.title.value),
       url: this.url.value || null,
       kind: this.type.split(' ')[0].toLowerCase(),
       body: this.body.value || null,

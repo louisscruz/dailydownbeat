@@ -52,13 +52,6 @@ export class PostService {
   }
 
   addPost(post: { title: string, url: string, kind: string, body: string, user_id: number}) {
-    if (post.title.substr(0, 9) !== 'Show DD: ') {
-      post.title = 'Show DD: ' + post.title;
-    } else if (post.title.substr(0, 8)) {
-      post.title = 'Ask DD: ' + post.title;
-    } else if (post.title.substr(0, 5)) {
-      post.title = 'Job: ' + post.title;
-    }
     return this.http.post(this.apiUrl + '/api/posts/', JSON.stringify(post), {
       headers: this.generateHeaders()
     })
