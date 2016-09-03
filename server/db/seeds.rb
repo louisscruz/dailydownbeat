@@ -80,7 +80,8 @@ users.each do |user|
       post_created_at = Faker::Time.between(12.hours.ago, Time.now, :all)
     end
     post_updated_at = Faker::Time.between(post_created_at, DateTime.now)
-    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: user.id, kind: post_type)
+    post_body = [0, 1].sample == 0 ? "" : Faker::StarWars.quote
+    Post.create(title: post_title, url: post_url, created_at: post_created_at, updated_at: post_updated_at, user_id: user.id, kind: post_type, body: post_body)
   end
 end
 

@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url, :user, :points, :comment_count, :created_at, :upvoted, :downvoted
+  attributes :id, :title, :url, :user, :points, :comment_count, :created_at, :upvoted, :downvoted, :body
 
   def id
     object.id
@@ -10,7 +10,6 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def upvoted
-    #p scope
     if scope
       user_post_upvotes = Vote.where(user_id: this_user.id, votable_type: "Post", polarity: 1)
       user_post_upvotes.any? { |vote| vote.votable_id == object.id }

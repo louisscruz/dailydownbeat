@@ -22,6 +22,11 @@
     </div>
     <div class="expander"></div>
   </div>
+  <div *ngIf="post && post.body" class="col-xs-12 col-lg-8 col-lg-offset-2">
+    <div class="card card-block post-body">
+      <p>{{post.body}}</p>
+    </div>
+  </div>
 </div>
 
 <div class="row">
