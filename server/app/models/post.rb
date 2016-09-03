@@ -3,6 +3,7 @@ class Post < ApplicationRecord
 
   after_create :update_user_points
   after_destroy { update_user_points(-1)}
+  before_validation :filter_body
   before_validation :filter_url
   before_validation :title_prepend
   belongs_to :user
@@ -13,6 +14,7 @@ class Post < ApplicationRecord
   validates :user_id, presence: true
   validates_length_of :title, :minimum => 3, :maximum => 80
   validate :user_confirmed
+  validate :body_present
 
   private
 
@@ -45,6 +47,16 @@ class Post < ApplicationRecord
   def user_confirmed
     unless self.user && self.user.confirmed == true
       errors.add(:user, "must be confirmed to make posts.")
+    end
+  end
+
+  def filter_body
+    self.body = nil if self.kind == "post"
+  end
+
+  def body_present
+    if self.kind != "post" && self.body.nil?
+      errors.add(:body, "must not have nil body")
     end
   end
 end

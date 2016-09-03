@@ -8,10 +8,8 @@ module SessionsHelper
   #current_user is taken by active_model_serializers
   def this_user
     auth_token = request.headers["Authorization"]
-    p auth_token
     if auth_token && !auth_token.empty?
       auth_token = auth_token.split(" ").last
-      p auth_token
       begin
         decoded_token = JsonWebToken.decode(auth_token)
       rescue JWT::ExpiredSignature
