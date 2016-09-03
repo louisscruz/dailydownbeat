@@ -15,6 +15,7 @@ class Post < ApplicationRecord
   validates_length_of :title, :minimum => 3, :maximum => 80
   validate :user_confirmed
   validate :body_present
+  validates_length_of :body, maximum: 8000
 
   private
 

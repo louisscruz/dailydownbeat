@@ -4,7 +4,7 @@ class PostTest < ActiveSupport::TestCase
   def setup
     @user = User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
     @unconfirmed_user = User.create(id: 2, username: "test2", email: "test2@me.com", password: "testtest", password_confirmation: "testtest", confirmed: false)
-    @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1, body: "This is the body")
+    @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1)
     @user.reload
   end
 
@@ -142,5 +142,14 @@ class PostTest < ActiveSupport::TestCase
   test "should not allow body information on posts" do
     post = Post.create(title: "Questions?", url: "http://www.test.com", user_id: 1, body: "What should I do?", kind: "post")
     assert_equal nil, post.body
+  end
+
+  test "should have a body maximum of 8000 characters" do
+    body = "a" * 8001
+    post = Post.create(title: "Ask DD: Questions?", url: "http://www.test.com", user_id: 1, body: body, kind: "ask")
+    assert_not post.valid?
+    body = "a" * 8000
+    post = Post.create(title: "Ask DD: Questions?", url: "http://www.test.com", user_id: 1, body: body, kind: "ask")
+    assert post.valid?
   end
 end
