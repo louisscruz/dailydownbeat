@@ -14,8 +14,8 @@ export class CorrectUserGuard implements CanActivate {
   constructor(private _authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let id = +route.params['id'];
-    if (!!this._authService.currentUser && this._authService.currentUser.id === id) {
+    let username = route.params['username'];
+    if (!!this._authService.currentUser && this._authService.currentUser.username === username) {
       return true;
     }
 
