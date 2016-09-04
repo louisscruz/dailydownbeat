@@ -33,7 +33,7 @@ export class Confirm implements OnInit {
         res => {
           this._authService.currentUser = res;
           this._authService.saveJwt(res.auth_token);
-          console.log(this._authService.currentUser)
+          console.log(this._authService.currentUser);
           console.log(this._authService.getToken());
           let alert = new AlertNotification('Your account has been confirmed!', 'success');
           this._alertService.addAlert(alert);
@@ -41,10 +41,10 @@ export class Confirm implements OnInit {
         },
         err => {
           if (err.status === 403) {
-            let alert = new AlertNotification('Your account was not in need of confirming.')
+            let alert = new AlertNotification('Your account was not in need of confirming.');
             this._alertService.addAlert(alert);
           } else {
-            let alert = new AlertNotification('There was a problem confirming your account. If this happens again, contact us.', 'danger')
+            let alert = new AlertNotification('There was a problem confirming your account. If this happens again, contact us.', 'danger');
             this._alertService.addAlert(alert);
           }
           this._router.navigate([ '/' ]);

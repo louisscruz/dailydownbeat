@@ -112,10 +112,10 @@ export class AddPost {
         } else if (body['url']) {
           error = 'There was an issue with the link of the post.';
         } else {
-          error = 'There was an error adding your post.'
+          error = 'There was an error adding your post.';
         }
         let alert = new AlertNotification(error, 'danger');
-        this._alertService.addAlert(alert)
+        this._alertService.addAlert(alert);
         this.processing = false;
       },
       () => {
@@ -133,8 +133,8 @@ export class AddPost {
       .then(
         res => {},
         err => {}
-      )
-    })
+      );
+    });
   }
 
   /*openFlagModal(post: Post) {
@@ -171,15 +171,15 @@ export class AddPost {
               // Reload posts
             }, err => {
               let message = 'There was an error deleting that post.';
-              let alert = new AlertNotification(message, 'danger')
+              let alert = new AlertNotification(message, 'danger');
               this._alertService.addAlert(alert);
             }, () => {
 
             }
-          )
+          );
         },
         () => {}
-      )
+      );
     });
   }
 

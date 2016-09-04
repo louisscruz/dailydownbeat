@@ -77,7 +77,7 @@ export class CommentDetail {
   }
 
   closeReplyForm(): void {
-    this._commentService.toggleReplyOpen(this.comment.id)
+    this._commentService.toggleReplyOpen(this.comment.id);
   }
 
   resetReplyForm(): void {
@@ -104,7 +104,7 @@ export class CommentDetail {
       }, () => {
         this.replySending = false;
       }
-    )
+    );
   }
 
   openFlagModal(comment: any) {
@@ -122,11 +122,11 @@ export class CommentDetail {
               let alert = new AlertNotification(message, 'danger');
               this._alertService.addAlert(alert);
             }
-          )
+          );
         }, () => {
 
         }
-      )
+      );
     });
   }
 
@@ -147,11 +147,11 @@ export class CommentDetail {
               let alert = new AlertNotification(message, 'danger');
               this._alertService.addAlert(alert);
             }
-          )
+          );
         }, () => {
 
         }
-      )
+      );
     });
   }
 
@@ -215,7 +215,7 @@ export class CommentDetail {
         let body = JSON.parse(err._body);
         if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
           alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
-        } else if (err.status == 401) {
+        } else if (err.status === 401) {
           alert.message = 'You have to be logged in to vote.';
           alert.type = 'warning';
         }
@@ -241,7 +241,7 @@ export class CommentDetail {
         let body = JSON.parse(err._body);
         if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
           alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
-        } else if (err.status == 401) {
+        } else if (err.status === 401) {
           alert.message = 'You have to be logged in to vote.';
           alert.type = 'warning';
         }
@@ -280,7 +280,7 @@ export class CommentDetail {
     let comment = {
       id: this.comment.id,
       body: this.body.value
-    }
+    };
     this._commentService.updateComment(comment).subscribe(
       res => {
         this.comment = res;
@@ -292,6 +292,6 @@ export class CommentDetail {
         let alert = new AlertNotification('There was an error updating that comment.', 'danger');
         this._alertService.addAlert(alert);
       }
-    )
+    );
   }
 }

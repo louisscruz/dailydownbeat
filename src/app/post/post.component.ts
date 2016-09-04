@@ -184,7 +184,9 @@ export class PostDetail {
         (res) => {
           this._postService.deletePost(post).subscribe(
             res => {
-              alert('success');
+              let message = 'Successfully delete post!';
+              let alert = new AlertNotification(message, 'success');
+              this._alertService.addAlert(alert);
               // Reload posts
             }, err => {
               let message = 'There was an error deleting that post.';

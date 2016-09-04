@@ -96,7 +96,7 @@ export class Dashboard {
       this.resetForm(this.passwordForm);
     }
     this.editing = editing;
-    this._cd.detectChanges()
+    this._cd.detectChanges();
   }
 
   toggleValidatingEmail(): void {
@@ -167,7 +167,7 @@ export class Dashboard {
         this.processing = false;
         this.router.navigate([ '/' ]);
       }
-    )
+    );
   }
 
   ngOnInit(): void {
@@ -176,8 +176,8 @@ export class Dashboard {
       this._userService.getUser(username)
       .subscribe(
         res => {
-          this.user = res
-          if (this.user.bio) { (<FormControl>this.newBio).updateValue(this.user.bio) }
+          this.user = res;
+          if (this.user.bio) { (<FormControl>this.newBio).updateValue(this.user.bio); }
         }
       );
       this._userService.getUserPosts(username)

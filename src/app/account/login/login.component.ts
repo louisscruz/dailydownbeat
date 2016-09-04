@@ -73,6 +73,6 @@ export class Login {
           this._router.navigateByUrl(redirect);
         }
       }
-    )
+    );
   }
 }

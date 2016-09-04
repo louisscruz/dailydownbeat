@@ -44,7 +44,7 @@ export class Contact {
     this.purpose = this.contactForm.controls['purpose'];
     this.body = this.contactForm.controls['body'];
 
-    this.purposes = ['Technical Support', 'Suggestion', 'Other']
+    this.purposes = ['Technical Support', 'Suggestion', 'Other'];
   }
 
   ngOnInit() {}

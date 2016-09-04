@@ -76,7 +76,7 @@ export class Signup {
       .then(
         res => {},
         err => {}
-      )
+      );
     });
   }
 
@@ -87,7 +87,7 @@ export class Signup {
       email: this.email.value,
       password: this.password.value,
       passwordConfirmation: this.passwordConfirmation.value
-    }
+    };
     this._userService.postUser(user).subscribe(
       res => {
         let body = JSON.parse(res._body);
@@ -98,7 +98,7 @@ export class Signup {
         this._router.navigate([ '/' ]);
       }, err => {
         let alert = new AlertNotification('There was an error while creating your account. Try logging in. If that doesn\'t work, try creating your account again. If that doesn\'t work, contact us.', 'danger', 0);
-        console.log(err)
+        console.log(err);
         this._alertService.addAlert(alert);
         this._router.navigate([ '/' ]);
       }, () => {
@@ -110,6 +110,6 @@ export class Signup {
           this._router.navigateByUrl(redirect);
         }
       }
-    )
+    );
   }
 }
