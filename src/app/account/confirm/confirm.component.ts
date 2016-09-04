@@ -26,9 +26,9 @@ export class Confirm implements OnInit {
 
   ngOnInit() {
     this._activatedRoute.params.subscribe(params => {
-      let id = params['id'];
+      let username = params['username'];
       let confirmationCode = params['confirmation_code'];
-      this._userService.confirmUser(id, confirmationCode)
+      this._userService.confirmUser(username, confirmationCode)
       .subscribe(
         res => {
           this._authService.currentUser = res;

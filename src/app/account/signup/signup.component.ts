@@ -93,7 +93,7 @@ export class Signup {
         let body = JSON.parse(res._body);
         this._authService.currentUser = body;
         this._authService.saveJwt(body.auth_token);
-        let alert = new AlertNotification('Congratulations! Your account has been created! You\'ll just have to confirm your account before making posts.', 'success');
+        let alert = new AlertNotification('Congratulations! Your account has been created! Check your email – you\'ll just have to confirm your account before making posts.', 'success');
         this._alertService.addAlert(alert);
         this._router.navigate([ '/' ]);
       }, err => {
