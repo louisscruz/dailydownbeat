@@ -2,7 +2,7 @@
   <hr>
   <nav>
     <div class="row">
-      <nav class="navbar col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2 text-xs-center">
+      <nav class="navbar col-xs-12 col-lg-8 col-lg-offset-2 text-xs-center">
         <ul class="nav nav-inline hidden-sm-down">
           <li class="nav-item">
             <button class="nav-link btn btn-link" [routerLink]=" [ './about' ] ">About</button>
@@ -41,4 +41,10 @@
     </div>
   </nav>
   <hr>
+  <div class="row">
+    <div class="col-xs-12 col-lg-8 col-lg-offset-2 text-xs-center">
+      <small>Created, in part, with support from The Juilliard School.</small>
+      <small [innerHTML]="copyrightText"></small>
+    </div>
+  </div>
 </div>

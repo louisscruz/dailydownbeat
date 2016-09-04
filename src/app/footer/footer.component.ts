@@ -12,6 +12,8 @@ import { guidelines, terms } from '../modal/modalPresets';
 })
 
 export class Footer {
+  private copyrightText: string;
+
   constructor(private modal: Modal) {}
 
   openGuidelinesModal() {
@@ -36,5 +38,15 @@ export class Footer {
         err => {}
       )
     });
+  }
+
+  ngOnInit() {
+    let startYear = 2016;
+    let currentYear = new Date().getFullYear();
+    this.copyrightText = 'Copyright &copy; Daily Downbeat ' + startYear.toString();
+    if (currentYear > startYear) {
+      this.copyrightText += (' - ' + currentYear.toString());
+    }
+    this.copyrightText += '.';
   }
 }
