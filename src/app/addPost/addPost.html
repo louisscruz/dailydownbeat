@@ -12,9 +12,9 @@
           <label class="btn btn-success" [class.active]="type === 'Ask DD'" (click)="setType('Ask DD')">Ask</label>
           <label class="btn btn-success" [class.active]="type === 'Job'" (click)="setType('Job')">Job</label>
         </div>
-        <p class="card card-block" *ngIf="type === 'Post'">Regular posts are for sharing links with the Daily Downbeat community.</p>
+        <p class="card card-block" *ngIf="type === 'Post'">Regular posts are for sharing general news links with the Daily Downbeat community.</p>
         <p class="card card-block" *ngIf="type === 'Show DD'">Show posts are for promoting and sharing content (e.g. compositions, performances) with the Daily Downbeat community.</p>
-        <p class="card card-block" *ngIf="type === 'Ask DD'">Ask posts are for questions you would like to propose directly to the Daily Downbeat community.</p>
+        <p class="card card-block" *ngIf="type === 'Ask DD'">Ask posts are for questions and prompts you would like send to the Daily Downbeat community.</p>
         <p class="card card-block" *ngIf="type === 'Job'">Job posts are for sharing employment postings with the Daily Downbeat community.</p>
       </fieldset>
       <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
