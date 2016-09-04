@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
     <h1 class="text-xs-center">Add a Post</h1>
+    <div class="text-xs-center">
+      <small class="text-xs-center"><i>By posting, you agree to abide by the <a (click)="openGuidelinesModal()">content guidelines</a>.</i></small>
+    </div>
     <form [formGroup]="addPostForm" (ngSubmit)="addPost()">
       <fieldset class="form-group text-xs-center">
         <div>

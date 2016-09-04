@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
 
-import { terms } from '../modal/modalPresets';
+import { guidelines, terms } from '../modal/modalPresets';
 
 @Component({
   selector: 'footer',
@@ -13,6 +13,18 @@ import { terms } from '../modal/modalPresets';
 
 export class Footer {
   constructor(private modal: Modal) {}
+
+  openGuidelinesModal() {
+    let preset = guidelines(this.modal);
+    let dialog = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        res => {},
+        err => {}
+      )
+    })
+  }
 
   openTermsModal() {
     let preset = terms(this.modal);

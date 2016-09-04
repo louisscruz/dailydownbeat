@@ -16,7 +16,7 @@ import { PostService } from '../services/posts/postsService';
 
 import { Post } from '../datatypes/post/post';
 import { AlertNotification } from '../datatypes/alert/alertnotification';
-import { flagContent, deleteContent } from '../modal/modalPresets';
+import { guidelines, flagContent, deleteContent } from '../modal/modalPresets';
 
 import { PrefixTitlePipe } from '../pipes/prefixTitle';
 
@@ -123,6 +123,18 @@ export class AddPost {
         this._router.navigate([ '/' ]);
       }
     );
+  }
+
+  openGuidelinesModal()  {
+    let preset = guidelines(this.modal);
+    let dialog = preset.open();
+    dialog.then((resultPromise) => {
+      return resultPromise.result
+      .then(
+        res => {},
+        err => {}
+      )
+    })
   }
 
   /*openFlagModal(post: Post) {

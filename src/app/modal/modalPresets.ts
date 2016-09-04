@@ -92,6 +92,43 @@ export function confirm(modal: Modal) {
   );
 }
 
+export function guidelines(modal: Modal) {
+  return modal.alert()
+  .size('md')
+  .isBlocking(false)
+  .keyboard(27)
+  .headerClass('modal-header bg-primary')
+  .title('Content Guidelines')
+  .body(`
+    <div class="col-xs-12">
+    <h3>Posts</h3>
+    <p>First and foremost, you agree to only post content that does not break Daily Downbeat's terms and conditions of use.</p>
+    <h5>What to post</h5>
+    <ul>
+      <li><b>On-Topic:</b> Anything that good musicians – or good artists of any kind – would find interesting. Anything that will gratify an artist's intellectual and/or creative curiosity.</li>
+
+      <li><b>Off-Topic:</b> Most stories about politics, or crime, or sports, unless they're evidence of some interesting new phenomenon.</li>
+    </ul>
+
+    <h3>In Post Submissions</h3>
+    <ul>
+      <li>Please don't do things to make titles stand out, like using uppercase or exclamation points, or adding a parenthetical remark saying how great an article is. It's implicit in submitting something that you think it's important.</li>
+      <li>Please submit the original source. If a post reports on something found on another site, submit the latter.</li>
+      <li>If the original title begins with a number or a number and a gratuitous adjective, we'd appreciate it if you'd crop it. E.g. translate "10 Ways To Do X" to "How To Do X," and "14 Amazing Ys" to "Ys." Exception: when the number is meaningful, e.g. "The 5 Platonic Solids."</li>
+      <li>Otherwise please use the original title, unless it is misleading or linkbait.</li>
+    </ul>
+
+    <h3>Comments</h3>
+    <ul>
+      <li>Be civil. Don't say things you wouldn't say in a face-to-face conversation. Avoid gratuitous negativity.</li>
+      <li>When disagreeing, please reply to the argument instead of calling names. E.g. "That is idiotic; 1 + 1 is 2, not 3" can be shortened to "1 + 1 is 2, not 3."</li>
+      <li>Please don't insinuate that someone hasn't read an article. "Did you even read the article? It mentions that" can be shortened to "The article mentions that."</li>
+      <li>Please don't sign comments; they're already signed with your username. If other users want to learn more about you, they can click on it to see your profile.</li>
+    </ul>
+    </div>
+  `)
+}
+
 export function terms(modal: Modal) {
   return modal.alert()
   .size('md')
@@ -193,7 +230,7 @@ export function terms(modal: Modal) {
     </p>
 
     <p>
-    General Terms and Conditions applicable to Use of a Web Site.
+    Users are prohibited from posting links to content, in posts, comments, or elsewhere, that depicts acts or instances of illegal activity, violence, pornography, discrimination, or overtly inflammatory content. Wherever the use of any of these types of content is clearly used for the purpose of artistic license, the user may be allowed to post that content. Daily Downbeat reserves the right to edit or remove any user content for any reason. Daily Downbeat will refrain from doing this wherever possible but reserves this right to rid itself of liability for its user's content.
     </p>
 
 

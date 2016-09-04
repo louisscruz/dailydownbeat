@@ -8,6 +8,9 @@
             <button class="nav-link btn btn-link" [routerLink]=" [ './about' ] ">About</button>
           </li>
           <li class="nav-item">
+            <button class="nav-link btn btn-link" (click)="openGuidelinesModal()">Content Guidelines</button>
+          </li>
+          <li class="nav-item">
             <button class="nav-link btn btn-link" (click)="openTermsModal()">Terms &amp; Conditions</button>
           </li>
           <!--li class="nav-item">
@@ -20,6 +23,9 @@
         <ul class="nav hidden-md-up">
           <li class="nav-item">
             <button class="nav-link btn btn-link" [routerLink]=" [ './about' ] ">About</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn btn-link" (click)="openGuidelinesModal()">Content Guidelines</button>
           </li>
           <li class="nav-item">
             <button class="nav-link btn btn-link" (click)="openTermsModal()">Terms &amp; Conditions</button>
