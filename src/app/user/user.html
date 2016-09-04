@@ -1,10 +1,10 @@
 <div class="row">
   <div *ngIf="user" class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
     <h3 class="text-xs-center">{{user.username}}</h3>
-    <div *ngIf="_authService.adminMode" class="text-xs-center">
+    <!--div *ngIf="_authService.adminMode" class="text-xs-center">
       <button class="btn btn-danger btn-sm">Delete</button>
       <button class="btn btn-warning btn-sm">Edit</button>
-    </div>
+    </div-->
     <tabset class="col-xs-12 col-xs-offset-0 col-lg-8 col-lg-offset-2">
       <tab heading="Bio">
         <blockquote class="blockquote"*ngIf="user.bio">
