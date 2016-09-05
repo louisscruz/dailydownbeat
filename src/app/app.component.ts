@@ -4,6 +4,7 @@
 import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
 import { AuthHttp, AuthConfig, AUTH_PROVIDERS, JwtHelper } from 'angular2-jwt';
 import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { Navbar } from './navbar';
 import { Alerts } from './alerts';
@@ -15,6 +16,7 @@ import { AuthService } from './services/auth/authService';
  * App Component
  * Top Level Component
  */
+declare var ga: Function;
 @Component({
   selector: 'app',
   directives: [ Navbar, Alerts, Footer ],
@@ -39,17 +41,25 @@ import { AuthService } from './services/auth/authService';
   `
 })
 export class App {
+  private currentRoute: string;
 
   constructor(
     private _authService: AuthService,
+    private _router: Router,
     private appState: AppState,
     private modal: Modal,
     private viewContainer: ViewContainerRef
   ) {
     modal.defaultViewContainer = viewContainer;
-    //router.changes.subscribe(() => {
-
-    //})
+    _router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let newRoute = this._router.url || '/';
+        if (this.currentRoute != newRoute) {
+          ga('send', 'pageview', newRoute);
+          this.currentRoute = newRoute;
+        }
+      }
+    });
   }
 
   ngOnInit() {

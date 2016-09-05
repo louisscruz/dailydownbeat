@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { HTTP_PROVIDERS, Http, ConnectionBackend } from '@angular/http';
-//import {Collapse, DROPDOWN_DIRECTIVES, ButtonCheckbox} from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AuthService } from '../services/auth/authService';
 import { AlertService } from '../services/alerts/alertsService';
