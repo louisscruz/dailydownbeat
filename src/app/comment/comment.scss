@@ -19,6 +19,7 @@
     align-items: center;
     .vote-block {
       width: 27px;
+      display: block;
       text-align: center;
       &.disabled a {
         color: gray;
@@ -29,6 +30,7 @@
     }
     .info-block {
       flex-grow: 1;
+      width: 100%;
       p {
         font-size: 0.9rem;
         margin-bottom: 0rem;

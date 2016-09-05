@@ -1,5 +1,5 @@
 <div class="comment card card-block">
-  <span class="content">
+  <div class="content">
     <div class="vote-block">
       <a *ngIf="!_authService.isSelf(comment.user.id)" (click)="handleUpvote(comment)" [class.active]="_authService.currentUser && comment.upvoted">
         <i class="fa fa-angle-up fa-fw fa-lg"></i>
@@ -40,7 +40,7 @@
       <span *ngIf="comment.comment_count">
         <small><a class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed"><pluralize [count]="comment.comment_count" [when]="{'one': '1 reply', 'other': '{} replies'}"></pluralize> <i class="fa fa-fw" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i></a></small>
       </span>
-      <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right">
+      <span dropdown keyboardNav="true" (on-toggle)="toggled($event)" class="pull-xs-right" *ngIf="_authService.adminMode || _authService.isSelf(comment.user.id)">
         <a href id="simple-btn-keyboard-nav" class="btn btn-secondary-outline btn-sm" dropdownToggle>
           <i class="fa fa-chevron-down fa-fw"></i>
         </a>
@@ -60,7 +60,7 @@
         </ul>
       </span>
     </div>
-  </span>
+  </div>
   <div class="well well-lg" [collapse]="replyOpen !== comment.id">
     <form class="text-xs-right" [formGroup]="replyForm" (ngSubmit)="addReply(reply.value)">
       <fieldset class="form-group" [class.has-danger]="!reply.valid && reply.touched">
