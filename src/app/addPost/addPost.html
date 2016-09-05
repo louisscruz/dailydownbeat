@@ -37,7 +37,7 @@
         <div *ngIf="url.touched" class="text-help">
           <div *ngIf="url.hasError('required')">Link Required</div>
           <div *ngIf="url.hasError('invalidUrl')">Link Invalid</div>
-          <div *ngIf="url.value.slice(0, 4) !== 'http'"><i>(Valid links begin with 'http://' or 'https://')</i></div>
+          <div *ngIf="url.value.slice(0, 7) !== 'http://' && url.value.slice(0, 8) !== 'https://'"><i>(Valid links begin with 'http://' or 'https://')</i></div>
         </div>
       </fieldset>
       <fieldset class="form-group" *ngIf="type !== 'Post'" [class.has-success]="body.valid && body.touched" [class.has-danger]="!body.valid && body.touched">
