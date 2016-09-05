@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :comments
     end
 
-    resources :users, param: :username do
+    resources :users, param: :username, :constraints => { :username => /[^\/]+/ } do
       member do
         post 'confirm/:confirmation_code' => 'users#confirm'
         get  'posts' => 'users#posts'
