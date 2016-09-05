@@ -51,15 +51,17 @@ export class App {
     private viewContainer: ViewContainerRef
   ) {
     modal.defaultViewContainer = viewContainer;
-    _router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        let newRoute = this._router.url || '/';
-        if (this.currentRoute != newRoute) {
-          ga('send', 'pageview', newRoute);
-          this.currentRoute = newRoute;
+    if (ENV === 'production') {
+      _router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          let newRoute = this._router.url || '/';
+          if (this.currentRoute != newRoute) {
+            ga('send', 'pageview', newRoute);
+            this.currentRoute = newRoute;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   ngOnInit() {
