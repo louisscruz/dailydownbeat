@@ -12,6 +12,7 @@
     //transition: background-color 0.1s ease;
     display: flex;
     align-items: center;
+    padding-right: 2px;
     .dropdown-toggle {
       //display: none;
       margin-right: 4px;
@@ -22,7 +23,7 @@
       background-color: lighten(gray, 47.5%);
     }
     .vote-block {
-      width: 27px;
+      display: table;
       text-align: center;
       &.disabled a {
         color: gray;
@@ -33,6 +34,7 @@
     }
     .info-block {
       flex-grow: 1;
+      width: 100%;
       p {
         font-size: 0.9rem;
         margin-bottom: 0rem;
