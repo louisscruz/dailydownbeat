@@ -21,6 +21,7 @@ import { guidelines, flagContent, deleteContent } from '../modal/modalPresets';
 import { PrefixTitlePipe } from '../pipes/prefixTitle';
 
 import { MaxlengthValidator } from '../directives/maxlengthValidator/maxlength.validator';
+import { RequiredValidator } from '../directives/requiredValidator/required.validator';
 import { UrlValidator } from '../directives/urlValidator/url.validator';
 
 @Component({
@@ -31,6 +32,7 @@ import { UrlValidator } from '../directives/urlValidator/url.validator';
     FORM_DIRECTIVES,
     REACTIVE_FORM_DIRECTIVES,
     MaxlengthValidator,
+    RequiredValidator,
     UrlValidator
   ],
   pipes: [ PrefixTitlePipe ]
