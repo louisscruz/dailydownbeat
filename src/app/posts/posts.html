@@ -30,7 +30,7 @@
           </p>
           <div>
             <small>
-              {{post.points}} points by
+              <pluralize [count]="post.points" [when]="{'one': '1 point', 'other': '{} points'}"></pluralize> by 
               <a [routerLink]=" ['./user', post.user.username ] ">{{post.user.username}}</a>
               {{post.created_at | timeSince}} |
               <a [routerLink]=" ['./post', post.id ] ">
