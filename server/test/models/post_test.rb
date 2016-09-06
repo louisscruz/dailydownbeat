@@ -109,6 +109,11 @@ class PostTest < ActiveSupport::TestCase
     end
   end
 
+  test "should whitelist the post kind" do
+    post = Post.create(title: "this is valid", url: "http://www.test.com", user_id: 1, kind: "INVALID")
+    assert_not post.valid?
+  end
+
   test "create post should increment user points" do
     old_points = @user.points
     second_post = Post.create(title:"test", url: "http://www.test.com", user_id: 1)

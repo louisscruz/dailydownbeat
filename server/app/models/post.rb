@@ -12,11 +12,9 @@ class Post < ApplicationRecord
   validates_presence_of :url, :unless => :ask_post?
   validates_format_of :url, with: URI::regexp(%w(http https)), :unless => :ask_post?
   validates :user_id, presence: true
-  #validates_length_of :title, :minimum => 3, :maximum => 80
   validate :user_confirmed
-  #validate :body_present
   validates_length_of :body, maximum: 8000
-  #validates :correct_kind
+  validate :correct_kind
   validate :title_length
 
   private
@@ -57,9 +55,17 @@ class Post < ApplicationRecord
     self.body = nil if self.kind == "post"
   end
 
+  def correct_kind
+    kinds = ["post", "show", "ask", "job"]
+    if !kinds.include?(self.kind)
+      errors.add(:kind, "invalid kind")
+    end
+  end
+
   def title_length
     prefix_offsets = { "post" => 0, "show" => 9, "ask" => 8, "job" => 5 }
     prefix_offset = prefix_offsets[self.kind]
+    return if prefix_offset.nil?
     adjusted_length = self.title.length - prefix_offset
     if adjusted_length < 3
       errors.add(:title, "is too short (minimum is 3 characters)")
