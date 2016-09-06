@@ -56,7 +56,7 @@ class Post < ApplicationRecord
   end
 
   def body_present
-    if self.kind != "post" && self.body.nil?
+    if self.kind == "ask dd" && self.body.nil?
       errors.add(:body, "must not have nil body")
     end
   end

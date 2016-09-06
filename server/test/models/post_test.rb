@@ -114,9 +114,9 @@ class PostTest < ActiveSupport::TestCase
     assert post.valid?
   end
 
-  test "should require body information on ask posts" do
+  test "should not require body information on ask posts" do
     post = Post.create(title: "Ask DD: Questions?", url: "http://www.test.com", user_id: 1, kind: "ask")
-    assert_not post.valid?
+    assert post.valid?
   end
 
   test "should allow body information on show posts" do
@@ -124,9 +124,9 @@ class PostTest < ActiveSupport::TestCase
     assert post.valid?
   end
 
-  test "should require body information on show posts" do
+  test "should not require body information on show posts" do
     post = Post.create(title: "Show DD: Questions?", url: "http://www.test.com", user_id: 1, kind: "show")
-    assert_not post.valid?
+    assert post.valid?
   end
 
   test "should allow body information on jobs posts" do
@@ -134,9 +134,9 @@ class PostTest < ActiveSupport::TestCase
     assert post.valid?
   end
 
-  test "should require body information on jobs posts" do
+  test "should not require body information on jobs posts" do
     post = Post.create(title: "Job: Questions?", url: "http://www.test.com", user_id: 1, kind: "job")
-    assert_not post.valid?
+    assert post.valid?
   end
 
   test "should not allow body information on posts" do
