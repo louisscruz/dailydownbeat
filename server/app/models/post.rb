@@ -12,10 +12,12 @@ class Post < ApplicationRecord
   validates_presence_of :url, :unless => :ask_post?
   validates_format_of :url, with: URI::regexp(%w(http https)), :unless => :ask_post?
   validates :user_id, presence: true
-  validates_length_of :title, :minimum => 3, :maximum => 80
+  #validates_length_of :title, :minimum => 3, :maximum => 80
   validate :user_confirmed
-  validate :body_present
+  #validate :body_present
   validates_length_of :body, maximum: 8000
+  #validates :correct_kind
+  validate :title_length
 
   private
 
@@ -32,7 +34,7 @@ class Post < ApplicationRecord
     end
   end
 
-  def update_user_points(v=1)
+  def update_user_points(v = 1)
     new_points = self.user.points + v
     user.update_attribute :points, new_points
   end
@@ -55,9 +57,14 @@ class Post < ApplicationRecord
     self.body = nil if self.kind == "post"
   end
 
-  def body_present
-    if self.kind == "ask dd" && self.body.nil?
-      errors.add(:body, "must not have nil body")
+  def title_length
+    prefix_offsets = { "post" => 0, "show" => 9, "ask" => 8, "job" => 5 }
+    prefix_offset = prefix_offsets[self.kind]
+    adjusted_length = self.title.length - prefix_offset
+    if adjusted_length < 3
+      errors.add(:title, "is too short (minimum is 3 characters)")
+    elsif adjusted_length > 80
+      errors.add(:title, "is too long (maximum is 80 characters)")
     end
   end
 end

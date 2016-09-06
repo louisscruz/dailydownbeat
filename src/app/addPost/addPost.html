@@ -22,11 +22,13 @@
       </fieldset>
       <fieldset class="form-group" [class.has-success]="title.valid && title.touched" [class.has-danger]="!title.valid && title.touched">
         <label for="titleInput" class="form-control-label">Title</label>
-        <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
+        <input type="text" id="titleInput" placeholder="Title" *ngIf="type === 'Post'" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" customMaxlength="80" required>
         <div class="input-group" *ngIf="type !== 'Post'">
           <div class="input-group-addon" id="prefix">{{type}}:</div>
           <input type="text" id="titleInput" placeholder="Title" [formControl]="addPostForm.find('title')" class="form-control" [class.form-control-success]="title.valid" [class.form-control-danger]="!title.valid" required>
         </div>
+        <small *ngIf="!title.hasError('maxlength')">{{80 - title.value.length}} More Characters Allowed</small>
+        <small *ngIf="title.hasError('maxlength')" class="text-help"><b>{{title.value.length - 80}} Too Many Characters</b></small>
         <div *ngIf="title.touched">
           <div *ngIf="title.hasError('required')" class="text-help">Title Required</div>
         </div>

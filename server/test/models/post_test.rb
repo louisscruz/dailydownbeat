@@ -5,11 +5,17 @@ class PostTest < ActiveSupport::TestCase
     @user = User.create(id: 1, username: "test", email: "test@me.com", password: "testtest", password_confirmation: "testtest", confirmed: true)
     @unconfirmed_user = User.create(id: 2, username: "test2", email: "test2@me.com", password: "testtest", password_confirmation: "testtest", confirmed: false)
     @post = Post.create(title: "test post", url: "http://www.test.com", user_id: 1)
+    @show_post = Post.create(title: "Show DD: test", url: "http://www.test.com", user_id: 1, kind: "show")
+    @ask_post = Post.create(title: "Ask DD: test", user_id: 1, body: "this is a test body", kind: "ask")
+    @job_post = Post.create(title: "Job: test", url: "http://www.test.com", user_id: 1, kind: "job")
     @user.reload
   end
 
   test "should be valid" do
     assert @post.valid?
+    assert @show_post.valid?
+    assert @ask_post.valid?
+    assert @job_post.valid?
   end
 
   test "title should be present" do
@@ -65,11 +71,32 @@ class PostTest < ActiveSupport::TestCase
     assert @post.valid?
   end
 
-  test "title should be limited to 80 chars" do
+  test "regular post title should be limited to 80 chars" do
     @post.title = "a" * 81
     assert_not @post.valid?
     @post.title = "a" * 80
     assert @post.valid?
+  end
+
+  test "show post title without prepend should be limited to 80 chars" do
+    @show_post.title = "Show DD: " + "a" * 81
+    assert_not @show_post.valid?
+    @show_post.title = "Show DD: " + "a" * 80
+    assert @show_post.valid?
+  end
+
+  test "ask post title without prepend should be limited to 80 chars" do
+    @ask_post.title = "Ask DD: " + "a" * 81
+    assert_not @ask_post.valid?
+    @ask_post.title = "Ask DD: " + "a" * 80
+    assert @ask_post.valid?
+  end
+
+  test "job post title without prepend should be limited to 80 chars" do
+    @job_post.title = "Job: " + "a" * 81
+    assert_not @job_post.valid?
+    @job_post.title = "Job: " + "a" * 80
+    assert @job_post.valid?
   end
 
   kind_hash = {"show" => "Show DD: ", "job" => "Job: ", "ask" => "Ask DD: "}
@@ -89,8 +116,9 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test "delete post should decrement user points" do
-    old_points = @user.points
+    old_points = @post.user.points
     @post.destroy
+    @user.reload
     assert_equal old_points - 1, @post.user.points
   end
 
