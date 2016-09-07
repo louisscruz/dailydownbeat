@@ -3,7 +3,7 @@ require 'json_web_token'
 class User < ApplicationRecord
   cattr_reader :current_password
 
-  after_create :set_vip_points
+  before_create :set_defaults
   before_save { email.downcase! }
   before_create :generate_authentication_token!
   before_update :reset_confirmed!, :if => :email_changed?
@@ -52,6 +52,11 @@ class User < ApplicationRecord
       self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
       false
     end
+  end
+
+  def set_defaults
+    self.points ||= 0
+    set_vip_points
   end
 
   def set_vip_points
