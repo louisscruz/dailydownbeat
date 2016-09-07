@@ -1,4 +1,4 @@
-import { Directive, forwardRef, Attribute } from '@angular/core';
+import { Directive, forwardRef, Input } from '@angular/core';
 import { NG_VALIDATORS, FormControl, AbstractControl } from '@angular/forms';
 
 @Directive({
@@ -8,11 +8,19 @@ import { NG_VALIDATORS, FormControl, AbstractControl } from '@angular/forms';
   ]
 })
 export class RequiredValidator {
-  constructor(
-    @Attribute('customRequired') public customRequired: string
-  ) {}
+  private control: AbstractControl;
+
+  @Input('customRequired') customRequired: boolean
+
+  ngOnChanges() {
+    if (this.control) {
+      this.control.updateValueAndValidity();
+    }
+  }
 
   validate(control: AbstractControl): { [key: string]: any } {
+    console.log(control.value)
+    this.control = control;
     if (this.customRequired && control.value === '') {
       return { required: true }
     }

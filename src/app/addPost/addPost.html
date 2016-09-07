@@ -36,15 +36,16 @@
           <div *ngIf="title.hasError('minlength')">3 Character Minimum</div>
         </div>
       </fieldset>
-      <fieldset class="form-group" [class.has-success]="url.valid && url.touched" [class.has-danger]="!url.valid && url.touched" *ngIf="type !== 'Ask DD'">
+      <fieldset class="form-group" [class.has-success]="url.valid && url.touched" [class.has-danger]="!url.valid && url.touched" [hidden]="type === 'Ask DD'">
         <label for="urlInput" class="form-control-label">Link</label>
-        <input type="url" id="urlInput" placeholder="Link" [formControl]="addPostForm.find('url')" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid" validateUrl customRequired="type !== 'Ask DD'">
+        <input type="url" id="urlInput" placeholder="Link" [formControl]="addPostForm.find('url')" class="form-control" [class.form-control-success]="url.valid" [class.form-control-danger]="!url.valid" validateUrl [customRequired]="type !== 'Ask DD'">
         <div *ngIf="url.touched" class="text-help">
           <div *ngIf="url.hasError('required')">Link Required</div>
           <div *ngIf="url.hasError('invalidUrl')">Link Invalid</div>
           <div *ngIf="(!url.hasError('required') && type !== 'Ask DD') && (url.value.slice(0, 7) !== 'http://' && url.value.slice(0, 8) !== 'https://')"><i>(Valid links begin with 'http://' or 'https://')</i></div>
         </div>
       </fieldset>
+      <div *ngIf="type === 'Ask DD' && url.hasError('required')">That's required!</div>
       <fieldset class="form-group" *ngIf="type !== 'Post'" [class.has-success]="body.valid && body.touched" [class.has-danger]="!body.valid && body.touched">
         <label for="bodyInput" class="form-control-label">{{bodyLabel}} <small>(<i>Optional</i>)</small></label>
         <textarea id="bodyInput" [placeholder]="bodyLabel" [formControl]="addPostForm.find('body')" class="form-control" [class.form-control-success]="body.valid" [class.form-control-danger]="!body.valid" customMaxlength="8000">
