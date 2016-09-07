@@ -126,6 +126,10 @@ export class Posts {
         post.upvoted = true;
         post.downvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Upvote'
+        });
       }, err => {
         console.log(err);
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
@@ -153,6 +157,10 @@ export class Posts {
         post.downvoted = true;
         post.upvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Downvote'
+        });
       }, err => {
         console.log(err);
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
@@ -179,6 +187,10 @@ export class Posts {
         post.upvoted = false;
         post.downvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Unvote'
+        });
       }, err => {
         let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
         this._alertService.addAlert(alert);

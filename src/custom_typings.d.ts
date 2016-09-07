@@ -39,6 +39,7 @@ declare module "*";
 declare var ENV: string;
 declare var HMR: boolean;
 declare var API_URL: string;
+declare var ga: Function;
 
 interface GlobalEnvironment {
   ENV;

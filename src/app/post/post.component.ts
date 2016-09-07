@@ -99,6 +99,10 @@ export class PostDetail {
         this.insertComment(res);
         let alert = new AlertNotification('Successfully added your comment!', 'success');
         this._alertService.addAlert(alert);
+        ga('send', 'event', {
+          'eventCategory': 'Comments',
+          'eventAction': 'Create'
+        });
       },
       err => {
         console.log(err);
@@ -184,9 +188,10 @@ export class PostDetail {
         (res) => {
           this._postService.deletePost(post).subscribe(
             res => {
-              let message = 'Successfully delete post!';
+              let message = 'Successfully deleted post!';
               let alert = new AlertNotification(message, 'success');
               this._alertService.addAlert(alert);
+
               // Reload posts
             }, err => {
               let message = 'There was an error deleting that post.';
@@ -230,6 +235,10 @@ export class PostDetail {
         post.upvoted = true;
         post.downvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Upvote'
+        });
       }, err => {
         console.log(err);
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
@@ -257,6 +266,10 @@ export class PostDetail {
         post.downvoted = true;
         post.upvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Downvote'
+        });
       }, err => {
         console.log(err);
         let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
@@ -283,6 +296,10 @@ export class PostDetail {
         post.upvoted = false;
         post.downvoted = false;
         this.sendingVote = null;
+        ga('send', 'event', {
+          'eventCategory': 'Votes',
+          'eventAction': 'Post Unvote'
+        });
       }, err => {
         let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
         this._alertService.addAlert(alert);
@@ -309,6 +326,10 @@ export class PostDetail {
         this._alertService.addAlert(alert);
         this.resetEditForm();
         this.sendingEdit = false;
+        ga('send', 'event', {
+          'eventCategory': 'Posts',
+          'eventAction': 'Put'
+        });
       }, err => {
         let alert = new AlertNotification('There was an error updating your post.', 'danger');
         this._alertService.addAlert(alert);

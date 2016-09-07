@@ -96,6 +96,11 @@ export class Signup {
         let alert = new AlertNotification('Congratulations! Your account has been created! Check your email – you\'ll just have to confirm your account before making posts.', 'success');
         this._alertService.addAlert(alert);
         this._router.navigate([ '/' ]);
+        ga('send', 'event', {
+          'eventCategory': 'Users',
+          'eventAction': 'Create',
+          'eventLabel': user.username
+        });
       }, err => {
         let alert = new AlertNotification('There was an error while creating your account. Try logging in. If that doesn\'t work, try creating your account again. If that doesn\'t work, contact us.', 'danger', 0);
         console.log(err);

@@ -16,7 +16,6 @@ import { AuthService } from './services/auth/authService';
  * App Component
  * Top Level Component
  */
-declare var ga: Function;
 @Component({
   selector: 'app',
   directives: [ Navbar, Alerts, Footer ],

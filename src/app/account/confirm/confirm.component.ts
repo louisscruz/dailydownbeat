@@ -38,6 +38,10 @@ export class Confirm implements OnInit {
           let alert = new AlertNotification('Your account has been confirmed!', 'success');
           this._alertService.addAlert(alert);
           this._router.navigate([ '/' ]);
+          ga('send', 'event', {
+            'eventCategory': 'Confirmation',
+            'eventAction': 'Success'
+          });
         },
         err => {
           if (err.status === 403) {
@@ -48,6 +52,10 @@ export class Confirm implements OnInit {
             this._alertService.addAlert(alert);
           }
           this._router.navigate([ '/' ]);
+          ga('send', 'event', {
+            'eventCategory': 'Confirmation',
+            'eventAction': 'Error'
+          });
         }
       );
     });
