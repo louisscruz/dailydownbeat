@@ -12,13 +12,19 @@
       </div>
       <div class="post card" *ngFor="let post of posts; let i = index" [hidden]="loadingPosts">
         <div class="vote-block" [class.disabled]="sendingVote === post.id">
+          <div>
           <a *ngIf="!_authService.isSelf(post.user.id)" (click)="handleUpvote(post)" [class.active]="_authService.currentUser && post.upvoted">
             <i class="fa fa-angle-up fa-fw fa-lg"></i>
           </a>
+        </div>
+        <div>
           <a *ngIf="!_authService.isSelf(post.user.id) && (_authService.currentUser && _authService.currentUser.points > 49)" [class.active]="_authService.currentUser && post.downvoted" (click)="handleDownvote(post)">
             <i class="fa fa-angle-down fa-fw fa-lg"></i>
           </a>
+        </div>
+        <div>
           <i *ngIf="_authService.isSelf(post.user.id)" class="fa fa-arrow-circle-right fa-fw"></i>
+        </div>
         </div>
         <div class="info-block">
           <p *ngIf="post.url">
@@ -30,7 +36,7 @@
           </p>
           <div>
             <small>
-              <pluralize [count]="post.points" [when]="{'one': '1 point', 'other': '{} points'}"></pluralize> by 
+              <pluralize [count]="post.points" [when]="{'one': '1 point', 'other': '{} points'}"></pluralize> by
               <a [routerLink]=" ['./user', post.user.username ] ">{{post.user.username}}</a>
               {{post.created_at | timeSince}} |
               <a [routerLink]=" ['./post', post.id ] ">
