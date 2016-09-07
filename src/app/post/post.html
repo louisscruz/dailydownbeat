@@ -18,7 +18,7 @@
       <h5 *ngIf="!post.url">
         <a>{{post.title}}</a>
       </h5>
-      <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.id ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
+      <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.username ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
     </div>
     <div class="expander"></div>
   </div>

@@ -27,6 +27,12 @@
     }
     .vote-block {
       width: 27px;
+      &.disabled a {
+        color: gray;
+      }
+      a.active {
+        color: #f0ad4e;
+      }
     }
     .info-block {
       flex-grow: 1;

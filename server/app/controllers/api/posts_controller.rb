@@ -26,12 +26,10 @@ class Api::PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-    p @post
 
     if @post.save
       render json: @post, status: :created
     else
-      p @post.errors
       render json: @post.errors, status: :unprocessable_entity
     end
   end

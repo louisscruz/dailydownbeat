@@ -48,12 +48,16 @@ export class UserService {
   };
 
   getUserPosts(username: string): Observable<any> {
-    return this._http.get(this.apiUrl + '/api/users/' + username + '/posts')
+    return this._http.get(this.apiUrl + '/api/users/' + username + '/posts', {
+      headers: this.generateHeaders()
+    })
     .map(res => res.json());
   };
 
   getUserComments(username: string): Observable<any> {
-    return this._http.get(this.apiUrl + '/api/users/' + username + '/comments')
+    return this._http.get(this.apiUrl + '/api/users/' + username + '/comments', {
+      headers: this.generateHeaders()
+    })
     .map(res => res.json());
   };
 

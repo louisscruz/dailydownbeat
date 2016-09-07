@@ -75,6 +75,7 @@ class Api::UsersController < ApplicationController
 
   def posts
     @posts = @user.posts
+    p this_user
     ordered_posts = @posts.sort_by { |a, b| a.ranking }.reverse!
     if (params[:page] && params[:per_page])
       @posts = Kaminari.paginate_array(ordered_posts).page(params[:page]).per(params[:per_page])

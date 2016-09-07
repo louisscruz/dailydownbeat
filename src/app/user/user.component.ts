@@ -35,9 +35,9 @@ export class UserDetail {
   private user: User;
   private posts: Post[];
   private comments: any;
-  private userId: number;
   private postsCurrentPage: number = 1;
   private totalPosts: number;
+  private sendingVote: number = null;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -47,11 +47,7 @@ export class UserDetail {
     private _router: Router,
     private _userService: UserService,
     private modal: Modal
-  ) {
-    this._activatedRoute.params.subscribe(params => {
-      this.userId = +params['id'];
-    });
-  }
+  ) {}
 
   openFlagModal(post: Post) {
     let preset = flagContent(this.modal, post.title, this.user.username);
@@ -118,7 +114,9 @@ export class UserDetail {
   getUser(username: string) {
     this._userService.getUser(username)
     .subscribe(
-      res => this.user = (<User>res)
+      res => {
+        this.user = (<User>res);
+      }
     );
   }
 
@@ -145,6 +143,95 @@ export class UserDetail {
       let username = params['username'];
       this.getUserPosts(username);
     });
+  }
+
+  handleUpvote(post: Post) {
+    if (this._authService.currentUser) {
+      post.upvoted ? this.unvote(post, 1) : this.upvote(post);
+    } else {
+      let alert = new AlertNotification('You have to be logged in to vote!', 'warning');
+      this._alertService.addAlert(alert);
+    }
+  }
+
+  handleDownvote(post: Post) {
+    if (this._authService.currentUser) {
+      post.downvoted ? this.unvote(post, -1) : this.downvote(post);
+    } else {
+      let alert = new AlertNotification('You have to be logged in to vote!', 'warning');
+      this._alertService.addAlert(alert);
+    }
+  }
+
+  upvote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.upvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully upvoted post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.downvoted ? post.points += 2 : post.points++;
+        post.upvoted = true;
+        post.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        console.log(body['user'])
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status === 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  downvote(post: Post) {
+    this.sendingVote = post.id;
+    this._postService.downvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Successfully downvoted post!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.upvoted ? post.points -= 2 : post.points--;
+        post.downvoted = true;
+        post.upvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        console.log(err);
+        let alert = new AlertNotification('There was a problem sending your vote.', 'danger');
+        let body = JSON.parse(err._body);
+        if (body['user'] && body['user'][0] === 'must be confirmed to make posts.') {
+          alert.message = 'You must first confirm your account before voting. We sent you an email to handle this when you created your account.';
+        } else if (err.status == 401) {
+          alert.message = 'You have to be logged in to vote.';
+          alert.type = 'warning';
+        }
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
+  }
+
+  unvote(post: Post, polarity: number) {
+    this.sendingVote = post.id;
+    this._postService.unvote(post).subscribe(
+      res => {
+        let alert = new AlertNotification('Vote successfully updated!', 'success', 3000);
+        this._alertService.addAlert(alert);
+        post.points -= polarity;
+        post.upvoted = false;
+        post.downvoted = false;
+        this.sendingVote = null;
+      }, err => {
+        let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
+        this._alertService.addAlert(alert);
+        this.sendingVote = null;
+      }
+    );
   }
 
   ngOnInit(): void {
