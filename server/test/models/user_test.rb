@@ -122,4 +122,9 @@ class UserTest < ActiveSupport::TestCase
     @user.bio = valid_bio
     assert @user.valid?
   end
+
+  test "vip users should gain their indicated extra points" do
+    user = User.create(username: "testingstuff", email: "lsc@juilliard.edu", password: "foobar22", password_confirmation: "foobar22", auth_token: "test", confirmation_code: SecureRandom.hex )
+    assert_equal 25, user.points
+  end
 end

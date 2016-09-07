@@ -3,6 +3,7 @@ require 'json_web_token'
 class User < ApplicationRecord
   cattr_reader :current_password
 
+  after_create :set_vip_points
   before_save { email.downcase! }
   before_create :generate_authentication_token!
   before_update :reset_confirmed!, :if => :email_changed?
@@ -50,6 +51,18 @@ class User < ApplicationRecord
     else
       self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
       false
+    end
+  end
+
+  def set_vip_points
+    email_endings = {
+      "juilliard.edu" => 25,
+      "sfcm.edu" => 25
+    }
+    email_endings.each do |key, value|
+      if self.email[(0 - key.length)..-1] == key
+        self.points += value
+      end
     end
   end
 end
