@@ -88,6 +88,10 @@ export class Posts {
       res => {
         this.setPageOffset(this.currentPage);
         this.posts = res;
+        ga('send', 'event', {
+          'eventCategory': 'Posts',
+          'eventAction': 'Get'
+        });
       },
       err => {
         this.serverDown = true;
@@ -128,7 +132,8 @@ export class Posts {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Post Upvote'
+          'eventAction': 'Post Upvote',
+          'eventLabel': post.title
         });
       }, err => {
         console.log(err);
@@ -159,7 +164,8 @@ export class Posts {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Post Downvote'
+          'eventAction': 'Post Downvote',
+          'eventLabel': post.title
         });
       }, err => {
         console.log(err);
@@ -189,7 +195,8 @@ export class Posts {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Post Unvote'
+          'eventAction': 'Post Unvote',
+          'eventLabel': post.title
         });
       }, err => {
         let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');

@@ -211,7 +211,8 @@ export class CommentDetail {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Comment Upvote'
+          'eventAction': 'Comment Upvote',
+          'eventLabel': comment.id
         });
       }, err => {
         console.log(err);
@@ -241,7 +242,8 @@ export class CommentDetail {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Comment Downvote'
+          'eventAction': 'Comment Downvote',
+          'eventLabel': comment.id
         });
       }, err => {
         console.log(err);
@@ -271,7 +273,8 @@ export class CommentDetail {
         this.sendingVote = null;
         ga('send', 'event', {
           'eventCategory': 'Votes',
-          'eventAction': 'Comment Unvote'
+          'eventAction': 'Comment Unvote',
+          'eventLabel': comment.id
         });
       }, err => {
         let alert = new AlertNotification('There was a problem changing the status of your vote.', 'danger');
@@ -299,6 +302,11 @@ export class CommentDetail {
         this.editing = false;
         let alert = new AlertNotification('Comment successfully updated!', 'success', 3000);
         this._alertService.addAlert(alert);
+        ga('send', 'event', {
+          'eventCategory': 'Comments',
+          'eventAction': 'Put',
+          'eventLabel': comment.id
+        })
       }, err => {
         this.editing = false;
         let alert = new AlertNotification('There was an error updating that comment.', 'danger');
