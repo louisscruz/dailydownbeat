@@ -90,7 +90,8 @@ export class Posts {
         this.posts = res;
         ga('send', 'event', {
           'eventCategory': 'Posts',
-          'eventAction': 'Get'
+          'eventAction': 'Get',
+          'eventLabel': this.currentKind
         });
       },
       err => {
