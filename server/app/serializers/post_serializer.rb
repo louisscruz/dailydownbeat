@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :url, :user, :points, :comment_count, :created_at, :upvoted, :downvoted, :body
+  attributes :id, :title, :url, :user, :points, :kind, :comment_count, :created_at, :upvoted, :downvoted, :body
 
   def id
     object.id

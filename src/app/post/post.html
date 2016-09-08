@@ -11,12 +11,12 @@
       </a>
     </div>
     <div class="info-block">
-      <h5 *ngIf="post.url">
+      <h5 *ngIf="post.kind !== 'ask'">
         <a href="{{post.url}}" target="_blank">{{post.title}}</a>
         <small class="text-xs-center"><hostname [url]="post.url"></hostname></small>
       </h5>
-      <h5 *ngIf="!post.url">
-        <a>{{post.title}}</a>
+      <h5 *ngIf="post.kind === 'ask'">
+        {{post.title}}
       </h5>
       <small>posted by <a class="text-xs-center" [routerLink]="[ '/user', post.user.username ]">{{post.user.username}}</a> {{post.created_at | timeSince}}</small>
     </div>
