@@ -41,11 +41,16 @@
         </div>
       </fieldset>
       <fieldset class="form-group text-xs-center">
-        <label class="custom-control custom-checkbox">
+        <label class="c-input c-checkbox">
+          <input type="checkbox" [formControl]="signupForm.find('terms')" requireCheck>
+          <span class="c-indicator"></span>
+          <span>I agree to the </span>
+        </label>
+        <!--label class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" [formControl]="signupForm.find('terms')" requireCheck>
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">I agree to the </span>
-        </label>
+        </label-->
         <a class="btn-link" (click)="openTermsModal()">terms and conditions</a>.
       </fieldset>
       <button type="submit" class="btn btn-block btn-primary" [disabled]="!signupForm.valid || processing">

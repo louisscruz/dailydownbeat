@@ -27,6 +27,7 @@ import { UserService } from '../../services/users/usersService';
 @Component({
   selector: 'signup',
   template: require('./signup.html'),
+  styles: [require('./signup.scss')],
   directives: [
     FORM_DIRECTIVES,
     CheckboxValidator,
